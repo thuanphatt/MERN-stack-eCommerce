@@ -4,6 +4,8 @@ const {
   generateAccessToken,
   generateRefreshToken,
 } = require("../middlewares/jwt");
+const jwt = require("jsonwebtoken");
+
 const register = asyncHandler(async (req, res) => {
   const { email, password, firstName, lastName } = req.body;
   if (!email || !password || !firstName || !lastName)
@@ -58,7 +60,28 @@ const login = asyncHandler(async (req, res) => {
     throw new Error("Invalid credentials");
   }
 });
-// test
+
+const logout = asyncHandler(async (req, res) => {
+  const cookie = req.cookies;
+  if (!cookie || !cookie.refreshToken)
+    throw new Error("Refresh token not provided");
+  // remove refresh token in db
+  await User.findOneAndUpdate(
+    { refreshToken: cookie.refreshToken },
+    { refreshToken: "" },
+    { new: true }
+  );
+  // remove refresh token in browser
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    secure: true,
+  });
+  return res.status(200).json({
+    sucess: true,
+    mes: "Logout successful",
+  });
+});
+
 const getCurrent = asyncHandler(async (req, res) => {
   const { _id } = req.user;
 
@@ -68,9 +91,32 @@ const getCurrent = asyncHandler(async (req, res) => {
     mes: user ? user : "User not found",
   });
 });
-// test
+const refreshAccessToken = asyncHandler(async (req, res) => {
+  // get token from cookie
+  const cookie = req.cookies;
+  // is check token available ?
+  if (!cookie && !cookie.refreshToken)
+    throw new Error("No refresh token in cookie");
+  // is check token expire ?
+  const result = await jwt.verify(cookie.refreshToken, process.env.JWT_SECRET);
+
+  jwt.verify(cookie.refreshToken, process.env.JWT_SECRET);
+  const response = await User.findOne({
+    _id: result._id,
+    refreshToken: cookie.refreshToken,
+  });
+  return res.status(200).json({
+    sucess: response ? true : false,
+    newAccessToken: response
+      ? generateAccessToken(response._id, response.role)
+      : "Access token not found",
+  });
+});
+
 module.exports = {
   register,
   login,
+  logout,
   getCurrent,
+  refreshAccessToken,
 };

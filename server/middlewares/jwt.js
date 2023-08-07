@@ -7,7 +7,7 @@ const generateAccessToken = (uid, role) =>
       role,
     },
     process.env.JWT_SECRET,
-    { expiresIn: "3d" }
+    { expiresIn: "2d" }
   );
 const generateRefreshToken = (uid) =>
   jwt.sign(
