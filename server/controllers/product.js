@@ -1,4 +1,4 @@
-const { query } = require("express");
+const { query, response } = require("express");
 const Product = require("../models/product");
 const asyncHandler = require("express-async-handler");
 const slugify = require("slugify");
@@ -42,9 +42,16 @@ const getAllProduct = asyncHandler(async (req, res) => {
     queryCommand = queryCommand.sort(sortBy);
   }
   // Fields limiting
-
+  if (req.query.sort) {
+    const fields = req.query.fields.split(",").join(" ");
+    queryCommand = queryCommand.select(fields);
+  }
   // Panagation
 
+  const page = +req.query.page || 1; // + mean: convert string to number
+  const limit = +req.query.limit || process.env.LIMIT_PRODUCTS; // number of object after call API
+  const skip = (page - 1) * limit;
+  queryCommand.skip(skip).limit(limit);
   // Execute the query
   // Số lượng sp thỏa mãn điều kiện !== số lượng sp trả về 1 lần gọi API
   queryCommand
@@ -53,8 +60,8 @@ const getAllProduct = asyncHandler(async (req, res) => {
       const counts = await Product.find(formatedQueries).countDocuments();
       return res.status(200).json({
         success: response ? true : false,
-        products: response ? response : "Cannot get products",
         counts,
+        products: response ? response : "Cannot get products",
       });
     })
     .catch((err) => {
@@ -83,6 +90,46 @@ const deleteProduct = asyncHandler(async (req, res) => {
     deleteProduct: deleteProduct ? deleteProduct : "Cannot delete product",
   });
 });
+const ratings = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  const { star, comment, pid } = req.body;
+
+  if (!star || !pid) throw new Error("Missing inputs");
+  const ratingProduct = await Product.findById(pid);
+  console.log(ratingProduct);
+  const isRating = ratingProduct?.ratings?.find(
+    (el) => el.postedBy.toString() === _id
+  );
+  if (isRating) {
+    // update star & comment
+    await Product.updateOne(
+      { ratings: { $elemMatch: isRating } },
+      {
+        $set: { "ratings.$.star": star, "ratings.$.comment": comment },
+      },
+      { new: true }
+    );
+  } else {
+    // add star & comment
+    const response = await Product.findByIdAndUpdate(
+      pid,
+      {
+        $push: {
+          ratings: {
+            star,
+            comment,
+            postedBy: _id,
+          },
+        },
+      },
+      { new: true }
+    );
+  }
+  // sum total rating
+  return res.status(200).json({
+    status: true,
+  });
+});
 
 module.exports = {
   createProduct,
@@ -90,4 +137,5 @@ module.exports = {
   getAllProduct,
   updateProduct,
   deleteProduct,
+  ratings,
 };
