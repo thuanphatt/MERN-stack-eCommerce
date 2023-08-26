@@ -32,6 +32,7 @@ const deletedCategory = asyncHandler(async (req, res) => {
     deletedCategory: response ? response : "Cannot be deleted blog category",
   });
 });
+
 module.exports = {
   createCategory,
   getCategories,
