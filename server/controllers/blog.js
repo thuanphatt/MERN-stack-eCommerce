@@ -16,6 +16,21 @@ const getBlogs = asyncHandler(async (req, res) => {
     blogs: response ? response : "Cannot be get blogs",
   });
 });
+
+const getBlog = asyncHandler(async (req, res) => {
+  const { bid } = req.params;
+  const blog = await Blog.findByIdAndUpdate(
+    bid,
+    { $inc: { numberViews: 1 } },
+    { new: true }
+  )
+    .populate("likes", "firstName lastName")
+    .populate("dislikes", "firstName lastName");
+  return res.json({
+    success: blog ? true : false,
+    blog: blog ? blog : "Cannot be get blog",
+  });
+});
 const updatedBlog = asyncHandler(async (req, res) => {
   const { bid } = req.params;
   if (Object.keys(req.body).length === 0) throw new Error("Missing inputs");
@@ -30,12 +45,12 @@ const deletedBlog = asyncHandler(async (req, res) => {
   const response = await Blog.findByIdAndDelete(bid);
   return res.json({
     success: response ? true : false,
-    createdBlog: response ? response : "Cannot delete blog",
+    deletedBlog: response ? response : "Cannot delete blog",
   });
 });
 const likeBlog = asyncHandler(async (req, res) => {
   const { _id } = req.user;
-  const { bid } = req.body;
+  const { bid } = req.params;
   if (!bid) throw new Error("Missing inputs");
   const blog = await Blog.findById(bid);
   const alreadyDisliked = blog?.dislikes?.find((el) => el.toString() === _id);
@@ -75,14 +90,14 @@ const likeBlog = asyncHandler(async (req, res) => {
 });
 const dislikeBlog = asyncHandler(async (req, res) => {
   const { _id } = req.user;
-  const { bid } = req.body;
+  const { bid } = req.params;
   if (!bid) throw new Error("Missing inputs");
   const blog = await Blog.findById(bid);
   const alreadyLiked = blog?.likes?.find((el) => el.toString() === _id);
   if (alreadyLiked) {
     const response = await Blog.findByIdAndUpdate(
       bid,
-      { $pull: { dislikes: _id, isDisliked: false } },
+      { $pull: { likes: _id } },
       { new: true }
     );
     return res.json({
@@ -116,6 +131,7 @@ const dislikeBlog = asyncHandler(async (req, res) => {
 
 module.exports = {
   createNewBlog,
+  getBlog,
   getBlogs,
   updatedBlog,
   deletedBlog,
