@@ -1,4 +1,3 @@
-const { query, response } = require("express");
 const Product = require("../models/product");
 const asyncHandler = require("express-async-handler");
 const slugify = require("slugify");
@@ -141,8 +140,19 @@ const ratings = asyncHandler(async (req, res) => {
   });
 });
 const uploadImagesProduct = asyncHandler(async (req, res) => {
-  console.log(req.file);
-  res.json("Oke");
+  const { pid } = req.params;
+  const imagesPath = req.files.map((el) => el.path);
+  if (!req.files) throw new Error("Missing inputs");
+  const response = await Product.findByIdAndUpdate(
+    pid,
+    { $push: { images: { $each: imagesPath } } },
+    { new: true }
+  );
+  console.log(req.files);
+  return res.status(200).json({
+    status: response ? true : false,
+    updatedProduct: response ? response : "Cannot upload images product",
+  });
 });
 
 module.exports = {

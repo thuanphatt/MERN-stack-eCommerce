@@ -10,7 +10,7 @@ router.put("/ratings", verifyAccessToken, ctrls.ratings);
 router.put(
   "/uploadimage/:pid",
   [verifyAccessToken, isAdmin],
-  fileUploader.single("images"),
+  fileUploader.array("images", 10),
   ctrls.uploadImagesProduct
 );
 router.put("/:pid", [verifyAccessToken, isAdmin], ctrls.updateProduct);

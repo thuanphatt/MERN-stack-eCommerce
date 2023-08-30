@@ -128,6 +128,21 @@ const dislikeBlog = asyncHandler(async (req, res) => {
     });
   }
 });
+const uploadImagesBlog = asyncHandler(async (req, res) => {
+  const { bid } = req.params;
+
+  if (!req.file) throw new Error("Missing inputs");
+  const response = await Blog.findByIdAndUpdate(
+    bid,
+    { image: req.file.path },
+    { new: true }
+  );
+  console.log(req.file);
+  return res.json({
+    success: response ? true : false,
+    uploadImagesBlog: response ? response : "Cannot upload upload images blog",
+  });
+});
 
 module.exports = {
   createNewBlog,
@@ -137,4 +152,5 @@ module.exports = {
   deletedBlog,
   likeBlog,
   dislikeBlog,
+  uploadImagesBlog,
 };

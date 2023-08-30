@@ -12,6 +12,8 @@ router.get("/", [verifyAccessToken, isAdmin], ctrls.getUsers);
 
 router.put("/resetpassword", ctrls.resetPassword);
 router.put("/current", [verifyAccessToken], ctrls.updateUser);
+router.put("/address", [verifyAccessToken], ctrls.updateUserAddress);
+router.put("/cart", [verifyAccessToken], ctrls.addToCart);
 router.put("/:uid", [verifyAccessToken, isAdmin], ctrls.updateUserByAdmin);
 
 router.delete("/", [verifyAccessToken, isAdmin], ctrls.deleteUser);
