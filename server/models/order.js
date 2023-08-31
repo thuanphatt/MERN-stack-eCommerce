@@ -11,10 +11,14 @@ var orderSchema = new mongoose.Schema({
   ],
   status: {
     type: String,
-    default: "Processing",
-    enum: ["Canceled", "Processing", "Successed"],
+    default: "Proccessing",
+    enum: ["Canceled", "Proccessing", "Succeed"],
   },
-  paymentIntent: {},
+  total: Number,
+  coupon: {
+    type: mongoose.Types.ObjectId,
+    ref: "Coupon",
+  },
   orderBy: {
     type: mongoose.Types.ObjectId,
     ref: "User",
@@ -22,4 +26,4 @@ var orderSchema = new mongoose.Schema({
 });
 
 //Export the model
-module.exports = mongoose.model("OrderSchema", orderSchema);
+module.exports = mongoose.model("Order", orderSchema);
