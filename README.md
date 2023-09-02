@@ -1,3 +1,3 @@
-# MERN-stack-eCommerce
+# Project: MERN-stack-eCommerce
 
-# Author : thuanphat
+# Author: thuanphat
