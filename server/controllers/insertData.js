@@ -1,4 +1,6 @@
 const Product = require("../models/product");
+const ProductCategory = require("../models/productCategory");
+const categoryData = require("../../data/cate_brand");
 const data = require("../../data/data2.json");
 const asyncHandler = require("express-async-handler");
 const slugify = require("slugify");
@@ -19,12 +21,26 @@ const fn = async (product) => {
       "WHITE",
   });
 };
+
 const insertData = asyncHandler(async (req, res) => {
   const promises = [];
   for (let product of data) promises.push(fn(product));
   await Promise.all(promises);
   return res.json("Done");
 });
+const fn2 = async (category) => {
+  await ProductCategory.create({
+    title: category?.cate,
+    brand: category?.brand,
+  });
+};
+const insertCateData = asyncHandler(async (req, res) => {
+  const promises = [];
+  for (let cate of categoryData) promises.push(fn2(cate));
+  await Promise.all(promises);
+  return res.json("Done");
+});
 module.exports = {
   insertData,
+  insertCateData,
 };
