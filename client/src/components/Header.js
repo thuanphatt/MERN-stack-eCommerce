@@ -8,7 +8,7 @@ const Header = () => {
   const { BsFillTelephoneFill, IoMdMail, AiOutlineUser, BsBagCheckFill } =
     icons;
   return (
-    <div className="border w-main h-[110px] py-[35px] flex justify-between">
+    <div className="w-main h-[110px] py-[35px] flex justify-between">
       <Link to={`/${path.HOME}`}>
         <img
           src={logo}
