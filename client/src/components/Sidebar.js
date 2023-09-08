@@ -4,7 +4,7 @@ import { createSlug } from "../utils/helpers";
 import { useSelector } from "react-redux";
 const Sidebar = () => {
   const { categories } = useSelector((state) => state.app);
-  console.log(categories);
+
   return (
     <div className="flex flex-col border">
       {categories?.map((el) => (

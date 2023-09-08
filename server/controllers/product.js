@@ -36,13 +36,14 @@ const getAllProduct = asyncHandler(async (req, res) => {
     formatedQueries.title = { $regex: queries.title, $options: "i" };
   let queryCommand = Product.find(formatedQueries);
   // Sorting
+  // abc,efg => [abc,efg] => abc efg
   if (req.query.sort) {
-    const sortBy = req.query.sort.split(",").join(" ");
+    const sortBy = req.query.sort?.split(",").join(" ");
     queryCommand = queryCommand.sort(sortBy);
   }
   // Fields limiting
   if (req.query.sort) {
-    const fields = req.query.fields.split(",").join(" ");
+    const fields = req.query.fields?.split(",").join(" ");
     queryCommand = queryCommand.select(fields);
   }
   // Panagation
@@ -148,7 +149,6 @@ const uploadImagesProduct = asyncHandler(async (req, res) => {
     { $push: { images: { $each: imagesPath } } },
     { new: true }
   );
-  console.log(req.files);
   return res.status(200).json({
     status: response ? true : false,
     updatedProduct: response ? response : "Cannot upload images product",
