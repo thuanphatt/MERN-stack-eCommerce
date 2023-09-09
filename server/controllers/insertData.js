@@ -16,9 +16,11 @@ const fn = async (product) => {
     quantity: Math.round(Math.random() * 1000),
     sold: Math.round(Math.random() * 100),
     images: product?.images,
+    thumb: product?.thumb,
     color:
       product?.variants?.find((el) => el.label === "Color")?.variants[0] ||
       "WHITE",
+    thumb: product?.thumb,
   });
 };
 
