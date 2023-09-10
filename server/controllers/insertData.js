@@ -21,6 +21,7 @@ const fn = async (product) => {
       product?.variants?.find((el) => el.label === "Color")?.variants[0] ||
       "WHITE",
     thumb: product?.thumb,
+    totalRatings: Math.round(Math.random() * 5),
   });
 };
 
