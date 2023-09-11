@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { NavLink } from "react-router-dom";
 import { createSlug } from "../utils/helpers";
 import { useSelector } from "react-redux";
@@ -6,7 +6,7 @@ const Sidebar = () => {
   const { categories } = useSelector((state) => state.app);
 
   return (
-    <div className="flex flex-col border">
+    <div className="flex flex-col border mb-3">
       {categories?.map((el) => (
         <NavLink
           to={createSlug(el.title)}
@@ -24,4 +24,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default memo(Sidebar);

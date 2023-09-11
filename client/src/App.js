@@ -8,6 +8,7 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCategories());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div className="min-h-screen font-main">
