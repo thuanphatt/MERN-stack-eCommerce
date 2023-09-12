@@ -42,7 +42,7 @@ const BestSeller = () => {
       <div className="flex ml-[-32px]">
         {tabs.map((el) => (
           <span
-            className={`font-semibold border-r px-8 cursor-pointer uppercase text-gray-500 ${
+            className={`font-semibold text-xl border-r px-8 cursor-pointer uppercase text-gray-500 ${
               activedTab === el.id ? "text-gray-950" : ""
             }`}
             key={el.id}
@@ -52,7 +52,8 @@ const BestSeller = () => {
           </span>
         ))}
       </div>
-      <div className="mt-2 mx-[-10px] border-t-2 border-main pt-4">
+      <div className="w-full border-b-2 border-main mt-3"></div>
+      <div className="mt-2 mx-[-10px] pt-3">
         <Slider {...settings}>
           {products?.map((el) => (
             <Product

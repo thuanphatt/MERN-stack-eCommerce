@@ -1,7 +1,14 @@
 import React, { useState, useEffect, memo } from "react";
-import { formatMoney, renderStarFromNumber } from "../utils/helpers";
-import { apiGetProducts } from "../apis/product";
+import moment from "moment";
+
 import { Countdown } from "./";
+import { apiGetProducts } from "../apis/product";
+import {
+  formatMoney,
+  renderStarFromNumber,
+  secondsToHms,
+} from "../utils/helpers";
+
 import icons from "../utils/icons";
 const { AiFillStar, IoMenu } = icons;
 let idInterval;
@@ -20,7 +27,16 @@ const DailyDeal = () => {
     });
     if (response.success) {
       setProductRandom(response.products[0]);
-      setHour(24);
+      const today = `${moment().format("MM/DD/YYYY")} 5:00:00`;
+      const seconds =
+        new Date(today).getTime() - new Date().getTime() + 24 * 3600 * 1000; // miliseconds = 5h (today) - now time + ms of 1 day
+
+      const number = secondsToHms(seconds);
+      setHour(number.h);
+      setMinute(number.m);
+      setSecond(number.s);
+    } else {
+      setHour(0);
       setMinute(59);
       setSecond(59);
     }
@@ -53,7 +69,7 @@ const DailyDeal = () => {
   });
 
   return (
-    <div className="w-full border flex-auto p-5">
+    <div className="w-full border flex-auto p-5 mt-[5px]">
       <div className="flex items-center justify-between">
         <span className="">
           <AiFillStar size={20} color="#DD1111" />
@@ -63,7 +79,7 @@ const DailyDeal = () => {
         </span>
         <span></span>
       </div>
-      <div className="w-full flex flex-col items-center pt-10 gap-2">
+      <div className="w-full flex flex-col items-center pt-8 gap-2">
         <img
           src={
             productRandom?.thumb ||
@@ -72,7 +88,9 @@ const DailyDeal = () => {
           alt={productRandom?.title}
           className="w-full object-contain"
         ></img>
-        <span className="line-clamp-1 text-center">{productRandom?.title}</span>
+        <span className="line-clamp-1 text-center capitalize">
+          {productRandom?.title.toLowerCase()}
+        </span>
         <span className="flex h-4">
           {renderStarFromNumber(productRandom?.totalRatings, 20)}
         </span>

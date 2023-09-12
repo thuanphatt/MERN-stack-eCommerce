@@ -47,7 +47,9 @@ const Product = ({ productData, isNew }) => {
           <span className="flex h-4">
             {renderStarFromNumber(productData?.totalRatings)}
           </span>
-          <span className="line-clamp-1">{productData?.title}</span>
+          <span className="line-clamp-1 capitalize">
+            {productData?.title.toLowerCase()}
+          </span>
           <span>{formatMoney(productData?.price)}VND</span>
         </div>
       </div>
