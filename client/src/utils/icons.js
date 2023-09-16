@@ -1,5 +1,5 @@
 import { BsFillTelephoneFill, BsBagCheckFill } from "react-icons/bs";
-import { IoMdMail } from "react-icons/io";
+import { IoMdMail, IoIosArrowForward } from "react-icons/io";
 import { IoMenu } from "react-icons/io5";
 import {
   AiOutlineUser,
@@ -18,5 +18,6 @@ const icons = {
   AiFillEye,
   AiFillHeart,
   IoMenu,
+  IoIosArrowForward,
 };
 export default icons;

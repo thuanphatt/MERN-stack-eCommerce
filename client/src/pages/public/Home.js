@@ -1,17 +1,18 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import {
   Sidebar,
   Banner,
   BestSeller,
   // DailyDeal,
   FeatureProduct,
+  HotCollections,
   CustomerSlider,
 } from "../../components";
-import { useSelector } from "react-redux";
 
 const Home = () => {
   const { newProducts } = useSelector((state) => state.products);
-  console.log(newProducts);
+
   return (
     <>
       <div className="w-main flex">
@@ -35,7 +36,15 @@ const Home = () => {
           <CustomerSlider products={newProducts} />
         </div>
       </div>
-      <div className="w-full h-[500px]"></div>
+      <div className="my-4 w-full">
+        <HotCollections />
+      </div>
+      <div className="my-4 w-full">
+        <h2 className="py-[15px] text-xl font-[#151515] uppercase font-semibold border-b-2 border-main">
+          blog posts
+        </h2>
+      </div>
+      <div className="w-full h-[500px] bg-main"></div>
     </>
   );
 };
