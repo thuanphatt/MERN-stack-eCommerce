@@ -23,10 +23,12 @@ const HotCollections = () => {
                 <div className="flex-1 text-gray-700">
                   <h4 className="font-semibold uppercase m-1">{el.title}</h4>
                   <ul className="text-sm">
-                    {el?.brand?.map((item) => (
-                      <span className="flex items-center text-gray-500 mt-2">
-                        <IoIosArrowForward size={14} />{" "}
-                        <li key={item}>{item}</li>
+                    {el?.brand?.map((item, index) => (
+                      <span
+                        className="flex items-center text-gray-500 mt-2"
+                        key={index}
+                      >
+                        <IoIosArrowForward size={14} /> <li>{item}</li>
                       </span>
                     ))}
                   </ul>

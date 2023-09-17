@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+
 import { formatMoney, renderStarFromNumber } from "../utils/helpers";
+import path from "../utils/path";
 import newLabel from "../assets/new.png";
 import trendingLabel from "../assets/trending.png";
-
 import { SelectOption } from "./";
 import icons from "../utils/icons";
 const { AiFillEye, AiFillHeart, IoMenu } = icons;
@@ -10,7 +12,8 @@ const Product = ({ productData, isNew }) => {
   const [isShowOptions, setIsShowOptions] = useState(false);
   return (
     <div className="w-full text-base px-[10px]">
-      <div
+      <Link
+        to={`/${path.DETAIL_PRODUCT}/${productData?._id}/${productData?.title}`}
         className="w-full border p-[15px] flex flex-col items-center"
         onMouseEnter={(e) => {
           e.stopPropagation();
@@ -56,7 +59,7 @@ const Product = ({ productData, isNew }) => {
           </span>
           <span>{formatMoney(productData?.price)}VND</span>
         </div>
-      </div>
+      </Link>
     </div>
   );
 };
