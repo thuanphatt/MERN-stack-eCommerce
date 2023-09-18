@@ -4,7 +4,7 @@ import {
   Sidebar,
   Banner,
   BestSeller,
-  // DailyDeal,
+  DailyDeal,
   FeatureProduct,
   HotCollections,
   CustomerSlider,
@@ -18,7 +18,7 @@ const Home = () => {
       <div className="w-main flex">
         <div className="flex flex-col gap-5 w-[25%] flex-auto">
           <Sidebar />
-          {/* <DailyDeal /> */}
+          <DailyDeal />
         </div>
         <div className="flex flex-col gap-8 pl-5 w-[75%] flex-auto">
           <Banner />
@@ -44,7 +44,7 @@ const Home = () => {
           blog posts
         </h2>
       </div>
-      <div className="w-full h-[500px] bg-main"></div>
+      <div className="w-full h-[500px]"></div>
     </>
   );
 };
