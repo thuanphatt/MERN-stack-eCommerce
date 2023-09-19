@@ -10,10 +10,10 @@ module.exports = {
         main: "1220px",
       },
       backgroundColor: {
-        main: "#ee3131",
+        main: "#79AC78",
       },
       colors: {
-        main: "#ee3131",
+        main: "#79AC78",
       },
       flex: {
         2: "2 2 0%",

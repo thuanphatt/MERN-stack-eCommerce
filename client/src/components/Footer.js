@@ -10,17 +10,17 @@ const Footer = () => {
             <span className="text-[20px] text-gray-200">
               SIGN UP TO NEWSLETTER
             </span>
-            <small className="text-[13px] text-gray-400">
+            <small className="text-[13px] text-gray-900">
               Subscribe now and receive weekly newsletter
             </small>
           </div>
           <div className="flex-1 flex items-center">
             <input
               type="email"
-              className="rounded-l-full p-4 pr-0 w-full bg-[#F14242] outline-none text-gray-100 placeholder:text-sm placeholder:text-gray-100 placeholder:opacity-50"
+              className="rounded-l-full p-4 pr-0 w-full bg-[#D0E7D2] outline-none text-black placeholder:text-sm placeholder:text-gray-800 placeholder:opacity-70"
               placeholder="Email address"
             ></input>
-            <div className="w-[56px] h-[56px] bg-[#F14242] rounded-r-full flex items-center justify-center text-white">
+            <div className="w-[56px] h-[56px] bg-[#D0E7D2] rounded-r-full flex items-center justify-center text-black">
               <IoMdMail size={16} />
             </div>
           </div>
