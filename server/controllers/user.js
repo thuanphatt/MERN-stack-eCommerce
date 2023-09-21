@@ -13,7 +13,7 @@ const register = asyncHandler(async (req, res) => {
   const { email, password, firstName, lastName } = req.body;
   if (!email || !password || !firstName || !lastName)
     return res.status(400).json({
-      sucess: false,
+      success: false,
       mes: "Missing inputs",
     });
   const user = await User.findOne({ email });
@@ -21,7 +21,7 @@ const register = asyncHandler(async (req, res) => {
   else {
     const newUser = await User.create(req.body);
     return res.status(200).json({
-      sucess: newUser ? true : false,
+      success: newUser ? true : false,
       mes: newUser
         ? "Register is successfully. Please login"
         : "Something went wrong",
@@ -34,7 +34,7 @@ const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password)
     return res.status(400).json({
-      sucess: false,
+      success: false,
       mes: "Missing inputs",
     });
   const response = await User.findOne({ email });
@@ -59,7 +59,7 @@ const login = asyncHandler(async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
     return res.status(200).json({
-      sucess: true,
+      success: true,
       accessToken,
       userData,
     });
@@ -84,7 +84,7 @@ const logout = asyncHandler(async (req, res) => {
     secure: true,
   });
   return res.status(200).json({
-    sucess: true,
+    success: true,
     mes: "Logout successful",
   });
 });
@@ -93,7 +93,7 @@ const getCurrent = asyncHandler(async (req, res) => {
   const { _id } = req.user;
   const user = await User.findById(_id).select("-refreshToken -password -role");
   return res.status(200).json({
-    sucess: user ? true : false,
+    success: user ? true : false,
     mes: user ? user : "User not found",
   });
 });
@@ -112,7 +112,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     refreshToken: cookie.refreshToken,
   });
   return res.status(200).json({
-    sucess: response ? true : false,
+    success: response ? true : false,
     newAccessToken: response
       ? generateAccessToken(response._id, response.role)
       : "Access token not found",
@@ -164,7 +164,7 @@ const resetPassword = asyncHandler(async (req, res) => {
   user.passwordResetExpires = undefined;
   await user.save();
   return res.status(200).json({
-    sucess: user ? true : false,
+    success: user ? true : false,
     mes: user ? "Update successful" : "Something went wrong",
   });
 });
