@@ -4,6 +4,7 @@ export const apiRegister = (data) =>
     url: "/user/register",
     method: "post",
     data,
+    withCredentials: true,
   });
 export const apiLogin = (data) =>
   axios({

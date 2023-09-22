@@ -12,7 +12,6 @@ import {
 
 const Home = () => {
   const { newProducts } = useSelector((state) => state.products);
-
   return (
     <>
       <div className="w-main flex">

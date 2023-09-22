@@ -1,9 +1,15 @@
 import React, { useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
 
 import { InputField, Button } from "../../components";
 import { apiRegister, apiLogin } from "../../apis/user";
+import path from "../../utils/path";
+import { register } from "../../store/user/userSlice";
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [payload, setPayload] = useState({
     email: "",
     password: "",
@@ -37,7 +43,20 @@ const Login = () => {
     } else {
       const result = await apiLogin(data);
       console.log(result);
+      dispatch(
+        register({
+          isLoggedIn: true,
+          token: result.accessToken,
+          current: result.userData,
+        })
+      );
+      if (result.success) {
+        navigate(`/${path.HOME}`);
+      } else {
+        Swal.fire("Opps", result.mes, "error");
+      }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [payload, isRegister]);
   return (
     <div className="w-screen h-screen relative">

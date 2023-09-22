@@ -2,16 +2,36 @@ const User = require("../models/user");
 const asyncHandler = require("express-async-handler");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
-
+const makeToken = require("uniqid");
 const {
   generateAccessToken,
   generateRefreshToken,
 } = require("../middlewares/jwt");
 const sendMail = require("../utils/sendMail");
 
+// const register = asyncHandler(async (req, res) => {
+//   const { email, password, firstName, lastName } = req.body;
+//   if (!email || !password || !firstName || !lastName)
+//     return res.status(400).json({
+//       success: false,
+//       mes: "Missing inputs",
+//     });
+//   const user = await User.findOne({ email });
+//   if (user) throw new Error("User has already been registered");
+//   else {
+//     const newUser = await User.create(req.body);
+//     return res.status(200).json({
+//       success: newUser ? true : false,
+//       mes: newUser
+//         ? "Register is successfully. Please login"
+//         : "Something went wrong",
+//     });
+//   }
+// });
+
 const register = asyncHandler(async (req, res) => {
-  const { email, password, firstName, lastName } = req.body;
-  if (!email || !password || !firstName || !lastName)
+  const { email, password, firstName, lastName, mobile } = req.body;
+  if (!email || !password || !firstName || !lastName || !mobile)
     return res.status(400).json({
       success: false,
       mes: "Missing inputs",
@@ -19,14 +39,44 @@ const register = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
   if (user) throw new Error("User has already been registered");
   else {
-    const newUser = await User.create(req.body);
+    const token = makeToken();
+    res.cookie(
+      "dataregister",
+      { ...req.body, token },
+      {
+        httpOnly: true,
+
+        maxAge: 15 * 60 * 1000,
+      }
+    );
+
+    const html = `Xin vui lòng bấm vào link dưới đây để hoàn tất quá trình đăng ký của bạn.Link này sẽ hết hạn sau 15 phút kể từ bây giờ. <a href=${process.env.URL_SERVER}/api/user/registerfinal/${token}>Click here</a>`;
+    await sendMail({ email, html, subject: "Hoàn tất đăng ký" });
     return res.status(200).json({
-      success: newUser ? true : false,
-      mes: newUser
-        ? "Register is successfully. Please login"
-        : "Something went wrong",
+      success: true,
+      mes: "Please check email to active account",
     });
   }
+});
+const registerFinal = asyncHandler(async (req, res) => {
+  const cookie = req.cookies;
+  const { token } = req.params;
+  console.log(cookie);
+  if (!cookie || cookie?.dataregister?.token !== token) {
+    res.clearCookie("dataregister");
+    return res.redirect(`${process.env.CLIENT_URL}/registerfinal/failed`);
+  }
+  const newUser = await User.create({
+    email: cookie?.dataregister?.email,
+    password: cookie?.dataregister?.password,
+    lastName: cookie?.dataregister?.lastName,
+    firstName: cookie?.dataregister?.firstName,
+    mobile: cookie?.dataregister?.mobile,
+  });
+  res.clearCookie("dataregister");
+  if (newUser)
+    return res.redirect(`${process.env.CLIENT_URL}/registerfinal/success`);
+  else return res.redirect(`${process.env.CLIENT_URL}/registerfinal/failed`);
 });
 // Refresh token => create new access token
 // Access token => Authenticated & Authorization User
@@ -139,6 +189,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
   const data = {
     email,
     html,
+    subject: "Forgot password",
   };
   const rs = await sendMail(data);
   return res.status(200).json({
@@ -285,4 +336,5 @@ module.exports = {
   updateUserByAdmin,
   updateUserAddress,
   addToCart,
+  registerFinal,
 };
