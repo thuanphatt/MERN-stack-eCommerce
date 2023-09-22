@@ -18,6 +18,7 @@ const Login = () => {
     mobile: "",
   });
   const [isRegister, setIsRegister] = useState(false);
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
   const resetPayload = () => {
     setPayload({
       email: "",
@@ -58,8 +59,23 @@ const Login = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [payload, isRegister]);
+  const handleForgotPassword = () => {};
   return (
     <div className="w-screen h-screen relative">
+      <div className="absolute right-0 left-0 top-0 bottom-0 bg-white z-50 flex flex-col items-center py-8">
+        <div className="flex flex-col gap-4">
+          <label htmlFor="email">Enter your mail:</label>
+          <input
+            type="text"
+            name="email"
+            className="w-[800px] border-b pb-2 outline-none placeholder:text-sm"
+            placeholder="Example : email@gmail.com"
+          ></input>
+        </div>
+        <div className="flex items-center justify-end w-[800px]">
+          <Button name="Submit" handleOnClick={handleForgotPassword} />
+        </div>
+      </div>
       <img
         src="https://vir.com.vn/stores/news_dataimages/hung/122019/29/17/p24-digital-transformation-key-driver-for-agriculture.jpg"
         alt=""

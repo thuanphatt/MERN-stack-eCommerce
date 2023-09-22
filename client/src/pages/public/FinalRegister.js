@@ -20,6 +20,7 @@ const FinalRegister = () => {
       ).then(() => {
         navigate(`/${path.LOGIN}`);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return <div className="w-screen h-screen bg-gray-100"></div>;
 };
