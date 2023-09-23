@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   Home,
   Login,
@@ -9,6 +11,7 @@ import {
   Products,
   Services,
   FinalRegister,
+  ResetPassword,
 } from "./pages/public";
 import { Route, Routes } from "react-router-dom";
 import path from "./utils/path";
@@ -34,9 +37,22 @@ function App() {
           <Route path={path.FAQs} element={<FAQ />}></Route>
           <Route path={path.OUR_SERVICES} element={<Services />}></Route>
         </Route>
+        <Route path={path.RESET_PASSWORD} element={<ResetPassword />}></Route>
         <Route path={path.REGISTER_FINAL} element={<FinalRegister />}></Route>
         <Route path={path.LOGIN} element={<Login />}></Route>
       </Routes>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </div>
   );
 }

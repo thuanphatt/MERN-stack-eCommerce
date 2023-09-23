@@ -8,7 +8,7 @@ router.post("/refreshtoken", ctrls.refreshAccessToken);
 
 router.get("/current", verifyAccessToken, ctrls.getCurrent);
 router.get("/logout", ctrls.logout);
-router.get("/forgotpassword", ctrls.forgotPassword);
+router.post("/forgotpassword", ctrls.forgotPassword);
 router.get("/", [verifyAccessToken, isAdmin], ctrls.getUsers);
 
 router.put("/resetpassword", ctrls.resetPassword);
