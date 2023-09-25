@@ -31,12 +31,13 @@ const Header = () => {
           </span>
           <span className="text-center">Online Support 24/7</span>
         </div>
-        <div className="flex items-center justify-center gap-3 px-6 border-r">
+        <div className="flex items-center justify-center gap-3 px-6 border-r cursor-pointer">
           <BsBagCheckFill color="#79AC78" size={20} />
-          <span>0 item</span>
+          <span className="hover:text-[#79AC78]">0 item</span>
         </div>
-        <div className="flex items-center justify-center px-6">
-          <AiOutlineUser size={20} />
+        <div className="flex items-center justify-center px-6 gap-3 cursor-pointer">
+          <AiOutlineUser size={20} color="#79AC78" />
+          <span className="hover:text-[#79AC78]">Profile</span>
         </div>
       </div>
     </div>

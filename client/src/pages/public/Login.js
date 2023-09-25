@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
@@ -228,6 +228,12 @@ const Login = () => {
               </span>
             )}
           </div>
+          <Link
+            to={`/${path.HOME}`}
+            className="text-blue-500 hover:underline cursor-pointer text-sm"
+          >
+            Trang chủ?
+          </Link>
         </div>
       </div>
     </div>

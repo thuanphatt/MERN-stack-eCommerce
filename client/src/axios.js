@@ -6,7 +6,14 @@ const instance = axios.create({
 instance.interceptors.request.use(
   function (config) {
     // Do something before request is sent
-    return config;
+    let localStorageDate = window.localStorage.getItem("persist:shop/user");
+    if (localStorageDate && typeof localStorageDate === "string") {
+      localStorageDate = JSON.parse(localStorageDate);
+
+      const accessToken = JSON.parse(localStorageDate.token);
+      config.headers = { authorization: `Bearer ${accessToken}` };
+      return config;
+    } else return config;
   },
   function (error) {
     // Do something with request error
