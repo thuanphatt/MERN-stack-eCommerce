@@ -34,49 +34,51 @@ const register = asyncHandler(async (req, res) => {
   if (!email || !password || !firstName || !lastName || !mobile)
     return res.status(400).json({
       success: false,
-      mes: "Missing inputs",
+      mes: "Hãy kiểm tra lại thông tin đầu vào",
     });
   const user = await User.findOne({ email });
-  if (user) throw new Error("User has already been registered");
+  if (user) throw new Error("Tài khoản email đã tồn tại");
   else {
     const token = makeToken();
-    res.cookie(
-      "dataregister",
-      { ...req.body, token },
-      {
-        httpOnly: true,
+    const emailEdited = btoa(email) + "@" + token;
+    const newUser = await User.create({
+      email: emailEdited,
+      password,
+      firstName,
+      lastName,
+      mobile,
+    });
+    if (newUser) {
+      const html = `<h2>Mã đăng ký: </h2></br><blockquote>${token}</blockquote>`;
+      await sendMail({ email, html, subject: "Hoàn tất đăng ký" });
+    }
+    setTimeout(async () => {
+      await User.deleteOne({ email: emailEdited });
+    }, [300000]);
 
-        maxAge: 15 * 60 * 1000,
-      }
-    );
-
-    const html = `Xin vui lòng bấm vào link dưới đây để hoàn tất quá trình đăng ký của bạn.Link này sẽ hết hạn sau 15 phút kể từ bây giờ. <a href=${process.env.URL_SERVER}/api/user/registerfinal/${token}>Click here</a>`;
-    await sendMail({ email, html, subject: "Hoàn tất đăng ký" });
     return res.status(200).json({
-      success: true,
-      mes: "Please check email to active account",
+      success: newUser ? true : false,
+      mes: newUser
+        ? "Hãy kiểm tra email để hoàn tất quá trình đăng ký"
+        : "Có lỗi xảy ra, vui lòng thử lại sau!",
     });
   }
 });
 const registerFinal = asyncHandler(async (req, res) => {
-  const cookie = req.cookies;
   const { token } = req.params;
-  console.log(cookie);
-  if (!cookie || cookie?.dataregister?.token !== token) {
-    res.clearCookie("dataregister");
-    return res.redirect(`${process.env.CLIENT_URL}/registerfinal/failed`);
-  }
-  const newUser = await User.create({
-    email: cookie?.dataregister?.email,
-    password: cookie?.dataregister?.password,
-    lastName: cookie?.dataregister?.lastName,
-    firstName: cookie?.dataregister?.firstName,
-    mobile: cookie?.dataregister?.mobile,
+  const notActivedEmail = await User.findOne({
+    email: new RegExp(`${token}$`),
   });
-  res.clearCookie("dataregister");
-  if (newUser)
-    return res.redirect(`${process.env.CLIENT_URL}/registerfinal/success`);
-  else return res.redirect(`${process.env.CLIENT_URL}/registerfinal/failed`);
+  if (notActivedEmail) {
+    notActivedEmail.email = atob(notActivedEmail?.email?.split("@")[0]);
+    notActivedEmail.save();
+  }
+  return res.status(200).json({
+    success: notActivedEmail ? true : false,
+    mes: notActivedEmail
+      ? "Đăng ký thành công, vui lòng tiến hành đăng nhập."
+      : "Có lỗi xảy ra, vui lòng thử lại sau!",
+  });
 });
 // Refresh token => create new access token
 // Access token => Authenticated & Authorization User
