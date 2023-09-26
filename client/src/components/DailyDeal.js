@@ -92,7 +92,11 @@ const DailyDeal = () => {
           {productRandom?.title.toLowerCase()}
         </span>
         <span className="flex h-4">
-          {renderStarFromNumber(productRandom?.totalRatings, 20)}
+          {renderStarFromNumber(productRandom?.totalRatings)?.map(
+            (el, index) => (
+              <span key={index}>{el}</span>
+            )
+          )}
         </span>
         <span>{`${formatMoney(productRandom?.price)} VND`}</span>
       </div>

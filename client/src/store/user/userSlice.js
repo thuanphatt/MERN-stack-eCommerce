@@ -13,6 +13,10 @@ export const userSlice = createSlice({
       state.isLoggedIn = action.payload.isLoggedIn;
       state.token = action.payload.token;
     },
+    logout: (state, action) => {
+      state.isLoggedIn = false;
+      state.token = null;
+    },
   },
   // Code xử lý async action
   extraReducers: (builder) => {
@@ -37,6 +41,6 @@ export const userSlice = createSlice({
     });
   },
 });
-export const { login } = userSlice.actions;
+export const { login, logout } = userSlice.actions;
 
 export default userSlice.reducer;

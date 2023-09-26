@@ -5,8 +5,7 @@ import { Link } from "react-router-dom";
 import path from "../utils/path";
 
 const Header = () => {
-  const { BsFillTelephoneFill, IoMdMail, AiOutlineUser, BsBagCheckFill } =
-    icons;
+  const { BsFillTelephoneFill, IoMdMail, FaUserAlt, BsBagCheckFill } = icons;
   return (
     <div className="w-main h-[110px] py-[35px] flex justify-between">
       <Link to={`/${path.HOME}`}>
@@ -36,7 +35,7 @@ const Header = () => {
           <span className="hover:text-[#79AC78]">0 item</span>
         </div>
         <div className="flex items-center justify-center px-6 gap-3 cursor-pointer">
-          <AiOutlineUser size={20} color="#79AC78" />
+          <FaUserAlt size={18} color="#79AC78" />
           <span className="hover:text-[#79AC78]">Profile</span>
         </div>
       </div>
