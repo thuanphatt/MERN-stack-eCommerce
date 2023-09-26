@@ -13,7 +13,7 @@ import {
 const Home = () => {
   const { newProducts } = useSelector((state) => state.products);
   return (
-    <>
+    <div className="mt-8">
       <div className="w-main flex">
         <div className="flex flex-col gap-5 w-[25%] flex-auto">
           <Sidebar />
@@ -24,10 +24,10 @@ const Home = () => {
           <BestSeller />
         </div>
       </div>
-      <div className="my-4">
+      <div className="my-4 w-main">
         <FeatureProduct />
       </div>
-      <div className="my-4 w-full">
+      <div className="my-4 w-main">
         <h2 className="py-[15px] text-xl font-[#151515] uppercase font-semibold border-b-2 border-main">
           new arrivals
         </h2>
@@ -35,16 +35,16 @@ const Home = () => {
           <CustomerSlider products={newProducts} />
         </div>
       </div>
-      <div className="my-4 w-full">
+      <div className="my-4 w-main">
         <HotCollections />
       </div>
-      <div className="my-4 w-full">
+      <div className="my-4 w-main">
         <h2 className="py-[15px] text-xl font-[#151515] uppercase font-semibold border-b-2 border-main">
           blog posts
         </h2>
       </div>
-      <div className="w-full h-[500px]"></div>
-    </>
+      <div className="w-main h-[500px]"></div>
+    </div>
   );
 };
 

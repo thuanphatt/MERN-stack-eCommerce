@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 
 const Navigation = () => {
   return (
-    <div className="border-y mb-6 w-main h-[48px] py-2 flex items-center text-sm">
+    <div className="border-y w-main h-[48px] py-2 flex items-center text-sm">
       {navigation.map((el) => (
         <NavLink
           to={el.path}
