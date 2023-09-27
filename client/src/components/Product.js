@@ -10,11 +10,11 @@ import icons from "../utils/icons";
 const { AiFillEye, AiFillHeart, IoMenu } = icons;
 const Product = ({ productData, isNew }) => {
   const [isShowOptions, setIsShowOptions] = useState(false);
-  console.log(productData.category);
+
   return (
     <div className="w-full text-base px-[10px]">
       <Link
-        to={`/${productData?.category}/${productData?._id}/${productData?.title}`}
+        to={`/${productData?.category[1]}/${productData?._id}/${productData?.title}`}
         className="w-full border p-[15px] flex flex-col items-center"
         onMouseEnter={(e) => {
           e.stopPropagation();

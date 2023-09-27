@@ -15,7 +15,7 @@ const getProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(pid);
   return res.status(200).json({
     sucess: product ? true : false,
-    created: product ? product : "Cannot get product",
+    productData: product ? product : "Cannot get product",
   });
 });
 // Filter, sort and pagination product
