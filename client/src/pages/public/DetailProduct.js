@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Slider from "react-slick";
+import ReactImageMagnify from "react-image-magnify";
 
 import { apiGetProduct } from "../../apis/product";
 import { Breakcrumb } from "../../components";
@@ -33,20 +34,42 @@ const DetailProduct = () => {
 			</div>
 			<div className="w-main m-auto mt-5 flex">
 				<div className="w-2/5 flex flex-col gap-4">
-					<img
-						src={product?.images[0]}
-						alt={product?.title}
-						className="h-[458px] w-[485px] border object-cover"
-					/>
-					<div className="w-[485px]">
-						<Slider {...settings}>
+					<div className="h-[458px] w-[485px] border">
+						<ReactImageMagnify
+							{...{
+								smallImage: {
+									alt: "",
+									isFluidWidth: true,
+									src: product?.thumb,
+									width: 485,
+								},
+								largeImage: {
+									src: product?.thumb,
+									width: 1000,
+									height: 1000,
+								},
+							}}
+						/>
+					</div>
+					<div className="w-[485px] mt-[30px]">
+						<Slider {...settings} className="img-slider">
 							{product?.images.map((el) => (
+								<div className="px-2">
+									<img
+										key={el}
+										src={el}
+										alt="sub-product"
+										className="h-[143px] w-[143px] border object-cover"
+									/>
+								</div>
+							))}
+							<div>
 								<img
-									src={el}
+									src={product?.images[2]}
 									alt="sub-product"
 									className="h-[143px] w-[143px] border object-cover"
 								/>
-							))}
+							</div>
 						</Slider>
 					</div>
 				</div>

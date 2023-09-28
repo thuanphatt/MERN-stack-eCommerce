@@ -4,33 +4,66 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
 
 /* custom react slick */
-button.slick-prev {
-  left: 0px;
-  z-index: 10;
+.custom-slider button.slick-prev {
+	left: 0px;
+	z-index: 10;
 }
-button.slick-next {
-  right: 60px;
-  z-index: 10;
+.custom-slider button.slick-next {
+	right: 60px;
+	z-index: 10;
 }
-button.slick-prev::before {
-  color: rgb(53, 50, 50);
-  content: "\276E";
-  height: 80px;
-  width: 80px;
-  font-size: 30px;
-  background: #9a9191;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.custom-slider button.slick-prev::before {
+	color: rgb(53, 50, 50);
+	content: "\276E";
+	height: 80px;
+	width: 80px;
+	font-size: 30px;
+	background: #9a9191;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
-button.slick-next::before {
-  color: rgb(53, 50, 50);
-  content: "\276F";
-  height: 80px;
-  width: 80px;
-  font-size: 30px;
-  background: #9a9191;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.custom-slider button.slick-next::before {
+	color: rgb(53, 50, 50);
+	content: "\276F";
+	height: 80px;
+	width: 80px;
+	font-size: 30px;
+	background: #9a9191;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.img-slider button.slick-prev {
+	left: 0px;
+	top: 68px;
+	z-index: 10;
+}
+.img-slider button.slick-next {
+	right: 22px;
+	top: 44%;
+	z-index: 10;
+}
+.img-slider button.slick-prev::before {
+	color: rgb(53, 50, 50);
+	content: "\276E";
+	height: 40px;
+	width: 40px;
+	font-size: 30px;
+	background: #9a9191;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.img-slider button.slick-next::before {
+	color: rgb(53, 50, 50);
+	content: "\276F";
+	height: 40px;
+	width: 40px;
+	font-size: 30px;
+	background: #9a9191;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
