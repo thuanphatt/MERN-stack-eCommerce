@@ -9,7 +9,7 @@ var settings = {
 	slidesToShow: 3,
 	slidesToScroll: 1,
 };
-const CustomerSlider = ({ products, activedTab }) => {
+const CustomerSlider = ({ products, activedTab, normal }) => {
 	return (
 		<>
 			{products && (
@@ -19,6 +19,7 @@ const CustomerSlider = ({ products, activedTab }) => {
 							key={el._id}
 							productData={el}
 							isNew={activedTab === 1 ? false : true}
+							normal={normal}
 						/>
 					))}
 				</Slider>

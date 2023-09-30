@@ -32,7 +32,7 @@ export const navigation = [
 export const productExtraInfo = [
 	{
 		id: 1,
-		title: "Bảo đảm",
+		title: "Bảo hành",
 		sub: "Đã kiểm tra chất lượng",
 		icon: <FaShieldAlt size={20} />,
 	},
@@ -59,5 +59,49 @@ export const productExtraInfo = [
 		title: "Tư vấn",
 		sub: "Sẵn sàng 24/24",
 		icon: <FaTty size={20} />,
+	},
+];
+export const productInfoTabs = [
+	{
+		id: 1,
+		name: "Mô tả",
+		content: `Công nghệ: GSM/HSPA/LTE 
+		Kích thước: 144,6 x 69,2 x 7,3 mm 
+		Trọng lượng: 129 g 
+		Màn hình: IPS LCD 5,15 inch 
+		Độ phân giải: 1080 x 1920 OS: Android OS, v6.0 (Marshmallow) 
+		Chipset: Snapdragon 820 CPU: Quad-core Bên trong: 32GB/64GB/128GB Camera: 16 MP, f/2.0 - 4 MP, f/2.0`,
+	},
+	{
+		id: 2,
+		name: "Bảo hành",
+		content: `WARRANTY INFORMATION
+		LIMITED WARRANTIES
+		Limited Warranties are non-transferable. The following Limited Warranties are given to the original retail purchaser of the following Ashley Furniture Industries, Inc.Products:
+		
+		Frames Used In Upholstered and Leather Products
+		Limited Lifetime Warranty
+		A Limited Lifetime Warranty applies to all frames used in sofas, couches, love seats, upholstered chairs, ottomans, sectionals, and sleepers. Ashley Furniture Industries,Inc. warrants these components to you, the original retail purchaser, to be free from material manufacturing defects.`,
+	},
+	{
+		id: 3,
+		name: "Vận chuyển",
+		content: `DELIVERY
+		Before you make your purchase, it’s helpful to know the measurements of the area you plan to place the furniture. You should also measure any doorways and hallways through which the furniture will pass to get to its final destination.
+		Picking up at the store
+		Shopify Shop requires that all products are properly inspected BEFORE you take it home to insure there are no surprises. Our team is happy to open all packages and will assist in the inspection process. We will then reseal packages for safe transport. We encourage all customers to bring furniture pads or blankets to protect the items during transport as well as rope or tie downs. Shopify Shop will not be responsible for damage that occurs after leaving the store or during transit. It is the purchaser’s responsibility to make sure the correct items are picked up and in good condition.`,
+	},
+	{
+		id: 4,
+		name: "Thanh toán",
+		content: `PURCHASING
+		Before you make your purchase, it’s helpful to know the measurements of the area you plan to place the furniture. You should also measure any doorways and hallways through which the furniture will pass to get to its final destination.
+		Picking up at the store
+		Shopify Shop requires that all products are properly inspected BEFORE you take it home to insure there are no surprises. Our team is happy to open all packages and will assist in the inspection process. We will then reseal packages for safe transport. We encourage all customers to bring furniture pads or blankets to protect the items during transport as well as rope or tie downs. Shopify Shop will not be responsible for damage that occurs after leaving the store or during transit. It is the purchaser’s responsibility to make sure the correct items are picked up and in good condition.`,
+	},
+	{
+		id: 5,
+		name: "Phản hồi khách hàng",
+		content: `hehe`,
 	},
 ];

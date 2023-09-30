@@ -5,13 +5,15 @@ import Slider from "react-slick";
 import ReactImageMagnify from "react-image-magnify";
 import { IoIosArrowRoundBack } from "react-icons/io";
 
-import { apiGetProduct } from "../../apis/product";
+import { apiGetProduct, apiGetProducts } from "../../apis/product";
 import { productExtraInfo } from "../../utils/contants";
 import {
 	Breakcrumb,
 	Button,
 	ProductExtraInfoItem,
 	SelectQuantity,
+	ProductInfomation,
+	CustomerSlider,
 } from "../../components";
 import {
 	formatMoney,
@@ -30,9 +32,16 @@ const DetailProduct = () => {
 	// eslint-disable-next-line no-unused-vars
 	const [product, setProduct] = useState(null);
 	const [quantity, setQuantity] = useState(1);
+	const [relatedProducts, setRelatedProducts] = useState(null);
+
 	const fetchProductData = async () => {
 		const response = await apiGetProduct(pid);
 		if (response.success) setProduct(response.productData);
+	};
+	const fetchProductsData = async () => {
+		const response = await apiGetProducts({ category });
+
+		if (response.success) setRelatedProducts(response.products);
 	};
 	const handleQuantity = useCallback(
 		(number) => {
@@ -55,9 +64,13 @@ const DetailProduct = () => {
 		}
 	});
 	useEffect(() => {
-		if (pid) fetchProductData();
+		if (pid) {
+			fetchProductData();
+			fetchProductsData();
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [pid]);
+
 	return (
 		<div className="w-full">
 			<div className="h-[81px] bg-gray-100 flex justify-center items-center">
@@ -152,7 +165,7 @@ const DetailProduct = () => {
 								<span>
 									<IoIosArrowRoundBack size={24} />
 								</span>
-								<span> Trở lại {category}</span>
+								<span className="uppercase"> Quay lại {category}</span>
 							</div>
 						</Link>
 					</div>
@@ -166,6 +179,17 @@ const DetailProduct = () => {
 							icon={el.icon}
 						/>
 					))}
+				</div>
+			</div>
+			<div className="w-main m-auto mt-8">
+				<ProductInfomation />
+			</div>
+			<div className="w-main m-auto mt-4">
+				<h2 className="py-[15px] text-xl font-[#151515] uppercase font-semibold border-b-2 border-main mb-4">
+					CÓ THỂ BẠN CŨNG THÍCH
+				</h2>
+				<div className="mt-2 mx-[-10px] pt-3">
+					<CustomerSlider products={relatedProducts} normal={true} />
 				</div>
 			</div>
 			<div className="h-[800px] w-full"></div>

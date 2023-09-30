@@ -18,3 +18,4 @@ export { default as Button } from "./Button";
 export { default as Breakcrumb } from "./Breakcrumb";
 export { default as ProductExtraInfoItem } from "./ProductExtraInfoItem";
 export { default as SelectQuantity } from "./SelectQuantity";
+export { default as ProductInfomation } from "./ProductInfomation";
