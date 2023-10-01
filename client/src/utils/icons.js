@@ -15,6 +15,7 @@ import {
 	AiFillEye,
 	AiFillHeart,
 	AiFillGift,
+	AiOutlineDown,
 } from "react-icons/ai";
 const icons = {
 	BsFillTelephoneFill,
@@ -33,5 +34,6 @@ const icons = {
 	AiFillGift,
 	BsFillReplyFill,
 	FaTty,
+	AiOutlineDown,
 };
 export default icons;

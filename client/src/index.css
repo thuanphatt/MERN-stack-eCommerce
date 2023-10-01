@@ -67,3 +67,23 @@
 	align-items: center;
 	justify-content: center;
 }
+
+/* react-masonry-css */
+/* .my-masonry-grid {
+	display: -webkit-box; 
+	display: -ms-flexbox; 
+	display: flex;
+	margin-left: 0;
+	width: auto;
+}
+.my-masonry-grid_column {
+	padding-left: 0px; 
+	
+	background-clip: padding-box;
+} */
+
+/* Style your items */
+.my-masonry-grid_column > div {
+	/* change div to reference your elements you put in <Masonry> */
+	margin-bottom: 20px;
+}
