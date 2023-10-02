@@ -12,6 +12,7 @@ const Products = () => {
 		500: 1,
 	};
 	const { category } = useParams();
+	const [params] = useSearchParams();
 	const [productsCategory, setProductsCategory] = useState(null);
 	const [activeClick, setActiveClick] = useState(null);
 	const fetchProductsByCateroty = async (queries) => {
@@ -26,8 +27,12 @@ const Products = () => {
 		[activeClick]
 	);
 	useEffect(() => {
-		fetchProductsByCateroty();
-	}, []);
+		let param = [];
+		for (let i of params.entries()) param.push(i);
+		const queries = {};
+		for (let i of param) queries[i[0]] = i[1];
+		fetchProductsByCateroty(queries);
+	}, [params]);
 	return (
 		<div className="w-full">
 			<div className="h-[81px] bg-gray-100 flex justify-center items-center">
@@ -44,6 +49,7 @@ const Products = () => {
 							name="Giá"
 							activeClick={activeClick}
 							changeActiveFilter={changeActiveFilter}
+							type="input"
 						/>
 						<FilterItem
 							name="Màu sắc"
@@ -63,7 +69,7 @@ const Products = () => {
 					columnClassName="my-masonry-grid_column"
 				>
 					{productsCategory?.map((el) => (
-						<Product key={el} productData={el} normal={true} />
+						<Product key={el._id} productData={el} normal={true} />
 					))}
 				</Masonry>
 			</div>

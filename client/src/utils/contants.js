@@ -105,3 +105,15 @@ export const productInfoTabs = [
 		content: `hehe`,
 	},
 ];
+export const colors = [
+	"black",
+	"brown",
+	"grey",
+	"white",
+	"pink",
+	"yellow",
+	"orange",
+	"purple",
+	"green",
+	"blue",
+];
