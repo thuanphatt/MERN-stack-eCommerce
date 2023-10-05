@@ -26,19 +26,22 @@ const getAllProduct = asyncHandler(async (req, res) => {
 	excludeFields.forEach((el) => delete queries[el]);
 	// Format operators for right syntax of MongoDB
 	let queryString = JSON.stringify(queries);
-	queryString = queryString.replace(
-		/\b(gte|gt|lt|lte)\b/g,
-		(matchEl) => `$${matchEl}`
-	);
+	queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, (matchEl) => `$${matchEl}`);
 	const formatedQueries = JSON.parse(queryString);
+	let colorQueryObject = {};
 	// Filtering
-	if (queries?.title)
-		formatedQueries.title = { $regex: queries.title, $options: "i" };
-	if (queries?.category)
-		formatedQueries.category = { $regex: queries.category, $options: "i" };
-	if (queries?.color)
-		formatedQueries.color = { $regex: queries.color, $options: "i" };
-	let queryCommand = Product.find(formatedQueries);
+	if (queries?.title) formatedQueries.title = { $regex: queries.title, $options: "i" };
+	if (queries?.category) formatedQueries.category = { $regex: queries.category, $options: "i" };
+	if (queries?.color) {
+		delete formatedQueries.color;
+		const colorArr = queries.color?.split(",");
+		const colorQuery = colorArr.map((el) => ({
+			color: { $regex: el, $options: "i" },
+		}));
+		colorQueryObject = { $or: colorQuery };
+	}
+	const q = { ...colorQueryObject, ...formatedQueries };
+	let queryCommand = Product.find(q);
 	// Sorting
 	// abc,efg => [abc,efg] => abc efg
 	if (req.query.sort) {
@@ -61,7 +64,7 @@ const getAllProduct = asyncHandler(async (req, res) => {
 	queryCommand
 		.exec()
 		.then(async (response) => {
-			const counts = await Product.find(formatedQueries).countDocuments();
+			const counts = await Product.find(q).countDocuments();
 			return res.status(200).json({
 				success: response ? true : false,
 				counts,
@@ -101,9 +104,7 @@ const ratings = asyncHandler(async (req, res) => {
 	if (!star || !pid) throw new Error("Missing inputs");
 	const ratingProduct = await Product.findById(pid);
 	console.log(ratingProduct);
-	const isRating = ratingProduct?.ratings?.find(
-		(el) => el.postedBy.toString() === _id
-	);
+	const isRating = ratingProduct?.ratings?.find((el) => el.postedBy.toString() === _id);
 	if (isRating) {
 		// update star & comment
 		await Product.updateOne(
@@ -132,12 +133,8 @@ const ratings = asyncHandler(async (req, res) => {
 	// sum total rating
 	const updatedProduct = await Product.findById(pid);
 	const ratingCount = updatedProduct.ratings.length;
-	const sumRatings = updatedProduct.ratings.reduce(
-		(sum, el) => sum + +el.star,
-		0
-	);
-	updatedProduct.totalRatings =
-		Math.round((sumRatings * 10) / ratingCount) / 10;
+	const sumRatings = updatedProduct.ratings.reduce((sum, el) => sum + +el.star, 0);
+	updatedProduct.totalRatings = Math.round((sumRatings * 10) / ratingCount) / 10;
 	await updatedProduct.save();
 	return res.status(200).json({
 		status: true,
@@ -148,11 +145,7 @@ const uploadImagesProduct = asyncHandler(async (req, res) => {
 	const { pid } = req.params;
 	const imagesPath = req.files.map((el) => el.path);
 	if (!req.files) throw new Error("Missing inputs");
-	const response = await Product.findByIdAndUpdate(
-		pid,
-		{ $push: { images: { $each: imagesPath } } },
-		{ new: true }
-	);
+	const response = await Product.findByIdAndUpdate(pid, { $push: { images: { $each: imagesPath } } }, { new: true });
 	return res.status(200).json({
 		status: response ? true : false,
 		updatedProduct: response ? response : "Cannot upload images product",

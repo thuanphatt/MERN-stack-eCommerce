@@ -20,3 +20,4 @@ export { default as ProductExtraInfoItem } from "./ProductExtraInfoItem";
 export { default as SelectQuantity } from "./SelectQuantity";
 export { default as ProductInfomation } from "./ProductInfomation";
 export { default as FilterItem } from "./FilterItem";
+export { default as InputSelect } from "./InputSelect";

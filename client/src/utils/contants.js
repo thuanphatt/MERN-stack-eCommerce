@@ -1,7 +1,6 @@
 import path from "./path";
 import icons from "./icons";
-const { FaShieldAlt, MdLocalShipping, AiFillGift, BsFillReplyFill, FaTty } =
-	icons;
+const { FaShieldAlt, MdLocalShipping, AiFillGift, BsFillReplyFill, FaTty } = icons;
 export const navigation = [
 	{
 		id: 0,
@@ -105,15 +104,41 @@ export const productInfoTabs = [
 		content: `hehe`,
 	},
 ];
-export const colors = [
-	"black",
-	"brown",
-	"grey",
-	"white",
-	"pink",
-	"yellow",
-	"orange",
-	"purple",
-	"green",
-	"blue",
+export const colors = ["black", "brown", "grey", "white", "pink", "yellow", "orange", "purple", "green", "blue"];
+export const sorts = [
+	{
+		id: 1,
+		value: "-sold",
+		text: "Bán chạy nhất",
+	},
+	{
+		id: 2,
+		value: "-title",
+		text: "Theo chữ cái A-Z",
+	},
+	{
+		id: 3,
+		value: "title",
+		text: "Theo chữ cái Z-A",
+	},
+	{
+		id: 4,
+		value: "price",
+		text: "Giá, từ thấp đến cao",
+	},
+	{
+		id: 5,
+		value: "-price",
+		text: "Giá, từ cao đến thấp",
+	},
+	{
+		id: 6,
+		value: "-createAt",
+		text: "Ngày, từ mới đến cũ",
+	},
+	{
+		id: 7,
+		value: "createAt",
+		text: "Ngày, từ cũ đến mới",
+	},
 ];
