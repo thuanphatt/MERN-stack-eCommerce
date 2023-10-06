@@ -6,9 +6,12 @@ const Breakcrumb = ({ title, category }) => {
 	const routes = [
 		{ path: "/:category", breadcrumb: category.split(",")[1] },
 		{ path: "/", breadcrumb: "Home" },
-		{ path: "/:category/:pid/:title", breadcrumb: title },
+		{ path: "/:category/:title", breadcrumb: title },
 	];
 	const breadcrumb = useBreadcrumbs(routes);
+
+	breadcrumb.splice(breadcrumb.length - 1, 1);
+
 	return (
 		<div className="text-sm flex items-center gap-1">
 			{breadcrumb.map(({ match, breadcrumb }, index, self) => (

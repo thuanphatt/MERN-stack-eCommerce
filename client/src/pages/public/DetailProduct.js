@@ -15,11 +15,7 @@ import {
 	ProductInfomation,
 	CustomerSlider,
 } from "../../components";
-import {
-	formatMoney,
-	formatPrice,
-	renderStarFromNumber,
-} from "../../utils/helpers";
+import { formatMoney, formatPrice, renderStarFromNumber } from "../../utils/helpers";
 var settings = {
 	dots: false,
 	infinite: false,
@@ -33,10 +29,14 @@ const DetailProduct = () => {
 	const [product, setProduct] = useState(null);
 	const [quantity, setQuantity] = useState(1);
 	const [relatedProducts, setRelatedProducts] = useState(null);
+	const [currentImage, setCurrentImage] = useState(null);
 
 	const fetchProductData = async () => {
 		const response = await apiGetProduct(pid);
-		if (response.success) setProduct(response.productData);
+		if (response.success) {
+			setProduct(response.productData);
+			setCurrentImage(response?.productData?.thumb);
+		}
 	};
 	const fetchProductsData = async () => {
 		const response = await apiGetProducts({ category });
@@ -63,6 +63,10 @@ const DetailProduct = () => {
 			setQuantity((prev) => +prev + 1);
 		}
 	});
+	const handleClickImage = (e, el) => {
+		e.stopPropagation();
+		setCurrentImage(el);
+	};
 	useEffect(() => {
 		if (pid) {
 			fetchProductData();
@@ -70,7 +74,6 @@ const DetailProduct = () => {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [pid]);
-
 	return (
 		<div className="w-full">
 			<div className="h-[81px] bg-gray-100 flex justify-center items-center">
@@ -88,12 +91,12 @@ const DetailProduct = () => {
 								alt: "",
 								isFluidWidth: true,
 								src:
-									product?.thumb ||
+									currentImage ||
 									"https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg",
 							},
 							largeImage: {
 								src:
-									product?.thumb ||
+									currentImage ||
 									"https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg",
 								width: 1200,
 								height: 1200,
@@ -106,33 +109,32 @@ const DetailProduct = () => {
 							{product?.images.map((el) => (
 								<div className="px-2">
 									<img
+										onClick={(e) => handleClickImage(e, el)}
 										key={el}
 										src={el}
 										alt="sub-product"
-										className="h-[143px] w-[143px] border object-cover"
+										className="h-[143px] w-[143px] border object-cover cursor-pointer"
 									/>
 								</div>
 							))}
-							<div>
-								<img
-									src={product?.images[2]}
-									alt="sub-product"
-									className="h-[143px] w-[143px] border object-cover"
-								/>
-							</div>
+							{product?.images.length <= 3 && (
+								<div>
+									<img
+										src={product?.images[2]}
+										alt="sub-product"
+										className="h-[143px] w-[143px] border object-cover cursor-pointer"
+									/>
+								</div>
+							)}
 						</Slider>
 					</div>
 				</div>
 				<div className="w-2/5 flex flex-col gap-4 pl-[45px] pr-6">
 					<div className="flex items-center justify-between">
-						<h3 className="text-[30px] font-semibold">{`${formatMoney(
-							formatPrice(product?.price)
-						)} VND`}</h3>
+						<h3 className="text-[30px] font-semibold">{`${formatMoney(formatPrice(product?.price))} VND`}</h3>
 						<div>
 							<span className="text-gray-500">Kho:</span>
-							<span className="text-[16px] font-medium px-1">
-								{product?.quantity}
-							</span>
+							<span className="text-[16px] font-medium px-1">{product?.quantity}</span>
 						</div>
 					</div>
 					<div className="flex items-center">
@@ -140,9 +142,7 @@ const DetailProduct = () => {
 							<span key={index}>{el}</span>
 						))}
 						<div className="border-l-2 ml-1">
-							<span className="text-[16px] font-medium px-1">
-								{product?.sold}
-							</span>
+							<span className="text-[16px] font-medium px-1">{product?.sold}</span>
 							<span className="text-gray-500">Đã bán</span>
 						</div>
 					</div>
@@ -172,17 +172,12 @@ const DetailProduct = () => {
 				</div>
 				<div className="w-1/5">
 					{productExtraInfo.map((el) => (
-						<ProductExtraInfoItem
-							key={el.id}
-							title={el.title}
-							sub={el.sub}
-							icon={el.icon}
-						/>
+						<ProductExtraInfoItem key={el.id} title={el.title} sub={el.sub} icon={el.icon} />
 					))}
 				</div>
 			</div>
 			<div className="w-main m-auto mt-8">
-				<ProductInfomation />
+				<ProductInfomation totalRatings={product?.totalRatings} totalCount={15} />
 			</div>
 			<div className="w-main m-auto mt-4">
 				<h2 className="py-[15px] text-xl font-[#151515] uppercase font-semibold border-b-2 border-main mb-4">
