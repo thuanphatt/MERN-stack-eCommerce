@@ -5,7 +5,6 @@ import Masonry from "react-masonry-css";
 
 import { apiGetProducts } from "../../apis";
 import { Breakcrumb, Product, FilterItem, InputSelect } from "../../components";
-
 import { sorts } from "../../utils/contants";
 const breakpointColumnsObj = {
 	default: 4,
@@ -15,14 +14,14 @@ const breakpointColumnsObj = {
 };
 const Products = () => {
 	const navigate = useNavigate();
-	const [products, setProducts] = useState(null);
+	const [productCategorys, setProductCategorys] = useState(null);
 	const [activeClick, setActiveClick] = useState(null);
 	const [params] = useSearchParams();
 	const [sort, setSort] = useState("");
 	const { category } = useParams();
 	const fetchProductsByCateroty = async (queries) => {
 		const response = await apiGetProducts(queries);
-		if (response.success) setProducts(response.products);
+		if (response.success) setProductCategorys(response.products);
 	};
 	const changeValue = useCallback(
 		(value) => {
@@ -69,7 +68,7 @@ const Products = () => {
 		<div className="w-full">
 			<div className="h-[81px] bg-gray-100 flex justify-center items-center">
 				<div className="w-main">
-					<h3 className="uppercase font-semibold mb-1"> {category}</h3>
+					<h3 className="uppercase font-semibold mb-1">{category}</h3>
 					<Breakcrumb category={category} />
 				</div>
 			</div>
@@ -94,8 +93,8 @@ const Products = () => {
 					className="my-masonry-grid flex flex-wrap mx-[-10px]"
 					columnClassName="my-masonry-grid_column"
 				>
-					{products?.map((el) => (
-						<Product key={el._id} productData={el} normal={true} />
+					{productCategorys?.map((el) => (
+						<Product key={el._id} pid={el._id} productData={el} normal={true} />
 					))}
 				</Masonry>
 			</div>

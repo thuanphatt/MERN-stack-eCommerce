@@ -103,7 +103,6 @@ const ratings = asyncHandler(async (req, res) => {
 
 	if (!star || !pid) throw new Error("Missing inputs");
 	const ratingProduct = await Product.findById(pid);
-	console.log(ratingProduct);
 	const isRating = ratingProduct?.ratings?.find((el) => el.postedBy.toString() === _id);
 	if (isRating) {
 		// update star & comment

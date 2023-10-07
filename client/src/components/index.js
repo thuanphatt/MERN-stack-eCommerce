@@ -23,3 +23,5 @@ export { default as FilterItem } from "./FilterItem";
 export { default as InputSelect } from "./InputSelect";
 export { default as Votebar } from "./Votebar";
 export { default as Rating } from "./Rating";
+export { default as VoteOptions } from "./VoteOptions";
+export { default as Modal } from "./Modal";

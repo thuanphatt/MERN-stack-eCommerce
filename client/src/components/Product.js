@@ -14,7 +14,7 @@ const Product = ({ productData, isNew, normal }) => {
 	return (
 		<div className="w-full text-base px-[10px]">
 			<Link
-				to={`/${productData?.category[1]}/${productData?._id}/${productData?.title}`}
+				to={`/${productData?.category[0]}/${productData?._id}/${productData?.title}`}
 				className="w-full border p-[15px] flex flex-col items-center"
 				onMouseEnter={(e) => {
 					e.stopPropagation();
@@ -51,15 +51,11 @@ const Product = ({ productData, isNew, normal }) => {
 				</div>
 				<div className="flex flex-col gap-1 mt-[15px] items-start w-full">
 					<span className="flex h-4">
-						{renderStarFromNumber(productData?.totalRatings)?.map(
-							(el, index) => (
-								<span key={index}>{el}</span>
-							)
-						)}
+						{renderStarFromNumber(productData?.totalRatings)?.map((el, index) => (
+							<span key={index}>{el}</span>
+						))}
 					</span>
-					<span className="line-clamp-1 capitalize">
-						{productData?.title.toLowerCase()}
-					</span>
+					<span className="line-clamp-1 capitalize">{productData?.title.toLowerCase()}</span>
 					<span>{formatMoney(productData?.price)}VND</span>
 				</div>
 			</Link>

@@ -30,6 +30,7 @@ const DetailProduct = () => {
 	const [quantity, setQuantity] = useState(1);
 	const [relatedProducts, setRelatedProducts] = useState(null);
 	const [currentImage, setCurrentImage] = useState(null);
+	const [update, setUpdate] = useState(false);
 
 	const fetchProductData = async () => {
 		const response = await apiGetProduct(pid);
@@ -40,7 +41,6 @@ const DetailProduct = () => {
 	};
 	const fetchProductsData = async () => {
 		const response = await apiGetProducts({ category });
-
 		if (response.success) setRelatedProducts(response.products);
 	};
 	const handleQuantity = useCallback(
@@ -72,8 +72,16 @@ const DetailProduct = () => {
 			fetchProductData();
 			fetchProductsData();
 		}
+		window.scrollTo(0, 0);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [pid]);
+	useEffect(() => {
+		if (pid) fetchProductData();
+	}, [update]);
+	const rerender = useCallback(() => {
+		setUpdate(!update);
+	}, [update]);
+
 	return (
 		<div className="w-full">
 			<div className="h-[81px] bg-gray-100 flex justify-center items-center">
@@ -177,7 +185,13 @@ const DetailProduct = () => {
 				</div>
 			</div>
 			<div className="w-main m-auto mt-8">
-				<ProductInfomation totalRatings={product?.totalRatings} totalCount={15} />
+				<ProductInfomation
+					totalRatings={product?.totalRatings}
+					ratings={product?.ratings}
+					nameProduct={product?.title}
+					pid={product?._id}
+					rerender={rerender}
+				/>
 			</div>
 			<div className="w-main m-auto mt-4">
 				<h2 className="py-[15px] text-xl font-[#151515] uppercase font-semibold border-b-2 border-main mb-4">

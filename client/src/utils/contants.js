@@ -129,3 +129,25 @@ export const sorts = [
 		text: "Ngày, từ cũ đến mới",
 	},
 ];
+export const voteOptions = [
+	{
+		id: 1,
+		text: "Rất tệ",
+	},
+	{
+		id: 2,
+		text: "Tệ",
+	},
+	{
+		id: 3,
+		text: "Thường",
+	},
+	{
+		id: 4,
+		text: "Tốt",
+	},
+	{
+		id: 5,
+		text: "Rất tốt",
+	},
+];
