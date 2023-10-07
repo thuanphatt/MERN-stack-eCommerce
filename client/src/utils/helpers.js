@@ -7,17 +7,15 @@ export const createSlug = (string) =>
 		.replace(/[\u0300-\u036f]/g, "")
 		.split(" ")
 		.join("-");
-export const formatMoney = (number) =>
-	Number(number?.toFixed(1)).toLocaleString();
+export const formatMoney = (number) => Number(number?.toFixed(1)).toLocaleString();
 export const renderStarFromNumber = (number, size) => {
 	if (!Number(number)) return;
 	const stars = [];
 	// 4 => [1,1,1,1,0]
 	// 2 => [1,1,0,0,0]
-	for (let i = 0; i < number; i++)
-		stars.push(<AiFillStar color="orange" size={size || 16} />);
-	for (let i = 5; i > number; i--)
-		stars.push(<AiOutlineStar color="orange" size={size || 16} />);
+	number = Math.round(number);
+	for (let i = 0; i < number; i++) stars.push(<AiFillStar color="orange" size={size || 16} />);
+	for (let i = 5; i > number; i--) stars.push(<AiOutlineStar color="orange" size={size || 16} />);
 	return stars;
 };
 export function secondsToHms(d) {
@@ -33,10 +31,7 @@ export const validate = (payload, setInvalidField) => {
 	for (let arr of formatPayload) {
 		if (arr[1].trim() === "") {
 			invalids++;
-			setInvalidField((prev) => [
-				...prev,
-				{ name: arr[0], mes: "Không được bỏ trống trường này" },
-			]);
+			setInvalidField((prev) => [...prev, { name: arr[0], mes: "Không được bỏ trống trường này" }]);
 		}
 	}
 	for (let arr of formatPayload) {
@@ -46,10 +41,7 @@ export const validate = (payload, setInvalidField) => {
 
 				if (!arr[1].match(regexEmail)) {
 					invalids++;
-					setInvalidField((prev) => [
-						...prev,
-						{ name: arr[0], mes: "Email không hợp lệ" },
-					]);
+					setInvalidField((prev) => [...prev, { name: arr[0], mes: "Email không hợp lệ" }]);
 				}
 				break;
 			case "password":
