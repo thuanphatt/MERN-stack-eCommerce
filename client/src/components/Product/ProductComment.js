@@ -1,8 +1,8 @@
 import React from "react";
 import moment from "moment";
 import "moment/locale/vi";
-import { renderStarFromNumber } from "../utils/helpers";
-const Comment = ({ img, name = "Anonymous", comment, updatedAt, star }) => {
+import { renderStarFromNumber } from "../../utils/helpers";
+const ProductComment = ({ img, name = "Anonymous", comment, updatedAt, star }) => {
 	moment.locale("vi");
 	return (
 		<div className="flex gap-4">
@@ -37,4 +37,4 @@ const Comment = ({ img, name = "Anonymous", comment, updatedAt, star }) => {
 	);
 };
 
-export default Comment;
+export default ProductComment;

@@ -2,10 +2,10 @@ import React, { memo, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import path from "../utils/path";
-import { getCurrent } from "../store/user/asyncActions";
-import icons from "../utils/icons";
-import { logout } from "../store/user/userSlice";
+import path from "../../utils/path";
+import { getCurrent } from "../../store/user/asyncActions";
+import icons from "../../utils/icons";
+import { logout } from "../../store/user/userSlice";
 const TopHeader = () => {
 	const { BiSolidLogOut } = icons;
 	const dispatch = useDispatch();

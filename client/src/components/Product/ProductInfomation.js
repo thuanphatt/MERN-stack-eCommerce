@@ -1,14 +1,14 @@
 import React, { memo, useState } from "react";
 import { useDispatch } from "react-redux";
 
-import { productInfoTabs } from "../utils/contants";
-import { renderStarFromNumber } from "../utils/helpers";
-import { Votebar, Button, VoteOptions, Comment } from "../components";
-import { apiRatings } from "../apis";
-import { showModal } from "../store/app/appSlice";
+import { productInfoTabs } from "../../utils/contants";
+import { renderStarFromNumber } from "../../utils/helpers";
+import { ProductVotebar, Button, ProductVoteOptions, ProductComment } from "../../components";
+import { apiRatings } from "../../apis";
+import { showModal } from "../../store/app/appSlice";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import path from "../utils/path";
+import path from "../../utils/path";
 import Swal from "sweetalert2";
 const ProductInfomation = ({ totalRatings, ratings, nameProduct, pid, rerender }) => {
 	const [activedTab, setActivedTab] = useState(1);
@@ -44,7 +44,9 @@ const ProductInfomation = ({ totalRatings, ratings, nameProduct, pid, rerender }
 			dispatch(
 				showModal({
 					isShowModal: true,
-					modalChildren: <VoteOptions nameProduct={nameProduct} handleSubmitVoteOption={handleSubmitVoteOption} />,
+					modalChildren: (
+						<ProductVoteOptions nameProduct={nameProduct} handleSubmitVoteOption={handleSubmitVoteOption} />
+					),
 				})
 			);
 		}
@@ -86,7 +88,7 @@ const ProductInfomation = ({ totalRatings, ratings, nameProduct, pid, rerender }
 						</div>
 						<div className="flex-6 flex flex-col-reverse gap-2">
 							{Array.from(Array(5).keys()).map((el) => (
-								<Votebar
+								<ProductVotebar
 									key={el}
 									number={el + 1}
 									ratingCount={ratings?.filter((item) => item.star === el + 1)?.length}
@@ -101,7 +103,7 @@ const ProductInfomation = ({ totalRatings, ratings, nameProduct, pid, rerender }
 					</div>
 					<div className="flex flex-col gap-2">
 						{ratings?.map((el) => (
-							<Comment
+							<ProductComment
 								key={el.id}
 								comment={el.comment}
 								star={el.star}

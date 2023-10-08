@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { formatMoney, renderStarFromNumber } from "../utils/helpers";
+import { formatMoney, renderStarFromNumber } from "../../utils/helpers";
 
-import newLabel from "../assets/new.png";
-import trendingLabel from "../assets/trending.png";
-import { SelectOption } from "./";
-import icons from "../utils/icons";
+import newLabel from "../../assets/new.png";
+import trendingLabel from "../../assets/trending.png";
+import { SelectOption } from "../../components";
+import icons from "../../utils/icons";
 const { AiFillEye, AiFillHeart, IoMenu } = icons;
 const Product = ({ productData, isNew, normal }) => {
 	const [isShowOptions, setIsShowOptions] = useState(false);
