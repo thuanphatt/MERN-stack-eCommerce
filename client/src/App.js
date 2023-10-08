@@ -25,7 +25,6 @@ function App() {
 		dispatch(getCategories());
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-	console.log(path.PRODUCTS);
 	return (
 		<div className="font-main relative">
 			{isShowModal && <Modal>{modalChildren}</Modal>}

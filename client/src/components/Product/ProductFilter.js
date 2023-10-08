@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { memo, useEffect, useState } from "react";
 import icons from "../../utils/icons";
-import { createSearchParams, useNavigate, useParams } from "react-router-dom";
+import { createSearchParams, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { colors } from "../../utils/contants";
 
 import { apiGetProducts } from "../../apis/product";
@@ -14,6 +14,7 @@ const ProductFilter = ({ name, activeClick, changeActiveFilter, type = "checkbox
 	const [selected, setSelected] = useState([]);
 	const [bestPrice, setBestPrice] = useState(null);
 	const [price, setPrice] = useState({ from: "", to: "" });
+	const [params] = useSearchParams();
 	const handleSelect = (e) => {
 		const alreadyEl = selected.find((el) => el === e.target.value);
 		if (alreadyEl) setSelected((prev) => prev.filter((el) => el !== e.target.value));
@@ -22,35 +23,47 @@ const ProductFilter = ({ name, activeClick, changeActiveFilter, type = "checkbox
 	};
 	const fetchBestPriceProduct = async () => {
 		const response = await apiGetProducts({ sort: "-price", limit: 1 });
-		if (response.success) setBestPrice(response.products[0].price);
+		if (response.success) setBestPrice(response.products[0]?.price);
 	};
 	useEffect(() => {
+		let param = [];
+		for (let i of params.entries()) param.push(i);
+		const queries = {};
+		for (let i of param) queries[i[0]] = i[1];
 		if (selected.length > 0) {
-			navigate({
-				pathname: `/${category}`,
-				search: createSearchParams({
-					color: selected.join(","),
-				}).toString(),
-			});
+			queries.color = selected.join(",");
+			queries.page = 1;
 		} else {
-			navigate(`/${category}`);
+			delete queries.color;
 		}
+		navigate({
+			pathname: `/${category}`,
+			search: createSearchParams(queries).toString(),
+		});
 	}, [selected]);
 	useEffect(() => {
 		if (type === "input") fetchBestPriceProduct();
 	}, [type]);
-	// useEffect(() => {
-	// 	if (price.from > price.to) alert("Giá điều chỉnh chưa hợp lý, nên xem lại giá!");
-	// }, [price]);
+	useEffect(() => {
+		if (price.from && price.to && price.from > price.to) {
+			alert("Giá điều chỉnh chưa hợp lý, nên xem lại giá!");
+		}
+	}, [price]);
 	const debouncePriceFrom = useDebounce(price.from, 500);
 	const debouncePriceTo = useDebounce(price.to, 500);
 	useEffect(() => {
-		const data = {};
-		if (Number(price.from) > 0) data.from = price.from;
-		if (Number(price.to) > 0) data.to = price.to;
+		let param = [];
+		for (let i of params.entries()) param.push(i);
+		const queries = {};
+		for (let i of param) queries[i[0]] = i[1];
+		if (Number(price.from) > 0) queries.from = price.from;
+		else delete queries.from;
+		if (Number(price.to) > 0) queries.to = price.to;
+		else delete queries.to;
+		queries.page = 1;
 		navigate({
 			pathname: `/${category}`,
-			search: createSearchParams(data).toString(),
+			search: createSearchParams(queries).toString(),
 		});
 	}, [debouncePriceFrom, debouncePriceTo]);
 
@@ -74,6 +87,7 @@ const ProductFilter = ({ name, activeClick, changeActiveFilter, type = "checkbox
 									onClick={(e) => {
 										e.stopPropagation();
 										setSelected([]);
+										changeActiveFilter(null);
 									}}
 								>
 									Tải lại
@@ -109,7 +123,8 @@ const ProductFilter = ({ name, activeClick, changeActiveFilter, type = "checkbox
 								)} VNĐ`}</span>
 								<span
 									className="cursor-pointer underline hover:text-main whitespace-nowrap"
-									onClick={() => {
+									onClick={(e) => {
+										e.stopPropagation();
 										setPrice({
 											from: "",
 											to: "",

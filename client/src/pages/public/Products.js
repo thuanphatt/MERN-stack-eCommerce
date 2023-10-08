@@ -4,7 +4,7 @@ import { useParams, useSearchParams, useNavigate, createSearchParams } from "rea
 import Masonry from "react-masonry-css";
 
 import { apiGetProducts } from "../../apis";
-import { Breakcrumb, Product, ProductFilter, InputSelect } from "../../components";
+import { Breakcrumb, Product, ProductFilter, InputSelect, Pagination } from "../../components";
 import { sorts } from "../../utils/contants";
 const breakpointColumnsObj = {
 	default: 4,
@@ -14,28 +14,15 @@ const breakpointColumnsObj = {
 };
 const Products = () => {
 	const navigate = useNavigate();
-	const [productCategorys, setProductCategorys] = useState(null);
+	const [productCategories, setProductCategories] = useState(null);
 	const [activeClick, setActiveClick] = useState(null);
 	const [params] = useSearchParams();
 	const [sort, setSort] = useState("");
-	const { category } = useParams();
 	const fetchProductsByCateroty = async (queries) => {
 		const response = await apiGetProducts(queries);
-		if (response.success) setProductCategorys(response.products);
+		if (response.success) setProductCategories(response);
 	};
-	const changeValue = useCallback(
-		(value) => {
-			setSort(value);
-		},
-		[sort]
-	);
-	const changeActiveFilter = useCallback(
-		(name) => {
-			if (activeClick === name) setActiveClick(null);
-			else setActiveClick(name);
-		},
-		[activeClick]
-	);
+	const { category } = useParams();
 	useEffect(() => {
 		let param = [];
 		for (let i of params.entries()) param.push(i);
@@ -47,22 +34,42 @@ const Products = () => {
 				$and: [{ price: { gte: queries.from } }, { price: { lte: queries.to } }],
 			};
 			delete queries.price;
+		} else {
+			if (queries.from) queries.price = { gte: queries.from };
+			if (queries.to) queries.price = { lte: queries.to };
 		}
-		if (queries.from) queries.price = { gte: queries.from };
-		if (queries.to) queries.price = { lte: queries.to };
 		delete queries.to;
 		delete queries.from;
 		const q = { ...priceQuery, ...queries };
 		fetchProductsByCateroty(q);
+		window.scrollTo(0, 0);
 	}, [params]);
+	const changeActiveFilter = useCallback(
+		(name) => {
+			if (activeClick === name) setActiveClick(null);
+			else setActiveClick(name);
+		},
+		[activeClick]
+	);
+	const changeValue = useCallback(
+		(value) => {
+			setSort(value);
+		},
+		[sort]
+	);
+
 	useEffect(() => {
-		navigate({
-			pathname: `/${category}`,
-			search: createSearchParams({
-				sort: sort,
-			}).toString(),
-		});
-	}, [sort]);
+		if (sort) {
+			// let param = [];
+			// for (let i of params.entries()) param.push(i);
+			// const queries = ;
+			// for (let i of params) queries[i[0]] = i[1];
+			navigate({
+				pathname: `/${category}`,
+				search: createSearchParams({ sort }).toString(),
+			});
+		}
+	}, [sort, params]);
 
 	return (
 		<div className="w-full">
@@ -93,10 +100,13 @@ const Products = () => {
 					className="my-masonry-grid flex flex-wrap mx-[-10px]"
 					columnClassName="my-masonry-grid_column"
 				>
-					{productCategorys?.map((el) => (
+					{productCategories?.products?.map((el) => (
 						<Product key={el._id} pid={el._id} productData={el} normal={true} />
 					))}
 				</Masonry>
+			</div>
+			<div className="w-main m-auto my-4 flex justify-end">
+				<Pagination totalCount={productCategories?.counts} />
 			</div>
 			<div className="w-full h-[500px]"></div>
 		</div>

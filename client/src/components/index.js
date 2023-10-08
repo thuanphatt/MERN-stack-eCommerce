@@ -31,5 +31,5 @@ export { default as InputSelect } from "./Input/InputSelect";
 export { default as SelectOption } from "./Select/SelectOption";
 export { default as SelectQuantity } from "./Select/SelectQuantity";
 
-export { default as PagiItem } from "./Pagination/PagiItem";
+export { default as PaginationItem } from "./Pagination/PaginationItem";
 export { default as Pagination } from "./Pagination/Pagination";
