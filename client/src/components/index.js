@@ -9,6 +9,7 @@ export { default as Banner } from "./Common/Banner";
 export { default as Button } from "./Buttons/Button";
 
 export { default as Sidebar } from "./Sidebar/Sidebar";
+export { default as AdminSidebar } from "./Sidebar/AdminSidebar";
 
 export { default as Header } from "./Headers/Header";
 export { default as TopHeader } from "./Headers/TopHeader";

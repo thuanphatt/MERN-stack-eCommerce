@@ -1,6 +1,18 @@
 import path from "./path";
 import icons from "./icons";
-const { FaShieldAlt, MdLocalShipping, AiFillGift, BsFillReplyFill, FaTty } = icons;
+const {
+	FaShieldAlt,
+	MdLocalShipping,
+	AiFillGift,
+	BsFillReplyFill,
+	FaTty,
+	BiSolidDashboard,
+	MdGroups2,
+	MdManageSearch,
+	RiBillFill,
+	IoIosCreate,
+	AiFillInfoCircle,
+} = icons;
 export const navigation = [
 	{
 		id: 0,
@@ -149,5 +161,42 @@ export const voteOptions = [
 	{
 		id: 5,
 		text: "Rất tốt",
+	},
+];
+export const adminSidebar = [
+	{
+		id: 1,
+		type: "SINGLE",
+		text: "Dashboard",
+		path: `/${path.ADMIN}/${path.DASHBOARD}`,
+		icon: <BiSolidDashboard size={20} />,
+	},
+	{
+		id: 2,
+		type: "SINGLE",
+		text: "Quản lý người dùng",
+		path: `/${path.ADMIN}/${path.MANAGE_USER}`,
+		icon: <MdGroups2 size={20} />,
+	},
+	{
+		id: 3,
+		type: "PARENT",
+		text: "Quản lý sản phẩm",
+		icon: <MdManageSearch size={20} />,
+		submenu: [
+			{ text: "Tạo sản phẩm", path: `/${path.ADMIN}/${path.CREATE_PRODUCT}`, icon: <IoIosCreate size={20} /> },
+			{
+				text: "Thông tin sản phẩm",
+				path: `/${path.ADMIN}/${path.MANAGE_PRODUCT}`,
+				icon: <AiFillInfoCircle size={20} />,
+			},
+		],
+	},
+	{
+		id: 4,
+		type: "SINGLE",
+		text: "Quản lý đơn hàng",
+		path: `/${path.ADMIN}/${path.MANAGE_ORDER}`,
+		icon: <RiBillFill size={20} />,
 	},
 ];
