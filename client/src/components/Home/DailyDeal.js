@@ -1,11 +1,11 @@
 import React, { useState, useEffect, memo } from "react";
 import moment from "moment";
 
-import { Countdown } from "../../components";
-import { apiGetProducts } from "../../apis/product";
-import { formatMoney, renderStarFromNumber, secondsToHms } from "../../utils/helpers";
+import { Countdown } from "components";
+import { apiGetProducts } from "apis/product";
+import { formatMoney, renderStarFromNumber, secondsToHms } from "utils/helpers";
 
-import icons from "../../utils/icons";
+import icons from "utils/icons";
 const { AiFillStar, IoMenu } = icons;
 let idInterval;
 const DailyDeal = () => {

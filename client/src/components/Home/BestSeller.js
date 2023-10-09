@@ -1,7 +1,7 @@
 import React, { useEffect, useState, memo } from "react";
-import { apiGetProducts } from "../../apis/product";
-import { CustomerSlider } from "../../components";
-import { getNewProducts } from "../../store/products/asyncActions";
+import { apiGetProducts } from "apis/product";
+import { CustomerSlider } from "components";
+import { getNewProducts } from "store/products/asyncActions";
 import { useDispatch, useSelector } from "react-redux";
 const tabs = [
 	{ id: 1, name: "best seller" },

@@ -1,5 +1,5 @@
 import React from "react";
-import icons from "../../utils/icons";
+import icons from "utils/icons";
 import { useSelector } from "react-redux";
 const { IoIosArrowForward } = icons;
 const HotCollections = () => {

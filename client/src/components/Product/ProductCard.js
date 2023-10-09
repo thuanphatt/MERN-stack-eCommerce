@@ -1,5 +1,5 @@
 import React from "react";
-import { formatMoney, renderStarFromNumber } from "../../utils/helpers";
+import { formatMoney, renderStarFromNumber } from "utils/helpers";
 const ProductCard = ({ title, image, totalRatings, price }) => {
 	return (
 		<div className="w-1/3 flex-auto px-[10px] mb-4">

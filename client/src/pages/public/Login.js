@@ -4,11 +4,11 @@ import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 
-import { InputField, Button } from "../../components";
-import { apiRegister, apiLogin, apiForgotPassword, apiFinalRegister } from "../../apis/user";
-import path from "../../utils/path";
-import { login } from "../../store/user/userSlice";
-import { validate } from "../../utils/helpers";
+import { InputField, Button } from "components";
+import { apiRegister, apiLogin, apiForgotPassword, apiFinalRegister } from "apis/user";
+import path from "utils/path";
+import { login } from "store/user/userSlice";
+import { validate } from "utils/helpers";
 const Login = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();

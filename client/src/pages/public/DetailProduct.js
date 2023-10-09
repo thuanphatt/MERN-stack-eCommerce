@@ -5,8 +5,8 @@ import Slider from "react-slick";
 import ReactImageMagnify from "react-image-magnify";
 import { IoIosArrowRoundBack } from "react-icons/io";
 
-import { apiGetProduct, apiGetProducts } from "../../apis/product";
-import { productExtraInfo } from "../../utils/contants";
+import { apiGetProduct, apiGetProducts } from "apis/product";
+import { productExtraInfo } from "utils/contants";
 import {
 	Breakcrumb,
 	Button,
@@ -14,8 +14,8 @@ import {
 	SelectQuantity,
 	ProductInfomation,
 	CustomerSlider,
-} from "../../components";
-import { formatMoney, formatPrice, renderStarFromNumber } from "../../utils/helpers";
+} from "components";
+import { formatMoney, formatPrice, renderStarFromNumber } from "utils/helpers";
 var settings = {
 	dots: false,
 	infinite: false,

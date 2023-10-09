@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { memo, useEffect, useState } from "react";
-import icons from "../../utils/icons";
+import icons from "utils/icons";
 import { createSearchParams, useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { colors } from "../../utils/contants";
+import { colors } from "utils/contants";
 
-import { apiGetProducts } from "../../apis/product";
-import { formatMoney, formatPrice } from "../../utils/helpers";
-import useDebounce from "../../hooks/useDebounce";
+import { apiGetProducts } from "apis/product";
+import { formatMoney, formatPrice } from "utils/helpers";
+import useDebounce from "hooks/useDebounce";
 const { AiOutlineDown } = icons;
 const ProductFilter = ({ name, activeClick, changeActiveFilter, type = "checkbox" }) => {
 	const navigate = useNavigate();

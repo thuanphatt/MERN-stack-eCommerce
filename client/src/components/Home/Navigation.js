@@ -1,5 +1,5 @@
 import React from "react";
-import { navigation } from "../../utils/contants";
+import { navigation } from "utils/contants";
 import { NavLink } from "react-router-dom";
 
 const Navigation = () => {

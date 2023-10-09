@@ -1,14 +1,14 @@
 import React, { memo, useState } from "react";
 import { useDispatch } from "react-redux";
 
-import { productInfoTabs } from "../../utils/contants";
-import { renderStarFromNumber } from "../../utils/helpers";
-import { ProductVotebar, Button, ProductVoteOptions, ProductComment } from "../../components";
-import { apiRatings } from "../../apis";
-import { showModal } from "../../store/app/appSlice";
+import { productInfoTabs } from "utils/contants";
+import { renderStarFromNumber } from "utils/helpers";
+import { ProductVotebar, Button, ProductVoteOptions, ProductComment } from "components";
+import { apiRatings } from "apis";
+import { showModal } from "store/app/appSlice";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import path from "../../utils/path";
+import path from "utils/path";
 import Swal from "sweetalert2";
 const ProductInfomation = ({ totalRatings, ratings, nameProduct, pid, rerender }) => {
 	const [activedTab, setActivedTab] = useState(1);

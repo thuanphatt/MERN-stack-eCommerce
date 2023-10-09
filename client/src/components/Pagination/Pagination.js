@@ -1,5 +1,5 @@
 import React from "react";
-import usePanigation from "../../hooks/usePanigation";
+import usePanigation from "hooks/usePanigation";
 import { useSearchParams } from "react-router-dom";
 import { PaginationItem } from "../";
 
