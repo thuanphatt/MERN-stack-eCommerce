@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { memo } from "react";
 import { useSearchParams, useNavigate, useParams, createSearchParams } from "react-router-dom";
 const PaginationItem = ({ children }) => {
 	const navigate = useNavigate();
@@ -34,4 +35,4 @@ const PaginationItem = ({ children }) => {
 	);
 };
 
-export default PaginationItem;
+export default memo(PaginationItem);

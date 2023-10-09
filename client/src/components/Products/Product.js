@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { formatMoney, renderStarFromNumber } from "utils/helpers";
@@ -63,4 +63,4 @@ const Product = ({ productData, isNew, normal }) => {
 	);
 };
 
-export default Product;
+export default memo(Product);

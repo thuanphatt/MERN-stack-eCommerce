@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 
 import { productInfoTabs } from "utils/contants";
 import { renderStarFromNumber } from "utils/helpers";
-import { ProductVotebar, Button, ProductVoteOptions, ProductComment } from "components";
+import { Votebar, Button, VoteOptions, Comment } from "components";
 import { apiRatings } from "apis";
 import { showModal } from "store/app/appSlice";
 import { useSelector } from "react-redux";
@@ -44,9 +44,7 @@ const ProductInfomation = ({ totalRatings, ratings, nameProduct, pid, rerender }
 			dispatch(
 				showModal({
 					isShowModal: true,
-					modalChildren: (
-						<ProductVoteOptions nameProduct={nameProduct} handleSubmitVoteOption={handleSubmitVoteOption} />
-					),
+					modalChildren: <VoteOptions nameProduct={nameProduct} handleSubmitVoteOption={handleSubmitVoteOption} />,
 				})
 			);
 		}
@@ -88,7 +86,7 @@ const ProductInfomation = ({ totalRatings, ratings, nameProduct, pid, rerender }
 						</div>
 						<div className="flex-6 flex flex-col-reverse gap-2">
 							{Array.from(Array(5).keys()).map((el, index) => (
-								<ProductVotebar
+								<Votebar
 									key={index}
 									number={el + 1}
 									ratingCount={ratings?.filter((item) => item.star === el + 1)?.length}
@@ -103,12 +101,12 @@ const ProductInfomation = ({ totalRatings, ratings, nameProduct, pid, rerender }
 					</div>
 					<div className="flex flex-col gap-2">
 						{ratings?.map((el, index) => (
-							<ProductComment
+							<Comment
 								key={index}
-								comment={el.comment}
-								star={el.star}
-								updatedAt={el.updatedAt}
-								name={`${el.postedBy.firstName} ${el.postedBy.lastName}`}
+								comment={el?.comment}
+								star={el?.star}
+								updatedAt={el?.updatedAt}
+								name={`${el?.postedBy?.firstName} ${el?.postedBy?.lastName}`}
 							/>
 						))}
 					</div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import icons from "utils/icons";
 import { useSelector } from "react-redux";
 const { IoIosArrowForward } = icons;
@@ -34,4 +34,4 @@ const HotCollections = () => {
 	);
 };
 
-export default HotCollections;
+export default memo(HotCollections);

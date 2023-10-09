@@ -5,7 +5,7 @@ import logo from "assets/logo.png";
 import { Button } from "components";
 import { voteOptions } from "utils/contants";
 
-const ProductVoteOptions = ({ nameProduct, handleSubmitVoteOption }) => {
+const VoteOptions = ({ nameProduct, handleSubmitVoteOption }) => {
 	const modalRef = useRef();
 	const [chooseVote, setChooseVote] = useState(null);
 	const [comment, setComment] = useState("");
@@ -54,4 +54,4 @@ const ProductVoteOptions = ({ nameProduct, handleSubmitVoteOption }) => {
 	);
 };
 
-export default memo(ProductVoteOptions);
+export default memo(VoteOptions);

@@ -8,7 +8,7 @@ import { apiGetProducts } from "apis/product";
 import { formatMoney, formatPrice } from "utils/helpers";
 import useDebounce from "hooks/useDebounce";
 const { AiOutlineDown } = icons;
-const ProductFilter = ({ name, activeClick, changeActiveFilter, type = "checkbox" }) => {
+const SearchItem = ({ name, activeClick, changeActiveFilter, type = "checkbox" }) => {
 	const navigate = useNavigate();
 	const { category } = useParams();
 	const [selected, setSelected] = useState([]);
@@ -165,4 +165,4 @@ const ProductFilter = ({ name, activeClick, changeActiveFilter, type = "checkbox
 	);
 };
 
-export default memo(ProductFilter);
+export default memo(SearchItem);

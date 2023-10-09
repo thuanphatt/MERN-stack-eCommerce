@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import usePanigation from "hooks/usePanigation";
 import { useSearchParams } from "react-router-dom";
 import { PaginationItem } from "../";
@@ -34,4 +34,4 @@ const Pagination = ({ totalCount }) => {
 	);
 };
 
-export default Pagination;
+export default memo(Pagination);

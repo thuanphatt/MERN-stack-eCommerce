@@ -1,7 +1,7 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, memo } from "react";
 import { AiFillStar } from "react-icons/ai";
 
-const ProductVotebar = ({ number, ratingCount, ratingTotal }) => {
+const Votebar = ({ number, ratingCount, ratingTotal }) => {
 	const percentRef = useRef();
 	useEffect(() => {
 		const percent = Math.round((ratingCount * 100) / ratingTotal) || 0;
@@ -23,4 +23,4 @@ const ProductVotebar = ({ number, ratingCount, ratingTotal }) => {
 	);
 };
 
-export default ProductVotebar;
+export default memo(Votebar);

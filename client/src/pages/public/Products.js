@@ -4,7 +4,7 @@ import { useParams, useSearchParams, useNavigate, createSearchParams } from "rea
 import Masonry from "react-masonry-css";
 
 import { apiGetProducts } from "apis";
-import { Breakcrumb, Product, ProductFilter, InputSelect, Pagination } from "components";
+import { Breakcrumb, Product, SearchItem, InputSelect, Pagination } from "components";
 import { sorts } from "utils/contants";
 const breakpointColumnsObj = {
 	default: 4,
@@ -83,8 +83,8 @@ const Products = () => {
 				<div className="w-4/5 flex flex-col gap-2">
 					<span className="font-semibold text-[14px]">Lọc theo</span>
 					<div className="flex items-center gap-2 text-gray-700">
-						<ProductFilter name="Giá" activeClick={activeClick} changeActiveFilter={changeActiveFilter} type="input" />
-						<ProductFilter name="Màu sắc" activeClick={activeClick} changeActiveFilter={changeActiveFilter} />
+						<SearchItem name="Giá" activeClick={activeClick} changeActiveFilter={changeActiveFilter} type="input" />
+						<SearchItem name="Màu sắc" activeClick={activeClick} changeActiveFilter={changeActiveFilter} />
 					</div>
 				</div>
 				<div className="w-1/5 flex flex-col gap-2">
