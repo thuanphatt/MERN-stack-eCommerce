@@ -3,6 +3,7 @@ export { default as CustomerSlider } from "./Common/CustomerSlider";
 export { default as Button } from "./Common/Button";
 export { default as Breakcrumb } from "./Common/Breakcrumb";
 export { default as Modal } from "./Common/Modal";
+export { default as Loading } from "./Common/Loading";
 
 export { default as Header } from "./Home/Header";
 export { default as Banner } from "./Home/Banner";

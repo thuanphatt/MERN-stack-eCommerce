@@ -4,11 +4,12 @@ import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 
-import { InputField, Button } from "components";
+import { InputField, Button, Loading } from "components";
 import { apiRegister, apiLogin, apiForgotPassword, apiFinalRegister } from "apis/user";
 import path from "utils/path";
 import { login } from "store/user/userSlice";
 import { validate } from "utils/helpers";
+import { showModal } from "store/app/appSlice";
 const Login = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -43,7 +44,9 @@ const Login = () => {
 		const invalids = isRegister ? validate(payload, setInvalidField) : validate(data, setInvalidField);
 		if (invalids === 0) {
 			if (isRegister) {
+				dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 				const response = await apiRegister(payload);
+				dispatch(showModal({ isShowModal: false, modalChildren: null }));
 
 				if (response.success) {
 					setIsVerifiedEmail(true);
@@ -95,9 +98,7 @@ const Login = () => {
 			{isVerifiedEmail && (
 				<div className="absolute right-0 left-0 top-0 bottom-0 bg-overlay z-50 flex flex-col items-center justify-center">
 					<div className=" bg-white w-[1000px] rounded-md p-6">
-						<h4 className="">
-							Chúng tôi đã 1 đoạn mã code đến email của bạn. Hãy kiểm tra mail và điền mã code vào bên dưới:
-						</h4>
+						<h4>Chúng tôi đã 1 đoạn mã code đến email của bạn. Hãy kiểm tra mail và điền mã code vào bên dưới:</h4>
 						<input
 							type="text"
 							className="w-[800px] border py-2 outline-none placeholder:text-sm rounded-md mr-2 pl-2"
@@ -141,11 +142,11 @@ const Login = () => {
 				alt=""
 				className="w-full h-full object-cover"
 			></img>
-			<div className="absolute top-0 bottom-0 left-0 right-1/2 flex items-center justify-center">
-				<div className="p-8 bg-white rounded-md min-w-[500px] flex flex-col items-center justify-center">
-					<h1 className="text-[28px] font-semibold text-main mb-8">{isRegister ? "Register" : "Login"}</h1>
+			<div className="absolute top-1/2 bottom-1/2 left-1/2 right-1/2 flex items-center justify-center">
+				<div className="p-8 bg-white rounded-md min-w-[600px] flex flex-col items-center justify-center">
+					<h1 className="text-[28px] font-semibold text-main mb-8">{isRegister ? "Đăng ký" : "Đăng nhập"}</h1>
 					{isRegister && (
-						<div className="flex items-center gap-2">
+						<div className="flex items-center gap-2 justify-center">
 							<InputField
 								value={payload.firstName}
 								setValue={setPayload}

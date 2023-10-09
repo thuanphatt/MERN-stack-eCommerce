@@ -107,7 +107,7 @@ const logout = asyncHandler(async (req, res) => {
 
 const getCurrent = asyncHandler(async (req, res) => {
 	const { _id } = req.user;
-	const user = await User.findById(_id).select("-refreshToken -password -role");
+	const user = await User.findById(_id).select("-refreshToken -password");
 	return res.status(200).json({
 		success: user ? true : false,
 		result: user ? user : "User not found",

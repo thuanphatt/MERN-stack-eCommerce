@@ -1,10 +1,12 @@
-import React from "react";
+import React, { Fragment } from "react";
 import logo from "assets/logo.png";
 import icons from "utils/icons";
 import { Link } from "react-router-dom";
 import path from "utils/path";
+import { useSelector } from "react-redux";
 
 const Header = () => {
+	const { current } = useSelector((state) => state.user);
 	const { BsFillTelephoneFill, IoMdMail, FaUserAlt, BsBagCheckFill } = icons;
 	return (
 		<div className="w-main h-[110px] py-[35px] flex justify-between">
@@ -30,10 +32,17 @@ const Header = () => {
 					<BsBagCheckFill color="#79AC78" size={20} />
 					<span className="hover:text-[#79AC78]">0 item</span>
 				</div>
-				<div className="flex items-center justify-center px-6 gap-3 cursor-pointer">
-					<FaUserAlt size={18} color="#79AC78" />
-					<span className="hover:text-[#79AC78]">Profile</span>
-				</div>
+				{current && (
+					<Fragment>
+						<Link
+							to={+current?.role === 2001 ? `/${path.ADMIN}/${path.DASHBOARD}` : `/${path.MEMBER}/${path.PERSONAL}`}
+							className="flex items-center justify-center px-6 gap-3 cursor-pointer"
+						>
+							<FaUserAlt size={18} color="#79AC78" />
+							<span className="hover:text-[#79AC78]">Profile</span>
+						</Link>
+					</Fragment>
+				)}
 			</div>
 		</div>
 	);
