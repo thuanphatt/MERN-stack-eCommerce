@@ -115,10 +115,9 @@ const DetailProduct = () => {
 					<div className="w-[485px] mt-[30px]">
 						<Slider {...settings} className="img-slider">
 							{product?.images.map((el) => (
-								<div className="px-2">
+								<div className="px-2" key={el}>
 									<img
 										onClick={(e) => handleClickImage(e, el)}
-										key={el}
 										src={el}
 										alt="sub-product"
 										className="h-[143px] w-[143px] border object-cover cursor-pointer"

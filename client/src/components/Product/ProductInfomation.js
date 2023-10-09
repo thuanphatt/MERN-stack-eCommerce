@@ -55,9 +55,9 @@ const ProductInfomation = ({ totalRatings, ratings, nameProduct, pid, rerender }
 	return (
 		<div>
 			<div className="flex items-center gap-1 relative bottom-[-1px]">
-				{productInfoTabs.map((el) => (
+				{productInfoTabs.map((el, index) => (
 					<span
-						key={el.id}
+						key={index}
 						className={`p-2 px-4 text-[#505050] cursor-pointer ${
 							activedTab === el.id ? "bg-white border border-b-0" : "bg-[#f1f1f1]"
 						}`}
@@ -87,9 +87,9 @@ const ProductInfomation = ({ totalRatings, ratings, nameProduct, pid, rerender }
 							<span className="underline text-blue-500">{`${ratings?.length} đánh giá`}</span>
 						</div>
 						<div className="flex-6 flex flex-col-reverse gap-2">
-							{Array.from(Array(5).keys()).map((el) => (
+							{Array.from(Array(5).keys()).map((el, index) => (
 								<ProductVotebar
-									key={el}
+									key={index}
 									number={el + 1}
 									ratingCount={ratings?.filter((item) => item.star === el + 1)?.length}
 									ratingTotal={ratings?.length}
@@ -102,9 +102,9 @@ const ProductInfomation = ({ totalRatings, ratings, nameProduct, pid, rerender }
 						<Button handleOnClick={handleVoteNow}>Đánh giá ngay</Button>
 					</div>
 					<div className="flex flex-col gap-2">
-						{ratings?.map((el) => (
+						{ratings?.map((el, index) => (
 							<ProductComment
-								key={el.id}
+								key={index}
 								comment={el.comment}
 								star={el.star}
 								updatedAt={el.updatedAt}
