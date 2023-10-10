@@ -1,19 +1,16 @@
 import clsx from "clsx";
 import { memo } from "react";
-import { useSearchParams, useNavigate, useParams, createSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate, createSearchParams, useLocation } from "react-router-dom";
 const PaginationItem = ({ children }) => {
 	const navigate = useNavigate();
 	const [params] = useSearchParams();
-	const { category } = useParams();
+	const location = useLocation();
 	const currentPage = params.get("page");
 	const handlePanigation = () => {
-		let param = [];
-		for (let i of params.entries()) param.push(i);
-		const queries = {};
-		for (let i of param) queries[i[0]] = i[1];
+		const queries = Object.fromEntries([...params]);
 		if (Number(children)) queries.page = children;
 		navigate({
-			pathname: `/${category}`,
+			pathname: location.pathname,
 			search: createSearchParams(queries).toString(),
 		});
 		window.scrollTo(0, 0);

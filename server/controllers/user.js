@@ -6,6 +6,8 @@ const makeToken = require("uniqid");
 const { generateAccessToken, generateRefreshToken } = require("../middlewares/jwt");
 const sendMail = require("../utils/sendMail");
 
+const { usersFakeData } = require("../utils/contants");
+
 const register = asyncHandler(async (req, res) => {
 	const { email, password, firstName, lastName, mobile } = req.body;
 	if (!email || !password || !firstName || !lastName || !mobile)
@@ -180,11 +182,50 @@ const resetPassword = asyncHandler(async (req, res) => {
 	});
 });
 const getUsers = asyncHandler(async (req, res) => {
-	const response = await User.find().select("-refreshToken -password -role");
-	return res.status(200).json({
-		success: response ? true : false,
-		users: response,
-	});
+	const queries = { ...req.query };
+	const excludeFields = ["limit", "sort", "page", "fields"];
+	excludeFields.forEach((el) => delete queries[el]);
+	let queryString = JSON.stringify(queries);
+	queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, (matchEl) => `$${matchEl}`);
+	const formatedQueries = JSON.parse(queryString);
+	if (queries?.name) formatedQueries.name = { $regex: queries.name, $options: "i" };
+	if (req.query.q) {
+		delete formatedQueries.q;
+		formatedQueries["$or"] = [
+			{ firstName: { $regex: req.query.q, $options: "i" } },
+			{ lastName: { $regex: req.query.q, $options: "i" } },
+			{ email: { $regex: req.query.q, $options: "i" } },
+			// { mobile: { $regex: req.query.q, $options: "i" } },
+		];
+	}
+
+	let queryCommand = User.find(formatedQueries);
+	if (req.query.sort) {
+		const sortBy = req.query.sort?.split(",").join(" ");
+		queryCommand = queryCommand.sort(sortBy);
+	}
+	if (req.query.fields) {
+		const fields = req.query.fields?.split(",").join(" ");
+		queryCommand = queryCommand.select(fields);
+	}
+
+	const page = +req.query.page || 1; // + mean: convert string to number
+	const limit = +req.query.limit || process.env.LIMIT_PRODUCTS; // number of object after call API
+	const skip = (page - 1) * limit;
+	queryCommand.skip(skip).limit(limit);
+	queryCommand
+		.exec()
+		.then(async (response) => {
+			const counts = await User.find(queries).countDocuments();
+			return res.status(200).json({
+				success: response ? true : false,
+				counts,
+				users: response ? response : "Cannot get users",
+			});
+		})
+		.catch((err) => {
+			throw new Error(err.message);
+		});
 });
 const deleteUser = asyncHandler(async (req, res) => {
 	const { _id } = req.query;
@@ -276,6 +317,13 @@ const addToCart = asyncHandler(async (req, res) => {
 		});
 	}
 });
+const createUsers = asyncHandler(async (req, res) => {
+	const response = await User.create(usersFakeData);
+	return res.status(200).json({
+		success: response ? true : false,
+		users: response ? response : "Something went wrong",
+	});
+});
 
 module.exports = {
 	register,
@@ -292,4 +340,5 @@ module.exports = {
 	updateUserAddress,
 	addToCart,
 	registerFinal,
+	createUsers,
 };

@@ -8,7 +8,7 @@ const usePanigation = (totalProductCount, currentPage, siblingCount = 1) => {
 		// [1,2,3,4,5,6]
 		// [1,...,6,7,8,9,10]
 		//  [1,2,3,4,5,...,10]
-		const pageSize = process.env.REACT_APP_PRODUCT_LIMIT || 10;
+		const pageSize = process.env.REACT_APP_LIMIT || 10;
 		const paginationCount = Math.ceil(totalProductCount / pageSize);
 		const totalPaginationItem = siblingCount + 5;
 		if (paginationCount <= totalPaginationItem) return generateArrayRange(1, paginationCount);
