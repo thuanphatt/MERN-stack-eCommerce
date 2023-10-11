@@ -211,3 +211,14 @@ export const roles = [
 		value: "Người dùng",
 	},
 ];
+
+export const blockStatus = [
+	{
+		code: true,
+		value: "Bị khóa",
+	},
+	{
+		code: false,
+		value: "Hoạt động",
+	},
+];

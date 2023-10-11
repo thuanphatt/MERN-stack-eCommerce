@@ -178,7 +178,7 @@ const resetPassword = asyncHandler(async (req, res) => {
 	await user.save();
 	return res.status(200).json({
 		success: user ? true : false,
-		mes: user ? "Update successful" : "Something went wrong",
+		mes: user ? "Update successful" : "Đã có lỗi xảy ra",
 	});
 });
 const getUsers = asyncHandler(async (req, res) => {
@@ -228,12 +228,11 @@ const getUsers = asyncHandler(async (req, res) => {
 		});
 });
 const deleteUser = asyncHandler(async (req, res) => {
-	const { _id } = req.query;
-	if (!_id) throw new Error("Missing inputs");
-	const response = await User.findByIdAndDelete(_id);
+	const { uid } = req.params;
+	const response = await User.findByIdAndDelete(uid);
 	return res.status(200).json({
 		success: response ? true : false,
-		deletedUser: response ? `User with email: ${response.email} deleted` : "No user delete",
+		mes: response ? `Người dùng với: ${response.email} được xóa thành công` : "Đã có lỗi xảy ra",
 	});
 });
 const updateUser = asyncHandler(async (req, res) => {
@@ -244,7 +243,7 @@ const updateUser = asyncHandler(async (req, res) => {
 	}).select("-password -role -refreshToken");
 	return res.status(200).json({
 		success: response ? true : false,
-		updatedUser: response ? response : "Something went wrong",
+		updatedUser: response ? response : "Đã có lỗi xảy ra",
 	});
 });
 const updateUserByAdmin = asyncHandler(async (req, res) => {
@@ -255,7 +254,7 @@ const updateUserByAdmin = asyncHandler(async (req, res) => {
 	}).select("-password -role -refreshToken");
 	return res.status(200).json({
 		success: response ? true : false,
-		updatedUser: response ? response : "Something went wrong",
+		mes: response ? "Đã cập nhật thành công" : "Đã có lỗi xảy ra",
 	});
 });
 const updateUserAddress = asyncHandler(async (req, res) => {
@@ -270,7 +269,7 @@ const updateUserAddress = asyncHandler(async (req, res) => {
 	).select("-password -role -refreshToken");
 	return res.status(200).json({
 		success: response ? true : false,
-		updatedUserAddress: response ? response : "Something went wrong",
+		updatedUserAddress: response ? response : "Đã có lỗi xảy ra",
 	});
 });
 const addToCart = asyncHandler(async (req, res) => {
@@ -288,7 +287,7 @@ const addToCart = asyncHandler(async (req, res) => {
 			);
 			return res.status(200).json({
 				success: response ? true : false,
-				addToCart: response ? response : "Something went wrong",
+				addToCart: response ? response : "Đã có lỗi xảy ra",
 			});
 		} else {
 			const response = await User.findByIdAndUpdate(
@@ -300,7 +299,7 @@ const addToCart = asyncHandler(async (req, res) => {
 			);
 			return res.status(200).json({
 				success: response ? true : false,
-				addToCart: response ? response : "Something went wrong",
+				addToCart: response ? response : "Đã có lỗi xảy ra",
 			});
 		}
 	} else {
@@ -313,7 +312,7 @@ const addToCart = asyncHandler(async (req, res) => {
 		);
 		return res.status(200).json({
 			success: response ? true : false,
-			addToCart: response ? response : "Something went wrong",
+			addToCart: response ? response : "Đã có lỗi xảy ra",
 		});
 	}
 });
@@ -321,7 +320,7 @@ const createUsers = asyncHandler(async (req, res) => {
 	const response = await User.create(usersFakeData);
 	return res.status(200).json({
 		success: response ? true : false,
-		users: response ? response : "Something went wrong",
+		users: response ? response : "Đã có lỗi xảy ra",
 	});
 });
 

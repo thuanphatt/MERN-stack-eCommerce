@@ -4,7 +4,7 @@ import { IoMenu } from "react-icons/io5";
 import { FaUserAlt, FaShieldAlt } from "react-icons/fa";
 import { BiSolidLogOut, BiSolidDashboard } from "react-icons/bi";
 import { MdLocalShipping, MdGroups2, MdManageSearch } from "react-icons/md";
-import { RiBillFill } from "react-icons/ri";
+import { RiBillFill, RiArrowGoBackFill } from "react-icons/ri";
 import { FaTty } from "react-icons/fa6";
 import {
 	AiFillStar,
@@ -14,6 +14,8 @@ import {
 	AiFillGift,
 	AiOutlineDown,
 	AiFillInfoCircle,
+	AiFillDelete,
+	AiFillEdit,
 } from "react-icons/ai";
 const icons = {
 	BsFillTelephoneFill,
@@ -39,5 +41,8 @@ const icons = {
 	RiBillFill,
 	IoIosCreate,
 	AiFillInfoCircle,
+	AiFillDelete,
+	AiFillEdit,
+	RiArrowGoBackFill,
 };
 export default icons;

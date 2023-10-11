@@ -1,15 +1,11 @@
 import React, { memo } from "react";
 
-const Button = ({ children, handleOnClick, style, fullwidth }) => {
+const Button = ({ children, handleOnClick, style, fullwidth, type = "botton" }) => {
 	return (
 		<button
-			type="button"
+			type={type}
 			className={
-				style
-					? style
-					: `px-4 py-2 rounded-md text-white bg-main font-semibold my-2 ${
-							fullwidth ? "w-full" : "w-fit"
-					  }`
+				style ? style : `px-4 py-2 rounded-md text-white bg-main font-semibold my-2 ${fullwidth ? "w-full" : "w-fit"}`
 			}
 			onClick={() => {
 				handleOnClick && handleOnClick();

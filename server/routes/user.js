@@ -18,7 +18,7 @@ router.put("/address", [verifyAccessToken], ctrls.updateUserAddress);
 router.put("/cart", [verifyAccessToken], ctrls.addToCart);
 router.put("/:uid", [verifyAccessToken, isAdmin], ctrls.updateUserByAdmin);
 
-router.delete("/", [verifyAccessToken, isAdmin], ctrls.deleteUser);
+router.delete("/:uid", [verifyAccessToken, isAdmin], ctrls.deleteUser);
 module.exports = router;
 
 // CREATE (POST) + PUT - body

@@ -143,7 +143,7 @@ const Login = () => {
 				className="w-full h-full object-cover"
 			></img>
 			<div className="absolute top-1/2 bottom-1/2 left-1/2 right-1/2 flex items-center justify-center">
-				<div className="p-8 bg-white rounded-md min-w-[600px] flex flex-col items-center justify-center">
+				<div className="p-8 bg-white rounded-md min-w-[730px] flex flex-col items-center justify-center">
 					<h1 className="text-[28px] font-semibold text-main mb-8">{isRegister ? "Đăng ký" : "Đăng nhập"}</h1>
 					{isRegister && (
 						<div className="flex items-center gap-2 justify-center">
@@ -171,6 +171,7 @@ const Login = () => {
 						</div>
 					)}
 					<InputField
+						fullWidth
 						value={payload.email}
 						setValue={setPayload}
 						nameKey="email"
@@ -178,6 +179,7 @@ const Login = () => {
 						setInvalidField={setInvalidField}
 					/>
 					<InputField
+						fullWidth
 						value={payload.password}
 						setValue={setPayload}
 						nameKey="password"
