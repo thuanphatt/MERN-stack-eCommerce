@@ -4,6 +4,7 @@ import { useParams, Link } from "react-router-dom";
 import Slider from "react-slick";
 import ReactImageMagnify from "react-image-magnify";
 import { IoIosArrowRoundBack } from "react-icons/io";
+import DOMPurify from "dompurify";
 
 import { apiGetProduct, apiGetProducts } from "apis/product";
 import { productExtraInfo } from "utils/contants";
@@ -81,7 +82,6 @@ const DetailProduct = () => {
 	const rerender = useCallback(() => {
 		setUpdate(!update);
 	}, [update]);
-
 	return (
 		<div className="w-full">
 			<div className="h-[81px] bg-gray-100 flex justify-center items-center">
@@ -154,11 +154,18 @@ const DetailProduct = () => {
 						</div>
 					</div>
 					<ul className="list-square text-sm text-gray-500 pl-[16px]">
-						{product?.description?.map((el, index) => (
-							<li key={index} className="leading-[28px]">
-								{el}
-							</li>
-						))}
+						{product?.description?.length > 1 &&
+							product?.description?.map((el, index) => (
+								<li key={index} className="leading-[28px]">
+									{el}
+								</li>
+							))}
+						{product?.description?.length === 1 && (
+							<div
+								dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(product?.description[0]) }}
+								className="text-sm line-clamp-[10] mb-8"
+							></div>
+						)}
 					</ul>
 					<div className="flex flex-col gap-8">
 						<SelectQuantity

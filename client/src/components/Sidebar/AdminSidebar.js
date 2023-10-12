@@ -1,10 +1,11 @@
 import React, { memo, Fragment, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import clsx from "clsx";
 import { BiSolidDownArrow, BiSolidRightArrow } from "react-icons/bi";
 
 import logo from "assets/logo.png";
 import { adminSidebar } from "utils/contants";
+import path from "utils/path";
 const activedStyle = "px-4 py-2 flex items-center gap-2 bg-[#B0D9B1] font-medium w-full";
 const notActivedStyle = "px-4 py-2 flex items-center gap-2 font-medium w-full hover:bg-gray-200";
 const AdminSidebar = () => {
@@ -16,10 +17,10 @@ const AdminSidebar = () => {
 
 	return (
 		<div className="bg-white h-full py-4">
-			<div className="flex flex-col justify-center gap-2 items-center p-4 ">
+			<Link className="flex flex-col justify-center gap-2 items-center p-4" to={`/${path.HOME}`}>
 				<img src={logo} alt="logo" className="w-[100px] object-contain " />
 				<small>Admin</small>
-			</div>
+			</Link>
 			<div>
 				{adminSidebar.map((el) => (
 					<Fragment key={el.id}>
