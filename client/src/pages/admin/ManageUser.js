@@ -227,21 +227,21 @@ const ManageUser = () => {
 												</span>
 											) : (
 												<span
-													className="px-2 hover:underline cursor-pointer"
+													className="px-2 hover:underline cursor-pointer hover:text-gray-800 text-blue-500"
 													onClick={() => {
 														setEditElement(el);
 													}}
 												>
-													<AiFillEdit color="blue" />
+													<AiFillEdit size={18} />
 												</span>
 											)}
 											<span
-												className="px-2 hover:underline cursor-pointer"
+												className="px-2 hover:underline cursor-pointer hover:text-gray-800 text-red-500"
 												onClick={() => {
 													handleDelete(el?._id);
 												}}
 											>
-												<AiFillDelete color="red" />
+												<AiFillDelete size={18} />
 											</span>
 										</td>
 									</tr>

@@ -1,11 +1,12 @@
 const Product = require("../models/product");
 const asyncHandler = require("express-async-handler");
 const slugify = require("slugify");
+const makeSKU = require("uniqid");
 const createProduct = asyncHandler(async (req, res) => {
 	const { title, description, brand, price, category, color } = req.body;
 	const thumb = req?.files?.thumb[0]?.path;
 	const images = req.files?.images?.map((el) => el.path);
-	if (!(title && description && brand && price && category && color)) throw new Error("Missing inputs");
+	if (!(title && description && brand && price && category && color)) throw new Error("Thông tin đầu vào bị thiếu");
 	req.body.slug = slugify(title);
 	if (req.body.thumb) req.body.thumb = thumb;
 	if (req.body.images) req.body.images = images;
@@ -128,7 +129,7 @@ const ratings = asyncHandler(async (req, res) => {
 	const { _id } = req.user;
 	const { star, comment, pid, updatedAt } = req.body;
 
-	if (!star || !pid) throw new Error("Missing inputs");
+	if (!star || !pid) throw new Error("Thông tin đầu vào bị thiếu");
 	const ratingProduct = await Product.findById(pid);
 	const isRating = ratingProduct?.ratings?.find((el) => el.postedBy.toString() === _id);
 	if (isRating) {
@@ -164,18 +165,34 @@ const ratings = asyncHandler(async (req, res) => {
 	updatedProduct.totalRatings = Math.round((sumRatings * 10) / ratingCount) / 10;
 	await updatedProduct.save();
 	return res.status(200).json({
-		status: true,
+		success: true,
 		updatedProduct,
 	});
 });
 const uploadImagesProduct = asyncHandler(async (req, res) => {
 	const { pid } = req.params;
 	const imagesPath = req.files.map((el) => el.path);
-	if (!req.files) throw new Error("Missing inputs");
+	if (!req.files) throw new Error("Thông tin đầu vào bị thiếu");
 	const response = await Product.findByIdAndUpdate(pid, { $push: { images: { $each: imagesPath } } }, { new: true });
 	return res.status(200).json({
-		status: response ? true : false,
+		success: response ? true : false,
 		updatedProduct: response ? response : "Cannot upload images product",
+	});
+});
+const addVarriant = asyncHandler(async (req, res) => {
+	const { pid } = req.params;
+	const { title, price, color } = req.body;
+	const thumb = req?.files?.thumb[0]?.path;
+	const images = req.files?.images?.map((el) => el.path);
+	if (!(title && price && color)) throw new Error("Thông tin đầu vào bị thiếu");
+	const response = await Product.findByIdAndUpdate(
+		pid,
+		{ $push: { varriants: { title, price, color, thumb, images, sku: makeSKU().toUpperCase() } } },
+		{ new: true }
+	);
+	return res.status(200).json({
+		success: response ? true : false,
+		mes: response ? "Đã thêm biến thể thành công" : "Không thể thêm biến thể",
 	});
 });
 
@@ -187,4 +204,5 @@ module.exports = {
 	deleteProduct,
 	ratings,
 	uploadImagesProduct,
+	addVarriant,
 };

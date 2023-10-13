@@ -59,13 +59,13 @@ const CreateProduct = () => {
 	};
 
 	useEffect(() => {
-		handlePreviewThumb(watch("thumb")[0]);
+		if (watch("thumb") instanceof FileList && watch("thumb").length > 0) handlePreviewThumb(watch("thumb")[0]);
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [watch("thumb")]);
 	useEffect(() => {
+		if (watch("images") instanceof FileList && watch("images").length > 0);
 		handlePreviewImages(watch("images"));
-
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [watch("images")]);
 	const handleCreateProduct = async (data) => {

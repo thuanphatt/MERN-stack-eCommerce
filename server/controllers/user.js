@@ -62,7 +62,7 @@ const login = asyncHandler(async (req, res) => {
 	if (!email || !password)
 		return res.status(400).json({
 			success: false,
-			mes: "Missing inputs",
+			mes: "Thông tin đầu vào bị thiếu",
 		});
 	const response = await User.findOne({ email });
 	if (response && (await response.isCorrectPassword(password))) {
@@ -237,7 +237,7 @@ const deleteUser = asyncHandler(async (req, res) => {
 });
 const updateUser = asyncHandler(async (req, res) => {
 	const { _id } = req.user;
-	if (!_id || Object.keys(req.body).length === 0) throw new Error("Missing inputs");
+	if (!_id || Object.keys(req.body).length === 0) throw new Error("Thông tin đầu vào bị thiếu");
 	const response = await User.findByIdAndUpdate(_id, req.body, {
 		new: true,
 	}).select("-password -role -refreshToken");
@@ -248,7 +248,7 @@ const updateUser = asyncHandler(async (req, res) => {
 });
 const updateUserByAdmin = asyncHandler(async (req, res) => {
 	const { uid } = req.params;
-	if (Object.keys(req.body).length === 0) throw new Error("Missing inputs");
+	if (Object.keys(req.body).length === 0) throw new Error("Thông tin đầu vào bị thiếu");
 	const response = await User.findByIdAndUpdate(uid, req.body, {
 		new: true,
 	}).select("-password -role -refreshToken");
@@ -259,7 +259,7 @@ const updateUserByAdmin = asyncHandler(async (req, res) => {
 });
 const updateUserAddress = asyncHandler(async (req, res) => {
 	const { _id } = req.user;
-	if (!req.body.address) throw new Error("Missing inputs");
+	if (!req.body.address) throw new Error("Thông tin đầu vào bị thiếu");
 	const response = await User.findByIdAndUpdate(
 		_id,
 		{ $push: { address: req.body.address } },
@@ -275,7 +275,7 @@ const updateUserAddress = asyncHandler(async (req, res) => {
 const addToCart = asyncHandler(async (req, res) => {
 	const { _id } = req.user;
 	const { pid, quantity, color } = req.body;
-	if (!pid || !quantity | !color) throw new Error("Missing inputs");
+	if (!pid || !quantity | !color) throw new Error("Thông tin đầu vào bị thiếu");
 	const user = await User.findById(_id).select("cart");
 	const alreadyProduct = user?.cart?.find((el) => el.product.toString() === pid);
 	if (alreadyProduct) {

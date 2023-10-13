@@ -27,6 +27,7 @@ export { default as ProductRating } from "./Products/ProductRating";
 export { default as ProductInfomation } from "./Products/ProductInfomation";
 export { default as Product } from "./Products/Product";
 export { default as ProductCard } from "./Products/ProductCard";
+export { default as CustomizeVariants } from "./Products/CustomizeVariants";
 
 export { default as Votebar } from "./Vote/Votebar";
 export { default as VoteOptions } from "./Vote/VoteOptions";

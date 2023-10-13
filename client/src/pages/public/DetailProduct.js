@@ -17,6 +17,7 @@ import {
 	CustomerSlider,
 } from "components";
 import { formatMoney, formatPrice, renderStarFromNumber } from "utils/helpers";
+import clsx from "clsx";
 var settings = {
 	dots: false,
 	infinite: false,
@@ -25,13 +26,21 @@ var settings = {
 	slidesToScroll: 1,
 };
 const DetailProduct = () => {
-	const { pid, title, category } = useParams();
+	const { pid, category } = useParams();
 	// eslint-disable-next-line no-unused-vars
 	const [product, setProduct] = useState(null);
 	const [quantity, setQuantity] = useState(1);
 	const [relatedProducts, setRelatedProducts] = useState(null);
 	const [currentImage, setCurrentImage] = useState(null);
 	const [update, setUpdate] = useState(false);
+	const [variant, setVariant] = useState(null);
+	const [currentProduct, setCurrentProduct] = useState({
+		title: "",
+		price: "",
+		images: [],
+		color: "",
+		thumb: "",
+	});
 
 	const fetchProductData = async () => {
 		const response = await apiGetProduct(pid);
@@ -82,12 +91,21 @@ const DetailProduct = () => {
 	const rerender = useCallback(() => {
 		setUpdate(!update);
 	}, [update]);
+	useEffect(() => {
+		setCurrentProduct({
+			title: product?.varriants?.find((el) => el.sku === variant)?.title,
+			price: product?.varriants?.find((el) => el.sku === variant)?.price,
+			color: product?.varriants?.find((el) => el.sku === variant)?.color,
+			images: product?.varriants?.find((el) => el.sku === variant)?.images,
+			thumb: product?.varriants?.find((el) => el.sku === variant)?.thumb,
+		});
+	}, [variant]);
 	return (
 		<div className="w-full">
 			<div className="h-[81px] bg-gray-100 flex justify-center items-center">
 				<div className="w-main">
-					<h3 className="uppercase font-semibold mb-1"> {title}</h3>
-					<Breakcrumb title={title} category={category} />
+					<h3 className="uppercase font-semibold mb-1"> {currentProduct.title || product?.title}</h3>
+					<Breakcrumb title={currentProduct.title || product?.title} category={category} />
 				</div>
 			</div>
 			<div className="w-main m-auto mt-5 flex">
@@ -98,9 +116,7 @@ const DetailProduct = () => {
 							smallImage: {
 								alt: "",
 								isFluidWidth: true,
-								src:
-									currentImage ||
-									"https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg",
+								src: currentProduct.thumb || currentImage,
 							},
 							largeImage: {
 								src:
@@ -114,16 +130,28 @@ const DetailProduct = () => {
 
 					<div className="w-[485px] mt-[30px]">
 						<Slider {...settings} className="img-slider">
-							{product?.images.map((el) => (
-								<div className="px-2" key={el}>
-									<img
-										onClick={(e) => handleClickImage(e, el)}
-										src={el}
-										alt="sub-product"
-										className="h-[143px] w-[143px] border object-cover cursor-pointer"
-									/>
-								</div>
-							))}
+							{currentProduct.images?.length === 0 &&
+								product?.images.map((el) => (
+									<div className="px-2" key={el}>
+										<img
+											onClick={(e) => handleClickImage(e, el)}
+											src={el}
+											alt="sub-product"
+											className="h-[143px] w-[143px] border object-cover cursor-pointer"
+										/>
+									</div>
+								))}
+							{currentProduct.images?.length > 0 &&
+								currentProduct.images.map((el) => (
+									<div className="px-2" key={el}>
+										<img
+											onClick={(e) => handleClickImage(e, el)}
+											src={el}
+											alt="sub-product"
+											className="h-[143px] w-[143px] border object-cover cursor-pointer"
+										/>
+									</div>
+								))}
 							{product?.images.length <= 3 && (
 								<div>
 									<img
@@ -138,7 +166,9 @@ const DetailProduct = () => {
 				</div>
 				<div className="w-2/5 flex flex-col gap-4 pl-[45px] pr-6">
 					<div className="flex items-center justify-between">
-						<h3 className="text-[30px] font-semibold">{`${formatMoney(formatPrice(product?.price))} VND`}</h3>
+						<h3 className="text-[30px] font-semibold">{`${formatMoney(
+							formatPrice(currentProduct.price || product?.price)
+						)} VND`}</h3>
 						<div>
 							<span className="text-gray-500">Kho:</span>
 							<span className="text-[16px] font-medium px-1">{product?.quantity}</span>
@@ -168,6 +198,44 @@ const DetailProduct = () => {
 						)}
 					</ul>
 					<div className="flex flex-col gap-8">
+						<div className="my-4 flex gap-4">
+							<span className="font-semibold">Màu sắc:</span>
+							<div className="flex flex-wrap items-center gap-4">
+								<div
+									className={clsx(
+										"flex items-center gap-2 p-2 border cursor-pointer",
+										!variant && "border-red-500 text-red-500"
+									)}
+									onClick={() => {
+										setVariant(null);
+									}}
+								>
+									<img src={product?.thumb} alt="thumb" className="w-8 h-8 object-cover" />
+									<span className="flex flex-col">
+										<span>{product?.color}</span>
+										<span className="text-sm">{product?.price}</span>
+									</span>
+								</div>
+								{product?.varriants?.map((el) => (
+									<div
+										className={clsx(
+											"flex items-center gap-2 p-2 border cursor-pointer",
+											variant === el.sku && "border-red-500 text-red-500"
+										)}
+										key={el.sku}
+										onClick={() => {
+											setVariant(el.sku);
+										}}
+									>
+										<img src={el?.thumb} alt="thumb" className="w-8 h-8 object-cover" />
+										<span className="flex flex-col">
+											<span>{el?.color}</span>
+											<span className="text-sm">{el?.price}</span>
+										</span>
+									</div>
+								))}
+							</div>
+						</div>
 						<SelectQuantity
 							quantity={quantity}
 							handleQuantity={handleQuantity}

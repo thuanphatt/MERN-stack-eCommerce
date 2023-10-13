@@ -28,6 +28,22 @@ router.put(
 	ctrls.uploadImagesProduct
 );
 router.put(
+	"/varriant/:pid",
+	verifyAccessToken,
+	isAdmin,
+	fileUploader.fields([
+		{
+			name: "images",
+			maxCount: 10,
+		},
+		{
+			name: "thumb",
+			maxCount: 1,
+		},
+	]),
+	ctrls.addVarriant
+);
+router.put(
 	"/:pid",
 	verifyAccessToken,
 	isAdmin,
@@ -43,6 +59,7 @@ router.put(
 	]),
 	ctrls.updateProduct
 );
+
 router.delete("/:pid", [verifyAccessToken, isAdmin], ctrls.deleteProduct);
 router.get("/:pid", ctrls.getProduct);
 
