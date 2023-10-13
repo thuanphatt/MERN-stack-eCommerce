@@ -6,6 +6,9 @@ module.exports = {
 			main: ["Poppins", "sans-serif;"],
 		},
 		extend: {
+			zIndex: {
+				100: "100",
+			},
 			width: {
 				main: "1220px",
 			},

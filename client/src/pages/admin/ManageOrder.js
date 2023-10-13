@@ -1,7 +1,7 @@
-import React from "react";
+import React, { memo } from "react";
 
 const ManageOrder = () => {
 	return <div>ManageOrder</div>;
 };
 
-export default ManageOrder;
+export default memo(ManageOrder);

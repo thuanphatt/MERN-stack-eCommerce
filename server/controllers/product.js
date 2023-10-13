@@ -12,7 +12,7 @@ const createProduct = asyncHandler(async (req, res) => {
 	const newProduct = await Product.create(req.body);
 	return res.status(200).json({
 		success: newProduct ? true : false,
-		createdProduct: newProduct ? newProduct : "Không tạo được sản phẩm",
+		mes: newProduct ? "Tạo sản phẩm thành công" : "Không tạo được sản phẩm",
 	});
 });
 const getProduct = asyncHandler(async (req, res) => {
@@ -51,8 +51,21 @@ const getAllProduct = asyncHandler(async (req, res) => {
 		}));
 		colorQueryObject = { $or: colorQuery };
 	}
-	const q = { ...colorQueryObject, ...formatedQueries };
-	let queryCommand = Product.find(q);
+	let queryObject = {};
+	if (queries?.q) {
+		delete formatedQueries.q;
+		queryObject = {
+			$or: [
+				{ title: { $regex: queries.q, $options: "i" } },
+				{ color: { $regex: queries.q, $options: "i" } },
+				{ category: { $regex: queries.q, $options: "i" } },
+				{ brand: { $regex: queries.q, $options: "i" } },
+				// { description: { $regex: queries.q, $options: "i" } },
+			],
+		};
+	}
+	const qr = { ...colorQueryObject, ...formatedQueries, ...queryObject };
+	let queryCommand = Product.find(qr);
 	// Sorting
 	// abc,efg => [abc,efg] => abc efg
 	if (req.query.sort) {
@@ -75,7 +88,7 @@ const getAllProduct = asyncHandler(async (req, res) => {
 	queryCommand
 		.exec()
 		.then(async (response) => {
-			const counts = await Product.find(q).countDocuments();
+			const counts = await Product.find(qr).countDocuments();
 			return res.status(200).json({
 				success: response ? true : false,
 				counts,
@@ -88,13 +101,16 @@ const getAllProduct = asyncHandler(async (req, res) => {
 });
 const updateProduct = asyncHandler(async (req, res) => {
 	const { pid } = req.params;
+	const files = req?.files;
+	if (files?.thumb) req.body.thumb = files?.thumb[0]?.path;
+	if (files?.images) req.body.images = files?.images?.map((el) => el.path);
 	if (req.body && req.body.title) req.body.slug = slugify(req.body.title);
 	const updatedProduct = await Product.findByIdAndUpdate(pid, req.body, {
 		new: true,
 	});
 	return res.status(200).json({
 		success: updatedProduct ? true : false,
-		updatedProduct: updatedProduct ? updatedProduct : "Cannot update product",
+		mes: updatedProduct ? "Cập nhật sản phẩm thành công" : "Không thể cập nhật sản phẩm",
 	});
 });
 const deleteProduct = asyncHandler(async (req, res) => {
@@ -105,7 +121,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
 	});
 	return res.status(200).json({
 		success: deleteProduct ? true : false,
-		deleteProduct: deleteProduct ? deleteProduct : "Cannot delete product",
+		mes: deleteProduct ? "Đã xóa sản phẩm thành công" : "Không thể xóa sản phẩm",
 	});
 });
 const ratings = asyncHandler(async (req, res) => {

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/style-prop-object */
-import React, { useCallback, useEffect, useState } from "react";
+import React, { memo, useCallback, useEffect, useState } from "react";
 import moment from "moment";
 import "moment/locale/vi";
 import { useSearchParams } from "react-router-dom";
@@ -80,7 +80,7 @@ const ManageUser = () => {
 
 	return (
 		<div className={clsx("w-full", editElement && "pl-[80px]")}>
-			<h1 className="h-[75px] flex items-center justify-between text-3xl font-bold px-4 border-b w-full">
+			<h1 className="h-[75px] flex items-center justify-between text-3xl font-bold px-4 border-b w-full tracking-tight">
 				<span>Quản lý người dùng</span>
 			</h1>
 			<div className="w-full p-4">
@@ -258,4 +258,4 @@ const ManageUser = () => {
 	);
 };
 
-export default ManageUser;
+export default memo(ManageUser);

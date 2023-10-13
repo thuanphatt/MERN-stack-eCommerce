@@ -11,7 +11,6 @@ const {
 	MdManageSearch,
 	RiBillFill,
 	IoIosCreate,
-	AiFillInfoCircle,
 } = icons;
 export const navigation = [
 	{
@@ -186,9 +185,9 @@ export const adminSidebar = [
 		submenu: [
 			{ text: "Tạo sản phẩm", path: `/${path.ADMIN}/${path.CREATE_PRODUCT}`, icon: <IoIosCreate size={20} /> },
 			{
-				text: "Thông tin sản phẩm",
+				text: "Quản lý sản phẩm",
 				path: `/${path.ADMIN}/${path.MANAGE_PRODUCT}`,
-				icon: <AiFillInfoCircle size={20} />,
+				icon: <MdManageSearch size={20} />,
 			},
 		],
 	},

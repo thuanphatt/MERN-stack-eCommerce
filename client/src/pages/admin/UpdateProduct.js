@@ -1,16 +1,16 @@
 import clsx from "clsx";
 import React, { memo, useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { IoReturnDownBack } from "react-icons/io5";
 import { toast } from "react-toastify";
 
-import { validate, getBase64 } from "utils/helpers";
-import { Button, InputForm, Select, MarkdownEditor, Loading } from "components";
-import { apiCreateProduct } from "apis";
+import { Button, InputForm, Loading, MarkdownEditor, Select } from "components";
+import { getBase64, validate } from "utils/helpers";
 import { showModal } from "store/app/appSlice";
+import { apiUpdateProduct } from "apis";
 
-const CreateProduct = () => {
-	const dispatch = useDispatch();
+const UpdateProduct = ({ editProduct, render, setEditProduct }) => {
 	const {
 		register,
 		formState: { errors },
@@ -22,13 +22,12 @@ const CreateProduct = () => {
 	const [payload, setPayload] = useState({
 		description: "",
 	});
+	const dispatch = useDispatch();
 	const [preview, setPreview] = useState({
 		thumb: null,
 		images: [],
 	});
-
 	const [invalidFields, setInvalidFields] = useState([]);
-
 	const changeValue = useCallback(
 		(e) => {
 			setPayload(e);
@@ -36,71 +35,89 @@ const CreateProduct = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[payload]
 	);
+
+	useEffect(() => {
+		reset({
+			title: editProduct?.title || "",
+			color: editProduct?.color || "",
+			quantity: editProduct?.quantity || "",
+			price: editProduct?.price || "",
+			brand: editProduct?.brand?.toLowerCase() || "",
+			category: editProduct?.category[0] || "",
+		});
+		setPayload({
+			description:
+				typeof editProduct?.description === "object" ? editProduct?.description?.join(", ") : editProduct?.description,
+		});
+		setPreview({ thumb: editProduct?.thumb || "", images: editProduct?.images || [] });
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [editProduct]);
 	const handlePreviewThumb = async (file) => {
-		if (file?.type !== "image/png" && file?.type !== "image/jpeg" && file) {
-			toast.warning("File không được hỗ trợ");
-			return;
-		} else {
-			const base64 = await getBase64(file);
-			setPreview((prev) => ({ ...prev, thumb: base64 }));
-		}
+		const base64Thumb = await getBase64(file);
+		setPreview((prev) => ({ ...prev, thumb: base64Thumb }));
 	};
 	const handlePreviewImages = async (files) => {
 		const imagesPreview = [];
+		if (!files) {
+			return;
+		}
 		for (let file of files) {
-			if (file.type !== "image/png" && file.type !== "image/jpeg" && file) {
+			if (file.type !== "image/png" && file.type !== "image/jpeg") {
 				toast.warning("File không được hỗ trợ");
 				return;
 			}
 			const base64 = await getBase64(file);
-			imagesPreview.push({ name: file.name, path: base64 });
+			imagesPreview.push(base64);
 		}
 		setPreview((prev) => ({ ...prev, images: imagesPreview }));
 	};
-
 	useEffect(() => {
-		handlePreviewThumb(watch("thumb")[0]);
+		if (watch("thumb") instanceof FileList && watch("thumb").length > 0) handlePreviewThumb(watch("thumb")[0]);
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [watch("thumb")]);
 	useEffect(() => {
+		if (watch("images") instanceof FileList && watch("images").length > 0);
 		handlePreviewImages(watch("images"));
-
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [watch("images")]);
-	const handleCreateProduct = async (data) => {
+	const handleUpdateProduct = async (data) => {
 		const invalids = validate(payload, setInvalidFields);
 		if (invalids === 0) {
-			if (data.category) data.category = categories?.find((el) => el._id === data.category).title;
-
+			if (data.category) data.category = categories?.find((el) => el.title === data.category)?.title;
 			const finalPayload = { ...data, ...payload };
-
+			finalPayload.thumb = data?.thumb?.length === 0 ? preview.thumb : data.thumb[0];
 			const formData = new FormData();
 			for (let i of Object.entries(finalPayload)) formData.append(i[0], i[1]);
-			if (finalPayload.thumb) formData.append("thumb", finalPayload.thumb[0]);
-			if (finalPayload.images) {
-				for (let image of finalPayload.images) formData.append("images", image);
-			}
+			finalPayload.images = data?.images?.length === 0 ? preview.images : data.images;
+			for (let image of finalPayload.images) formData.append("images", image);
 			dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
-			const response = await apiCreateProduct(formData);
+			const response = await apiUpdateProduct(formData, editProduct?._id);
 			dispatch(showModal({ isShowModal: false, modalChildren: null }));
 			if (response.success) {
 				toast.success(response.mes);
-				reset();
-				setPayload({
-					thumb: "",
-					images: [],
-				});
+				render();
+				setEditProduct(null);
 			} else toast.error(response.mes);
 		}
 	};
 	return (
-		<div className={clsx("w-full")}>
-			<h1 className="h-[75px] flex items-center justify-between text-3xl font-bold px-4 border-b w-full tracking-tight">
-				<span>Tạo sản phẩm</span>
-			</h1>
+		<div className="w-full flex flex-col gap-4 relative bg-gray-100">
+			<div className="flex items-center justify-betweend p-4 border-b w-full">
+				<h1 className="text-3xl font-bold tracking-tight ">
+					<span>Cập nhật sản phẩm</span>
+				</h1>
+				<span
+					className="ml-auto cursor-pointer hover:underline"
+					onClick={() => {
+						setEditProduct(null);
+					}}
+				>
+					<IoReturnDownBack size={24} />
+				</span>
+			</div>
 			<div className="p-4">
-				<form onSubmit={handleSubmit(handleCreateProduct)}>
+				<form onSubmit={handleSubmit(handleUpdateProduct)}>
 					<InputForm
 						label="Tên sản phẩm"
 						register={register}
@@ -158,7 +175,7 @@ const CreateProduct = () => {
 							style={clsx("flex-1")}
 							validate={{ required: "Không được để trống trường này" }}
 							options={categories?.map((el) => ({
-								code: el._id,
+								code: el.title,
 								value: el.title,
 							}))}
 						/>
@@ -169,11 +186,12 @@ const CreateProduct = () => {
 							id="brand"
 							style={clsx("flex-1")}
 							options={categories
-								?.find((el) => el._id === watch("category"))
-								?.brand?.map((item) => ({ code: item, value: item }))}
+								?.find((el) => el.title === watch("category"))
+								?.brand?.map((item) => ({ code: item.toLowerCase(), value: item }))}
 						/>
 					</div>
 					<MarkdownEditor
+						value={payload?.description}
 						name="description"
 						changeValue={changeValue}
 						label="Mô tả"
@@ -184,13 +202,7 @@ const CreateProduct = () => {
 						<label htmlFor="thumb" className="font-semibold">
 							Tải ảnh chính của sản phẩm
 						</label>
-						<input
-							type="file"
-							id="thumb"
-							{...register("thumb", {
-								required: "Không được bỏ trống trường này",
-							})}
-						/>
+						<input type="file" id="thumb" {...register("thumb")} />
 						{errors["thumb"] && (
 							<small className="text-sm text-red-600 absolute bottom-[-20px] w-[240px]">
 								{errors["thumb"]?.message}
@@ -206,14 +218,7 @@ const CreateProduct = () => {
 						<label htmlFor="products" className="font-semibold">
 							Tải các ảnh còn lại của sản phẩm
 						</label>
-						<input
-							type="file"
-							id="products"
-							multiple
-							{...register("images", {
-								required: "Không được bỏ trống trường này",
-							})}
-						/>
+						<input type="file" id="products" multiple {...register("images")} />
 						{errors["images"] && (
 							<small className="text-sm text-red-600 absolute bottom-[-20px] w-[240px]">
 								{errors["images"]?.message}
@@ -224,14 +229,14 @@ const CreateProduct = () => {
 						<div className="my-4 flex flex-wrap gap-2">
 							{preview.images?.map((el) => (
 								<div className="relative w-fit" key={el.name}>
-									<img src={el.path} alt="thumbnail" className="w-[200px] object-contain" />
+									<img src={el} alt="thumbnail" className="w-[200px] object-contain" />
 								</div>
 							))}
 						</div>
 					)}
 					<div className="my-6">
 						<Button fullwidth type="submit">
-							Tạo sản phẩm
+							Cập nhật sản phẩm
 						</Button>
 					</div>
 				</form>
@@ -240,4 +245,4 @@ const CreateProduct = () => {
 	);
 };
 
-export default memo(CreateProduct);
+export default memo(UpdateProduct);

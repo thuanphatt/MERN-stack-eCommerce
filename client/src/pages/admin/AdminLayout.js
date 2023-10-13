@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Outlet, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -10,10 +10,10 @@ const AdminLayout = () => {
 	if (!isLoggedIn || !current || +current.role !== 2001) return <Navigate to={`/${path.LOGIN}`} replace={true} />;
 	return (
 		<div className="flex w-full bg-[#F1EFEF] min-h-screen relative text-[#191717]">
-			<div className="w-[327px] flex-none fixed top-0 bottom-0">
+			<div className="w-[300px] flex-none fixed top-0 bottom-0">
 				<AdminSidebar />
 			</div>
-			<div className="w-[327px]"></div>
+			<div className="w-[300px]"></div>
 			<div className="flex-auto">
 				<Outlet />
 			</div>
@@ -21,4 +21,4 @@ const AdminLayout = () => {
 	);
 };
 
-export default AdminLayout;
+export default memo(AdminLayout);
