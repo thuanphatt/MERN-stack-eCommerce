@@ -15,7 +15,7 @@ const Header = () => {
 	useEffect(() => {
 		const handleClickoutOptions = (e) => {
 			const profile = document.getElementById("profile");
-			if (!profile.contains(e.target)) setIsShowOptions(false);
+			if (!profile?.contains(e.target)) setIsShowOptions(false);
 		};
 		document.addEventListener("click", handleClickoutOptions);
 		return () => {

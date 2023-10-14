@@ -1,5 +1,5 @@
 import moment from "moment";
-import React, { memo, useEffect } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -9,15 +9,20 @@ import clsx from "clsx";
 import { apiUpdateCurrent } from "apis";
 import { getCurrent } from "store/user/asyncActions";
 import { toast } from "react-toastify";
+import { getBase64 } from "utils/helpers";
 const Personal = () => {
 	const {
 		register,
 		formState: { errors, isDirty },
 		reset,
 		handleSubmit,
+		watch,
 	} = useForm();
 	const dispatch = useDispatch();
 	const { current } = useSelector((state) => state.user);
+	const [preview, setPreview] = useState({
+		avatar: "",
+	});
 	useEffect(() => {
 		reset({
 			email: current?.email,
@@ -28,6 +33,21 @@ const Personal = () => {
 		});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [current]);
+	const handlePreviewThumb = async (file) => {
+		console.log(file);
+		if (file?.type !== "image/png" && file?.type !== "image/jpeg" && file) {
+			toast.warning("File không được hỗ trợ");
+			return;
+		} else {
+			const base64 = await getBase64(file);
+			setPreview((prev) => ({ ...prev, avatar: base64 }));
+		}
+	};
+	useEffect(() => {
+		if (watch("avatar") instanceof FileList && watch("avatar").length > 0) handlePreviewThumb(watch("avatar")[0]);
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [watch("avatar")]);
 	const handleSubmitInfo = async (data) => {
 		const formData = new FormData();
 		if (data?.avatar.length > 0) formData.append("avatar", data?.avatar[0]);
@@ -38,27 +58,36 @@ const Personal = () => {
 		const response = await apiUpdateCurrent(formData);
 		if (response.success) {
 			dispatch(getCurrent());
+			setPreview({ avatar: "" });
 			toast.success(response.mes);
 		} else {
 			toast.error(response.mes);
 		}
 	};
-	console.log(current.avatar);
 	return (
 		<div className="w-full relative px-4">
 			<header className="text-3xl font-semibold py-4 border-b border-main">Thông tin cá nhân</header>
 			<form className="flex w-3/5 mx-auto flex-col gap-4 py-8" onSubmit={handleSubmit(handleSubmitInfo)}>
-				<div className="flex flex-col gap-4">
-					<span className="font-medium">Ảnh đại diện:</span>
-					<label htmlFor="file">
-						<img
-							src={current?.avatar || avatarDefault}
-							alt="avatar"
-							className="w-20 h-20 object-cover rounded-full mx-auto"
-						/>
-					</label>
-					<input type="file" id="file" hidden {...register("avatar")} />
+				<div className="flex items-center justify-between">
+					<div className="flex flex-col gap-4">
+						<span className="font-medium">Ảnh đại diện:</span>
+						<label htmlFor="file">
+							<img
+								src={current?.avatar || avatarDefault}
+								alt="avatar"
+								className="w-20 h-20 object-cover rounded-full mx-auto"
+							/>
+						</label>
+						<input type="file" id="file" hidden {...register("avatar")} />
+					</div>
+					{preview.avatar && (
+						<div className="flex flex-col gap-4">
+							<span className="font-medium text-sm">Ảnh xem trước:</span>
+							<img src={preview.avatar} alt="avatar" className="w-40 h-40 object-cover" />
+						</div>
+					)}
 				</div>
+
 				<div className="flex items-center gap-2">
 					<span className="font-medium ">Trạng thái:</span>
 					<span className={clsx("text-green-500", current?.isBlocked && "text-red-50")}>

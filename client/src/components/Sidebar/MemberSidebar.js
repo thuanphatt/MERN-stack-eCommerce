@@ -11,7 +11,7 @@ const notActivedStyle = "px-4 py-2 flex items-center gap-2 font-medium w-full ho
 const MemberSidebar = () => {
 	const [actived, setActived] = useState([]);
 	const { current } = useSelector((state) => state.user);
-	console.log(current);
+
 	const handleShowTab = (tabId) => {
 		if (actived.some((el) => el === tabId)) setActived((prev) => prev.filter((el) => el !== tabId));
 		else setActived((prev) => [...prev, tabId]);

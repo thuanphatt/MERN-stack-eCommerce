@@ -70,12 +70,27 @@ module.exports = {
 						transform: "scale(1);",
 					},
 				},
+				"scale-up-hor-left": {
+					"0%": {
+						"-webkit-transform": "scaleX(0.4);",
+						transform: "scaleX(0.4);",
+						"-webkit-transform-origin": " 0% 0%;",
+						"transform-origin": "0% 0%;",
+					},
+					"100%": {
+						"-webkit-transform": "scaleX(1);",
+						transform: " scaleX(1);",
+						"-webkit-transform-origin": " 0% 0%;",
+						"transform-origin": "0% 0%;",
+					},
+				},
 			},
 			animation: {
 				"slide-top": "slide-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;",
 				"slide-top-sm": "slide-top-sm 0.2s linear both;",
 				"slide-right": "slide-right 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;",
 				"scale-up-center": "scale-up-center 0.2s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;",
+				"scale-up-hor-left": "scale-up-hor-left 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;",
 			},
 			listStyleType: {
 				square: "square",

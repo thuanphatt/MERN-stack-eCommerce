@@ -8,6 +8,7 @@ import { RiBillFill, RiArrowGoBackFill } from "react-icons/ri";
 import { FaTty } from "react-icons/fa6";
 import {
 	AiFillStar,
+	AiFillHome,
 	AiOutlineHistory,
 	AiOutlineStar,
 	AiFillEye,
@@ -35,6 +36,7 @@ const icons = {
 	AiFillGift,
 	BsFillReplyFill,
 	FaTty,
+	AiFillHome,
 	AiOutlineDown,
 	BiSolidDashboard,
 	MdGroups2,

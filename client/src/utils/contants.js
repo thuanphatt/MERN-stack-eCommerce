@@ -2,6 +2,7 @@ import path from "./path";
 import icons from "./icons";
 const {
 	FaShieldAlt,
+	AiFillHome,
 	AiFillGift,
 	BsFillReplyFill,
 	FaTty,
@@ -206,26 +207,33 @@ export const memberSidebar = [
 	{
 		id: 1,
 		type: "SINGLE",
+		text: "Trang chủ",
+		path: `/${path.HOME}`,
+		icon: <AiFillHome size={20} />,
+	},
+	{
+		id: 2,
+		type: "SINGLE",
 		text: "Thông tin cá nhân",
 		path: `/${path.MEMBER}/${path.PERSONAL}`,
 		icon: <AiFillInfoCircle size={20} />,
 	},
 	{
-		id: 2,
+		id: 3,
 		type: "SINGLE",
 		text: "Giỏ hàng của tôi",
 		path: `/${path.MEMBER}/${path.MYCART}`,
 		icon: <BsBagCheckFill size={20} />,
 	},
 	{
-		id: 3,
+		id: 4,
 		type: "SINGLE",
 		text: "Lịch sử mua hàng",
 		path: `/${path.MEMBER}/${path.BUY_HISTORY}`,
 		icon: <AiOutlineHistory size={20} />,
 	},
 	{
-		id: 4,
+		id: 5,
 		type: "SINGLE",
 		text: "Danh sách yêu thích",
 		path: `/${path.MEMBER}/${path.WISHLIST}`,
