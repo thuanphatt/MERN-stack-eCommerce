@@ -32,7 +32,7 @@ const TopHeader = () => {
 	return (
 		<div className="h-[38px] w-full bg-main items-center justify-center flex">
 			<div className="w-main flex items-center justify-between text-xs text-white">
-				<span>ORDER ONLINE OR CALL US (+1800) 000 8808</span>
+				<span>ĐẶT HÀNG TRỰC TUYẾN HOẶC LIÊN HỆ (+84) 9009 9999</span>
 				{isLoggedIn && current ? (
 					<div className="flex items-center justify-center gap-2">
 						<span>{`Xin chào, ${current?.firstName} ${current?.lastName}`}</span>

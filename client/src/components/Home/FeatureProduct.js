@@ -7,6 +7,7 @@ const FeatureProduct = () => {
 	const fetchProducts = async () => {
 		const response = await apiGetProducts({
 			limit: 9,
+			sort: "-totalRatings",
 		});
 		if (response.success) setProducts(response.products);
 	};
@@ -16,34 +17,33 @@ const FeatureProduct = () => {
 	return (
 		<div className="w-full">
 			<h2 className="py-[15px] text-xl font-[#151515] uppercase font-semibold border-b-2 border-main">
-				Featured Products
+				Sản phẩm nổi bật
 			</h2>
 			<div className="flex flex-wrap mt-[15px] mx-[-10px]">
 				{products?.map((el, index) => (
 					<ProductCard key={index} image={el.thumb} title={el.title} totalRatings={el.totalRatings} price={el.price} />
 				))}
 			</div>
-			<div className="flex justify-between gap-5">
+			<div className="grid grid-cols-4 grid-rows-2 gap-5">
 				<img
-					src="https://digital-world-2.myshopify.com/cdn/shop/files/banner1-bottom-home2_b96bc752-67d4-45a5-ac32-49dc691b1958_600x.jpg?v=1613166661"
+					src="https://digital-world-2.myshopify.com/cdn/shop/files/banner1-bottom-home2_b96bc752-67d4-45a5-ac32-49dc691b1958_600x.jpg"
 					alt="banner 1"
-					className="w-[50%]"
+					className="w-full hover:opacity-80 h-full object-cover col-span-2 row-span-2"
 				></img>
-				<div className="flex flex-col justify-between w-[25%]">
-					<img
-						src="https://digital-world-2.myshopify.com/cdn/shop/files/banner2-bottom-home2_400x.jpg?v=1613166661"
-						alt="banner 1"
-						className="object-contain"
-					></img>
-					<img
-						src="https://digital-world-2.myshopify.com/cdn/shop/files/banner3-bottom-home2_400x.jpg?v=1613166661"
-						alt="banner 1"
-					></img>
-				</div>
 				<img
-					className="w-[25%] object-contain"
-					src="https://digital-world-2.myshopify.com/cdn/shop/files/banner4-bottom-home2_92e12df0-500c-4897-882a-7d061bb417fd_400x.jpg?v=1613166661"
-					alt="banner 1"
+					src="https://digital-world-2.myshopify.com/cdn/shop/files/banner2-bottom-home2_400x.jpg"
+					alt="banner 2"
+					className="w-full hover:opacity-80 h-full object-cover col-span-1 row-span-1"
+				></img>
+				<img
+					className="w-full hover:opacity-80 h-full object-cover col-span-1 row-span-2"
+					src="https://digital-world-2.myshopify.com/cdn/shop/files/banner4-bottom-home2_92e12df0-500c-4897-882a-7d061bb417fd_400x.jpg"
+					alt="banner 4"
+				></img>
+				<img
+					src="https://digital-world-2.myshopify.com/cdn/shop/files/banner3-bottom-home2_400x.jpg"
+					alt="banner 3"
+					className="w-full hover:opacity-80 h-full object-cover col-span-1 row-span-1"
 				></img>
 			</div>
 		</div>

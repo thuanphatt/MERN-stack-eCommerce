@@ -4,8 +4,8 @@ import { CustomerSlider } from "components";
 import { getNewProducts } from "store/products/asyncActions";
 import { useDispatch, useSelector } from "react-redux";
 const tabs = [
-	{ id: 1, name: "best seller" },
-	{ id: 2, name: "new arrivals" },
+	{ id: 1, name: "Bán chạy" },
+	{ id: 2, name: "Mới nhất" },
 ];
 const BestSeller = () => {
 	const [bestSeller, setBestSeller] = useState(null);

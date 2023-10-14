@@ -5,7 +5,7 @@ import { IoIosArrowForward } from "react-icons/io";
 const Breakcrumb = ({ title, category }) => {
 	const routes = [
 		{ path: "/:category", breadcrumb: category },
-		{ path: "/", breadcrumb: "Home" },
+		{ path: "/", breadcrumb: "Trang chủ" },
 		{ path: "/:category/:pid/:title", breadcrumb: title },
 	];
 	const breadcrumb = useBreadcrumbs(routes);

@@ -7,8 +7,8 @@ const Footer = () => {
 			<div className="flex justify-center items-center h-[103px] bg-main">
 				<div className="w-main flex justify-between items-center">
 					<div className="flex flex-col flex-1">
-						<span className="text-[20px] text-gray-200">SIGN UP TO NEWSLETTER</span>
-						<small className="text-[13px] text-gray-900">Subscribe now and receive weekly newsletter</small>
+						<span className="text-[20px] text-gray-200">ĐĂNG KÝ BẢN TIN</span>
+						<small className="text-[13px] text-gray-900">Đăng ký ngay và nhận bản tin hàng tuần</small>
 					</div>
 					<div className="flex-1 flex items-center">
 						<input
@@ -25,39 +25,38 @@ const Footer = () => {
 			<div className="h-[407px] bg-gray-900 w-full flex justify-center items-center text-white text-[13px]">
 				<div className="w-main flex">
 					<div className="flex-2 flex-col gap-2 flex">
-						<h2 className="mb-[20px] text-[15px] font-medium border-main border-l-4 pl-4">ABOUT US</h2>
-
+						<h2 className="mb-[20px] text-[15px] font-medium border-main border-l-4 pl-4">Về chúng tôi</h2>
 						<span>
-							<span>Address: </span>
-							<span className="opacity-50">474 Ontario St Toronto, ON M4X 1M7 Canada</span>
+							<span>Địa chỉ: </span>
+							<span className="opacity-50">Vĩnh Long, Việt Nam</span>
 						</span>
 						<span>
-							<span>Phone: </span>
+							<span>Hotline: </span>
 							<span className="opacity-50">(+1234)56789xxx</span>
 						</span>
 						<span>
-							<span>Mail: </span>
-							<span className="opacity-50">tadathemes@gmail.com</span>
+							<span>Email: </span>
+							<span className="opacity-50">thphatt@gmail.com</span>
 						</span>
 					</div>
 					<div className="flex-1 flex flex-col gap-2">
-						<h2 className="mb-[20px] text-[15px] font-medium border-main border-l-4 pl-4">INFORMATION</h2>
-						<span className="opacity-50">Typography</span>
-						<span className="opacity-50">Gallery</span>
-						<span className="opacity-50">Store Location</span>
-						<span className="opacity-50">Today's Deals</span>
-						<span className="opacity-50">Contact</span>
+						<h2 className="mb-[20px] text-[15px] font-medium border-main border-l-4 pl-4">THÔNG TIN</h2>
+						<span className="opacity-50">...</span>
+						<span className="opacity-50">...</span>
+						<span className="opacity-50">...</span>
+						<span className="opacity-50">...</span>
+						<span className="opacity-50">...</span>
 					</div>
 					<div className="flex-1 flex flex-col gap-2">
-						<h2 className="mb-[20px] text-[15px] font-medium border-main border-l-4 pl-4">WHO WE ARE</h2>
-						<span className="opacity-50">Help</span>
-						<span className="opacity-50">Free Shipping</span>
+						<h2 className="mb-[20px] text-[15px] font-medium border-main border-l-4 pl-4">CHÚNG TA LÀ AI</h2>
+						<span className="opacity-50">Hỗ trợ</span>
+						<span className="opacity-50">Miễn phí giao hàng</span>
 						<span className="opacity-50">FAQs</span>
-						<span className="opacity-50">Return & Exchange</span>
-						<span className="opacity-50">Testimonials</span>
+						<span className="opacity-50">Đổi và trả hàng</span>
+						<span className="opacity-50">...</span>
 					</div>
 					<div className="flex-1 flex flex-col gap-2">
-						<h2 className="mb-[20px] text-[15px] font-medium border-main border-l-4 pl-4">#DIGITALWORLDSTORE</h2>
+						<h2 className="mb-[20px] text-[15px] font-medium border-main border-l-4 pl-4">#THPHAT</h2>
 					</div>
 				</div>
 			</div>

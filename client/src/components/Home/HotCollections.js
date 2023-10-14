@@ -7,7 +7,7 @@ const HotCollections = () => {
 	return (
 		<>
 			<h2 className="py-[15px] text-xl font-[#151515] uppercase font-semibold border-b-2 border-main">
-				hot collections
+				BỘ SƯU TẬP HOT
 			</h2>
 			<div className="flex flex-wrap justify-between mt-4">
 				{categories

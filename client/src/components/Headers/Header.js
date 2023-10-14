@@ -31,21 +31,23 @@ const Header = () => {
 				<div className="flex flex-col px-6 border-r">
 					<span className="font-semibold flex gap-3  items-center">
 						<BsFillTelephoneFill color="#79AC78" />
-						(+1800) 000 8808
+						(+84) 9009 9999
 					</span>
-					<span>Mon-Sat 9:00AM - 8:00PM</span>
+					<span>T2-T7 9:00AM - 8:00PM</span>
 				</div>
 				<div className="flex flex-col px-6 border-r">
 					<span className="font-semibold flex gap-3 items-center">
 						<IoMdMail color="#79AC78" />
-						SUPPORT@TADATHEMES.COM
+						SUPPORT@THPHAT.COM
 					</span>
-					<span className="text-center">Online Support 24/7</span>
+					<span className="text-center">Dịch vụ hỗ trợ 24/7</span>
 				</div>
-				<div className="flex items-center justify-center gap-3 px-6 border-r cursor-pointer">
-					<BsBagCheckFill color="#79AC78" size={20} />
-					<span className="hover:text-[#79AC78]">0 item</span>
-				</div>
+				{current && (
+					<div className="flex items-center justify-center gap-3 px-6 border-r cursor-pointer">
+						<BsBagCheckFill color="#79AC78" size={20} />
+						<span className="hover:text-[#79AC78]">0 item</span>
+					</div>
+				)}
 				{/* to={+current?.role === 2001 ? `/${path.ADMIN}/${path.DASHBOARD}` : `/${path.MEMBER}/${path.PERSONAL}`} */}
 
 				{current && (

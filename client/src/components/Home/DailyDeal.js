@@ -70,7 +70,7 @@ const DailyDeal = () => {
 				<span className="">
 					<AiFillStar size={20} color="#DD1111" />
 				</span>
-				<span className="font-semibold text-[20px] uppercase text-gray-700">Daily Deals</span>
+				<span className="font-semibold text-[20px] uppercase text-gray-700">Giảm giá sốc</span>
 				<span></span>
 			</div>
 			<div className="w-full flex flex-col items-center pt-8 gap-2">
@@ -92,16 +92,16 @@ const DailyDeal = () => {
 			</div>
 			<div className="mt-4">
 				<div className="flex justify-center gap-2 items-center mt-8 mb-3">
-					<Countdown unit={"Hours"} number={hour} />
-					<Countdown unit={"Minutes"} number={minute} />
-					<Countdown unit={"Seconds"} number={second} />
+					<Countdown unit={"Giờ"} number={hour} />
+					<Countdown unit={"Phút"} number={minute} />
+					<Countdown unit={"Giây"} number={second} />
 				</div>
 				<button
 					type="button"
 					className="w-full font-medium text-white bg-main hover:bg-black flex items-center justify-center gap-3 px-[4px] py-[6px]"
 				>
 					<IoMenu />
-					<span className="uppercase">Options</span>
+					<span className="uppercase">Tùy chọn</span>
 				</button>
 			</div>
 		</div>

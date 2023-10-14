@@ -19,17 +19,17 @@ const {
 export const navigation = [
 	{
 		id: 0,
-		value: "HOME",
+		value: "TRANG CHỦ",
 		path: path.HOME,
 	},
 	{
 		id: 1,
-		value: "PRODUCTS",
+		value: "SẢN PHẨM",
 		path: path.PRODUCTS,
 	},
 	{
 		id: 2,
-		value: "BLOGS",
+		value: "BLOG",
 		path: path.BLOGS,
 	},
 	{
@@ -39,7 +39,7 @@ export const navigation = [
 	},
 	{
 		id: 4,
-		value: "OUR SERVICES",
+		value: "DỊCH VỤ",
 		path: path.OUR_SERVICES,
 	},
 ];
