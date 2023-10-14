@@ -56,19 +56,19 @@ export const validate = (payload, setInvalidField) => {
 					]);
 				}
 				break;
-			// case "mobile":
-			// 	const regexPhoneNumber = /(0[3|5|7|8|9])+([0-9]{8})\b/g;
-			// 	if (!arr[1].match(regexPhoneNumber)) {
-			// 		invalids++;
-			// 		setInvalidField((prev) => [
-			// 			...prev,
-			// 			{
-			// 				name: arr[0],
-			// 				mes: "Số điện thoại không hợp lệ",
-			// 			},
-			// 		]);
-			// 	}
-			// 	break;
+			case "mobile":
+				const regexPhoneNumber = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4}$/im;
+				if (!arr[1].match(regexPhoneNumber)) {
+					invalids++;
+					setInvalidField((prev) => [
+						...prev,
+						{
+							name: arr[0],
+							mes: "Số điện thoại không hợp lệ",
+						},
+					]);
+				}
+				break;
 
 			default:
 				break;

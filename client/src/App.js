@@ -19,7 +19,7 @@ import { getCategories } from "./store/app/asyncAction";
 import { useDispatch, useSelector } from "react-redux";
 import { Modal } from "./components";
 import { AdminLayout, CreateProduct, Dashboard, ManageOrder, ManageProduct, ManageUser } from "pages/admin";
-import { MemberLayout, Personal } from "pages/member";
+import { MemberLayout, Personal, BuyHistory, MyCart, WishList } from "pages/member";
 function App() {
 	const dispatch = useDispatch();
 	const { isShowModal, modalChildren } = useSelector((state) => state.app);
@@ -50,6 +50,9 @@ function App() {
 				</Route>
 				<Route path={path.MEMBER} element={<MemberLayout />}>
 					<Route path={path.PERSONAL} element={<Personal />}></Route>
+					<Route path={path.MYCART} element={<MyCart />}></Route>
+					<Route path={path.BUY_HISTORY} element={<BuyHistory />}></Route>
+					<Route path={path.WISHLIST} element={<WishList />}></Route>
 				</Route>
 				<Route path={path.REGISTER_FINAL} element={<FinalRegister />}></Route>
 				<Route path={path.LOGIN} element={<Login />}></Route>

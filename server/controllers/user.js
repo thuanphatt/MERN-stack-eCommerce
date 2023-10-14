@@ -237,13 +237,18 @@ const deleteUser = asyncHandler(async (req, res) => {
 });
 const updateUser = asyncHandler(async (req, res) => {
 	const { _id } = req.user;
+	const { firstName, lastName, email, mobile } = req.body;
+	const data = { firstName, lastName, email, mobile };
+	if (req.file) {
+		data.avatar = req.file.path;
+	}
 	if (!_id || Object.keys(req.body).length === 0) throw new Error("Thông tin đầu vào bị thiếu");
-	const response = await User.findByIdAndUpdate(_id, req.body, {
+	const response = await User.findByIdAndUpdate(_id, data, {
 		new: true,
 	}).select("-password -role -refreshToken");
 	return res.status(200).json({
 		success: response ? true : false,
-		updatedUser: response ? response : "Đã có lỗi xảy ra",
+		mes: response ? "Cập nhật thành công" : "Đã có lỗi xảy ra",
 	});
 });
 const updateUserByAdmin = asyncHandler(async (req, res) => {

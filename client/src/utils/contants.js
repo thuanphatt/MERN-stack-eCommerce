@@ -2,7 +2,6 @@ import path from "./path";
 import icons from "./icons";
 const {
 	FaShieldAlt,
-	MdLocalShipping,
 	AiFillGift,
 	BsFillReplyFill,
 	FaTty,
@@ -11,6 +10,10 @@ const {
 	MdManageSearch,
 	RiBillFill,
 	IoIosCreate,
+	BsBagCheckFill,
+	AiFillInfoCircle,
+	AiOutlineHistory,
+	AiFillHeart,
 } = icons;
 export const navigation = [
 	{
@@ -50,7 +53,7 @@ export const productExtraInfo = [
 		id: 2,
 		title: "Free Shipping",
 		sub: "Miễn phí trên tất cả các sản phẩm",
-		icon: <MdLocalShipping size={20} />,
+		icon: <BsBagCheckFill size={20} />,
 	},
 	{
 		id: 3,
@@ -197,6 +200,36 @@ export const adminSidebar = [
 		text: "Quản lý đơn hàng",
 		path: `/${path.ADMIN}/${path.MANAGE_ORDER}`,
 		icon: <RiBillFill size={20} />,
+	},
+];
+export const memberSidebar = [
+	{
+		id: 1,
+		type: "SINGLE",
+		text: "Thông tin cá nhân",
+		path: `/${path.MEMBER}/${path.PERSONAL}`,
+		icon: <AiFillInfoCircle size={20} />,
+	},
+	{
+		id: 2,
+		type: "SINGLE",
+		text: "Giỏ hàng của tôi",
+		path: `/${path.MEMBER}/${path.MYCART}`,
+		icon: <BsBagCheckFill size={20} />,
+	},
+	{
+		id: 3,
+		type: "SINGLE",
+		text: "Lịch sử mua hàng",
+		path: `/${path.MEMBER}/${path.BUY_HISTORY}`,
+		icon: <AiOutlineHistory size={20} />,
+	},
+	{
+		id: 4,
+		type: "SINGLE",
+		text: "Danh sách yêu thích",
+		path: `/${path.MEMBER}/${path.WISHLIST}`,
+		icon: <AiFillHeart size={20} />,
 	},
 ];
 
