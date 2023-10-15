@@ -44,11 +44,11 @@ const SearchItem = ({ name, activeClick, changeActiveFilter, type = "checkbox" }
 	useEffect(() => {
 		if (type === "input") fetchBestPriceProduct();
 	}, [type]);
-	useEffect(() => {
-		if (price.from && price.to && price.from > price.to) {
-			alert("Giá điều chỉnh chưa hợp lý, nên xem lại giá!");
-		}
-	}, [price]);
+	// useEffect(() => {
+	// 	if (price.to && price.from && price.from > price.to) {
+	// 		alert("Giá điều chỉnh chưa hợp lý, nên xem lại giá!");
+	// 	}
+	// }, [price]);
 	const debouncePriceFrom = useDebounce(price.from, 500);
 	const debouncePriceTo = useDebounce(price.to, 500);
 	useEffect(() => {

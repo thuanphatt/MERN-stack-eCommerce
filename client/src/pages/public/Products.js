@@ -18,11 +18,11 @@ const Products = () => {
 	const [activeClick, setActiveClick] = useState(null);
 	const [params] = useSearchParams();
 	const [sort, setSort] = useState("");
+	const { category } = useParams();
 	const fetchProductsByCateroty = async (queries) => {
 		const response = await apiGetProducts(queries);
 		if (response.success) setProductCategories(response);
 	};
-	const { category } = useParams();
 	useEffect(() => {
 		const queries = Object.fromEntries([...params]);
 		let priceQuery = {};
@@ -37,7 +37,12 @@ const Products = () => {
 		}
 		delete queries.to;
 		delete queries.from;
-		const q = { ...priceQuery, ...queries };
+		const q = { category, ...queries, ...priceQuery };
+		if (q.category === ":category") {
+			console.log(q.category);
+			fetchProductsByCateroty();
+			delete q.category;
+		}
 		fetchProductsByCateroty(q);
 		window.scrollTo(0, 0);
 	}, [params]);
@@ -57,10 +62,6 @@ const Products = () => {
 
 	useEffect(() => {
 		if (sort) {
-			// let param = [];
-			// for (let i of params.entries()) param.push(i);
-			// const queries = ;
-			// for (let i of params) queries[i[0]] = i[1];
 			navigate({
 				pathname: `/${category}`,
 				search: createSearchParams({ sort }).toString(),
@@ -72,8 +73,8 @@ const Products = () => {
 		<div className="w-full">
 			<div className="h-[81px] bg-gray-100 flex justify-center items-center">
 				<div className="w-main">
-					<h3 className="uppercase font-semibold mb-1">{category}</h3>
-					<Breakcrumb category={category} />
+					<h3 className="uppercase font-semibold mb-1">{category === ":category" ? "Sản phẩm" : category}</h3>
+					<Breakcrumb category={category === ":category" ? "Sản phẩm" : category} />
 				</div>
 			</div>
 			<div className="w-main m-auto flex items-center justify-between border py-6 px-4 mt-8">
@@ -102,9 +103,11 @@ const Products = () => {
 					))}
 				</Masonry>
 			</div>
-			<div className="w-main m-auto my-4 flex justify-end">
-				<Pagination totalCount={productCategories?.counts} />
-			</div>
+			{productCategories && (
+				<div className="w-main m-auto my-4 flex justify-end">
+					<Pagination totalCount={productCategories?.counts} />
+				</div>
+			)}
 			<div className="w-full h-[500px]"></div>
 		</div>
 	);

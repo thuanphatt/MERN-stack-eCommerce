@@ -135,12 +135,12 @@ export const sorts = [
 	},
 	{
 		id: 6,
-		value: "-createAt",
+		value: "-createdAt",
 		text: "Ngày, từ mới đến cũ",
 	},
 	{
 		id: 7,
-		value: "createAt",
+		value: "createdAt",
 		text: "Ngày, từ cũ đến mới",
 	},
 ];
