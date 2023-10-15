@@ -30,7 +30,7 @@ const TopHeader = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [mes]);
 	return (
-		<div className="h-[38px] w-full bg-main items-center justify-center flex">
+		<div className="h-[38px] w-full bg-main items-center justify-center flex py-4">
 			<div className="w-main flex items-center justify-between text-xs text-white">
 				<span>ĐẶT HÀNG TRỰC TUYẾN HOẶC LIÊN HỆ (+84) 9009 9999</span>
 				{isLoggedIn && current ? (

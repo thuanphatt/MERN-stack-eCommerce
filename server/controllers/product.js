@@ -90,6 +90,7 @@ const getAllProduct = asyncHandler(async (req, res) => {
 		.exec()
 		.then(async (response) => {
 			const counts = await Product.find(qr).countDocuments();
+
 			return res.status(200).json({
 				success: response ? true : false,
 				counts,

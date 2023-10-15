@@ -6,11 +6,11 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const app = express();
 app.use(
-  cors({
-    origin: process.env.CLIENT_URL,
-    methods: ["POST", "PUT", "GET", "DELETE"],
-    credentials: true,
-  })
+	cors({
+		origin: process.env.CLIENT_URL,
+		methods: ["POST", "PUT", "GET", "DELETE"],
+		credentials: true,
+	})
 );
 app.use(cookieParser());
 const port = process.env.PORT || 8888;
@@ -20,5 +20,5 @@ dbConnect();
 initRoutes(app);
 
 app.listen(port, () => {
-  console.log("Server listening on " + port);
+	console.log("Server listening on " + port);
 });
