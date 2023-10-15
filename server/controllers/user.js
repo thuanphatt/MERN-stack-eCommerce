@@ -109,7 +109,15 @@ const logout = asyncHandler(async (req, res) => {
 
 const getCurrent = asyncHandler(async (req, res) => {
 	const { _id } = req.user;
-	const user = await User.findById(_id).select("-refreshToken -password");
+	const user = await User.findById(_id)
+		.select("-refreshToken -password")
+		.populate({
+			path: "cart",
+			populate: {
+				path: "product",
+				select: "title thumb price",
+			},
+		});
 	return res.status(200).json({
 		success: user ? true : false,
 		result: user ? user : "User not found",
@@ -279,47 +287,63 @@ const updateUserAddress = asyncHandler(async (req, res) => {
 });
 const addToCart = asyncHandler(async (req, res) => {
 	const { _id } = req.user;
-	const { pid, quantity, color } = req.body;
-	if (!pid || !quantity | !color) throw new Error("Thông tin đầu vào bị thiếu");
+	const { pid, quantity = 1, color, price, thumbnail, title } = req.body;
+	if (!pid || !color) throw new Error("Thông tin đầu vào bị thiếu");
 	const user = await User.findById(_id).select("cart");
 	const alreadyProduct = user?.cart?.find((el) => el.product.toString() === pid);
-	if (alreadyProduct) {
-		if (alreadyProduct.color === color) {
-			const response = await User.updateOne(
-				{ cart: { $elemMatch: alreadyProduct } },
-				{ $set: { "cart.$.quantity": quantity } },
-				{ new: true }
-			);
-			return res.status(200).json({
-				success: response ? true : false,
-				addToCart: response ? response : "Đã có lỗi xảy ra",
-			});
-		} else {
-			const response = await User.findByIdAndUpdate(
-				_id,
-				{ $push: { cart: { product: pid, quantity, color } } },
-				{
-					new: true,
-				}
-			);
-			return res.status(200).json({
-				success: response ? true : false,
-				addToCart: response ? response : "Đã có lỗi xảy ra",
-			});
-		}
+	if (alreadyProduct && alreadyProduct.color === color) {
+		const response = await User.updateOne(
+			{ cart: { $elemMatch: alreadyProduct } },
+			{
+				$set: {
+					"cart.$.quantity": quantity,
+					"cart.$.color": color,
+					"cart.$.thumbnail": thumbnail,
+					"cart.$.title": title,
+				},
+			},
+			{ new: true }
+		);
+		return res.status(200).json({
+			success: response ? true : false,
+			mes: response ? "Đã thêm giỏ hàng thành công" : "Đã có lỗi xảy ra",
+		});
 	} else {
 		const response = await User.findByIdAndUpdate(
 			_id,
-			{ $push: { cart: { product: pid, quantity, color } } },
+			{ $push: { cart: { product: pid, quantity, color, price, thumbnail, title } } },
 			{
 				new: true,
 			}
 		);
 		return res.status(200).json({
 			success: response ? true : false,
-			addToCart: response ? response : "Đã có lỗi xảy ra",
+			mes: response ? "Đã thêm giỏ hàng thành công" : "Đã có lỗi xảy ra",
 		});
 	}
+});
+const removeProductInCart = asyncHandler(async (req, res) => {
+	const { _id } = req.user;
+	const { pid, color } = req.params;
+	const user = await User.findById(_id).select("cart");
+	const alreadyProduct = user?.cart?.find((el) => el.product.toString() === pid && el.color === color);
+	if (!alreadyProduct) {
+		return res.status(200).json({
+			success: true,
+			mes: "Đã thêm giỏ hàng thành công",
+		});
+	}
+	const response = await User.findByIdAndUpdate(
+		_id,
+		{ $pull: { cart: { product: pid, color } } },
+		{
+			new: true,
+		}
+	);
+	return res.status(200).json({
+		success: response ? true : false,
+		mes: response ? "Đã xóa khỏi giỏ hàng thành công" : "Đã có lỗi xảy ra",
+	});
 });
 const createUsers = asyncHandler(async (req, res) => {
 	const response = await User.create(usersFakeData);
@@ -345,4 +369,5 @@ module.exports = {
 	addToCart,
 	registerFinal,
 	createUsers,
+	removeProductInCart,
 };

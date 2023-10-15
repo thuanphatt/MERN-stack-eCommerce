@@ -1,5 +1,5 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useState, useCallback, useEffect, memo } from "react";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
@@ -13,6 +13,7 @@ import { showModal } from "store/app/appSlice";
 const Login = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const [searchParams] = useSearchParams();
 	const [payload, setPayload] = useState({
 		email: "",
 		password: "",
@@ -44,27 +45,25 @@ const Login = () => {
 		const invalids = isRegister ? validate(payload, setInvalidField) : validate(data, setInvalidField);
 		if (invalids === 0) {
 			if (isRegister) {
-				dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 				const response = await apiRegister(payload);
-				dispatch(showModal({ isShowModal: false, modalChildren: null }));
-
 				if (response.success) {
 					setIsVerifiedEmail(true);
 				} else {
 					Swal.fire("Opps", response.mes, "error");
 				}
 			} else {
+				dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 				const result = await apiLogin(data);
-
-				dispatch(
-					login({
-						isLoggedIn: true,
-						token: result.accessToken,
-						current: result.userData,
-					})
-				);
+				dispatch(showModal({ isShowModal: false, modalChildren: null }));
 				if (result.success) {
-					navigate(`/${path.HOME}`);
+					dispatch(
+						login({
+							isLoggedIn: true,
+							token: result.accessToken,
+							current: result.userData,
+						})
+					);
+					searchParams.get("redirect") ? navigate(searchParams.get("redirect")) : navigate(`/${path.HOME}`);
 				} else {
 					Swal.fire("Opps", result.mes, "error");
 				}
@@ -225,4 +224,4 @@ const Login = () => {
 	);
 };
 
-export default Login;
+export default memo(Login);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Outlet } from "react-router-dom";
 import { Header, Navigation, TopHeader, Footer } from "components";
 
@@ -16,4 +16,4 @@ const PublicLayout = () => {
 	);
 };
 
-export default PublicLayout;
+export default memo(PublicLayout);

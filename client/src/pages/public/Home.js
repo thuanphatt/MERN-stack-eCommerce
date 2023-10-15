@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { useSelector } from "react-redux";
 import { Sidebar, Banner, BestSeller, DailyDeal, FeatureProduct, HotCollections, CustomerSlider } from "components";
 
@@ -38,4 +38,4 @@ const Home = () => {
 	);
 };
 
-export default Home;
+export default memo(Home);

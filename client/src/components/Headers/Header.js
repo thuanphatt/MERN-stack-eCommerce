@@ -1,27 +1,15 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { memo } from "react";
 import logo from "assets/logo.png";
 import icons from "utils/icons";
 import { Link } from "react-router-dom";
 import path from "utils/path";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "store/user/userSlice";
+import { useSelector } from "react-redux";
+import withBaseComponent from "hocs/withBaseComponent";
+import { showCart } from "store/app/appSlice";
 
-const Header = () => {
+const Header = ({ dispatch }) => {
 	const { current } = useSelector((state) => state.user);
-	const [isShowOptions, setIsShowOptions] = useState(false);
-	const dispatch = useDispatch();
-	const { BsFillTelephoneFill, IoMdMail, FaUserAlt, BsBagCheckFill } = icons;
-
-	useEffect(() => {
-		const handleClickoutOptions = (e) => {
-			const profile = document.getElementById("profile");
-			if (!profile?.contains(e.target)) setIsShowOptions(false);
-		};
-		document.addEventListener("click", handleClickoutOptions);
-		return () => {
-			document.removeEventListener("click", handleClickoutOptions);
-		};
-	}, []);
+	const { BsFillTelephoneFill, IoMdMail, BsBagCheckFill } = icons;
 	return (
 		<div className="w-main h-[110px] py-[35px] flex justify-between">
 			<Link to={`/${path.HOME}`}>
@@ -43,47 +31,15 @@ const Header = () => {
 					<span className="text-center">Dịch vụ hỗ trợ 24/7</span>
 				</div>
 				{current && (
-					<div className="flex items-center justify-center gap-3 px-6 border-r cursor-pointer">
+					<div
+						className="flex items-center justify-center gap-3 px-6 border-r cursor-pointer"
+						onClick={() => {
+							dispatch(showCart());
+						}}
+					>
 						<BsBagCheckFill color="#79AC78" size={20} />
-						<span className="hover:text-[#79AC78]">0 item</span>
-					</div>
-				)}
-				{/* to={+current?.role === 2001 ? `/${path.ADMIN}/${path.DASHBOARD}` : `/${path.MEMBER}/${path.PERSONAL}`} */}
 
-				{current && (
-					<div className="flex items-center justify-center px-6 gap-3 cursor-pointer relative" id="profile">
-						<span
-							onClick={() => {
-								setIsShowOptions(!isShowOptions);
-							}}
-						>
-							<FaUserAlt size={18} color="#79AC78" />
-						</span>
-						{isShowOptions && (
-							<div
-								className="absolute top-full left-4 bg-gray-100 w-full min-w-[150px] flex flex-col"
-								onClick={(e) => {
-									e.stopPropagation();
-								}}
-							>
-								<Link to={`/${path.MEMBER}/${path.PERSONAL}`} className="p-2 hover:bg-gray-200 border border-b-0">
-									Thông tin cá nhân
-								</Link>
-								{+current?.role === 2001 && (
-									<Link to={`/${path.ADMIN}/${path.DASHBOARD}`} className="p-2 hover:bg-gray-200 border border-b-0">
-										Admin
-									</Link>
-								)}
-								<span
-									onClick={() => {
-										dispatch(logout());
-									}}
-									className="p-2 hover:bg-gray-200 border"
-								>
-									Đăng xuất
-								</span>
-							</div>
-						)}
+						<span className="hover:text-[#79AC78] pt-1">{`${current?.cart?.length || 0} sản phẩm`}</span>
 					</div>
 				)}
 			</div>
@@ -91,4 +47,4 @@ const Header = () => {
 	);
 };
 
-export default memo(Header);
+export default withBaseComponent(memo(Header));

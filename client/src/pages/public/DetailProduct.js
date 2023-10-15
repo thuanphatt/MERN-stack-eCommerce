@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import React, { memo, useCallback, useEffect, useState } from "react";
+import { useParams, Link, createSearchParams } from "react-router-dom";
 import Slider from "react-slick";
 import ReactImageMagnify from "react-image-magnify";
 import { IoIosArrowRoundBack } from "react-icons/io";
@@ -18,6 +18,13 @@ import {
 } from "components";
 import { formatMoney, formatPrice, renderStarFromNumber } from "utils/helpers";
 import clsx from "clsx";
+import { useSelector } from "react-redux";
+import Swal from "sweetalert2";
+import withBaseComponent from "hocs/withBaseComponent";
+import { apiAddToCart } from "apis";
+import { getCurrent } from "store/user/asyncActions";
+import { toast } from "react-toastify";
+import path from "utils/path";
 var settings = {
 	dots: false,
 	infinite: false,
@@ -25,7 +32,8 @@ var settings = {
 	slidesToShow: 3,
 	slidesToScroll: 1,
 };
-const DetailProduct = ({ isQuickView, data }) => {
+const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
+	const { current } = useSelector((state) => state.user);
 	const params = useParams();
 	const [product, setProduct] = useState(null);
 	const [quantity, setQuantity] = useState(1);
@@ -63,12 +71,10 @@ const DetailProduct = ({ isQuickView, data }) => {
 	};
 	const fetchProductsData = async () => {
 		const response = await apiGetProducts({ category });
-		// console.log(response)
 		if (response.success) setRelatedProducts(response.products);
 	};
 	const handleQuantity = useCallback(
 		(number) => {
-			console.log(number);
 			if (!Number(number) || Number(number) < 1) {
 				return;
 			} else {
@@ -86,10 +92,40 @@ const DetailProduct = ({ isQuickView, data }) => {
 			setQuantity((prev) => +prev + 1);
 		}
 	});
-	const handleClickImage = (e, el) => {
-		e.stopPropagation();
-		setCurrentImage(el);
+	const handleAddToCart = async () => {
+		if (!current) {
+			Swal.fire({
+				title: "Opps!",
+				text: "Hãy đăng nhập trước để thêm giỏ hàng",
+				showConfirmButton: true,
+				confirmButtonText: "Đăng nhập",
+				showCancelButton: true,
+				cancelButtonText: "Hủy",
+			}).then((rs) => {
+				if (rs.isConfirmed) {
+					navigate({
+						pathname: `/${path.LOGIN}`,
+						search: createSearchParams({ redirect: location.pathname }).toString(),
+					});
+				}
+			});
+		}
+		const response = await apiAddToCart({
+			pid,
+			color: currentProduct.color || product?.color,
+			quantity,
+			price: currentProduct.price || product?.price,
+			thumbnail: currentProduct.thumb || product?.thumb,
+			title: currentProduct.title || product?.title,
+		});
+		if (response.success) {
+			toast.success(response.mes);
+			dispatch(getCurrent());
+		} else {
+			if (current) toast.error(response.mes);
+		}
 	};
+
 	useEffect(() => {
 		if (pid) {
 			fetchProductData();
@@ -105,14 +141,29 @@ const DetailProduct = ({ isQuickView, data }) => {
 		setUpdate(!update);
 	}, [update]);
 	useEffect(() => {
-		setCurrentProduct({
-			title: product?.varriants?.find((el) => el.sku === variant)?.title,
-			price: product?.varriants?.find((el) => el.sku === variant)?.price,
-			color: product?.varriants?.find((el) => el.sku === variant)?.color,
-			images: product?.varriants?.find((el) => el.sku === variant)?.images,
-			thumb: product?.varriants?.find((el) => el.sku === variant)?.thumb,
-		});
+		if (variant) {
+			setCurrentProduct({
+				title: product?.varriants?.find((el) => el.sku === variant)?.title,
+				price: product?.varriants?.find((el) => el.sku === variant)?.price,
+				color: product?.varriants?.find((el) => el.sku === variant)?.color,
+				images: product?.varriants?.find((el) => el.sku === variant)?.images,
+				thumb: product?.varriants?.find((el) => el.sku === variant)?.thumb,
+			});
+		} else {
+			setCurrentProduct({
+				title: product?.title,
+				price: product?.price,
+				color: product?.color,
+				images: product?.images || [],
+				thumb: product?.thumb,
+			});
+		}
 	}, [variant]);
+	const handleClickImage = (e, el) => {
+		e.stopPropagation();
+		setCurrentImage(el);
+	};
+	console.log(current.cart);
 	return (
 		<div className="w-full">
 			{!isQuickView && (
@@ -126,11 +177,11 @@ const DetailProduct = ({ isQuickView, data }) => {
 			<div
 				className={clsx(
 					"w-main m-auto mt-5 flex bg-white",
-					isQuickView && "max-w-[65%] max-h-[80vh] overflow-y-auto gap-16 p-8"
+					isQuickView && "max-w-[70%] max-h-[80vh] overflow-y-auto gap-[150px] p-8"
 				)}
 				onClick={(e) => e.stopPropagation()}
 			>
-				<div className={clsx("w-2/5 flex flex-col gap-4", isQuickView && "w-1/2 max-h-[50%] max-w-[50%]")}>
+				<div className={clsx("w-2/5 flex flex-col gap-4", isQuickView && "w-1/2 max-w-[50%]")}>
 					<ReactImageMagnify
 						className={clsx("h-[458px] w-[485px] border")}
 						{...{
@@ -138,12 +189,13 @@ const DetailProduct = ({ isQuickView, data }) => {
 								alt: "",
 								isFluidWidth: true,
 								src:
-									currentProduct.thumb ||
+									currentProduct?.thumb ||
 									currentImage ||
 									"https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg",
 							},
 							largeImage: {
 								src:
+									currentProduct?.thumb ||
 									currentImage ||
 									"https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg",
 								width: 1200,
@@ -228,7 +280,7 @@ const DetailProduct = ({ isQuickView, data }) => {
 									<img src={product?.thumb} alt="thumb" className="w-8 h-8 object-cover" />
 									<span className="flex flex-col">
 										<span>{product?.color}</span>
-										<span className="text-sm">{product?.price}</span>
+										<span className="text-sm">{`${formatMoney(formatPrice(product?.price))} VND`}</span>
 									</span>
 								</div>
 								{product?.varriants?.map((el) => (
@@ -245,18 +297,28 @@ const DetailProduct = ({ isQuickView, data }) => {
 										<img src={el?.thumb} alt="thumb" className="w-8 h-8 object-cover" />
 										<span className="flex flex-col">
 											<span>{el?.color}</span>
-											<span className="text-sm">{el?.price}</span>
+											<span className="text-sm">{`${formatMoney(formatPrice(el?.price))} VND`}</span>
 										</span>
 									</div>
 								))}
 							</div>
 						</div>
-						<SelectQuantity
-							quantity={quantity}
-							handleQuantity={handleQuantity}
-							handleChangeQuantity={handleChangeQuantity}
-						/>
-						<Button fullwidth>THÊM VÀO GIỎ HÀNG</Button>
+						<div className="flex items-center gap-2 font-bold">
+							<h3 className="text-[16px] font-semibold cursor-pointer pr-3">Số lượng</h3>
+							<SelectQuantity
+								quantity={quantity}
+								handleQuantity={handleQuantity}
+								handleChangeQuantity={handleChangeQuantity}
+							/>
+						</div>
+						<Button
+							fullwidth
+							handleOnClick={() => {
+								handleAddToCart();
+							}}
+						>
+							THÊM VÀO GIỎ HÀNG
+						</Button>
 						{!isQuickView && (
 							<Link to={`/${category}`}>
 								<div className="flex items-center gap-2 hover:text-main cursor-pointer">
@@ -303,4 +365,4 @@ const DetailProduct = ({ isQuickView, data }) => {
 	);
 };
 
-export default DetailProduct;
+export default withBaseComponent(memo(DetailProduct));

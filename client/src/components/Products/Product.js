@@ -8,12 +8,46 @@ import icons from "utils/icons";
 import withBaseComponent from "hocs/withBaseComponent";
 import { showModal } from "store/app/appSlice";
 import { DetailProduct } from "pages/public";
-const { AiFillEye, AiFillHeart, IoMenu } = icons;
+import { apiAddToCart } from "apis";
+import { toast } from "react-toastify";
+import { getCurrent } from "store/user/asyncActions";
+import { useSelector } from "react-redux";
+import Swal from "sweetalert2";
+import path from "utils/path";
+import { clearMessage } from "store/user/userSlice";
+import clsx from "clsx";
+const { AiFillEye, AiFillHeart, BsCartPlusFill, BsFillCartCheckFill } = icons;
 const Product = ({ productData, isNew, normal, navigate, dispatch }) => {
 	const [isShowOptions, setIsShowOptions] = useState(false);
-	const handleClickOptions = (e, name) => {
+	const { current } = useSelector((state) => state.user);
+
+	const handleClickOptions = async (e, name) => {
 		e.stopPropagation();
-		if (name === "MENU") navigate(`/${productData?.category[0]}/${productData?._id}/${productData?.title}`);
+		// Opps!", "Hãy đăng để thêm giỏ hàng", "info"
+		if (name === "CART") {
+			if (!current) {
+				Swal.fire({
+					title: "Opps!",
+					text: "Hãy đăng nhập trước để thêm giỏ hàng",
+					showConfirmButton: true,
+					confirmButtonText: "Đăng nhập",
+					showCancelButton: true,
+					cancelButtonText: "Hủy",
+				}).then((rs) => {
+					if (rs.isConfirmed) {
+						dispatch(clearMessage());
+						navigate(`/${path.LOGIN}`);
+					}
+				});
+			}
+			const response = await apiAddToCart({ pid: productData?._id, color: productData?.color });
+			if (response.success) {
+				toast.success(response.mes);
+				dispatch(getCurrent());
+			} else {
+				if (current) toast.error(response.mes);
+			}
+		}
 		if (name === "QUICK_VIEW") {
 			dispatch(
 				showModal({
@@ -44,29 +78,35 @@ const Product = ({ productData, isNew, normal, navigate, dispatch }) => {
 			>
 				<div className="relative w-full">
 					{isShowOptions && (
-						<div className="absolute bottom-[-10px]  w-full flex justify-center gap-4 animate-slide-top">
+						<div className={clsx("absolute bottom-[-10px]  w-full flex justify-center gap-4 animate-slide-top")}>
 							<span
+								title="Thêm vào danh sách yêu thích"
 								onClick={(e) => {
 									handleClickOptions(e, "WISHLIST");
 								}}
 							>
-								{" "}
 								<SelectOption icon={<AiFillHeart />} />
 							</span>
+							{current?.cart.some((el) => el.product._id === productData?._id.toString()) ? (
+								<span title="Đã được thêm vào giỏ hàng">
+									<SelectOption icon={<BsFillCartCheckFill color="green" />} />
+								</span>
+							) : (
+								<span
+									title="Thêm vào giỏ hàng"
+									onClick={(e) => {
+										handleClickOptions(e, "CART");
+									}}
+								>
+									<SelectOption icon={<BsCartPlusFill />} />
+								</span>
+							)}
 							<span
-								onClick={(e) => {
-									handleClickOptions(e, "MENU");
-								}}
-							>
-								{" "}
-								<SelectOption icon={<IoMenu />} />
-							</span>
-							<span
+								title="Xem nhanh"
 								onClick={(e) => {
 									handleClickOptions(e, "QUICK_VIEW");
 								}}
 							>
-								{" "}
 								<SelectOption icon={<AiFillEye />} />
 							</span>
 						</div>

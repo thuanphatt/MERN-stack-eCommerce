@@ -1,7 +1,7 @@
-import React from "react";
+import React, { memo } from "react";
 
 const Blogs = () => {
-  return <div>Blogs</div>;
+	return <div>Blogs</div>;
 };
 
-export default Blogs;
+export default memo(Blogs);

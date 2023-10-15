@@ -12,28 +12,41 @@ import {
 	Services,
 	FinalRegister,
 	ResetPassword,
+	CartDetail,
 } from "./pages/public";
 import { Route, Routes } from "react-router-dom";
 import path from "./utils/path";
 import { getCategories } from "./store/app/asyncAction";
 import { useDispatch, useSelector } from "react-redux";
-import { Modal } from "./components";
+import { Cart, Modal } from "./components";
 import { AdminLayout, CreateProduct, Dashboard, ManageOrder, ManageProduct, ManageUser } from "pages/admin";
 import { MemberLayout, Personal, BuyHistory, MyCart, WishList } from "pages/member";
+import { showCart } from "store/app/appSlice";
 function App() {
 	const dispatch = useDispatch();
-	const { isShowModal, modalChildren } = useSelector((state) => state.app);
+	const { isShowModal, modalChildren, isShowCart } = useSelector((state) => state.app);
 	useEffect(() => {
 		dispatch(getCategories());
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	return (
-		<div className="font-main h-screen">
+		<div className="font-main h-screen relative">
+			{isShowCart && (
+				<div
+					className="bg-overlay z-50 absolute inset-0 flex justify-end "
+					onClick={() => {
+						dispatch(showCart());
+					}}
+				>
+					<Cart />
+				</div>
+			)}
 			{isShowModal && <Modal>{modalChildren}</Modal>}
 			<Routes>
 				<Route path={path.PUBLIC_LAYOUT} element={<PublicLayout />}>
 					<Route path={path.HOME} element={<Home />}></Route>
 					<Route path={path.BLOGS} element={<Blogs />}></Route>
+					<Route path={path.CART_DETAIL} element={<CartDetail />}></Route>
 					<Route path={path.DETAIL_PRODUCT__CATEGORY__PID__TITLE} element={<DetailProduct />}></Route>
 					<Route path={path.FAQs} element={<FAQ />}></Route>
 					<Route path={path.OUR_SERVICES} element={<Services />}></Route>
@@ -59,7 +72,7 @@ function App() {
 			</Routes>
 			<ToastContainer
 				position="top-right"
-				autoClose={5000}
+				autoClose={2000}
 				hideProgressBar={false}
 				newestOnTop={false}
 				closeOnClick

@@ -1,4 +1,10 @@
-import { BsFillTelephoneFill, BsBagCheckFill, BsFillReplyFill } from "react-icons/bs";
+import {
+	BsFillTelephoneFill,
+	BsBagCheckFill,
+	BsFillReplyFill,
+	BsCartPlusFill,
+	BsFillCartCheckFill,
+} from "react-icons/bs";
 import { IoMdMail, IoIosArrowForward, IoIosCreate } from "react-icons/io";
 import { IoMenu } from "react-icons/io5";
 import { FaUserAlt, FaShieldAlt } from "react-icons/fa";
@@ -48,5 +54,7 @@ const icons = {
 	AiFillEdit,
 	RiArrowGoBackFill,
 	AiOutlineHistory,
+	BsCartPlusFill,
+	BsFillCartCheckFill,
 };
 export default icons;

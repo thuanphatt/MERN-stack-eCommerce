@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, memo } from "react";
 import { useParams, useSearchParams, useNavigate, createSearchParams } from "react-router-dom";
 import Masonry from "react-masonry-css";
 
@@ -113,4 +113,4 @@ const Products = () => {
 	);
 };
 
-export default Products;
+export default memo(Products);
