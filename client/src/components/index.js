@@ -5,6 +5,7 @@ export { default as SelectQuantity } from "./Common/SelectQuantity";
 export { default as Modal } from "./Common/Modal";
 export { default as Loading } from "./Common/Loading";
 export { default as Banner } from "./Common/Banner";
+export { default as Paypal } from "./Common/Paypal";
 
 export { default as Button } from "./Buttons/Button";
 
