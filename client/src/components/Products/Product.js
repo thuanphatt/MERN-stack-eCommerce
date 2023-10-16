@@ -14,10 +14,10 @@ import { getCurrent } from "store/user/asyncActions";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import path from "utils/path";
-import { clearMessage } from "store/user/userSlice";
 import clsx from "clsx";
+import { createSearchParams } from "react-router-dom";
 const { AiFillEye, AiFillHeart, BsCartPlusFill, BsFillCartCheckFill } = icons;
-const Product = ({ productData, isNew, normal, navigate, dispatch }) => {
+const Product = ({ productData, isNew, normal, navigate, dispatch, location }) => {
 	const [isShowOptions, setIsShowOptions] = useState(false);
 	const { current } = useSelector((state) => state.user);
 
@@ -35,12 +35,21 @@ const Product = ({ productData, isNew, normal, navigate, dispatch }) => {
 					cancelButtonText: "Hủy",
 				}).then((rs) => {
 					if (rs.isConfirmed) {
-						dispatch(clearMessage());
-						navigate(`/${path.LOGIN}`);
+						navigate({
+							pathname: `/${path.LOGIN}`,
+							search: createSearchParams({ redirect: location.pathname }).toString(),
+						});
 					}
 				});
 			}
-			const response = await apiAddToCart({ pid: productData?._id, color: productData?.color });
+			const response = await apiAddToCart({
+				pid: productData?._id,
+				color: productData?.color,
+				quantity: 1,
+				price: productData?.price,
+				thumbnail: productData?.thumb,
+				title: productData?.title,
+			});
 			if (response.success) {
 				toast.success(response.mes);
 				dispatch(getCurrent());

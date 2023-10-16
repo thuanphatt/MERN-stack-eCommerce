@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { memo, useCallback, useEffect, useState } from "react";
+import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import { useParams, Link, createSearchParams } from "react-router-dom";
 import Slider from "react-slick";
 import ReactImageMagnify from "react-image-magnify";
@@ -35,6 +35,7 @@ var settings = {
 const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 	const { current } = useSelector((state) => state.user);
 	const params = useParams();
+	const titleRef = useRef();
 	const [product, setProduct] = useState(null);
 	const [quantity, setQuantity] = useState(1);
 	const [relatedProducts, setRelatedProducts] = useState(null);
@@ -132,11 +133,12 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 			fetchProductsData();
 		}
 		window.scrollTo(0, 0);
+		titleRef.current.scrollIntoView({ block: "center" });
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [pid]);
 	useEffect(() => {
 		if (pid) fetchProductData();
-	}, [update]);
+	}, [update, pid]);
 	const rerender = useCallback(() => {
 		setUpdate(!update);
 	}, [update]);
@@ -158,17 +160,16 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 				thumb: product?.thumb,
 			});
 		}
-	}, [variant]);
+	}, [variant, product]);
 	const handleClickImage = (e, el) => {
 		e.stopPropagation();
 		setCurrentImage(el);
 	};
-	console.log(current.cart);
 	return (
 		<div className="w-full">
 			{!isQuickView && (
 				<div className="h-[81px] bg-gray-100 flex justify-center items-center">
-					<div className="w-main">
+					<div className="w-main" ref={titleRef}>
 						<h3 className="uppercase font-semibold mb-1"> {currentProduct.title || product?.title}</h3>
 						<Breakcrumb title={currentProduct.title || product?.title} category={category} />
 					</div>

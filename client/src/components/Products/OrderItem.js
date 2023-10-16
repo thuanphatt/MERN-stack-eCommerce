@@ -1,9 +1,12 @@
-import SelectQuantity from "components/Common/SelectQuantity";
-import React, { memo, useState } from "react";
-import { formatMoney, formatPrice } from "utils/helpers";
+import React, { memo, useEffect, useState } from "react";
 
-const OrderItem = ({ el }) => {
-	const [quantity, setQuantity] = useState(1);
+import SelectQuantity from "components/Common/SelectQuantity";
+import withBaseComponent from "hocs/withBaseComponent";
+import { formatMoney, formatPrice } from "utils/helpers";
+import { updateCart } from "store/user/userSlice";
+
+const OrderItem = ({ dispatch, color, _quantity = 1, price, thumb, title, pid }) => {
+	const [quantity, setQuantity] = useState(_quantity);
 	const handleQuantity = (number) => {
 		if (number > 1) setQuantity(number);
 	};
@@ -16,14 +19,18 @@ const OrderItem = ({ el }) => {
 			setQuantity((prev) => +prev + 1);
 		}
 	};
+	useEffect(() => {
+		dispatch(updateCart({ pid, quantity: quantity, color }));
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [quantity]);
 	// set quantity
 	return (
-		<div className="grid grid-cols-10 w-main mx-auto border-b pl-10 py-4" key={el._id}>
+		<div className="grid grid-cols-10 w-main mx-auto border-b pl-10 py-4" key={pid}>
 			<span className="w-full text-center col-span-6 flex items-center">
-				<img src={el.thumbnail} alt="Ảnh sản phẩm" className="w-[200px] h-[200px] object-cover" />
-				<div className="flex flex-col gap-2">
-					<span className="font-medium text-sm">{el.title}</span>
-					<span className="text-sm">{el.color}</span>
+				<img src={thumb} alt="Ảnh sản phẩm" className="w-[200px] h-[200px] object-cover" />
+				<div className="flex flex-col gap-2 px-4 py-2">
+					<span className="font-medium text-sm">{title}</span>
+					<span className="text-sm">{color}</span>
 				</div>
 			</span>
 			<span className="w-full text-center col-span-1">
@@ -37,11 +44,11 @@ const OrderItem = ({ el }) => {
 			</span>
 			<span className="w-full text-center col-span-3">
 				<div className="flex items-center h-full">
-					<h2 className="text-center w-main">{`${formatMoney(formatPrice(el.price))} VND`}</h2>
+					<h2 className="text-center w-main font-bold">{`${formatMoney(formatPrice(price * quantity))} VND`}</h2>
 				</div>
 			</span>
 		</div>
 	);
 };
 
-export default memo(OrderItem);
+export default withBaseComponent(memo(OrderItem));

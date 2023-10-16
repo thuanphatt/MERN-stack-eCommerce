@@ -12,7 +12,7 @@ import {
 	Services,
 	FinalRegister,
 	ResetPassword,
-	CartDetail,
+	DetailCart,
 } from "./pages/public";
 import { Route, Routes } from "react-router-dom";
 import path from "./utils/path";
@@ -20,7 +20,7 @@ import { getCategories } from "./store/app/asyncAction";
 import { useDispatch, useSelector } from "react-redux";
 import { Cart, Modal } from "./components";
 import { AdminLayout, CreateProduct, Dashboard, ManageOrder, ManageProduct, ManageUser } from "pages/admin";
-import { MemberLayout, Personal, BuyHistory, MyCart, WishList } from "pages/member";
+import { MemberLayout, Personal, BuyHistory, WishList, Checkout } from "pages/member";
 import { showCart } from "store/app/appSlice";
 function App() {
 	const dispatch = useDispatch();
@@ -43,10 +43,10 @@ function App() {
 			)}
 			{isShowModal && <Modal>{modalChildren}</Modal>}
 			<Routes>
+				<Route path={path.CHECKOUT} element={<Checkout />}></Route>
 				<Route path={path.PUBLIC_LAYOUT} element={<PublicLayout />}>
 					<Route path={path.HOME} element={<Home />}></Route>
 					<Route path={path.BLOGS} element={<Blogs />}></Route>
-					<Route path={path.CART_DETAIL} element={<CartDetail />}></Route>
 					<Route path={path.DETAIL_PRODUCT__CATEGORY__PID__TITLE} element={<DetailProduct />}></Route>
 					<Route path={path.FAQs} element={<FAQ />}></Route>
 					<Route path={path.OUR_SERVICES} element={<Services />}></Route>
@@ -63,7 +63,7 @@ function App() {
 				</Route>
 				<Route path={path.MEMBER} element={<MemberLayout />}>
 					<Route path={path.PERSONAL} element={<Personal />}></Route>
-					<Route path={path.MYCART} element={<MyCart />}></Route>
+					<Route path={path.MYCART} element={<DetailCart />}></Route>
 					<Route path={path.BUY_HISTORY} element={<BuyHistory />}></Route>
 					<Route path={path.WISHLIST} element={<WishList />}></Route>
 				</Route>
