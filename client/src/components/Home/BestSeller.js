@@ -51,15 +51,15 @@ const BestSeller = () => {
 			<div className="mt-2 mx-[-10px] pt-3">
 				<CustomerSlider products={products} activedTab={activedTab} />
 			</div>
-			<div className="flex gap-4 mt-5">
+			<div className="flex gap-4 mt-5 w-[440px]">
 				<img
-					src="https://digital-world-2.myshopify.com/cdn/shop/files/banner2-home2_2000x_crop_center.png?v=1613166657"
+					src="https://globalcheck.com.vn/apt-upload/image/cache/data/banner/banner-trang-chu/banner-website-may-bay-nong-nghiep-g300pro-2709-2025x950resize_and_crop.png"
 					alt="banner1"
 					className="flex-1 object-contain"
 				></img>
 				<img
-					src="https://digital-world-2.myshopify.com/cdn/shop/files/banner1-home2_2000x_crop_center.png?v=1613166657"
-					alt="banner1"
+					src="https://globalcheck.com.vn/apt-upload/image/cache/data/banner/banner-trang-chu/banner-website-thiet-bi-dan-duong-nx510-2709-2025x950resize_and_crop.png"
+					alt="banner2"
 					className="flex-1 object-contain"
 				></img>
 			</div>

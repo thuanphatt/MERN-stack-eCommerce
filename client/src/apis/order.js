@@ -6,3 +6,14 @@ export const apiCreateOrder = (data) =>
 		method: "post",
 		data,
 	});
+export const apiGetBuyHistory = () =>
+	axios({
+		url: "/order",
+		method: "get",
+	});
+export const apiGetOrders = (params) =>
+	axios({
+		url: "/order/admin",
+		method: "get",
+		params,
+	});

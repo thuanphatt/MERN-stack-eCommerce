@@ -23,7 +23,6 @@ const Personal = () => {
 	const [preview, setPreview] = useState({
 		avatar: "",
 	});
-	console.log(current);
 	useEffect(() => {
 		reset({
 			email: current?.email,

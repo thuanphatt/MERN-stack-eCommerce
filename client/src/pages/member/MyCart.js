@@ -13,7 +13,7 @@ const MyCart = () => {
 		<div className="flex flex-col justify-start w-full">
 			<div className="h-[81px] bg-gray-100 flex justify-center items-center">
 				<div className="w-main">
-					<h3 className="uppercase font-semibold mb-1 text-2xl"> Giỏ hàng của tôi</h3>
+					<header className="text-3xl font-semibold py-4 border-b border-main">Giỏ hàng của tôi</header>
 				</div>
 			</div>
 			{currentCart.length > 0 ? (
@@ -52,7 +52,7 @@ const MyCart = () => {
 				</div>
 			) : (
 				<div className="w-main mx-auto text-center h-screen p-4 flex flex-col items-center gap-4 justify-center">
-					<h2 className="text-gray-500 font-bold text-2xl">Giỏ hàng rỗng</h2>
+					<h2 className="text-gray-500 font-bold text-2xl">Giỏ hàng đang trống!</h2>
 					<img
 						src="https://img.freepik.com/premium-vector/shopping-cart-with-cross-mark-wireless-paymant-icon-shopping-bag-failure-paymant-sign-online-shopping-vector_662353-912.jpg"
 						alt="Giỏ hàng rỗng"

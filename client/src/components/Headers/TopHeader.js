@@ -64,11 +64,18 @@ const TopHeader = () => {
 								<Link to={`/${path.MEMBER}/${path.PERSONAL}`} className="p-2 hover:bg-gray-200 border border-b-0">
 									Thông tin cá nhân
 								</Link>
+								<Link to={`/${path.MEMBER}/${path.MYCART}`} className="p-2 hover:bg-gray-200 border border-b-0">
+									Giỏ hàng của tôi
+								</Link>
+								<Link to={`/${path.MEMBER}/${path.BUY_HISTORY}`} className="p-2 hover:bg-gray-200 border border-b-0">
+									Đơn hàng
+								</Link>
 								{+current?.role === 2001 && (
 									<Link to={`/${path.ADMIN}/${path.DASHBOARD}`} className="p-2 hover:bg-gray-200 border border-b-0">
 										Admin
 									</Link>
 								)}
+
 								<span
 									onClick={() => {
 										dispatch(logout());
