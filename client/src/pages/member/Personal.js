@@ -23,6 +23,7 @@ const Personal = () => {
 	const [preview, setPreview] = useState({
 		avatar: "",
 	});
+	console.log(current);
 	useEffect(() => {
 		reset({
 			email: current?.email,
@@ -30,6 +31,7 @@ const Personal = () => {
 			lastName: current?.lastName,
 			mobile: current?.mobile,
 			avatar: current?.avatar,
+			address: current?.address,
 		});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [current]);
@@ -55,6 +57,7 @@ const Personal = () => {
 		delete data.avatar;
 
 		for (let i of Object.entries(data)) formData.append(i[0], i[1]);
+		console.log(formData);
 		const response = await apiUpdateCurrent(formData);
 		if (response.success) {
 			dispatch(getCurrent());
@@ -141,6 +144,18 @@ const Personal = () => {
 							message: "Số điện thoại không hợp lệ",
 						},
 					}}
+				/>
+				<InputForm
+					label="Địa chỉ nhận hàng của bạn"
+					register={register}
+					errors={errors}
+					id="address"
+					validate={{
+						required: "Không được bỏ trống trường này",
+					}}
+					fullWidth
+					placeholder="Nhập tên địa chỉ nhận hàng của bạn"
+					style={clsx("text-sm")}
 				/>
 
 				<div className="flex items-center gap-2">

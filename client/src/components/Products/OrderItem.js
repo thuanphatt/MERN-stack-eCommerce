@@ -1,15 +1,17 @@
 import React, { memo, useEffect, useState } from "react";
 
 import SelectQuantity from "components/Common/SelectQuantity";
-import withBaseComponent from "hocs/withBaseComponent";
+
 import { formatMoney, formatPrice } from "utils/helpers";
 import { updateCart } from "store/user/userSlice";
+import { useDispatch } from "react-redux";
 
-const OrderItem = ({ dispatch, color, _quantity = 1, price, thumb, title, pid }) => {
+const OrderItem = ({ color, _quantity = 1, price, thumb, title, pid }) => {
 	const [quantity, setQuantity] = useState(_quantity);
 	const handleQuantity = (number) => {
 		if (number > 1) setQuantity(number);
 	};
+	const dispatch = useDispatch();
 	const handleChangeQuantity = (flag) => {
 		if (flag === "minus" && quantity === 1) return;
 		if (flag === "minus") {
@@ -27,7 +29,7 @@ const OrderItem = ({ dispatch, color, _quantity = 1, price, thumb, title, pid })
 	return (
 		<div className="grid grid-cols-10 w-main mx-auto border-b pl-10 py-4" key={pid}>
 			<span className="w-full text-center col-span-6 flex items-center">
-				<img src={thumb} alt="Ảnh sản phẩm" className="w-[200px] h-[200px] object-cover" />
+				<img src={thumb} alt="Ảnh sản phẩm" className="w-[150px] h-[150px] object-cover" />
 				<div className="flex flex-col gap-2 px-4 py-2">
 					<span className="font-medium text-sm">{title}</span>
 					<span className="text-sm">{color}</span>
@@ -51,4 +53,4 @@ const OrderItem = ({ dispatch, color, _quantity = 1, price, thumb, title, pid })
 	);
 };
 
-export default withBaseComponent(memo(OrderItem));
+export default memo(OrderItem);

@@ -12,7 +12,6 @@ import {
 	Services,
 	FinalRegister,
 	ResetPassword,
-	DetailCart,
 } from "./pages/public";
 import { Route, Routes } from "react-router-dom";
 import path from "./utils/path";
@@ -20,7 +19,7 @@ import { getCategories } from "./store/app/asyncAction";
 import { useDispatch, useSelector } from "react-redux";
 import { Cart, Modal } from "./components";
 import { AdminLayout, CreateProduct, Dashboard, ManageOrder, ManageProduct, ManageUser } from "pages/admin";
-import { MemberLayout, Personal, BuyHistory, WishList, Checkout } from "pages/member";
+import { MemberLayout, Personal, BuyHistory, WishList, Checkout, MyCart } from "pages/member";
 import { showCart } from "store/app/appSlice";
 function App() {
 	const dispatch = useDispatch();
@@ -63,7 +62,7 @@ function App() {
 				</Route>
 				<Route path={path.MEMBER} element={<MemberLayout />}>
 					<Route path={path.PERSONAL} element={<Personal />}></Route>
-					<Route path={path.MYCART} element={<DetailCart />}></Route>
+					<Route path={path.MYCART} element={<MyCart />}></Route>
 					<Route path={path.BUY_HISTORY} element={<BuyHistory />}></Route>
 					<Route path={path.WISHLIST} element={<WishList />}></Route>
 				</Route>

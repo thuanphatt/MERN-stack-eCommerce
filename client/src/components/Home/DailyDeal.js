@@ -6,6 +6,7 @@ import { apiGetProducts } from "apis/product";
 import { formatMoney, renderStarFromNumber, secondsToHms } from "utils/helpers";
 
 import icons from "utils/icons";
+import { useNavigate } from "react-router-dom";
 const { AiFillStar, IoMenu } = icons;
 let idInterval;
 const DailyDeal = () => {
@@ -15,6 +16,7 @@ const DailyDeal = () => {
 	const [minute, setMinute] = useState(0);
 	const [second, setSecond] = useState(0);
 	const [expireTime, setExpireTime] = useState(false);
+	const navigate = useNavigate();
 	const fetchDealDaily = async () => {
 		const response = await apiGetProducts({
 			limit: 1,
@@ -73,7 +75,12 @@ const DailyDeal = () => {
 				<span className="font-semibold text-[20px] uppercase text-gray-700">Giảm giá sốc</span>
 				<span></span>
 			</div>
-			<div className="w-full flex flex-col items-center pt-8 gap-2">
+			<div
+				className="w-full flex flex-col items-center pt-8 gap-2 cursor-pointer"
+				onClick={() => {
+					navigate(`/${productRandom?.category[0]}/${productRandom?._id}/${productRandom?.title}`);
+				}}
+			>
 				<img
 					src={
 						productRandom?.thumb ||

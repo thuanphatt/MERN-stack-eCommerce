@@ -23,16 +23,22 @@ const asyncHandler = require("express-async-handler");
 // 	const rs = await Order.create(createData);
 // 	res.json({
 // 		success: rs ? true : false,
-// 		result: rs ? rs : "Something went wrong",
+// 		result: rs ? rs : "Đã có lỗi xảy ra",
 // 	});
 // });
 const createNewOrder = asyncHandler(async (req, res) => {
 	const { _id } = req.user;
-	const { products, total } = req.body;
-	const rs = await Order.create({ products, total, postedBy: _id });
+	const { products, total, address, status } = req.body;
+	if (address) {
+		await User.findByIdAndUpdate(_id, { address, cart: [] });
+		// await Product.findByIdAndUpdate(products, { address, cart: [] });
+	}
+	const data = { products, total: total * 24475, postedBy: _id };
+	if (status) data.status = status;
+	const rs = await Order.create(data);
 	res.json({
 		success: rs ? true : false,
-		result: rs ? rs : "Something went wrong",
+		result: rs ? rs : "Đã có lỗi xảy ra",
 	});
 });
 const updateStatus = asyncHandler(async (req, res) => {
@@ -42,7 +48,7 @@ const updateStatus = asyncHandler(async (req, res) => {
 	const response = await Order.findByIdAndUpdate(oid, { status }, { new: true });
 	res.json({
 		success: response ? true : false,
-		result: response ? response : "Something went wrong",
+		result: response ? response : "Đã có lỗi xảy ra",
 	});
 });
 const getUserOrder = asyncHandler(async (req, res) => {
@@ -51,14 +57,14 @@ const getUserOrder = asyncHandler(async (req, res) => {
 	const response = await Order.find({ orderBy: _id });
 	res.json({
 		success: response ? true : false,
-		result: response ? response : "Something went wrong",
+		result: response ? response : "Đã có lỗi xảy ra",
 	});
 });
 const getAdminOrder = asyncHandler(async (req, res) => {
 	const response = await Order.find();
 	res.json({
 		success: response ? true : false,
-		result: response ? response : "Something went wrong",
+		result: response ? response : "Đã có lỗi xảy ra",
 	});
 });
 module.exports = {

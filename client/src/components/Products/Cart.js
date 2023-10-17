@@ -19,6 +19,7 @@ const Cart = ({ dispatch, navigate }) => {
 		dispatch(getCurrent());
 		if (!response.success) toast.error(response.mes);
 	};
+	console.log(currentCart);
 	return (
 		<div
 			className="w-[400px] h-screen bg-black text-white p-8 grid grid-rows-10 animate-slide-left"
@@ -36,7 +37,16 @@ const Cart = ({ dispatch, navigate }) => {
 				</span>
 			</h2>
 			<section className="row-span-7 h-full max-h-full overflow-y-auto py-3 flex gap-4 flex-col">
-				{!currentCart && <span className="text-sm">Giỏ hàng đang trống</span>}
+				{currentCart.length === 0 && (
+					<div className="text-center h-screen p-4 flex flex-col items-center gap-4 justify-center">
+						<h2 className="text-gray-500 font-bold text-2xl">Giỏ hàng đang rỗng</h2>
+						<img
+							src="https://img.freepik.com/premium-vector/shopping-cart-with-cross-mark-wireless-paymant-icon-shopping-bag-failure-paymant-sign-online-shopping-vector_662353-912.jpg"
+							alt="Giỏ hàng rỗng"
+							className="w-[150px] h-[150px] object-cover"
+						/>
+					</div>
+				)}
 				{currentCart &&
 					currentCart?.map((el) => (
 						<div key={el._id} className="flex border-b border-gray-500 pb-8 justify-between items-center">
@@ -60,27 +70,29 @@ const Cart = ({ dispatch, navigate }) => {
 						</div>
 					))}
 			</section>
-			<div className="row-span-2 h-full flex flex-col justify-between gap-4">
-				<div className="flex items-center gap-2 justify-between pt-4 border-t border-gray-500">
-					<span>Tổng cộng:</span>
-					<span>{`${formatMoney(
-						formatPrice(currentCart.reduce((sum, el) => sum + Number(el.price) * el.quantity, 0))
-					)} VND`}</span>
+			{!currentCart && (
+				<div className="row-span-2 h-full flex flex-col justify-between gap-4">
+					<div className="flex items-center gap-2 justify-between pt-4 border-t border-gray-500">
+						<span>Tổng cộng:</span>
+						<span>{`${formatMoney(
+							formatPrice(currentCart.reduce((sum, el) => sum + Number(el.price) * el.quantity, 0))
+						)} VND`}</span>
+					</div>
+					<span className="text-[12px] text-gray-500 font-light text-center ">
+						Vận chuyển, thuế và giảm giá được tính khi thanh toán.
+					</span>
+					<Button
+						fullwidth
+						style={clsx("rounded-md py-3 bg-main")}
+						handleOnClick={() => {
+							dispatch(showCart());
+							navigate(`/${path.MEMBER}/${path.MYCART}`);
+						}}
+					>
+						Giỏ hàng
+					</Button>
 				</div>
-				<span className="text-[12px] text-gray-500 font-light text-center ">
-					Vận chuyển, thuế và giảm giá được tính khi thanh toán.
-				</span>
-				<Button
-					fullwidth
-					style={clsx("rounded-md py-3 bg-main")}
-					handleOnClick={() => {
-						dispatch(showCart());
-						navigate(`/${path.MEMBER}/${path.MYCART}`);
-					}}
-				>
-					Giỏ hàng
-				</Button>
-			</div>
+			)}
 		</div>
 	);
 };

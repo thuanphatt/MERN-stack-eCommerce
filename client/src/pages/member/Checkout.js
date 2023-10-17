@@ -1,24 +1,37 @@
-import React, { memo } from "react";
+import React, { memo, useEffect, useState } from "react";
 import paymentImg from "assets/woman-shopping-online.gif";
 import { useSelector } from "react-redux";
 import { formatMoney, formatPrice } from "utils/helpers";
 import { InputForm, Paypal } from "components";
 import { useForm } from "react-hook-form";
 import clsx from "clsx";
-const Checkout = () => {
-	const { currentCart } = useSelector((state) => state.user);
+import Congratulation from "components/Common/Congratulation";
+import withBaseComponent from "hocs/withBaseComponent";
+import { getCurrent } from "store/user/asyncActions";
+const Checkout = ({ dispatch }) => {
+	const { currentCart, current } = useSelector((state) => state.user);
 	const {
 		register,
 		formState: { errors },
-		// handleSubmit,
-		// watch,
-		// reset,
+		watch,
+		setValue,
 	} = useForm();
+	const address = watch("address");
+	const [isSuccess, setIsSuccess] = useState(false);
+	useEffect(() => {
+		setValue("address", current.address);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [current]);
+	useEffect(() => {
+		if (isSuccess) dispatch(getCurrent());
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isSuccess]);
 	return (
 		<div className="grid grid-cols-10 gap-6 p-8 h-full max-h-screen overflow-y-auto">
 			<div className="col-span-4 w-full flex items-center justify-center">
 				<img src={paymentImg} alt="paymentImg" className="h-[70%] object-cover" />
 			</div>
+			{isSuccess && <Congratulation />}
 			<div className="col-span-6 w-full flex flex-col gap-6 justify-center">
 				<h2 className="font-bold text-2xl mb-6">Thanh toán</h2>
 				<div className="flex w-full gap-6">
@@ -63,7 +76,15 @@ const Checkout = () => {
 						/>
 
 						<div>
-							<Paypal amount={Math.round(currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0) / 24475)} />
+							<Paypal
+								setIsSuccess={setIsSuccess}
+								payload={{
+									products: currentCart,
+									total: Math.round(currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0) / 24475),
+									address,
+								}}
+								amount={Math.round(currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0) / 24475)}
+							/>
 						</div>
 					</div>
 				</div>
@@ -72,4 +93,4 @@ const Checkout = () => {
 	);
 };
 
-export default memo(Checkout);
+export default withBaseComponent(memo(Checkout));

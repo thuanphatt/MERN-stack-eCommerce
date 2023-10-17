@@ -1,6 +1,7 @@
 import React, { useState, useEffect, memo } from "react";
 import { ProductCard } from "components";
 import { apiGetProducts } from "apis";
+import { useNavigate } from "react-router-dom";
 
 const FeatureProduct = () => {
 	const [products, setProducts] = useState(null);
@@ -11,9 +12,11 @@ const FeatureProduct = () => {
 		});
 		if (response.success) setProducts(response.products);
 	};
+	const navigate = useNavigate();
 	useEffect(() => {
 		fetchProducts();
 	}, []);
+	console.log(products);
 	return (
 		<div className="w-full">
 			<h2 className="py-[15px] text-xl font-[#151515] uppercase font-semibold border-b-2 border-main">
@@ -21,7 +24,16 @@ const FeatureProduct = () => {
 			</h2>
 			<div className="flex flex-wrap mt-[15px] mx-[-10px]">
 				{products?.map((el, index) => (
-					<ProductCard key={index} image={el.thumb} title={el.title} totalRatings={el.totalRatings} price={el.price} />
+					<ProductCard
+						key={index}
+						image={el.thumb}
+						title={el.title}
+						totalRatings={el.totalRatings}
+						price={el.price}
+						handleonClick={() => {
+							navigate(`/${el?.category[0]}/${el?._id}/${el?.title}`);
+						}}
+					/>
 				))}
 			</div>
 			<div className="grid grid-cols-4 grid-rows-2 gap-5">
