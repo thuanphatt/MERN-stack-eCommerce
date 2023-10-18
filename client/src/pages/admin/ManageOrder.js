@@ -1,20 +1,57 @@
-import { apiGetOrders } from "apis";
 import moment from "moment";
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useCallback, useEffect, useState } from "react";
+import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import { useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
+
+import { apiDeleteOrder, apiGetOrders } from "apis";
+import { Pagination } from "components";
 import { formatMoney, formatPrice } from "utils/helpers";
+// import { statusOrder } from "utils/contants";
 
 const ManagerOrder = () => {
 	const [orders, setOrders] = useState([]);
-	const fetchOrders = async () => {
-		const response = await apiGetOrders();
-		console.log(response);
+	const [editOrder, setEditOrder] = useState(null);
+	const [params] = useSearchParams();
+	const [update, setUpdate] = useState(false);
+	const [counts, setCounts] = useState(0);
+	const fetchOrders = async (params) => {
+		const response = await apiGetOrders({ ...params, limit: +process.env.REACT_APP_LIMIT });
 		if (response.success) {
 			setOrders(response.orders);
+			setCounts(response.counts);
 		}
 	};
+	const render = useCallback(() => {
+		setUpdate(!update);
+	}, [update]);
+	const handleDeleteOrder = async (oid) => {
+		Swal.fire({
+			title: "Bạn có chắc chắn không ?",
+			text: "Sau khi bạn xóa đơn hàng này sẽ không thể khôi phục lại",
+			cancelButtonText: "Không",
+			confirmButtonText: "Có",
+			showCancelButton: true,
+			icon: "warning",
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+				const response = await apiDeleteOrder(oid);
+				console.log(response);
+				if (response.success) {
+					render();
+					toast.success(response.mes);
+				} else {
+					toast.error(response.mes);
+				}
+			} else {
+			}
+		});
+	};
 	useEffect(() => {
-		fetchOrders();
-	}, []);
+		const searchParams = Object.fromEntries([...params]);
+		fetchOrders(searchParams);
+	}, [update, params]);
 	return (
 		<div className="w-full relative px-4 ">
 			<header className="text-3xl font-semibold py-4 border-b border-main">Quản lý đơn hàng</header>
@@ -28,6 +65,7 @@ const ManagerOrder = () => {
 						<th className="py-3 px-1 border border-gray-800">Trạng thái</th>
 						<th className="py-3 px-1 border border-gray-800">Tổng cộng</th>
 						<th className="py-3 px-1 border border-gray-800">Thời gian</th>
+						<th className="py-3 px-1 border border-gray-800">Hành động</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -51,15 +89,43 @@ const ManagerOrder = () => {
 									</div>
 								))}
 							</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800 truncate max-w-[150px]">{el.status}</td>
+							{editOrder ? (
+								<td className="py-2 px-1 border-b border-r border-gray-800 truncate max-w-[150px]"></td>
+							) : (
+								<td className="py-2 px-1 border-b border-r border-gray-800 truncate max-w-[150px]">{el.status}</td>
+							)}
+
 							<td className="py-2 px-1 border-b border-r border-gray-800">{`${formatMoney(
 								formatPrice(el?.total)
 							)} VND`}</td>
 							<td className="py-2 px-1 border-b border-r border-gray-800">{moment(el.createdAt)?.fromNow()}</td>
+							<td className="py-2 px-1 border-b border-r border-gray-800">
+								<div className="flex items-center gap-4 justify-center">
+									<span
+										className="cursor-pointer hover:text-gray-800 text-blue-500"
+										onClick={() => {
+											setEditOrder(el);
+										}}
+									>
+										<AiFillEdit size={18} />
+									</span>
+									<span
+										className="cursor-pointer hover:text-gray-800 text-red-500"
+										onClick={() => {
+											handleDeleteOrder(el._id);
+										}}
+									>
+										<AiFillDelete size={18} />
+									</span>
+								</div>
+							</td>
 						</tr>
 					))}
 				</tbody>
 			</table>
+			<div className="flex justify-end my-6 px-4">
+				<Pagination totalCount={counts} />
+			</div>
 		</div>
 	);
 };
