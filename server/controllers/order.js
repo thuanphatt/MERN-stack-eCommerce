@@ -28,17 +28,17 @@ const asyncHandler = require("express-async-handler");
 // });
 const createNewOrder = asyncHandler(async (req, res) => {
 	const { _id } = req.user;
-	const { products, total, address, status } = req.body;
+	const { products, total, address, status, orderBy } = req.body;
+	const totalVND = total * 24475;
 	if (address) {
 		await User.findByIdAndUpdate(_id, { address, cart: [] });
 	}
-	const data = { products, total: total * 24475, orderBy: _id };
+	const data = { products, total: totalVND, orderBy };
 	if (status) data.status = status;
-	const newOrder = await Order.create(data);
-	const user = await User.findById(_id).select("firstName lastName address mobile");
+	const rs = await Order.create(data);
 	res.json({
-		success: newOrder ? true : false,
-		result: newOrder ? { order: newOrder, user } : "Đã có lỗi xảy ra",
+		success: rs ? true : false,
+		result: rs ? rs : "Đã có lỗi xảy ra",
 	});
 });
 const updateStatus = asyncHandler(async (req, res) => {
@@ -58,6 +58,14 @@ const getUserOrder = asyncHandler(async (req, res) => {
 	res.json({
 		success: response ? true : false,
 		result: response ? response : "Đã có lỗi xảy ra",
+	});
+});
+const deleteOrder = asyncHandler(async (req, res) => {
+	const { oid } = req.params;
+	const response = await Order.findByIdAndDelete(oid);
+	return res.status(200).json({
+		success: response ? true : false,
+		mes: response ? "Đã xóa thành công" : "Đã có lỗi xảy ra",
 	});
 });
 const getAdminOrder = asyncHandler(async (req, res) => {
@@ -108,4 +116,5 @@ module.exports = {
 	updateStatus,
 	getUserOrder,
 	getAdminOrder,
+	deleteOrder,
 };

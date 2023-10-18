@@ -6,5 +6,6 @@ router.post("/", verifyAccessToken, ctrls.createNewOrder);
 router.put("/status/:oid", [verifyAccessToken, isAdmin], ctrls.updateStatus);
 router.get("/", [verifyAccessToken], ctrls.getUserOrder);
 router.get("/admin", [verifyAccessToken, isAdmin], ctrls.getAdminOrder);
+router.delete("/:oid", [verifyAccessToken, isAdmin], ctrls.deleteOrder);
 
 module.exports = router;

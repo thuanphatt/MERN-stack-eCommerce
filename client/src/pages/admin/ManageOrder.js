@@ -8,7 +8,6 @@ import Swal from "sweetalert2";
 import { apiDeleteOrder, apiGetOrders } from "apis";
 import { Pagination } from "components";
 import { formatMoney, formatPrice } from "utils/helpers";
-// import { statusOrder } from "utils/contants";
 
 const ManagerOrder = () => {
 	const [orders, setOrders] = useState([]);
@@ -17,7 +16,8 @@ const ManagerOrder = () => {
 	const [update, setUpdate] = useState(false);
 	const [counts, setCounts] = useState(0);
 	const fetchOrders = async (params) => {
-		const response = await apiGetOrders({ ...params, limit: +process.env.REACT_APP_LIMIT });
+		const response = await apiGetOrders({ ...params, limit: +process.env.REACT_APP_LIMIT, sort: "-createdAt" });
+		console.log(response);
 		if (response.success) {
 			setOrders(response.orders);
 			setCounts(response.counts);
@@ -73,18 +73,24 @@ const ManagerOrder = () => {
 						<tr key={index}>
 							<td className="py-2 px-1 border border-gray-800">{index + 1}</td>
 							<td className="py-2 px-1 border border-gray-800">{el._id}</td>
-							<td className="py-2 px-1 border border-gray-800">{el.orderBy?.firstName || el.orderBy}</td>
+							<td className="py-2 px-1 border border-gray-800">
+								<div className="flex flex-col gap-1 items-start">
+									<span className="text-sm">{`Họ tên: ${el.orderBy.firstName} ${el.orderBy.lastName}`}</span>
+									<span className="text-sm">{`SĐT: ${el.orderBy.mobile}`}</span>
+									<span className="text-sm truncate max-w-[150px]">{`Địa chỉ: ${el.orderBy.address}`}</span>
+								</div>
+							</td>
 							<td className="py-2 px-1 border-b border-r border-gray-800">
 								{el.products.map((item) => (
-									<div className="flex items-center gap-4 justify-center p-2 border-b">
-										<div className="flex flex-col gap-1 items-center flex-1">
+									<div className="flex items-center gap-4 justify-center p-2 border-b" key={item._id}>
+										<div className="flex flex-col gap-1 flex-1 items-start">
 											<span className="text-sm truncate max-w-[150px]">{item.title}</span>
 											<span>{`Màu sắc: ${item.color}`}</span>
 											<img src={item.thumbnail} alt="thumb" className="w-12 h-12 object-cover" />
 										</div>
 										<div className="flex flex-col gap-1 items-end flex-1">
 											<span>{`Số lượng: ${item.quantity}`}</span>
-											<span>{`${formatMoney(formatPrice(item?.price))} VND`}</span>
+											<span>{`Giá: ${formatMoney(formatPrice(item?.price))} VND`}</span>
 										</div>
 									</div>
 								))}

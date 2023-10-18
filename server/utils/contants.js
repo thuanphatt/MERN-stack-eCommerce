@@ -35,14 +35,5 @@ const usersFakeData = [
 		password: "123456",
 	},
 ];
-const roles = [
-	{
-		code: 2001,
-		value: "Admin",
-	},
-	{
-		code: 2000,
-		value: "Người dùng",
-	},
-];
-module.exports = { usersFakeData, roles };
+
+module.exports = { usersFakeData };

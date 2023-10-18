@@ -19,7 +19,6 @@ const Cart = ({ dispatch, navigate }) => {
 		dispatch(getCurrent());
 		if (!response.success) toast.error(response.mes);
 	};
-	console.log(currentCart);
 	return (
 		<div
 			className="w-[400px] h-screen bg-black text-white p-8 grid grid-rows-10 animate-slide-left"

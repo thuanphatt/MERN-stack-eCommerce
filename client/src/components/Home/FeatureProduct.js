@@ -16,7 +16,6 @@ const FeatureProduct = () => {
 	useEffect(() => {
 		fetchProducts();
 	}, []);
-	console.log(products);
 	return (
 		<div className="w-full">
 			<h2 className="py-[15px] text-xl font-[#151515] uppercase font-semibold border-b-2 border-main">

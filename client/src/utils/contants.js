@@ -262,3 +262,17 @@ export const blockStatus = [
 		value: "Hoạt động",
 	},
 ];
+export const statusOrder = [
+	{
+		code: 0,
+		value: "Đã hủy",
+	},
+	{
+		code: 1,
+		value: "Đang xử lý",
+	},
+	{
+		code: 2,
+		value: "Thành công",
+	},
+];

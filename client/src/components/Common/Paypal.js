@@ -24,8 +24,6 @@ const ButtonWrapper = ({ currency, showSpinner, amount, payload, setIsSuccess })
 	const navigate = useNavigate();
 	const handleSaveOrder = async () => {
 		const response = await apiCreateOrder({ ...payload, status: "Thành công" });
-		console.log(response);
-
 		if (response.success) {
 			setIsSuccess(true);
 			setTimeout(() => {

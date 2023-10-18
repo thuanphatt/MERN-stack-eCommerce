@@ -20,6 +20,7 @@ const Checkout = ({ dispatch }) => {
 	const [isSuccess, setIsSuccess] = useState(false);
 	useEffect(() => {
 		setValue("address", current.address);
+
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [current]);
 	useEffect(() => {
@@ -82,6 +83,7 @@ const Checkout = ({ dispatch }) => {
 									products: currentCart,
 									total: Math.round(currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0) / 24475),
 									address,
+									orderBy: current,
 								}}
 								amount={Math.round(currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0) / 24475)}
 							/>

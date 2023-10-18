@@ -39,7 +39,6 @@ const Products = () => {
 		delete queries.from;
 		const q = { category, ...queries, ...priceQuery };
 		if (q.category === ":category") {
-			console.log(q.category);
 			fetchProductsByCateroty();
 			delete q.category;
 		}

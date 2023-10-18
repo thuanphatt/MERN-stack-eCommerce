@@ -20,7 +20,9 @@ const ManageUser = () => {
 	const {
 		handleSubmit,
 		register,
+
 		formState: { errors },
+		reset,
 	} = useForm({
 		email: "",
 		firstName: "",
@@ -42,6 +44,7 @@ const ManageUser = () => {
 		const response = await apiGetUsers({ ...params, limit: process.env.REACT_APP_LIMIT });
 		if (response.success) setUsersData(response);
 	};
+
 	const render = useCallback(() => {
 		setUpdate(!update);
 	}, [update]);
@@ -207,7 +210,6 @@ const ManageUser = () => {
 													register={register}
 													errors={errors}
 													id={"isBlocked"}
-													validate={{ required: "Không được để trống trường này" }}
 													options={blockStatus}
 												/>
 											) : (
@@ -230,6 +232,14 @@ const ManageUser = () => {
 													className="px-2 hover:underline cursor-pointer hover:text-gray-800 text-blue-500"
 													onClick={() => {
 														setEditElement(el);
+														reset({
+															email: editElement?.email,
+															lastName: editElement?.lastName,
+															firstName: editElement?.firstName,
+															mobile: editElement?.mobile,
+															role: el?.role,
+															isBlocked: el?.isBlocked,
+														});
 													}}
 												>
 													<AiFillEdit size={18} />
