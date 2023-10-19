@@ -109,7 +109,7 @@ module.exports = {
 				"slide-top": "slide-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;",
 				"slide-top-sm": "slide-top-sm 0.2s linear both;",
 				"slide-right": "slide-right 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;",
-				"slide-left": "slide-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;",
+				"slide-left": "slide-left 0.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;",
 				"scale-up-center": "scale-up-center 0.2s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;",
 				"scale-up-hor-left": "scale-up-hor-left 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;",
 			},

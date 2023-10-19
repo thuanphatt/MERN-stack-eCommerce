@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { memo, useEffect, useState } from "react";
 import paymentImg from "assets/woman-shopping-online.gif";
 import { useSelector } from "react-redux";
@@ -14,19 +15,28 @@ const Checkout = ({ dispatch }) => {
 		register,
 		formState: { errors },
 		watch,
-		setValue,
+		reset,
 	} = useForm();
 	const address = watch("address");
 	const [isSuccess, setIsSuccess] = useState(false);
-	useEffect(() => {
-		setValue("address", current.address);
 
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+	// useEffect(() => {
+	// 	if (isSuccess) {
+	// 		setValue("address", current?.address || "");
+	// 		dispatch(getCurrent());
+	// 	}
+	// }, [isSuccess, current]);
+	useEffect(() => {
+		reset({
+			address: current?.address,
+		});
 	}, [current]);
 	useEffect(() => {
-		if (isSuccess) dispatch(getCurrent());
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+		if (isSuccess) {
+			dispatch(getCurrent());
+		}
 	}, [isSuccess]);
+
 	return (
 		<div className="grid grid-cols-10 gap-6 p-8 h-full max-h-screen overflow-y-auto">
 			<div className="col-span-4 w-full flex items-center justify-center">
@@ -75,7 +85,6 @@ const Checkout = ({ dispatch }) => {
 							placeholder="Nhập tên địa chỉ nhận hàng của bạn"
 							style={clsx("text-sm")}
 						/>
-
 						<div>
 							<Paypal
 								setIsSuccess={setIsSuccess}

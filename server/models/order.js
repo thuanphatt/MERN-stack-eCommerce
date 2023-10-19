@@ -11,6 +11,7 @@ var orderSchema = new mongoose.Schema(
 				price: Number,
 				thumbnail: String,
 				title: String,
+				sold: Number,
 			},
 		],
 		status: {
@@ -24,11 +25,17 @@ var orderSchema = new mongoose.Schema(
 			ref: "Coupon",
 		},
 		orderBy: {
-			user: { type: mongoose.Types.ObjectId, ref: "user" },
+			user: { type: mongoose.Types.ObjectId, ref: "User" },
 			firstName: String,
 			lastName: String,
 			address: Array,
 			mobile: String,
+			_id: mongoose.Types.ObjectId,
+		},
+		paymentMethod: {
+			type: String,
+			default: "COD",
+			enum: ["Paypal", "COD", "VNPay"],
 		},
 	},
 	{ timestamps: true }

@@ -74,7 +74,6 @@ const Login = () => {
 
 	const handleForgotPassword = async () => {
 		const response = await apiForgotPassword({ email });
-		// console.log("times");
 		if (response.success) {
 			toast.success(response.mes);
 		} else {

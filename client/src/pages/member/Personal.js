@@ -35,7 +35,6 @@ const Personal = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [current]);
 	const handlePreviewThumb = async (file) => {
-		console.log(file);
 		if (file?.type !== "image/png" && file?.type !== "image/jpeg" && file) {
 			toast.warning("File không được hỗ trợ");
 			return;
@@ -56,7 +55,7 @@ const Personal = () => {
 		delete data.avatar;
 
 		for (let i of Object.entries(data)) formData.append(i[0], i[1]);
-		console.log(formData);
+
 		const response = await apiUpdateCurrent(formData);
 		if (response.success) {
 			dispatch(getCurrent());

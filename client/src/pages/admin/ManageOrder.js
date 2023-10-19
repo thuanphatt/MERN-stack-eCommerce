@@ -6,18 +6,26 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 
 import { apiDeleteOrder, apiGetOrders } from "apis";
-import { Pagination } from "components";
+import { InputForm, Pagination } from "components";
 import { formatMoney, formatPrice } from "utils/helpers";
+import { useForm } from "react-hook-form";
+// import { useDebounce } from "react-use";
+import withBaseComponent from "hocs/withBaseComponent";
 
-const ManagerOrder = () => {
+const ManagerOrder = ({ navigate, location }) => {
 	const [orders, setOrders] = useState([]);
+	const {
+		register,
+		formState: { errors },
+		watch,
+	} = useForm();
 	const [editOrder, setEditOrder] = useState(null);
 	const [params] = useSearchParams();
 	const [update, setUpdate] = useState(false);
 	const [counts, setCounts] = useState(0);
 	const fetchOrders = async (params) => {
 		const response = await apiGetOrders({ ...params, limit: +process.env.REACT_APP_LIMIT, sort: "-createdAt" });
-		console.log(response);
+
 		if (response.success) {
 			setOrders(response.orders);
 			setCounts(response.counts);
@@ -26,6 +34,7 @@ const ManagerOrder = () => {
 	const render = useCallback(() => {
 		setUpdate(!update);
 	}, [update]);
+	console.log(watch("q"));
 	const handleDeleteOrder = async (oid) => {
 		Swal.fire({
 			title: "Bạn có chắc chắn không ?",
@@ -37,7 +46,6 @@ const ManagerOrder = () => {
 		}).then(async (result) => {
 			if (result.isConfirmed) {
 				const response = await apiDeleteOrder(oid);
-				console.log(response);
 				if (response.success) {
 					render();
 					toast.success(response.mes);
@@ -48,13 +56,32 @@ const ManagerOrder = () => {
 			}
 		});
 	};
+	// const queryDebounce = useDebounce(watch("q"), 800);
+	// console.log(queryDebounce);
+	// useEffect(() => {
+	// 	if (queryDebounce) {
+	// 		navigate({
+	// 			pathname: location.pathname,
+	// 			search: createSearchParams({ q: queryDebounce }).toString(),
+	// 		});
+	// 	} else {
+	// 		navigate({
+	// 			pathname: location.pathname,
+	// 		});
+	// 	}
+	// }, [location.pathname, navigate, queryDebounce]);
 	useEffect(() => {
 		const searchParams = Object.fromEntries([...params]);
 		fetchOrders(searchParams);
 	}, [update, params]);
 	return (
-		<div className="w-full relative px-4 ">
+		<div className="w-full relative px-4 mx-auto">
 			<header className="text-3xl font-semibold py-4 border-b border-main">Quản lý đơn hàng</header>
+			<div className="flex justify-end items-center pr-4 mt-4">
+				<form className="w-[45%]">
+					<InputForm id="q" register={register} errors={errors} fullWidth placeholder="Tìm kiếm đơn hàng ..." />
+				</form>
+			</div>
 			<table className="table-auto mb-6 text-center text-sm mx-4 my-8">
 				<thead className="font-bold bg-gray-600 text-white">
 					<tr className="border border-gray-800">
@@ -62,6 +89,7 @@ const ManagerOrder = () => {
 						<th className="py-3 px-1 border border-gray-800">Mã đơn</th>
 						<th className="py-3 px-1 border border-gray-800">Người đặt</th>
 						<th className="py-3 px-1 border border-gray-800">Sản phẩm</th>
+						<th className="py-3 px-1 border border-gray-800">Phương thức TT</th>
 						<th className="py-3 px-1 border border-gray-800">Trạng thái</th>
 						<th className="py-3 px-1 border border-gray-800">Tổng cộng</th>
 						<th className="py-3 px-1 border border-gray-800">Thời gian</th>
@@ -71,13 +99,15 @@ const ManagerOrder = () => {
 				<tbody>
 					{orders?.map((el, index) => (
 						<tr key={index}>
-							<td className="py-2 px-1 border border-gray-800">{index + 1}</td>
+							<td className="py-2 px-1 border border-gray-800">
+								{(+params.get("page") > 1 ? +params.get("page") - 1 : 0) * process.env.REACT_APP_LIMIT + index + 1}
+							</td>
 							<td className="py-2 px-1 border border-gray-800">{el._id}</td>
 							<td className="py-2 px-1 border border-gray-800">
 								<div className="flex flex-col gap-1 items-start">
-									<span className="text-sm">{`Họ tên: ${el.orderBy.firstName} ${el.orderBy.lastName}`}</span>
-									<span className="text-sm">{`SĐT: ${el.orderBy.mobile}`}</span>
-									<span className="text-sm truncate max-w-[150px]">{`Địa chỉ: ${el.orderBy.address}`}</span>
+									<span className="text-sm">{`Họ tên: ${el.orderBy?.firstName} ${el.orderBy?.lastName}`}</span>
+									<span className="text-sm">{`SĐT: ${el.orderBy?.mobile}`}</span>
+									<span className="text-sm truncate max-w-[150px]">{`Địa chỉ: ${el.orderBy?.address}`}</span>
 								</div>
 							</td>
 							<td className="py-2 px-1 border-b border-r border-gray-800">
@@ -95,8 +125,9 @@ const ManagerOrder = () => {
 									</div>
 								))}
 							</td>
+							<td className="py-2 px-1 border-b border-r border-gray-800 truncate max-w-[150px]">{el.paymentMethod}</td>
 							{editOrder ? (
-								<td className="py-2 px-1 border-b border-r border-gray-800 truncate max-w-[150px]"></td>
+								<td className="py-2 px-1 border-b border-r border-gray-800 truncate max-w-[150px]">Edit el</td>
 							) : (
 								<td className="py-2 px-1 border-b border-r border-gray-800 truncate max-w-[150px]">{el.status}</td>
 							)}
@@ -136,4 +167,4 @@ const ManagerOrder = () => {
 	);
 };
 
-export default memo(ManagerOrder);
+export default withBaseComponent(memo(ManagerOrder));
