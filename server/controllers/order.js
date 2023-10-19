@@ -30,7 +30,7 @@ const asyncHandler = require("express-async-handler");
 const createNewOrder = asyncHandler(async (req, res) => {
 	const { _id } = req.user;
 	const { products, total, address, status, orderBy, paymentMethod } = req.body;
-
+	const totalVND = total * 24475;
 	if (address) {
 		await User.findOneAndUpdate({ _id: _id }, { $set: { address, cart: [] } });
 		const idProductArr = products.map((el) => el._id);
@@ -55,7 +55,7 @@ const createNewOrder = asyncHandler(async (req, res) => {
 	}
 
 	// Tạo đối tượng Order
-	const data = { products, total, orderBy };
+	const data = { products, totalVND, orderBy };
 	if (status) data.status = status;
 	if (paymentMethod) data.paymentMethod = paymentMethod;
 	const rs = await Order.create(data);

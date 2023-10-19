@@ -17,7 +17,6 @@ const ManagerOrder = ({ navigate, location }) => {
 	const {
 		register,
 		formState: { errors },
-		watch,
 	} = useForm();
 	const [editOrder, setEditOrder] = useState(null);
 	const [params] = useSearchParams();
@@ -34,7 +33,6 @@ const ManagerOrder = ({ navigate, location }) => {
 	const render = useCallback(() => {
 		setUpdate(!update);
 	}, [update]);
-	console.log(watch("q"));
 	const handleDeleteOrder = async (oid) => {
 		Swal.fire({
 			title: "Bạn có chắc chắn không ?",

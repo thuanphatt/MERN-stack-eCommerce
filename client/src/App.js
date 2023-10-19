@@ -18,7 +18,16 @@ import path from "./utils/path";
 import { getCategories } from "./store/app/asyncAction";
 import { useDispatch, useSelector } from "react-redux";
 import { Cart, Modal } from "./components";
-import { AdminLayout, CreateProduct, Dashboard, ManageOrder, ManageProduct, ManageUser } from "pages/admin";
+import {
+	AdminLayout,
+	CreateProduct,
+	Dashboard,
+	ManageCategory,
+	ManageOrder,
+	ManageProduct,
+	ManageUser,
+	RevenueStatistics,
+} from "pages/admin";
 import { MemberLayout, Personal, BuyHistory, WishList, Checkout, MyCart } from "pages/member";
 import { showCart } from "store/app/appSlice";
 function App() {
@@ -56,9 +65,11 @@ function App() {
 				<Route path={path.ADMIN} element={<AdminLayout />}>
 					<Route path={path.DASHBOARD} element={<Dashboard />}></Route>
 					<Route path={path.MANAGE_USER} element={<ManageUser />}></Route>
-					<Route path={path.MANAGE_ORDER} element={<ManageOrder />}></Route>
 					<Route path={path.MANAGE_PRODUCT} element={<ManageProduct />}></Route>
+					<Route path={path.MANAGE_ORDER} element={<ManageOrder />}></Route>
+					<Route path={path.MANAGE_CATEGORY} element={<ManageCategory />}></Route>
 					<Route path={path.CREATE_PRODUCT} element={<CreateProduct />}></Route>
+					<Route path={path.REVENUE_STATISTICS} element={<RevenueStatistics />}></Route>
 				</Route>
 				<Route path={path.MEMBER} element={<MemberLayout />}>
 					<Route path={path.PERSONAL} element={<Personal />}></Route>

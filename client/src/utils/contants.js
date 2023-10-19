@@ -13,8 +13,10 @@ const {
 	IoIosCreate,
 	BsBagCheckFill,
 	AiFillInfoCircle,
+	BiSolidCategoryAlt,
 	AiOutlineHistory,
 	AiFillHeart,
+	SiSimpleanalytics,
 } = icons;
 export const navigation = [
 	{
@@ -201,6 +203,20 @@ export const adminSidebar = [
 		text: "Quản lý đơn hàng",
 		path: `/${path.ADMIN}/${path.MANAGE_ORDER}`,
 		icon: <RiBillFill size={20} />,
+	},
+	{
+		id: 5,
+		type: "SINGLE",
+		text: "Quản lý danh mục",
+		path: `/${path.ADMIN}/${path.MANAGE_CATEGORY}`,
+		icon: <BiSolidCategoryAlt size={20} />,
+	},
+	{
+		id: 6,
+		type: "SINGLE",
+		text: "Thống kê doanh thu",
+		path: `/${path.ADMIN}/${path.REVENUE_STATISTICS}`,
+		icon: <SiSimpleanalytics size={20} />,
 	},
 ];
 export const memberSidebar = [

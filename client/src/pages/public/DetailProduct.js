@@ -111,6 +111,7 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 				}
 			});
 		}
+
 		const response = await apiAddToCart({
 			pid,
 			color: currentProduct.color || product?.color,
