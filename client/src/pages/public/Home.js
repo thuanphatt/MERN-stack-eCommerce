@@ -1,6 +1,15 @@
 import React, { memo } from "react";
 import { useSelector } from "react-redux";
-import { Sidebar, Banner, BestSeller, DailyDeal, FeatureProduct, HotCollections, CustomerSlider } from "components";
+import {
+	Sidebar,
+	Banner,
+	BestSeller,
+	DailyDeal,
+	FeatureProduct,
+	HotCollections,
+	CustomerSlider,
+	Feedback,
+} from "components";
 
 const Home = () => {
 	const { newProducts } = useSelector((state) => state.products);
@@ -28,9 +37,10 @@ const Home = () => {
 			<div className="my-4 w-main">
 				<HotCollections />
 			</div>
+			<Feedback />
 			<div className="my-4 w-main">
 				<h2 className="py-[15px] text-xl font-[#151515] uppercase font-semibold border-b-2 border-main">
-					BÀI ĐĂNG TRÊN BLOG
+					TIN TỨC MỚI NHẤT
 				</h2>
 			</div>
 			<div className="w-main h-[500px]"></div>

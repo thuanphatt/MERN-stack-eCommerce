@@ -1,9 +1,25 @@
 import React, { memo } from "react";
-import banner from "assets/banner.jpg";
+import Slider from "react-slick";
+import { srcImg } from "utils/contants";
+
 const Banner = () => {
+	const settings = {
+		dots: true,
+		infinite: true,
+		speed: 500,
+		slidesToShow: 1,
+		slidesToScroll: 1,
+		autoplay: true,
+	};
 	return (
 		<div className="w-full">
-			<img src={banner} alt="banner" className="h-[393px] w-full object-cover" />
+			<Slider {...settings}>
+				{srcImg.map((el) => (
+					<div key={el.id}>
+						<img src={el.src} alt="img" className="w-full object-cover h-[372px]" />
+					</div>
+				))}
+			</Slider>
 		</div>
 	);
 };

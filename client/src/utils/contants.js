@@ -1,5 +1,8 @@
 import path from "./path";
 import icons from "./icons";
+import banner1 from "assets/banner1.png";
+import banner2 from "assets/banner2.png";
+import banner3 from "assets/banner3.png";
 const {
 	FaShieldAlt,
 	AiFillHome,
@@ -290,5 +293,33 @@ export const statusOrder = [
 	{
 		code: 2,
 		value: "Thành công",
+	},
+];
+export const srcImg = [
+	{
+		id: 2,
+		src: banner2,
+	},
+	{
+		id: 1,
+		src: banner1,
+	},
+	{
+		id: 3,
+		src: banner3,
+	},
+];
+export const feedbackUser = [
+	{
+		id: 1,
+		src: "https://globalcheck.com.vn/apt-upload/image/data/web/review-khach-hang-02-(1).png",
+	},
+	{
+		id: 2,
+		src: "https://globalcheck.com.vn/apt-upload/image/data/baner-(2).png",
+	},
+	{
+		id: 3,
+		src: "https://globalcheck.com.vn/apt-upload/image/data/baner.png",
 	},
 ];
