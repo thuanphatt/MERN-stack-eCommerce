@@ -1,6 +1,5 @@
 import React, { memo } from "react";
 import clsx from "clsx";
-
 const InputField = ({
 	value,
 	setValue,
@@ -23,6 +22,7 @@ const InputField = ({
 					{nameKey?.slice(0, 1).toUpperCase() + nameKey.slice(1)}
 				</label>
 			)}
+
 			<input
 				type={type || "text"}
 				className={clsx("px-4 py-3 rounded-sm border w-full my-2 placeholder:text-sm outline-none", style)}

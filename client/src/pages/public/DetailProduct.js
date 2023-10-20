@@ -111,7 +111,10 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 				}
 			});
 		}
-
+		if (quantity > product?.quantity) {
+			toast.warn("Số lượng đã vượt quá giới hạn");
+			return;
+		}
 		const response = await apiAddToCart({
 			pid,
 			color: currentProduct.color || product?.color,
@@ -166,6 +169,7 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 		e.stopPropagation();
 		setCurrentImage(el);
 	};
+
 	return (
 		<div className="w-full">
 			{!isQuickView && (
