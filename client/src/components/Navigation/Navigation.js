@@ -53,7 +53,7 @@ const Navigation = () => {
 						{products?.map((el) => (
 							<div
 								key={el._id}
-								className="flex p-4 border-b cursor-pointer"
+								className="flex p-4 border-b cursor-pointer hover:bg-gray-200"
 								onClick={(e) => {
 									e.stopPropagation();
 									navigate(`/${el?.category[0]}/${el?._id}/${el?.title}`);

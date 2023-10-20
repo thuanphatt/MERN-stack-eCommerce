@@ -8,7 +8,7 @@ import { IoReturnDownBack } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { showModal } from "store/app/appSlice";
-import { getBase64, validate } from "utils/helpers";
+import { getBase64 } from "utils/helpers";
 
 const UpdateCate = ({ editCategory, setEditCategory, render, dispatch }) => {
 	const {
@@ -40,24 +40,25 @@ const UpdateCate = ({ editCategory, setEditCategory, render, dispatch }) => {
 	};
 	const handleUpdateCategory = async (data) => {
 		const finalPayload = { ...data };
-		console.log(finalPayload);
-		// finalPayload.image = data?.image?.length === 0 ? preview.image : data.image[0];
-		// const formData = new FormData();
-		// for (let i of Object.entries(finalPayload)) formData.append(i[0], i[1]);
-		// console.log(formData);
-		// dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
-		// const response = await apiUpdateCate(formData, editCategory?._id);
-		// dispatch(showModal({ isShowModal: false, modalChildren: null }));
-		// if (response.success) {
-		// 	toast.success(response.mes);
-		// 	render();
-		// 	setEditCategory(null);
-		// } else toast.error(response.mes);
+		if (data.title) data.title = categories?.find((el) => el.title === data.title)?.title;
+		finalPayload.image = data?.image?.length === 0 ? preview.image : data.image[0];
+		console.log(data.brand); // ['APPLE 1,USB,SENNHEISER,HELLO']
+		data.brand = data.brand[0].split(",").map((item) => item.trim());
+		console.log(data.brand); // ['APPLE 1,USB,SENNHEISER,HELLO']
+		const formData = new FormData();
+		for (let i of Object.entries(finalPayload)) formData.append(i[0], i[1]);
+		dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
+		const response = await apiUpdateCate(formData, editCategory?._id);
+		dispatch(showModal({ isShowModal: false, modalChildren: null }));
+		if (response.success) {
+			toast.success(response.mes);
+			setEditCategory(null);
+			render();
+		} else toast.error(response.mes);
 	};
 
 	useEffect(() => {
 		if (watch("image") instanceof FileList && watch("image").length > 0) handlePreviewThumb(watch("image")[0]);
-
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [watch("image")]);
 	return (
@@ -88,36 +89,27 @@ const UpdateCate = ({ editCategory, setEditCategory, render, dispatch }) => {
 						fullWidth
 						placeholder="Nhập tên của danh mục"
 					/>
-
-					<div className="w-full flex gap-4 my-6 items-center">
-						<InputForm
-							label="Tên thương hiệu"
-							register={register}
-							errors={errors}
-							id="brand"
-							validate={{
-								required: "Không được bỏ trống trường này",
-							}}
-							fullWidth
-							placeholder="Nhập tên thương hiệu của danh mục"
-						/>
-					</div>
-					{/* {editCategory.brand.map((el) => (
-						<div className="flex flex-col gap-2 relative">
-							<label htmlFor={el} className="font-medium">
-								{el}
-							</label>
-							<input
-								type="text"
-								id={el}
-								className="p-2 rounded-sm border-2 border-gray-500 w-full placeholder:text-sm outline-none my-auto max-h-[42px]"
+					{editCategory?.brand.map((brand, index) => (
+						<div key={index} className="w-full flex gap-4 my-6 items-center">
+							<InputForm
+								key={index}
+								label={`Thương hiệu ${index + 1}`}
+								register={register}
+								errors={errors}
+								id={`brand[${index}]`}
+								validate={{
+									required: "Không được bỏ trống trường này",
+								}}
+								fullWidth
+								placeholder={`Nhập tên thương hiệu ${index + 1} của danh mục`}
+								defaultValue={brand}
 							/>
 						</div>
-					))} */}
+					))}
 
 					<div className="flex flex-col gap-2 mt-6 relative">
 						<label htmlFor="image" className="font-semibold">
-							Tải ảnh chính của sản phẩm
+							Tải ảnh của danh mục
 						</label>
 						<input type="file" id="image" {...register("image")} />
 						{errors["image"] && (

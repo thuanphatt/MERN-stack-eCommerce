@@ -31,6 +31,7 @@ const InputForm = ({
 				)}
 				readOnly={readOnly}
 			/>
+
 			{errors[id] && (
 				<small className="text-sm text-red-600 absolute bottom-[-20px] w-[240px]">{errors[id]?.message}</small>
 			)}

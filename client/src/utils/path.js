@@ -22,6 +22,7 @@ const path = {
 	CREATE_PRODUCT: "create-product",
 	MANAGE_CATEGORY: "manage-category",
 	REVENUE_STATISTICS: "revenue-statistics",
+	CREATE_CATEGORY: "create-category",
 	//Member
 	MEMBER: "member",
 	PERSONAL: "personal",

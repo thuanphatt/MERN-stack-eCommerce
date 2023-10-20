@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Cart, Modal } from "./components";
 import {
 	AdminLayout,
+	CreateCategory,
 	CreateProduct,
 	Dashboard,
 	ManageCategory,
@@ -70,6 +71,7 @@ function App() {
 					<Route path={path.MANAGE_CATEGORY} element={<ManageCategory />}></Route>
 					<Route path={path.CREATE_PRODUCT} element={<CreateProduct />}></Route>
 					<Route path={path.REVENUE_STATISTICS} element={<RevenueStatistics />}></Route>
+					<Route path={path.CREATE_CATEGORY} element={<CreateCategory />}></Route>
 				</Route>
 				<Route path={path.MEMBER} element={<MemberLayout />}>
 					<Route path={path.PERSONAL} element={<Personal />}></Route>

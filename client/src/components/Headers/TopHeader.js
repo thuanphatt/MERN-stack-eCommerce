@@ -56,7 +56,7 @@ const TopHeader = () => {
 
 						{isShowOptions && (
 							<div
-								className="absolute top-full left-4 bg-gray-100 w-full min-w-[150px] flex flex-col text-black"
+								className="absolute top-full left-4 bg-gray-100 w-full min-w-[150px] flex flex-col text-black z-100"
 								onClick={(e) => {
 									e.stopPropagation();
 								}}

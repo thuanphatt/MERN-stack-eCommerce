@@ -209,11 +209,20 @@ export const adminSidebar = [
 	},
 	{
 		id: 5,
-		type: "SINGLE",
+		type: "PARENT",
 		text: "Quản lý danh mục",
-		path: `/${path.ADMIN}/${path.MANAGE_CATEGORY}`,
+
 		icon: <BiSolidCategoryAlt size={20} />,
+		submenu: [
+			{ text: "Tạo danh mục", path: `/${path.ADMIN}/${path.CREATE_CATEGORY}`, icon: <IoIosCreate size={20} /> },
+			{
+				text: "Quản lý danh mục",
+				path: `/${path.ADMIN}/${path.MANAGE_CATEGORY}`,
+				icon: <MdManageSearch size={20} />,
+			},
+		],
 	},
+
 	{
 		id: 6,
 		type: "SINGLE",

@@ -8,3 +8,4 @@ export { default as UpdateProduct } from "./UpdateProduct";
 export { default as CreateProduct } from "./CreateProduct";
 export { default as RevenueStatistics } from "./RevenueStatistics";
 export { default as UpdateCate } from "./UpdateCate";
+export { default as CreateCategory } from "./CreateCategory";
