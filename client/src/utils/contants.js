@@ -304,6 +304,16 @@ export const statusOrder = [
 		value: "Thành công",
 	},
 ];
+export const typePayment = [
+	{
+		code: 1,
+		value: "Thanh toán khi nhận hàng",
+	},
+	{
+		code: 2,
+		value: "Thanh toán qua Paypal",
+	},
+];
 export const srcImg = [
 	{
 		id: 2,

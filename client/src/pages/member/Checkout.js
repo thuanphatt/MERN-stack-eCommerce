@@ -9,6 +9,7 @@ import clsx from "clsx";
 import Congratulation from "components/Common/Congratulation";
 import withBaseComponent from "hocs/withBaseComponent";
 import { getCurrent } from "store/user/asyncActions";
+import { apiUpdateCurrent } from "apis";
 const Checkout = ({ dispatch }) => {
 	const { currentCart, current } = useSelector((state) => state.user);
 	const {
@@ -19,24 +20,21 @@ const Checkout = ({ dispatch }) => {
 	} = useForm();
 	const address = watch("address");
 	const [isSuccess, setIsSuccess] = useState(false);
-
-	// useEffect(() => {
-	// 	if (isSuccess) {
-	// 		setValue("address", current?.address || "");
-	// 		dispatch(getCurrent());
-	// 	}
-	// }, [isSuccess, current]);
 	useEffect(() => {
 		reset({
 			address: current?.address,
 		});
 	}, [current]);
+	const updateAddress = async () => {
+		const response = await apiUpdateCurrent({ address: [watch("address")] });
+		console.log(response);
+	};
 	useEffect(() => {
 		if (isSuccess) {
+			updateAddress();
 			dispatch(getCurrent());
 		}
 	}, [isSuccess]);
-
 	return (
 		<div className="grid grid-cols-10 gap-6 p-8 h-full max-h-screen overflow-y-auto">
 			<div className="col-span-4 w-full flex items-center justify-center">

@@ -55,7 +55,7 @@ const createNewOrder = asyncHandler(async (req, res) => {
 	}
 
 	// Tạo đối tượng Order
-	const data = { products, totalVND, orderBy };
+	const data = { products, total: totalVND, orderBy };
 	if (status) data.status = status;
 	if (paymentMethod) data.paymentMethod = paymentMethod;
 	const rs = await Order.create(data);

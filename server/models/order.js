@@ -17,7 +17,7 @@ var orderSchema = new mongoose.Schema(
 		status: {
 			type: String,
 			default: "Đang xử lý",
-			enum: ["Đã hủy", "Đang xử lý", "Thành công"],
+			enum: ["Đã hủy", "Đang xử lý", "Đang giao", "Thành công"],
 		},
 		total: Number,
 		coupon: {

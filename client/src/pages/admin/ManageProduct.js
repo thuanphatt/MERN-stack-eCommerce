@@ -113,6 +113,7 @@ const ManageProduct = () => {
 						<th className="py-3 px-1 border border-gray-800">Thương hiệu</th>
 						<th className="py-3 px-1 border border-gray-800">Danh mục</th>
 						<th className="py-3 px-1 border border-gray-800 min-w-[120px]">Giá</th>
+						<th className="py-3 px-1 border border-gray-800 min-w-[120px]">Giá nhập</th>
 						<th className="py-3 px-1 border border-gray-800">Số lượng</th>
 						<th className="py-3 px-1 border border-gray-800">Đã bán</th>
 						<th className="py-3 px-1 border border-gray-800">Màu sắc</th>
@@ -136,6 +137,9 @@ const ManageProduct = () => {
 							<td className="py-2 px-1 border-b border-r border-gray-800">{el.category[0]}</td>
 							<td className="py-2 px-1 border-b border-r border-gray-800">{`${formatMoney(
 								formatPrice(el?.price)
+							)} VND`}</td>
+							<td className="py-2 px-1 border-b border-r border-gray-800">{`${formatMoney(
+								formatPrice(el?.inputPrice)
 							)} VND`}</td>
 							<td className="py-2 px-1 border-b border-r border-gray-800">{el.quantity}</td>
 							<td className="py-2 px-1 border-b border-r border-gray-800">{el.sold}</td>

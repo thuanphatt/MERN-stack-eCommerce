@@ -115,6 +115,18 @@ const CreateProduct = () => {
 					<div className="w-full flex gap-4 my-6 items-center">
 						<InputForm
 							type="number"
+							label="Giá mua"
+							register={register}
+							errors={errors}
+							id="inputPrice"
+							validate={{
+								required: "Không được bỏ trống trường này",
+							}}
+							style={clsx("flex-1")}
+							placeholder="Nhập giá mua của sản phẩm"
+						/>
+						<InputForm
+							type="number"
 							label="Giá"
 							register={register}
 							errors={errors}

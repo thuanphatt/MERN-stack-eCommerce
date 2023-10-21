@@ -1,6 +1,6 @@
 import moment from "moment";
 import React, { memo, useCallback, useEffect, useState } from "react";
-import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import { AiFillDelete, AiFillEdit, AiFillFilter } from "react-icons/ai";
 import { useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
@@ -21,9 +21,14 @@ const ManagerOrder = () => {
 	const [editOrder, setEditOrder] = useState(null);
 	const [params] = useSearchParams();
 	const [update, setUpdate] = useState(false);
+	const [isFilterDate, setIsFilterDate] = useState(false);
 	const [counts, setCounts] = useState(0);
 	const fetchOrders = async (params) => {
-		const response = await apiGetOrders({ ...params, limit: +process.env.REACT_APP_LIMIT, sort: "-createdAt" });
+		const response = await apiGetOrders({
+			...params,
+			// limit: +process.env.REACT_APP_LIMIT,
+			sort: isFilterDate ? "-createdAt" : "createdAt",
+		});
 
 		if (response.success) {
 			setOrders(response.orders);
@@ -71,7 +76,8 @@ const ManagerOrder = () => {
 	useEffect(() => {
 		const searchParams = Object.fromEntries([...params]);
 		fetchOrders(searchParams);
-	}, [params, update]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [params, update, isFilterDate]);
 	return (
 		<div className="w-full relative px-4 mx-auto">
 			<header className="text-3xl font-semibold py-4 border-b border-main">Quản lý đơn hàng</header>
@@ -90,7 +96,17 @@ const ManagerOrder = () => {
 						<th className="py-3 px-1 border border-gray-800">Phương thức TT</th>
 						<th className="py-3 px-1 border border-gray-800">Trạng thái</th>
 						<th className="py-3 px-1 border border-gray-800">Tổng cộng</th>
-						<th className="py-3 px-1 border border-gray-800">Thời gian</th>
+						<th className="py-3 px-1 flex items-center">
+							Thời gian
+							<span
+								className="cursor-pointer "
+								onClick={() => {
+									setIsFilterDate(!isFilterDate);
+								}}
+							>
+								<AiFillFilter />
+							</span>
+						</th>
 						<th className="py-3 px-1 border border-gray-800">Hành động</th>
 					</tr>
 				</thead>
@@ -108,9 +124,9 @@ const ManagerOrder = () => {
 									<span className="text-sm truncate max-w-[150px]">{`Địa chỉ: ${el.orderBy?.address}`}</span>
 								</div>
 							</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800">
+							<td className="py-2 px-1 border-b border-r border-gray-800 max-h-[50px] overflow-y-auto">
 								{el.products.map((item) => (
-									<div className="flex items-center gap-4 justify-center p-2 border-b" key={item._id}>
+									<div className="flex items-center gap-4 justify-center p-2 border-b h-full" key={item._id}>
 										<div className="flex flex-col gap-1 flex-1 items-start">
 											<span className="text-sm truncate max-w-[150px]">{item.title}</span>
 											<span>{`Màu sắc: ${item.color}`}</span>

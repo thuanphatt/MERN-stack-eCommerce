@@ -169,7 +169,6 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 		e.stopPropagation();
 		setCurrentImage(el);
 	};
-
 	return (
 		<div className="w-full">
 			{!isQuickView && (
@@ -256,7 +255,7 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 							<span className="text-gray-500">Đã bán</span>
 						</div>
 					</div>
-					<ul className="list-square text-sm text-gray-500 pl-[16px]">
+					<ul className="list-square text-sm text-gray-500">
 						{product?.description?.length > 1 &&
 							product?.description?.map((el, index) => (
 								<li key={index} className="leading-[28px]">
@@ -266,7 +265,7 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 						{product?.description?.length === 1 && (
 							<div
 								dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(product?.description[0]) }}
-								className="text-sm line-clamp-[10] mb-8"
+								className="text-sm line-clamp-[10] mb-8 min-h-[400px] overflow-y-auto"
 							></div>
 						)}
 					</ul>
