@@ -16,7 +16,7 @@ const Banner = () => {
 			<Slider {...settings}>
 				{srcImg.map((el) => (
 					<div key={el.id}>
-						<img src={el.src} alt="img" className="w-full object-cover h-[372px]" />
+						<img src={el.src} alt="img" className="w-full object-cover h-[442px]" />
 					</div>
 				))}
 			</Slider>

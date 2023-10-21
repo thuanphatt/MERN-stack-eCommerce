@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form";
 // import { useDebounce } from "react-use";
 import withBaseComponent from "hocs/withBaseComponent";
 
-const ManagerOrder = ({ navigate, location }) => {
+const ManagerOrder = () => {
 	const [orders, setOrders] = useState([]);
 	const {
 		register,
@@ -71,7 +71,7 @@ const ManagerOrder = ({ navigate, location }) => {
 	useEffect(() => {
 		const searchParams = Object.fromEntries([...params]);
 		fetchOrders(searchParams);
-	}, [update, params]);
+	}, [params, update]);
 	return (
 		<div className="w-full relative px-4 mx-auto">
 			<header className="text-3xl font-semibold py-4 border-b border-main">Quản lý đơn hàng</header>

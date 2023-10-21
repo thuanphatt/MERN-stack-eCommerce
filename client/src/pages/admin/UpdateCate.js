@@ -1,12 +1,12 @@
-import { apiUpdateCate } from "apis";
-import clsx from "clsx";
-import { Button, InputForm, Loading, Select } from "components";
-import withBaseComponent from "hocs/withBaseComponent";
-import React, { memo, useCallback, useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoReturnDownBack } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+
+import { apiUpdateCate } from "apis";
+import { Button, InputForm, Loading } from "components";
+import withBaseComponent from "hocs/withBaseComponent";
 import { showModal } from "store/app/appSlice";
 import { getBase64 } from "utils/helpers";
 
@@ -42,9 +42,7 @@ const UpdateCate = ({ editCategory, setEditCategory, render, dispatch }) => {
 		const finalPayload = { ...data };
 		if (data.title) data.title = categories?.find((el) => el.title === data.title)?.title;
 		finalPayload.image = data?.image?.length === 0 ? preview.image : data.image[0];
-		console.log(data.brand); // ['APPLE 1,USB,SENNHEISER,HELLO']
 		data.brand = data.brand[0].split(",").map((item) => item.trim());
-		console.log(data.brand); // ['APPLE 1,USB,SENNHEISER,HELLO']
 		const formData = new FormData();
 		for (let i of Object.entries(finalPayload)) formData.append(i[0], i[1]);
 		dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
@@ -62,7 +60,7 @@ const UpdateCate = ({ editCategory, setEditCategory, render, dispatch }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [watch("image")]);
 	return (
-		<div className="w-full flex flex-col gap-4 relative bg-gray-100">
+		<div className="w-full flex flex-col gap-4 relative bg-gray-100 h-full">
 			<div className="flex items-center justify-betweend p-4 border-b w-full">
 				<h1 className="text-3xl font-bold tracking-tight ">
 					<span>Cập nhật sản phẩm</span>

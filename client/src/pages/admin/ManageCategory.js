@@ -41,9 +41,9 @@ const ManageCategory = () => {
 	};
 	useEffect(() => {
 		fetchCategories();
-	}, []);
+	}, [update]);
 	return (
-		<div className="w-full relative px-4 mx-auto">
+		<div className="w-full relative px-4 mx-auto h-full">
 			{editCategory && (
 				<div className="absolute bg-gray-100 inset-0 min-h-screen z-50">
 					<UpdateCate editCategory={editCategory} render={render} setEditCategory={setEditCategory} />
