@@ -19,10 +19,12 @@ const path = {
 	MANAGE_USER: "manage-user",
 	MANAGE_PRODUCT: "manage-product",
 	MANAGE_ORDER: "manage-order",
+	MANAGE_SHIP: "manage-ship",
 	CREATE_PRODUCT: "create-product",
 	MANAGE_CATEGORY: "manage-category",
 	REVENUE_STATISTICS: "revenue-statistics",
 	CREATE_CATEGORY: "create-category",
+	CREATE_SHIP: "create-ship",
 	//Member
 	MEMBER: "member",
 	PERSONAL: "personal",

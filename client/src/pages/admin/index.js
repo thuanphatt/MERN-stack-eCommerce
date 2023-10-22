@@ -9,3 +9,5 @@ export { default as CreateProduct } from "./CreateProduct";
 export { default as RevenueStatistics } from "./RevenueStatistics";
 export { default as UpdateCate } from "./UpdateCate";
 export { default as CreateCategory } from "./CreateCategory";
+export { default as ManageShipment } from "./ManageShipment";
+export { default as CreateShip } from "./CreateShip";

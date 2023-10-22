@@ -1,17 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { apiCreateOrder, apiUpdateCurrent } from "apis";
 import clsx from "clsx";
-import { InputForm, OrderItem, Select } from "components";
-import Congratulation from "components/Common/Congratulation";
-import withBaseComponent from "hocs/withBaseComponent";
 import React, { memo, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { getCurrent } from "store/user/asyncActions";
 import Swal from "sweetalert2";
+
+import { getCurrent } from "store/user/asyncActions";
 import { typePayment } from "utils/contants";
 import { formatMoney, formatPrice } from "utils/helpers";
+import { apiCreateOrder, apiGetShipments, apiUpdateCurrent } from "apis";
+import { InputForm, OrderItem, Select } from "components";
+import Congratulation from "components/Common/Congratulation";
+import withBaseComponent from "hocs/withBaseComponent";
 import path from "utils/path";
 
 const MyCart = () => {
@@ -23,6 +24,7 @@ const MyCart = () => {
 	} = useForm();
 	const { currentCart, current } = useSelector((state) => state.user);
 	const [activePayment, setActivePayment] = useState(false);
+	const [shipment, setShipment] = useState(null);
 	const address = watch("address");
 	const [isSuccess, setIsSuccess] = useState(false);
 	const navigate = useNavigate();
@@ -31,6 +33,10 @@ const MyCart = () => {
 			address: current?.address,
 		});
 	}, [current]);
+	const fetchShipment = async () => {
+		const response = await apiGetShipments();
+		if (response.success) setShipment(response.shipment);
+	};
 
 	const handleSaveOrder = async () => {
 		const response = await apiCreateOrder({
@@ -58,7 +64,6 @@ const MyCart = () => {
 	const dispatch = useDispatch();
 	const updateAddress = async () => {
 		const response = await apiUpdateCurrent({ address: [watch("address")] });
-		console.log(response);
 	};
 	useEffect(() => {
 		if (isSuccess) {
@@ -74,7 +79,11 @@ const MyCart = () => {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [watch("typePayment")]);
-
+	useEffect(() => {
+		fetchShipment();
+	}, []);
+	const cost = Number(shipment?.map((el) => el.cost));
+	const freeship = Number(shipment?.map((el) => el.freeship));
 	return (
 		<div className="flex flex-col justify-start w-full">
 			<div className="h-[81px] bg-gray-100 flex justify-center items-center">
@@ -135,11 +144,17 @@ const MyCart = () => {
 								</div>
 							)}
 						</div>
-						<span>Phí vận chuyển : 100 000 VND</span>
+						<span>{`Phí vận chuyển : ${formatMoney(
+							formatPrice(currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0) > freeship ? 0 : cost)
+						)} VND`}</span>
 						<div className="flex items-center justify-between gap-4">
 							<span>Tổng cộng:</span>
 							<h2 className="font-bold">{`${formatMoney(
-								formatPrice(currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0))
+								formatPrice(
+									currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0) > freeship
+										? currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0)
+										: currentCart?.reduce((sum, el) => +el.price * el.quantity + sum + cost, 0)
+								)
 							)} VND`}</h2>
 						</div>
 						<span className="text-sm italic text-gray-500">

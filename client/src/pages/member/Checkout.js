@@ -9,7 +9,7 @@ import clsx from "clsx";
 import Congratulation from "components/Common/Congratulation";
 import withBaseComponent from "hocs/withBaseComponent";
 import { getCurrent } from "store/user/asyncActions";
-import { apiUpdateCurrent } from "apis";
+import { apiGetShipments, apiUpdateCurrent } from "apis";
 const Checkout = ({ dispatch }) => {
 	const { currentCart, current } = useSelector((state) => state.user);
 	const {
@@ -20,11 +20,19 @@ const Checkout = ({ dispatch }) => {
 	} = useForm();
 	const address = watch("address");
 	const [isSuccess, setIsSuccess] = useState(false);
+	const [shipment, setShipment] = useState(null);
 	useEffect(() => {
 		reset({
 			address: current?.address,
 		});
 	}, [current]);
+	const fetchShipment = async () => {
+		const response = await apiGetShipments();
+		if (response.success) setShipment(response.shipment);
+	};
+	const cost = Number(shipment?.map((el) => el.cost));
+	const freeship = Number(shipment?.map((el) => el.freeship));
+
 	const updateAddress = async () => {
 		const response = await apiUpdateCurrent({ address: [watch("address")] });
 		console.log(response);
@@ -35,6 +43,9 @@ const Checkout = ({ dispatch }) => {
 			dispatch(getCurrent());
 		}
 	}, [isSuccess]);
+	useEffect(() => {
+		fetchShipment();
+	}, []);
 	return (
 		<div className="grid grid-cols-10 gap-6 p-8 h-full max-h-screen overflow-y-auto">
 			<div className="col-span-4 w-full flex items-center justify-center">
@@ -63,10 +74,17 @@ const Checkout = ({ dispatch }) => {
 								))}
 							</tbody>
 						</table>
-						<div className="flex items-center justify-between gap-4 mt-4">
-							<span className="font-medium">Tổng cộng:</span>
+						<span className="mt-2">{`Phí vận chuyển : ${formatMoney(
+							formatPrice(currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0) > freeship ? 0 : cost)
+						)} VND`}</span>
+						<div className="flex items-center justify-between gap-4">
+							<span>Tổng cộng:</span>
 							<h2 className="font-bold">{`${formatMoney(
-								formatPrice(currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0))
+								formatPrice(
+									currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0) > freeship
+										? currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0)
+										: currentCart?.reduce((sum, el) => +el.price * el.quantity + sum + cost, 0)
+								)
 							)} VND`}</h2>
 						</div>
 					</div>

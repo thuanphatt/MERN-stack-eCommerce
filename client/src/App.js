@@ -22,10 +22,12 @@ import {
 	AdminLayout,
 	CreateCategory,
 	CreateProduct,
+	CreateShip,
 	Dashboard,
 	ManageCategory,
 	ManageOrder,
 	ManageProduct,
+	ManageShipment,
 	ManageUser,
 	RevenueStatistics,
 } from "pages/admin";
@@ -69,9 +71,11 @@ function App() {
 					<Route path={path.MANAGE_PRODUCT} element={<ManageProduct />}></Route>
 					<Route path={path.MANAGE_ORDER} element={<ManageOrder />}></Route>
 					<Route path={path.MANAGE_CATEGORY} element={<ManageCategory />}></Route>
+					<Route path={path.MANAGE_SHIP} element={<ManageShipment />}></Route>
 					<Route path={path.CREATE_PRODUCT} element={<CreateProduct />}></Route>
 					<Route path={path.REVENUE_STATISTICS} element={<RevenueStatistics />}></Route>
 					<Route path={path.CREATE_CATEGORY} element={<CreateCategory />}></Route>
+					<Route path={path.CREATE_SHIP} element={<CreateShip />}></Route>
 				</Route>
 				<Route path={path.MEMBER} element={<MemberLayout />}>
 					<Route path={path.PERSONAL} element={<Personal />}></Route>
