@@ -111,7 +111,8 @@ export const productInfoTabs = [
 		`,
 	},
 ];
-export const colors = ["black", "brown", "grey", "white", "pink", "yellow", "orange", "purple", "green", "blue"];
+export const colors = ["đen", "xanh", "trắng", "cam", "xám", "đỏ"];
+export const brands = ["g", "GY", "RG", "XAG", "NX", "30S", "GC", "IFC"];
 export const sorts = [
 	{
 		id: 1,
@@ -301,6 +302,10 @@ export const statusOrder = [
 	},
 	{
 		code: 2,
+		value: "Đang giao",
+	},
+	{
+		code: 3,
 		value: "Thành công",
 	},
 ];

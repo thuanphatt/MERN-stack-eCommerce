@@ -2,7 +2,7 @@
 import React, { memo, useEffect, useState } from "react";
 import icons from "utils/icons";
 import { createSearchParams, useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { colors } from "utils/contants";
+import { colors, brands } from "utils/contants";
 
 import { apiGetProducts } from "apis/product";
 import { formatMoney, formatPrice } from "utils/helpers";
@@ -12,6 +12,7 @@ const SearchItem = ({ name, activeClick, changeActiveFilter, type = "checkbox" }
 	const navigate = useNavigate();
 	const { category } = useParams();
 	const [selected, setSelected] = useState([]);
+	const [selectedBrand, setSelectedBrand] = useState([]);
 	const [bestPrice, setBestPrice] = useState(null);
 	const [price, setPrice] = useState({ from: "", to: "" });
 	const [params] = useSearchParams();
@@ -19,6 +20,12 @@ const SearchItem = ({ name, activeClick, changeActiveFilter, type = "checkbox" }
 		const alreadyEl = selected.find((el) => el === e.target.value);
 		if (alreadyEl) setSelected((prev) => prev.filter((el) => el !== e.target.value));
 		else setSelected((prev) => [...prev, e.target.value]);
+		changeActiveFilter(null);
+	};
+	const handleSelectBrand = (e) => {
+		const alreadyEl = selectedBrand.find((el) => el === e.target.value);
+		if (alreadyEl) setSelected((prev) => prev.filter((el) => el !== e.target.value));
+		else setSelectedBrand((prev) => [...prev, e.target.value]);
 		changeActiveFilter(null);
 	};
 	const fetchBestPriceProduct = async () => {
@@ -30,17 +37,38 @@ const SearchItem = ({ name, activeClick, changeActiveFilter, type = "checkbox" }
 		for (let i of params.entries()) param.push(i);
 		const queries = {};
 		for (let i of param) queries[i[0]] = i[1];
+
+		// Lọc theo màu sắc (color)
 		if (selected.length > 0) {
 			queries.color = selected.join(",");
 			queries.page = 1;
 		} else {
 			delete queries.color;
 		}
+
 		navigate({
 			pathname: `/${category}`,
 			search: createSearchParams(queries).toString(),
 		});
 	}, [selected]);
+	useEffect(() => {
+		let param = [];
+		for (let i of params.entries()) param.push(i);
+		const queries = {};
+		for (let i of param) queries[i[0]] = i[1];
+		if (selectedBrand.length > 0) {
+			queries.brand = selectedBrand.join(",");
+			queries.page = 1;
+		} else {
+			delete queries.brand;
+		}
+
+		navigate({
+			pathname: `/${category}`,
+			search: createSearchParams(queries).toString(),
+		});
+	}, [selectedBrand]);
+
 	useEffect(() => {
 		if (type === "input") fetchBestPriceProduct();
 	}, [type]);
@@ -102,6 +130,39 @@ const SearchItem = ({ name, activeClick, changeActiveFilter, type = "checkbox" }
 											value={el}
 											id={el}
 											checked={selected.some((selectedItem) => selectedItem === el)}
+										/>
+										<label htmlFor={el} className="capitalize text-gray-700 cursor-pointer">
+											{el}
+										</label>
+									</div>
+								))}
+							</div>
+						</div>
+					)}
+					{type === "input-brand" && (
+						<div>
+							<div className="p-4 flex items-center justify-between gap-8">
+								<span className="cursor-pointer whitespace-nowrap">{`${selectedBrand.length} đã chọn`}</span>
+								<span
+									className="cursor-pointer underline hover:text-main whitespace-nowrap"
+									onClick={(e) => {
+										e.stopPropagation();
+										setSelectedBrand([]);
+										changeActiveFilter(null);
+									}}
+								>
+									Tải lại
+								</span>
+							</div>
+							<div className="flex flex-col gap-2" onClick={(e) => e.stopPropagation()}>
+								{brands?.map((el, index) => (
+									<div className="flex items-center gap-2 pl-4" key={index}>
+										<input
+											type="checkbox"
+											onChange={handleSelectBrand}
+											value={el}
+											id={el}
+											checked={selectedBrand.some((selectedItem) => selectedItem === el)}
 										/>
 										<label htmlFor={el} className="capitalize text-gray-700 cursor-pointer">
 											{el}

@@ -82,6 +82,12 @@ const Products = () => {
 					<div className="flex items-center gap-2 text-gray-700">
 						<SearchItem name="Giá" activeClick={activeClick} changeActiveFilter={changeActiveFilter} type="input" />
 						<SearchItem name="Màu sắc" activeClick={activeClick} changeActiveFilter={changeActiveFilter} />
+						<SearchItem
+							name="Thương hiệu"
+							activeClick={activeClick}
+							changeActiveFilter={changeActiveFilter}
+							type="input-brand"
+						/>
 					</div>
 				</div>
 				<div className="w-1/5 flex flex-col gap-2">

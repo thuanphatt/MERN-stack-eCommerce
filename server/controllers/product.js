@@ -42,6 +42,7 @@ const getAllProduct = asyncHandler(async (req, res) => {
 	queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, (matchEl) => `$${matchEl}`);
 	const formatedQueries = JSON.parse(queryString);
 	let colorQueryObject = {};
+	let brandQueryObject = {};
 	// Filtering
 	if (queries?.title) formatedQueries.title = { $regex: queries.title, $options: "i" };
 	if (queries?.category) formatedQueries.category = { $regex: queries.category, $options: "i" };
@@ -53,6 +54,14 @@ const getAllProduct = asyncHandler(async (req, res) => {
 		}));
 		colorQueryObject = { $or: colorQuery };
 	}
+	if (queries?.brand) {
+		delete formatedQueries.brand;
+		const brandArr = queries.brand?.split(",");
+		const brandQuery = brandArr.map((el) => ({
+			brand: { $regex: el, $options: "i" },
+		}));
+		brandQueryObject = { $or: brandQuery };
+	}
 	let queryObject = {};
 	if (queries?.q) {
 		delete formatedQueries.q;
@@ -62,11 +71,10 @@ const getAllProduct = asyncHandler(async (req, res) => {
 				{ color: { $regex: queries.q, $options: "i" } },
 				{ category: { $regex: queries.q, $options: "i" } },
 				{ brand: { $regex: queries.q, $options: "i" } },
-				// { description: { $regex: queries.q, $options: "i" } },
 			],
 		};
 	}
-	const qr = { ...colorQueryObject, ...formatedQueries, ...queryObject };
+	const qr = { ...colorQueryObject, ...brandQueryObject, ...formatedQueries, ...queryObject };
 	let queryCommand = Product.find(qr);
 	// Sorting
 	// abc,efg => [abc,efg] => abc efg
