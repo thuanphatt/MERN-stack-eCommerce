@@ -49,7 +49,7 @@ const ManageCategory = () => {
 					<UpdateCate editCategory={editCategory} render={render} setEditCategory={setEditCategory} />
 				</div>
 			)}
-			<header className="text-3xl font-semibold py-4 border-b border-main">Quản lý danh mục</header>
+			<header className="text-3xl font-bold py-4 border-b border-main">Quản lý danh mục</header>
 			<table className="table-auto mb-6 text-center text-sm mx-4 my-8">
 				<thead className="font-bold bg-gray-600 text-white">
 					<tr className="border border-gray-800">

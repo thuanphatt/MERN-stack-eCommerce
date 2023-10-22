@@ -100,7 +100,7 @@ const ManageUser = () => {
 				<form onSubmit={handleSubmit(handleUpdate)}>
 					{editElement && <Button type="submit">Cập nhật</Button>}
 					<table className="table-auto mb-6 text-left w-full">
-						<thead className="font-bold bg-gray-600 text-[13px] text-white">
+						<thead className="font-bold bg-gray-600 text-sm text-white">
 							<tr className="border border-gray-500">
 								<th className="px-4 py-2">#</th>
 								<th className="px-4 py-2">Email</th>
@@ -213,7 +213,9 @@ const ManageUser = () => {
 													options={blockStatus}
 												/>
 											) : (
-												<span>{el.isBlocked ? "Bị khóa" : "Hoạt động"}</span>
+												<span className={el.isBlocked ? "text-red-500" : "text-green-500"}>
+													{el.isBlocked ? "Bị khóa" : "Hoạt động"}
+												</span>
 											)}
 										</td>
 

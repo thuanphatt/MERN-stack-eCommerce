@@ -70,15 +70,21 @@ const updateStatus = asyncHandler(async (req, res) => {
 	const { oid } = req.params;
 	const { status } = req.body;
 	if (!status) throw new Error("Thông tin đầu vào bị thiếu");
-	const response = await Order.findByIdAndUpdate(oid, { status }, { new: true });
+	const response = await Order.findByIdAndUpdate(
+		oid,
+		{ status: status },
+		{
+			new: true,
+		}
+	);
 	res.json({
 		success: response ? true : false,
-		result: response ? response : "Đã có lỗi xảy ra",
+		mes: response ? "Cập nhật trạng thái thành công" : "Đã có lỗi xảy ra",
 	});
 });
 const getUserOrder = asyncHandler(async (req, res) => {
 	const { _id } = req.user;
-	const response = await Order.findOne({ "orderBy._id": _id });
+	const response = await Order.find({ "orderBy._id": _id });
 	res.json({
 		success: response ? true : false,
 		result: response ? response : "Đã có lỗi xảy ra",
@@ -90,6 +96,14 @@ const deleteOrder = asyncHandler(async (req, res) => {
 	return res.status(200).json({
 		success: response ? true : false,
 		mes: response ? "Đã xóa thành công" : "Đã có lỗi xảy ra",
+	});
+});
+const getDetailOrder = asyncHandler(async (req, res) => {
+	const { oid } = req.params;
+	const response = await Order.findById(oid);
+	return res.status(200).json({
+		success: response ? true : false,
+		mes: response ? response : "Đã có lỗi xảy ra",
 	});
 });
 const getAdminOrder = asyncHandler(async (req, res) => {
@@ -160,4 +174,5 @@ module.exports = {
 	getUserOrder,
 	getAdminOrder,
 	deleteOrder,
+	getDetailOrder,
 };

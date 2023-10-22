@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 
-const Button = ({ children, handleOnClick, style, fullwidth, type = "botton", handleOnKeyDown }) => {
+const Button = ({ children, handleOnClick, style, fullwidth, type = "botton" }) => {
 	return (
 		<button
 			type={type}
@@ -10,7 +10,6 @@ const Button = ({ children, handleOnClick, style, fullwidth, type = "botton", ha
 			onClick={() => {
 				handleOnClick && handleOnClick();
 			}}
-			onKeyDown={handleOnKeyDown && handleOnKeyDown()}
 		>
 			{children}
 		</button>

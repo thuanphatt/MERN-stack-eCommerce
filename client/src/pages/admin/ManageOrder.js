@@ -1,16 +1,17 @@
 import moment from "moment";
 import React, { memo, useCallback, useEffect, useState } from "react";
-import { AiFillDelete, AiFillEdit, AiFillFilter } from "react-icons/ai";
+import { AiFillDelete, AiFillEdit, AiFillEye, AiFillFilter } from "react-icons/ai";
 import { useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 
-import { apiDeleteOrder, apiGetOrders } from "apis";
+import { apiDeleteOrder, apiDetailOrder, apiGetOrders, apiUpdateStatus } from "apis";
 import { InputForm, Pagination } from "components";
 import { formatMoney, formatPrice } from "utils/helpers";
 import { useForm } from "react-hook-form";
 // import { useDebounce } from "react-use";
 import withBaseComponent from "hocs/withBaseComponent";
+import DetailOrder from "./DetailOrder";
 
 const ManagerOrder = () => {
 	const [orders, setOrders] = useState([]);
@@ -19,10 +20,12 @@ const ManagerOrder = () => {
 		formState: { errors },
 	} = useForm();
 	const [editOrder, setEditOrder] = useState(null);
+	const [detailOrder, setDetailOrder] = useState(null);
 	const [params] = useSearchParams();
 	const [update, setUpdate] = useState(false);
 	const [isFilterDate, setIsFilterDate] = useState(false);
 	const [counts, setCounts] = useState(0);
+	const [editedStatus, setEditedStatus] = useState("Đang xử lý");
 	const fetchOrders = async (params) => {
 		const response = await apiGetOrders({
 			...params,
@@ -59,6 +62,22 @@ const ManagerOrder = () => {
 			}
 		});
 	};
+	const handleDetailOrder = async (oid) => {
+		const response = await apiDetailOrder(oid);
+		if (response.success) {
+			setDetailOrder(response.mes);
+		}
+	};
+
+	const handleUpdateStatus = async (oid, newStatus) => {
+		const response = await apiUpdateStatus(oid, { status: newStatus });
+		if (response.success) {
+			setEditOrder(null);
+			render();
+			toast.success(response.mes);
+		} else toast.error(response.mes);
+	};
+
 	// const queryDebounce = useDebounce(watch("q"), 800);
 	// console.log(queryDebounce);
 	// useEffect(() => {
@@ -77,10 +96,11 @@ const ManagerOrder = () => {
 		const searchParams = Object.fromEntries([...params]);
 		fetchOrders(searchParams);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [params, update, isFilterDate]);
+	}, [params, update, isFilterDate, editedStatus]);
 	return (
 		<div className="w-full relative px-4 mx-auto">
-			<header className="text-3xl font-semibold py-4 border-b border-main">Quản lý đơn hàng</header>
+			{detailOrder && <DetailOrder detailOrder={detailOrder} setDetailOrder={setDetailOrder} />}
+			<header className="text-3xl font-bold py-4 border-b border-main">Quản lý đơn hàng</header>
 			<div className="flex justify-end items-center pr-4 mt-4">
 				<form className="w-[45%]">
 					<InputForm id="q" register={register} errors={errors} fullWidth placeholder="Tìm kiếm đơn hàng ..." />
@@ -89,69 +109,75 @@ const ManagerOrder = () => {
 			<table className="table-auto mb-6 text-center text-sm mx-4 my-8">
 				<thead className="font-bold bg-gray-600 text-white">
 					<tr className="border border-gray-800">
-						<th className="py-3 px-1 border border-gray-800">STT</th>
-						<th className="py-3 px-1 border border-gray-800">Mã đơn</th>
-						<th className="py-3 px-1 border border-gray-800">Người đặt</th>
-						<th className="py-3 px-1 border border-gray-800">Sản phẩm</th>
-						<th className="py-3 px-1 border border-gray-800">Phương thức TT</th>
-						<th className="py-3 px-1 border border-gray-800">Trạng thái</th>
-						<th className="py-3 px-1 border border-gray-800">Tổng cộng</th>
-						<th className="py-3 px-1 flex items-center">
-							Thời gian
+						<th className="py-4 px-2 border border-gray-800">STT</th>
+						<th className="py-4 px-2 border border-gray-800">Mã đơn</th>
+						<th className="py-4 px-2 border border-gray-800">Người đặt</th>
+						<th className="py-4 px-2 border border-gray-800">Sản phẩm</th>
+						<th className="py-4 px-2 border border-gray-800">Phương thức TT</th>
+						<th className="py-4 px-2 border border-gray-800">Trạng thái</th>
+						<th className="py-4 px-2 border border-gray-800">Tổng cộng</th>
+						<th className="py-4 px-2 flex items-center gap-2">
+							<span>Thời gian</span>
 							<span
 								className="cursor-pointer "
 								onClick={() => {
 									setIsFilterDate(!isFilterDate);
 								}}
 							>
-								<AiFillFilter />
+								<AiFillFilter size={16} />
 							</span>
 						</th>
-						<th className="py-3 px-1 border border-gray-800">Hành động</th>
+						<th className="py-4 px-2 border border-gray-800">Hành động</th>
 					</tr>
 				</thead>
 				<tbody>
 					{orders?.map((el, index) => (
 						<tr key={index}>
-							<td className="py-2 px-1 border border-gray-800">
+							<td className="py-4 px-2 border border-gray-800">
 								{(+params.get("page") > 1 ? +params.get("page") - 1 : 0) * process.env.REACT_APP_LIMIT + index + 1}
 							</td>
-							<td className="py-2 px-1 border border-gray-800">{el._id}</td>
-							<td className="py-2 px-1 border border-gray-800">
+							<td className="py-4 px-2 border border-gray-800">{el._id}</td>
+							<td className="py-4 px-2 border border-gray-800">
 								<div className="flex flex-col gap-1 items-start">
-									<span className="text-sm">{`Họ tên: ${el.orderBy?.firstName} ${el.orderBy?.lastName}`}</span>
-									<span className="text-sm">{`SĐT: ${el.orderBy?.mobile}`}</span>
-									<span className="text-sm truncate max-w-[150px]">{`Địa chỉ: ${el.orderBy?.address}`}</span>
+									<span className="text-sm">{`${el.orderBy?.firstName} ${el.orderBy?.lastName}`}</span>
 								</div>
 							</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800 max-h-[50px] overflow-y-auto">
+							<td className="py-4 px-2 border-b border-r border-gray-800 max-h-[50px] overflow-y-auto">
 								{el.products.map((item) => (
 									<div className="flex items-center gap-4 justify-center p-2 border-b h-full" key={item._id}>
 										<div className="flex flex-col gap-1 flex-1 items-start">
 											<span className="text-sm truncate max-w-[150px]">{item.title}</span>
-											<span>{`Màu sắc: ${item.color}`}</span>
-											<img src={item.thumbnail} alt="thumb" className="w-12 h-12 object-cover" />
-										</div>
-										<div className="flex flex-col gap-1 items-end flex-1">
-											<span>{`Số lượng: ${item.quantity}`}</span>
-											<span>{`Giá: ${formatMoney(formatPrice(item?.price))} VND`}</span>
 										</div>
 									</div>
 								))}
 							</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800 truncate max-w-[150px]">{el.paymentMethod}</td>
-							{editOrder ? (
-								<td className="py-2 px-1 border-b border-r border-gray-800 truncate max-w-[150px]">Edit el</td>
+							<td className="py-4 px-2 border-b border-r border-gray-800 truncate max-w-[150px]">{el.paymentMethod}</td>
+							{editOrder?._id === el._id ? (
+								<td className="py-4 px-2 border-b border-r border-gray-800 truncate max-w-[150px]">
+									<select
+										value={el.status || editedStatus}
+										onChange={(e) => {
+											const newStatus = e.target.value;
+											setEditedStatus(newStatus);
+											handleUpdateStatus(el._id, newStatus); // Truyền giá trị mới vào handleUpdateStatus
+										}}
+									>
+										<option value="Đã hủy">Đã hủy</option>
+										<option value="Đang xử lý">Đang xử lý</option>
+										<option value="Đang giao">Đang giao</option>
+										<option value="Thành công">Thành công</option>
+									</select>
+								</td>
 							) : (
-								<td className="py-2 px-1 border-b border-r border-gray-800 truncate max-w-[150px]">{el.status}</td>
+								<td className="py-4 px-2 border-b border-r border-gray-800 truncate max-w-[150px]">{el.status}</td>
 							)}
 
-							<td className="py-2 px-1 border-b border-r border-gray-800">{`${formatMoney(
+							<td className="py-4 px-2 border-b border-r border-gray-800">{`${formatMoney(
 								formatPrice(el?.total)
 							)} VND`}</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800">{moment(el.createdAt)?.fromNow()}</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800">
-								<div className="flex items-center gap-4 justify-center">
+							<td className="py-4 px-2 border-b border-r border-gray-800">{moment(el.createdAt)?.fromNow()}</td>
+							<td className="py-4 px-2 border-b border-r border-gray-800">
+								<div className="flex items-center gap-3 justify-center">
 									<span
 										className="cursor-pointer hover:text-gray-800 text-blue-500"
 										onClick={() => {
@@ -159,6 +185,14 @@ const ManagerOrder = () => {
 										}}
 									>
 										<AiFillEdit size={18} />
+									</span>
+									<span
+										className="cursor-pointer hover:text-gray-800 text-blue-500"
+										onClick={() => {
+											handleDetailOrder(el._id);
+										}}
+									>
+										<AiFillEye size={18} />
 									</span>
 									<span
 										className="cursor-pointer hover:text-gray-800 text-red-500"

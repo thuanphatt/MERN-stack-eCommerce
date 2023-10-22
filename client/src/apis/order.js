@@ -22,3 +22,14 @@ export const apiDeleteOrder = (oid) =>
 		url: "/order/" + oid,
 		method: "delete",
 	});
+export const apiDetailOrder = (oid) =>
+	axios({
+		url: "/order/" + oid,
+		method: "get",
+	});
+export const apiUpdateStatus = (oid, data) =>
+	axios({
+		url: "/order/status/" + oid,
+		method: "put",
+		data,
+	});

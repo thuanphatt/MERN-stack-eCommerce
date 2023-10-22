@@ -31,13 +31,14 @@ const MyCart = () => {
 			address: current?.address,
 		});
 	}, [current]);
+
 	const handleSaveOrder = async () => {
 		const response = await apiCreateOrder({
 			products: currentCart,
 			total: Math.round(currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0) / 24475),
 			address,
 			orderBy: current,
-			status: "Thành công",
+			status: "Đang xử lý",
 			paymentMethod: "COD",
 		});
 		if (response.success) {
