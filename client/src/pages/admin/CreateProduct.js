@@ -77,7 +77,7 @@ const CreateProduct = () => {
 
 			const formData = new FormData();
 			for (let i of Object.entries(finalPayload)) formData.append(i[0], i[1]);
-			if (finalPayload.thumb) formData.append("thumb", finalPayload.thumb[0]);
+			if (finalPayload.thumb) formData.append("thumb", finalPayload?.thumb[0]);
 			if (finalPayload.images) {
 				for (let image of finalPayload.images) formData.append("images", image);
 			}
@@ -211,7 +211,7 @@ const CreateProduct = () => {
 					</div>
 					{preview.thumb && (
 						<div className="my-4">
-							<img src={preview.thumb} alt="thumbnail" className="w-[200px] object-contain" />
+							<img src={preview.thumb} alt="thumbnail" className="w-[200px] h-[200px] object-contain" />
 						</div>
 					)}
 					<div className="flex flex-col gap-2 mt-6 relative">

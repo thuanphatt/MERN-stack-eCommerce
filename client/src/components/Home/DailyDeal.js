@@ -20,9 +20,7 @@ const DailyDeal = () => {
 	const fetchDealDaily = async () => {
 		const response = await apiGetProducts({
 			limit: 1,
-			page: Math.round(Math.random() * 10),
 			// totalRatings: 5,
-			totalRatings: 0,
 		});
 		if (response.success) {
 			setProductRandom(response.products[0]);
@@ -87,7 +85,7 @@ const DailyDeal = () => {
 						"https://stores.blackberrys.com/VendorpageTheme/Enterprise/EThemeForBlackberrys/images/product-not-found.jpg"
 					}
 					alt={productRandom?.title}
-					className="w-full object-contain"
+					className="w-full object-contain min-h-[350px]"
 				></img>
 				<span className="line-clamp-1 text-center capitalize">{productRandom?.title.toLowerCase()}</span>
 				<span className="flex h-4">

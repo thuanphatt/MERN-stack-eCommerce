@@ -50,7 +50,7 @@ const Cart = ({ dispatch, navigate }) => {
 					currentCart?.map((el) => (
 						<div key={el._id} className="flex border-b border-gray-500 pb-8 justify-between items-center">
 							<div className="flex gap-2">
-								<img src={el.thumbnail} alt="Ảnh sản phẩm" className="w-[100px] h-[100px] object-cover" />
+								<img src={el.thumbnail} alt="Ảnh sản phẩm" className="w-[100px] h-[100px] object-contain" />
 								<div className="flex flex-col gap-[6px]">
 									<span className="font-medium text-sm text-main truncate max-w-[150px]">{el.title}</span>
 									<span className="text-sm">{el.color}</span>

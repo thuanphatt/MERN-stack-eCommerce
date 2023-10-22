@@ -94,7 +94,7 @@ const ManageProduct = () => {
 				</div>
 			)}
 			<div className="w-full h-[69px]"></div>
-			<div className="flex items-center justify-betweend p-4 border-b w-full fixed top-0 bg-gray-100">
+			<div className="flex items-center justify-betweend p-4 border-b w-full fixed top-0 bg-gray-100 mx-[16px]">
 				<h1 className="text-3xl font-bold tracking-tight ">
 					<span>Quản lý sản phẩm</span>
 				</h1>
@@ -104,7 +104,7 @@ const ManageProduct = () => {
 					<InputForm id="q" register={register} errors={errors} fullWidth placeholder="Tìm kiếm sản phẩm ..." />
 				</form>
 			</div>
-			<table className="table-auto mb-6 text-center text-sm mx-4">
+			<table className="table-auto mb-6 text-center text-sm mx-6">
 				<thead className="font-bold bg-gray-600 text-white">
 					<tr className="border border-gray-800">
 						<th className="py-3 px-1 border border-gray-800">STT</th>

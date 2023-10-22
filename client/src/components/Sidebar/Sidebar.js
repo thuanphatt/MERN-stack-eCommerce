@@ -8,7 +8,7 @@ const Sidebar = () => {
 		<div className="flex flex-col border mb-3">
 			{categories?.map((el) => (
 				<NavLink
-					to={createSlug(el.title)}
+					to={el.title}
 					key={createSlug(el.title)}
 					className={({ isActive }) =>
 						isActive

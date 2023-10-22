@@ -126,7 +126,7 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 							"https://stores.blackberrys.com/VendorpageTheme/Enterprise/EThemeForBlackberrys/images/product-not-found.jpg"
 						}
 						alt={productData.title}
-						className="w-[274px] h-[274px] object-cover"
+						className="w-[274px] h-[274px] object-contain"
 					></img>
 					{!normal && (
 						<img

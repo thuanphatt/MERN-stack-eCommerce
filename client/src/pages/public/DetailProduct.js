@@ -263,10 +263,12 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 								</li>
 							))}
 						{product?.description?.length === 1 && (
-							<div
-								dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(product?.description[0]) }}
-								className="text-sm line-clamp-[10] mb-8 min-h-[400px] overflow-y-auto"
-							></div>
+							<div className="text-sm mb-8 ">
+								<div
+									dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(product?.description[0]) }}
+									className="h-[400px] overflow-y-auto"
+								/>
+							</div>
 						)}
 					</ul>
 					<div className="flex flex-col gap-8">
