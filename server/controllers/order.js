@@ -4,33 +4,10 @@ const Product = require("../models/product");
 const Coupon = require("../models/coupon");
 const asyncHandler = require("express-async-handler");
 
-// const createNewOrder = asyncHandler(async (req, res) => {
-// 	const { _id } = req.user;
-// 	const { coupon } = req.body;
-// 	const userCart = await User.findById(_id).select("cart").populate("cart.product", "title price");
-// 	const products = userCart?.cart?.map((el) => ({
-// 		product: el.product._id,
-// 		count: el.quantity,
-// 		color: el.color,
-// 	}));
-// 	let total = userCart?.cart?.reduce((sum, el) => el.product.price * el.quantity + sum, 0);
-// 	const createData = { products, total, orderBy: _id };
-// 	if (coupon) {
-// 		const selectedCoupon = await Coupon.findById(coupon);
-// 		total = Math.round((total * (1 - +selectedCoupon.discount / 100)) / 1000) * 1000 || total;
-// 		createData.total = total;
-// 		createData.coupon = coupon;
-// 	}
-// 	const rs = await Order.create(createData);
-// 	res.json({
-// 		success: rs ? true : false,
-// 		result: rs ? rs : "Đã có lỗi xảy ra",
-// 	});
-// });
 const createNewOrder = asyncHandler(async (req, res) => {
 	const { _id } = req.user;
-	const { products, total, address, status, orderBy, paymentMethod } = req.body;
-	const totalVND = total * 24475;
+	const { products, total, address, status, orderBy, paymentMethod, coupon } = req.body;
+	let totalVND;
 	if (address) {
 		await User.findOneAndUpdate({ _id: _id }, { $set: { address, cart: [] } });
 		const idProductArr = products.map((el) => el._id);
@@ -55,7 +32,21 @@ const createNewOrder = asyncHandler(async (req, res) => {
 	}
 
 	// Tạo đối tượng Order
-	const data = { products, total: totalVND, orderBy };
+	const data = { products, total, orderBy };
+	if (paymentMethod === "Paypal") {
+		totalVND = total * 24475;
+		data.total = totalVND;
+	}
+	if (coupon) {
+		const selectedCoupon = await Coupon.findById(coupon);
+		if (paymentMethod === "Paypal") {
+			totalVND = total * 24475;
+			data.total = totalVND;
+			totalVND = Math.round((totalVND * (1 - +selectedCoupon.discount / 100)) / 1000) * 1000 || totalVND;
+			data.coupon = coupon;
+		}
+		data.coupon = coupon;
+	}
 	if (status) data.status = status;
 	if (paymentMethod) data.paymentMethod = paymentMethod;
 	const rs = await Order.create(data);
@@ -153,6 +144,13 @@ const getAdminOrder = asyncHandler(async (req, res) => {
 		delete formatedQueries.q;
 		queryObject = {
 			$or: [{ status: { $regex: queries.q, $options: "i" } }],
+			$or: [{ paymentMethod: { $regex: queries.q, $options: "i" } }],
+			$or: [
+				{
+					"orderBy.firstName": { $regex: queries.q, $options: "i" },
+				},
+				{ "orderBy.lastName": { $regex: queries.q, $options: "i" } },
+			],
 		};
 	}
 	const qr = { ...formatedQueries, ...queryObject };

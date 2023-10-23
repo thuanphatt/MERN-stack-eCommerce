@@ -9,7 +9,7 @@ import clsx from "clsx";
 import Congratulation from "components/Common/Congratulation";
 import withBaseComponent from "hocs/withBaseComponent";
 import { getCurrent } from "store/user/asyncActions";
-import { apiGetShipments, apiUpdateCurrent } from "apis";
+import { apiGetCoupons, apiGetShipments, apiUpdateCurrent } from "apis";
 const Checkout = ({ dispatch }) => {
 	const { currentCart, current } = useSelector((state) => state.user);
 	const {
@@ -21,18 +21,28 @@ const Checkout = ({ dispatch }) => {
 	const address = watch("address");
 	const [isSuccess, setIsSuccess] = useState(false);
 	const [shipment, setShipment] = useState(null);
+	const [coupons, setCoupons] = useState(null);
 	useEffect(() => {
 		reset({
 			address: current?.address,
 		});
 	}, [current]);
+	const fetchCoupons = async () => {
+		const response = await apiGetCoupons();
+		if (response.success) setCoupons(response.coupons);
+	};
 	const fetchShipment = async () => {
 		const response = await apiGetShipments();
 		if (response.success) setShipment(response.shipment);
 	};
+	const discountCode = watch("discountCode");
+	const conpouArr = coupons?.map((el) => el);
+	const discountPercent = conpouArr?.find((el) => el._id === discountCode)?.discount;
+	const isDiscount = conpouArr?.some((el) => el._id === discountCode);
 	const cost = Number(shipment?.map((el) => el.cost));
 	const freeship = Number(shipment?.map((el) => el.freeship));
-	const total = currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0);
+	const sumProductPrice = currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0);
+	const total = isDiscount ? sumProductPrice - sumProductPrice * (discountPercent / 100) : sumProductPrice;
 	const finalPrice = total > freeship ? total : total + cost;
 	const updateAddress = async () => {
 		const response = await apiUpdateCurrent({ address: [watch("address")] });
@@ -46,6 +56,7 @@ const Checkout = ({ dispatch }) => {
 	}, [isSuccess]);
 	useEffect(() => {
 		fetchShipment();
+		fetchCoupons();
 	}, []);
 	return (
 		<div className="grid grid-cols-10 gap-6 p-8 h-full max-h-screen overflow-y-auto">
@@ -75,7 +86,18 @@ const Checkout = ({ dispatch }) => {
 								))}
 							</tbody>
 						</table>
-
+						<InputForm
+							label="Mã giảm giá của bạn"
+							register={register}
+							errors={errors}
+							id="discountCode"
+							validate={{
+								required: "Không được bỏ trống trường này",
+							}}
+							fullWidth
+							placeholder="Nhập mã giảm giá của bạn"
+							style={clsx("text-sm")}
+						/>
 						<div className="flex items-center justify-between gap-4 my-4">
 							<strong>Phí vận chuyển:</strong>
 							<h2>{`${formatMoney(formatPrice(total > freeship ? 0 : cost))} VND`}</h2>
@@ -106,6 +128,7 @@ const Checkout = ({ dispatch }) => {
 									total: Math.round(finalPrice / 24475),
 									address,
 									orderBy: current,
+									coupon: discountCode,
 								}}
 								amount={Math.round(finalPrice / 24475)}
 							/>

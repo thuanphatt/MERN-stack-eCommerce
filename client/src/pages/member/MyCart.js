@@ -2,20 +2,20 @@
 import clsx from "clsx";
 import React, { memo, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
 import { getCurrent } from "store/user/asyncActions";
 import { typePayment } from "utils/contants";
 import { formatMoney, formatPrice } from "utils/helpers";
-import { apiCreateOrder, apiGetShipments, apiUpdateCurrent } from "apis";
+import { apiCreateOrder, apiGetCoupons, apiGetShipments, apiUpdateCurrent } from "apis";
 import { InputForm, OrderItem, Select } from "components";
 import Congratulation from "components/Common/Congratulation";
 import withBaseComponent from "hocs/withBaseComponent";
 import path from "utils/path";
 
-const MyCart = () => {
+const MyCart = ({ dispatch, navigate }) => {
 	const {
 		register,
 		formState: { errors },
@@ -25,30 +25,36 @@ const MyCart = () => {
 	const { currentCart, current } = useSelector((state) => state.user);
 	const [activePayment, setActivePayment] = useState(false);
 	const [shipment, setShipment] = useState(null);
+	const [coupons, setCoupons] = useState(null);
 	const address = watch("address");
 	const [isSuccess, setIsSuccess] = useState(false);
-	const navigate = useNavigate();
-	useEffect(() => {
-		reset({
-			address: current?.address,
-		});
-	}, [current]);
 	const fetchShipment = async () => {
 		const response = await apiGetShipments();
 		if (response.success) setShipment(response.shipment);
 	};
+	const fetchCoupons = async () => {
+		const response = await apiGetCoupons();
+		if (response.success) setCoupons(response.coupons);
+	};
+	const discountCode = watch("discountCode");
+	const conpouArr = coupons?.map((el) => el);
+	const discountPercent = conpouArr?.find((el) => el._id === discountCode)?.discount;
+	const isDiscount = conpouArr?.some((el) => el._id === discountCode);
 	const cost = Number(shipment?.map((el) => el.cost));
 	const freeship = Number(shipment?.map((el) => el.freeship));
-	const total = currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0);
+	const sumProductPrice = currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0);
+	const total = isDiscount ? sumProductPrice - sumProductPrice * (discountPercent / 100) : sumProductPrice;
 	const finalPrice = total > freeship ? total : total + cost;
+
 	const handleSaveOrder = async () => {
 		const response = await apiCreateOrder({
 			products: currentCart,
-			total: Math.round(finalPrice / 24475),
+			total: finalPrice,
 			address,
 			orderBy: current,
 			status: "Đang xử lý",
 			paymentMethod: "COD",
+			coupon: discountCode,
 		});
 		if (response.success) {
 			setIsSuccess(true);
@@ -64,7 +70,11 @@ const MyCart = () => {
 			address: current?.address,
 		});
 	}, [current]);
-	const dispatch = useDispatch();
+	useEffect(() => {
+		reset({
+			address: current?.address,
+		});
+	}, [current]);
 	const updateAddress = async () => {
 		const response = await apiUpdateCurrent({ address });
 		console.log(response);
@@ -85,6 +95,7 @@ const MyCart = () => {
 	}, [watch("typePayment")]);
 	useEffect(() => {
 		fetchShipment();
+		fetchCoupons();
 	}, []);
 
 	return (
@@ -147,12 +158,22 @@ const MyCart = () => {
 								</div>
 							)}
 						</div>
+						<InputForm
+							label="Mã giảm giá của bạn"
+							register={register}
+							errors={errors}
+							id="discountCode"
+							validate={{
+								required: "Không được bỏ trống trường này",
+							}}
+							fullWidth
+							placeholder="Nhập mã giảm giá của bạn"
+							style={clsx("text-sm")}
+						/>
 						<span>{`Phí vận chuyển : ${formatMoney(formatPrice(total > freeship ? 0 : cost))} VND`}</span>
 						<div className="flex items-center justify-between gap-4">
 							<span>Tổng cộng:</span>
-							<h2 className="font-bold">{`${formatMoney(
-								formatPrice(total > freeship ? total : total + cost)
-							)} VND`}</h2>
+							<h2 className="font-bold">{`${formatMoney(formatPrice(finalPrice))} VND`}</h2>
 						</div>
 						<span className="text-sm italic text-gray-500">
 							Vận chuyển, thuế và giảm giá được tính khi thanh toán. Cập nhật giỏ hàng

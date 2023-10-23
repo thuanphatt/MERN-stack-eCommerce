@@ -1,4 +1,4 @@
-import { apiGetBuyHistory, apiGetShipments, apiUpdateStatus } from "apis";
+import { apiGetBuyHistory, apiUpdateStatus } from "apis";
 import { Button, Pagination } from "components";
 import withBaseComponent from "hocs/withBaseComponent";
 import moment from "moment";
@@ -10,7 +10,6 @@ import { formatMoney, formatPrice } from "utils/helpers";
 
 const BuyHistory = () => {
 	const [order, setOrder] = useState(null);
-	const [shipment, setShipment] = useState(null);
 	const [counts, setCounts] = useState(0);
 	const [params] = useSearchParams();
 	const [update, setUpdate] = useState(false);
@@ -24,10 +23,7 @@ const BuyHistory = () => {
 			setCounts(response.counts);
 		}
 	};
-	const fetchShipment = async () => {
-		const response = await apiGetShipments();
-		if (response.success) setShipment(response.shipment);
-	};
+
 	const render = useCallback(() => {
 		setUpdate(!update);
 	}, [update]);
@@ -52,12 +48,9 @@ const BuyHistory = () => {
 			}
 		});
 	};
-	const cost = Number(shipment?.map((el) => el.cost));
-	const freeship = Number(shipment?.map((el) => el.freeship));
 	useEffect(() => {
 		const searchParams = Object.fromEntries([...params]);
 		fetchOrder(searchParams);
-		fetchShipment();
 	}, [update, order?.status, params]);
 	return (
 		<div className="w-full relative px-4 ">
@@ -95,7 +88,7 @@ const BuyHistory = () => {
 							</td>
 							<td className="py-4 px-2 border-b border-r border-gray-800 truncate max-w-[150px]">{el?.status}</td>
 							<td className="py-4 px-2 border-b border-r border-gray-800">{`${formatMoney(
-								formatPrice(el?.total > freeship ? el?.total : el?.total + cost)
+								formatPrice(el?.total)
 							)} VND`}</td>
 							<td className="py-4 px-2 border-b border-r border-gray-800">{moment(el?.createdAt)?.fromNow()}</td>
 							{el.status === "Đang xử lý" && (

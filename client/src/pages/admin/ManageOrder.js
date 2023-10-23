@@ -1,23 +1,25 @@
 import moment from "moment";
 import React, { memo, useCallback, useEffect, useState } from "react";
 import { AiFillDelete, AiFillEdit, AiFillEye, AiFillFilter } from "react-icons/ai";
-import { useSearchParams } from "react-router-dom";
+import { createSearchParams, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 
-import { apiDeleteOrder, apiDetailOrder, apiGetOrders, apiGetShipments, apiUpdateStatus } from "apis";
+import { apiDeleteOrder, apiDetailOrder, apiGetOrders, apiUpdateStatus } from "apis";
 import { InputForm, Pagination } from "components";
 import { formatMoney, formatPrice } from "utils/helpers";
 import { useForm } from "react-hook-form";
 // import { useDebounce } from "react-use";
 import withBaseComponent from "hocs/withBaseComponent";
 import DetailOrder from "./DetailOrder";
+import useDebounce from "hooks/useDebounce";
 
-const ManagerOrder = () => {
+const ManagerOrder = ({ location, navigate }) => {
 	const [orders, setOrders] = useState([]);
 	const {
 		register,
 		formState: { errors },
+		watch,
 	} = useForm();
 	const [editOrder, setEditOrder] = useState(null);
 	const [detailOrder, setDetailOrder] = useState(null);
@@ -26,7 +28,6 @@ const ManagerOrder = () => {
 	const [isFilterDate, setIsFilterDate] = useState(false);
 	const [counts, setCounts] = useState(0);
 	const [editedStatus, setEditedStatus] = useState("Đang xử lý");
-	const [shipment, setShipment] = useState(null);
 	const fetchOrders = async (params) => {
 		const response = await apiGetOrders({
 			...params,
@@ -39,6 +40,7 @@ const ManagerOrder = () => {
 			setCounts(response.counts);
 		}
 	};
+
 	const render = useCallback(() => {
 		setUpdate(!update);
 	}, [update]);
@@ -78,34 +80,26 @@ const ManagerOrder = () => {
 			toast.success(response.mes);
 		} else toast.error(response.mes);
 	};
-	const fetchShipment = async () => {
-		const response = await apiGetShipments();
-		if (response.success) setShipment(response.shipment);
-	};
-	const cost = Number(shipment?.map((el) => el.cost));
-	const freeship = Number(shipment?.map((el) => el.freeship));
-	// const queryDebounce = useDebounce(watch("q"), 800);
-	// console.log(queryDebounce);
-	// useEffect(() => {
-	// 	if (queryDebounce) {
-	// 		navigate({
-	// 			pathname: location.pathname,
-	// 			search: createSearchParams({ q: queryDebounce }).toString(),
-	// 		});
-	// 	} else {
-	// 		navigate({
-	// 			pathname: location.pathname,
-	// 		});
-	// 	}
-	// }, [location.pathname, navigate, queryDebounce]);
+
+	const queryDebounce = useDebounce(watch("q"), 800);
+	useEffect(() => {
+		if (queryDebounce) {
+			navigate({
+				pathname: location.pathname,
+				search: createSearchParams({ q: queryDebounce }).toString(),
+			});
+		} else {
+			navigate({
+				pathname: location.pathname,
+			});
+		}
+	}, [location.pathname, navigate, queryDebounce]);
 	useEffect(() => {
 		const searchParams = Object.fromEntries([...params]);
 		fetchOrders(searchParams);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [params, update, isFilterDate, editedStatus]);
-	useEffect(() => {
-		fetchShipment();
-	}, []);
+
 	return (
 		<div className="w-full relative px-4 mx-auto">
 			{detailOrder && <DetailOrder detailOrder={detailOrder} setDetailOrder={setDetailOrder} />}
@@ -182,7 +176,7 @@ const ManagerOrder = () => {
 							)}
 
 							<td className="py-4 px-2 border-b border-r border-gray-800">{`${formatMoney(
-								formatPrice(el?.total > freeship ? el?.total : el?.total + cost)
+								formatPrice(el?.total)
 							)} VND`}</td>
 							<td className="py-4 px-2 border-b border-r border-gray-800">{moment(el.createdAt)?.fromNow()}</td>
 							<td className="py-4 px-2 border-b border-r border-gray-800">

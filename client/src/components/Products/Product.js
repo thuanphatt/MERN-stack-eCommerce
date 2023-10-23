@@ -137,11 +137,14 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 					)}
 				</div>
 				<div className="flex flex-col gap-1 mt-[15px] items-start w-full">
-					<span className="flex h-4">
-						{renderStarFromNumber(productData?.totalRatings)?.map((el, index) => (
-							<span key={index}>{el}</span>
-						))}
-					</span>
+					<div className="flex items-center justify-between w-full">
+						<span className="flex h-4">
+							{renderStarFromNumber(productData?.totalRatings)?.map((el, index) => (
+								<span key={index}>{el}</span>
+							))}
+						</span>
+						<span className="text-gray-500">{`Đã bán: ${productData?.sold}`}</span>
+					</div>
 					<span className="line-clamp-1 capitalize">{productData?.title.toLowerCase()}</span>
 					<span>{formatMoney(productData?.price)}VND</span>
 				</div>

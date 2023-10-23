@@ -1,4 +1,5 @@
 import { apiGetShipments } from "apis";
+import moment from "moment";
 import React, { memo, useEffect, useState } from "react";
 import { IoReturnDownBack } from "react-icons/io5";
 import { formatMoney, formatPrice } from "utils/helpers";
@@ -51,6 +52,9 @@ const DetailOrder = ({ detailOrder, setDetailOrder }) => {
 					<div>
 						<strong>Trạng thái:</strong> {detailOrder?.status}
 					</div>
+					<div>
+						<strong>Thời gian:</strong> {moment(detailOrder?.createdAt).fromNow()}
+					</div>
 				</div>
 
 				<div className="mt-6">
@@ -74,6 +78,10 @@ const DetailOrder = ({ detailOrder, setDetailOrder }) => {
 					))}
 				</div>
 				<div className="text-right mt-6 flex flex-col gap-2">
+					<span>
+						{/* <strong>Mã giảm giá:</strong> {formatMoney(formatPrice(total > freeship ? 0 : cost))} VND */}
+						<strong>Mã giảm giá:</strong> 10%
+					</span>
 					<span>
 						<strong>Phí vận chuyển:</strong> {formatMoney(formatPrice(total > freeship ? 0 : cost))} VND
 					</span>
