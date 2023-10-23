@@ -37,11 +37,14 @@ const MyCart = () => {
 		const response = await apiGetShipments();
 		if (response.success) setShipment(response.shipment);
 	};
-
+	const cost = Number(shipment?.map((el) => el.cost));
+	const freeship = Number(shipment?.map((el) => el.freeship));
+	const total = currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0);
+	const finalPrice = total > freeship ? total : total + cost;
 	const handleSaveOrder = async () => {
 		const response = await apiCreateOrder({
 			products: currentCart,
-			total: Math.round(currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0) / 24475),
+			total: Math.round(finalPrice / 24475),
 			address,
 			orderBy: current,
 			status: "Đang xử lý",
@@ -63,7 +66,8 @@ const MyCart = () => {
 	}, [current]);
 	const dispatch = useDispatch();
 	const updateAddress = async () => {
-		const response = await apiUpdateCurrent({ address: [watch("address")] });
+		const response = await apiUpdateCurrent({ address });
+		console.log(response);
 	};
 	useEffect(() => {
 		if (isSuccess) {
@@ -82,8 +86,7 @@ const MyCart = () => {
 	useEffect(() => {
 		fetchShipment();
 	}, []);
-	const cost = Number(shipment?.map((el) => el.cost));
-	const freeship = Number(shipment?.map((el) => el.freeship));
+
 	return (
 		<div className="flex flex-col justify-start w-full">
 			<div className="h-[81px] bg-gray-100 flex justify-center items-center">
@@ -144,17 +147,11 @@ const MyCart = () => {
 								</div>
 							)}
 						</div>
-						<span>{`Phí vận chuyển : ${formatMoney(
-							formatPrice(currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0) > freeship ? 0 : cost)
-						)} VND`}</span>
+						<span>{`Phí vận chuyển : ${formatMoney(formatPrice(total > freeship ? 0 : cost))} VND`}</span>
 						<div className="flex items-center justify-between gap-4">
 							<span>Tổng cộng:</span>
 							<h2 className="font-bold">{`${formatMoney(
-								formatPrice(
-									currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0) > freeship
-										? currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0)
-										: currentCart?.reduce((sum, el) => +el.price * el.quantity + sum + cost, 0)
-								)
+								formatPrice(total > freeship ? total : total + cost)
 							)} VND`}</h2>
 						</div>
 						<span className="text-sm italic text-gray-500">

@@ -32,7 +32,8 @@ const Checkout = ({ dispatch }) => {
 	};
 	const cost = Number(shipment?.map((el) => el.cost));
 	const freeship = Number(shipment?.map((el) => el.freeship));
-
+	const total = currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0);
+	const finalPrice = total > freeship ? total : total + cost;
 	const updateAddress = async () => {
 		const response = await apiUpdateCurrent({ address: [watch("address")] });
 		console.log(response);
@@ -74,18 +75,14 @@ const Checkout = ({ dispatch }) => {
 								))}
 							</tbody>
 						</table>
-						<span className="mt-2">{`Phí vận chuyển : ${formatMoney(
-							formatPrice(currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0) > freeship ? 0 : cost)
-						)} VND`}</span>
+
+						<div className="flex items-center justify-between gap-4 my-4">
+							<strong>Phí vận chuyển:</strong>
+							<h2>{`${formatMoney(formatPrice(total > freeship ? 0 : cost))} VND`}</h2>
+						</div>
 						<div className="flex items-center justify-between gap-4">
-							<span>Tổng cộng:</span>
-							<h2 className="font-bold">{`${formatMoney(
-								formatPrice(
-									currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0) > freeship
-										? currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0)
-										: currentCart?.reduce((sum, el) => +el.price * el.quantity + sum + cost, 0)
-								)
-							)} VND`}</h2>
+							<strong>Tổng cộng:</strong>
+							<h2>{`${formatMoney(formatPrice(finalPrice))} VND`}</h2>
 						</div>
 					</div>
 					<div className="flex-1 flex flex-col gap-4">
@@ -106,11 +103,11 @@ const Checkout = ({ dispatch }) => {
 								setIsSuccess={setIsSuccess}
 								payload={{
 									products: currentCart,
-									total: Math.round(currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0) / 24475),
+									total: Math.round(finalPrice / 24475),
 									address,
 									orderBy: current,
 								}}
-								amount={Math.round(currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0) / 24475)}
+								amount={Math.round(finalPrice / 24475)}
 							/>
 						</div>
 					</div>

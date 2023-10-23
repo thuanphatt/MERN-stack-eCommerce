@@ -1,8 +1,22 @@
-import React, { memo } from "react";
+import { apiGetShipments } from "apis";
+import React, { memo, useEffect, useState } from "react";
 import { IoReturnDownBack } from "react-icons/io5";
 import { formatMoney, formatPrice } from "utils/helpers";
 
 const DetailOrder = ({ detailOrder, setDetailOrder }) => {
+	const [shipment, setShipment] = useState(null);
+	const fetchShipment = async () => {
+		const response = await apiGetShipments();
+		if (response.success) setShipment(response.shipment);
+	};
+	const cost = Number(shipment?.map((el) => el.cost));
+	const freeship = Number(shipment?.map((el) => el.freeship));
+	const total = detailOrder?.products.reduce((sum, el) => +el.price * el.quantity + sum, 0);
+	const finalPrice = total > freeship ? total : total + cost;
+
+	useEffect(() => {
+		fetchShipment();
+	}, []);
 	return (
 		<div className="inset-0 bg-gray-100 absolute z-100 ">
 			<div className="flex items-center justify-betweend p-4 border-b w-full">
@@ -59,9 +73,13 @@ const DetailOrder = ({ detailOrder, setDetailOrder }) => {
 						</div>
 					))}
 				</div>
-
-				<div className="text-right mt-6">
-					<strong>Tổng cộng:</strong> {formatMoney(formatPrice(detailOrder?.total))} VND
+				<div className="text-right mt-6 flex flex-col gap-2">
+					<span>
+						<strong>Phí vận chuyển:</strong> {formatMoney(formatPrice(total > freeship ? 0 : cost))} VND
+					</span>
+					<span>
+						<strong>Tổng cộng:</strong> {formatMoney(formatPrice(finalPrice))} VND
+					</span>
 				</div>
 			</div>
 		</div>

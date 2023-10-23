@@ -1,23 +1,64 @@
-import { apiGetBuyHistory } from "apis";
+import { apiGetBuyHistory, apiGetShipments, apiUpdateStatus } from "apis";
+import { Button, Pagination } from "components";
 import withBaseComponent from "hocs/withBaseComponent";
 import moment from "moment";
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useCallback, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 import { formatMoney, formatPrice } from "utils/helpers";
 
 const BuyHistory = () => {
 	const [order, setOrder] = useState(null);
-	const fetchOrder = async () => {
-		const response = await apiGetBuyHistory();
-
+	const [shipment, setShipment] = useState(null);
+	const [counts, setCounts] = useState(0);
+	const [params] = useSearchParams();
+	const [update, setUpdate] = useState(false);
+	const fetchOrder = async (params) => {
+		const response = await apiGetBuyHistory({
+			...params,
+			limit: +process.env.REACT_APP_LIMIT,
+		});
 		if (response.success) {
-			setOrder(response.result);
+			setOrder(response.order);
+			setCounts(response.counts);
 		}
 	};
-
+	const fetchShipment = async () => {
+		const response = await apiGetShipments();
+		if (response.success) setShipment(response.shipment);
+	};
+	const render = useCallback(() => {
+		setUpdate(!update);
+	}, [update]);
+	const handleCancelOrder = async (oid) => {
+		Swal.fire({
+			title: "Bạn có chắc chắn không ?",
+			text: "Sau khi bạn hủy đơn hàng này sẽ không thể khôi phục lại",
+			cancelButtonText: "Không",
+			confirmButtonText: "Có",
+			showCancelButton: true,
+			icon: "warning",
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+				const response = await apiUpdateStatus(oid, { status: "Đã hủy" });
+				if (response.success) {
+					render();
+					toast.success(response.mes);
+				} else {
+					toast.error(response.mes);
+				}
+			} else {
+			}
+		});
+	};
+	const cost = Number(shipment?.map((el) => el.cost));
+	const freeship = Number(shipment?.map((el) => el.freeship));
 	useEffect(() => {
-		fetchOrder();
-	}, []);
-	console.log(order);
+		const searchParams = Object.fromEntries([...params]);
+		fetchOrder(searchParams);
+		fetchShipment();
+	}, [update, order?.status, params]);
 	return (
 		<div className="w-full relative px-4 ">
 			<header className="text-3xl font-semibold py-4 border-b border-main">Lịch sử mua hàng</header>
@@ -36,7 +77,9 @@ const BuyHistory = () => {
 				<tbody>
 					{order?.map((el, index) => (
 						<tr key={index}>
-							<td className="py-4 px-2 border border-gray-800">{index + 1}</td>
+							<td className="py-4 px-2 border border-gray-800">
+								{(+params.get("page") > 1 ? +params.get("page") - 1 : 0) * process.env.REACT_APP_LIMIT + index + 1}
+							</td>
 
 							<td className="py-4 px-2 border border-gray-800">{el.orderBy?._id}</td>
 							<td className="py-4 px-2 border-b border-r border-gray-800 max-h-[50px] overflow-y-auto">
@@ -52,13 +95,25 @@ const BuyHistory = () => {
 							</td>
 							<td className="py-4 px-2 border-b border-r border-gray-800 truncate max-w-[150px]">{el?.status}</td>
 							<td className="py-4 px-2 border-b border-r border-gray-800">{`${formatMoney(
-								formatPrice(el?.total)
+								formatPrice(el?.total > freeship ? el?.total : el?.total + cost)
 							)} VND`}</td>
 							<td className="py-4 px-2 border-b border-r border-gray-800">{moment(el?.createdAt)?.fromNow()}</td>
+							{el.status === "Đang xử lý" && (
+								<Button
+									handleOnClick={() => {
+										handleCancelOrder(el._id);
+									}}
+								>
+									Hủy đơn
+								</Button>
+							)}
 						</tr>
 					))}
 				</tbody>
 			</table>
+			<div className="flex justify-end my-6 px-4">
+				<Pagination totalCount={counts} />
+			</div>
 		</div>
 	);
 };

@@ -84,27 +84,57 @@ const updateStatus = asyncHandler(async (req, res) => {
 });
 const getUserOrder = asyncHandler(async (req, res) => {
 	const { _id } = req.user;
-	const response = await Order.find({ "orderBy._id": _id });
-	res.json({
-		success: response ? true : false,
-		result: response ? response : "Đã có lỗi xảy ra",
-	});
-});
-const deleteOrder = asyncHandler(async (req, res) => {
-	const { oid } = req.params;
-	const response = await Order.findByIdAndDelete(oid);
-	return res.status(200).json({
-		success: response ? true : false,
-		mes: response ? "Đã xóa thành công" : "Đã có lỗi xảy ra",
-	});
-});
-const getDetailOrder = asyncHandler(async (req, res) => {
-	const { oid } = req.params;
-	const response = await Order.findById(oid);
-	return res.status(200).json({
-		success: response ? true : false,
-		mes: response ? response : "Đã có lỗi xảy ra",
-	});
+	const queries = { ...req.query };
+	const excludeFields = ["limit", "sort", "page", "fields"];
+	excludeFields.forEach((el) => delete queries[el]);
+	let queryString = JSON.stringify(queries);
+	queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, (matchEl) => `$${matchEl}`);
+	const formatedQueries = JSON.parse(queryString);
+
+	let queryObject = {};
+	// Filtering
+	if (queries?.status) formatedQueries.status = { $regex: queries.title, $options: "i" };
+	if (queries?.q) {
+		delete formatedQueries.q;
+		queryObject = {
+			$or: [{ status: { $regex: queries.q, $options: "i" } }],
+		};
+	}
+	const qr = { "orderBy._id": _id, ...formatedQueries, ...queryObject };
+	let queryCommand = Order.find(qr);
+
+	if (req.query.sort) {
+		const sortBy = req.query.sort?.split(",").join(" ");
+		queryCommand = queryCommand.sort(sortBy);
+	}
+
+	if (req.query.fields) {
+		const fields = req.query.fields?.split(",").join(" ");
+		queryCommand = queryCommand.select(fields);
+	}
+
+	const page = +req.query.page || 1;
+	const limit = +req.query.limit || process.env.LIMIT_PRODUCTS;
+	const skip = (page - 1) * limit;
+
+	queryCommand.skip(skip).limit(limit);
+
+	queryCommand
+		.exec()
+		.then(async (response) => {
+			const counts = await Order.find({
+				$and: [{ "orderBy._id": _id }, queryObject], // Chỉ đếm đơn hàng của người dùng hiện tại
+			}).countDocuments();
+
+			return res.status(200).json({
+				success: response ? true : false,
+				counts,
+				order: response ? response : "Không thể lấy tất cả đơn hàng",
+			});
+		})
+		.catch((err) => {
+			throw new Error(err.message);
+		});
 });
 const getAdminOrder = asyncHandler(async (req, res) => {
 	const queries = { ...req.query };
@@ -122,13 +152,7 @@ const getAdminOrder = asyncHandler(async (req, res) => {
 	if (queries?.q) {
 		delete formatedQueries.q;
 		queryObject = {
-			$or: [
-				{ status: { $regex: queries.q, $options: "i" } },
-				// { color: { $regex: queries.q, $options: "i" } },
-				// { category: { $regex: queries.q, $options: "i" } },
-				// { brand: { $regex: queries.q, $options: "i" } },
-				// { description: { $regex: queries.q, $options: "i" } },
-			],
+			$or: [{ status: { $regex: queries.q, $options: "i" } }],
 		};
 	}
 	const qr = { ...formatedQueries, ...queryObject };
@@ -166,6 +190,22 @@ const getAdminOrder = asyncHandler(async (req, res) => {
 		.catch((err) => {
 			throw new Error(err.message);
 		});
+});
+const deleteOrder = asyncHandler(async (req, res) => {
+	const { oid } = req.params;
+	const response = await Order.findByIdAndDelete(oid);
+	return res.status(200).json({
+		success: response ? true : false,
+		mes: response ? "Đã xóa thành công" : "Đã có lỗi xảy ra",
+	});
+});
+const getDetailOrder = asyncHandler(async (req, res) => {
+	const { oid } = req.params;
+	const response = await Order.findById(oid);
+	return res.status(200).json({
+		success: response ? true : false,
+		mes: response ? response : "Đã có lỗi xảy ra",
+	});
 });
 
 module.exports = {
