@@ -16,7 +16,15 @@ const getCoupons = asyncHandler(async (req, res) => {
 	const response = await Coupon.find().select("-createdAt -updatedAt");
 	return res.json({
 		success: response ? true : false,
-		coupons: response ? response : "Cannot get Coupons",
+		coupons: response ? response : "Không thể lấy mã giảm giá",
+	});
+});
+const getCoupon = asyncHandler(async (req, res) => {
+	const { cid } = req.params;
+	const response = await Coupon.findById(cid);
+	return res.json({
+		success: response ? true : false,
+		coupon: response ? response : "Không thể lấy mã giảm giá",
 	});
 });
 const updatedCoupon = asyncHandler(async (req, res) => {
@@ -43,6 +51,7 @@ const deletedCoupon = asyncHandler(async (req, res) => {
 module.exports = {
 	createNewCoupon,
 	getCoupons,
+	getCoupon,
 	updatedCoupon,
 	deletedCoupon,
 };

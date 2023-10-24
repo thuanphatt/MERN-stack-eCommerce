@@ -39,6 +39,7 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 	const [product, setProduct] = useState(null);
 	const [quantity, setQuantity] = useState(1);
 	const [relatedProducts, setRelatedProducts] = useState(null);
+	const [products, setProducts] = useState(null);
 	const [currentImage, setCurrentImage] = useState(null);
 	const [update, setUpdate] = useState(false);
 	const [variant, setVariant] = useState(null);
@@ -70,9 +71,13 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 			setCurrentImage(response?.productData?.thumb);
 		}
 	};
-	const fetchProductsData = async () => {
+	const fetchProductsCateData = async () => {
 		const response = await apiGetProducts({ category });
 		if (response.success) setRelatedProducts(response.products);
+	};
+	const fetchProductsData = async () => {
+		const response = await apiGetProducts();
+		if (response.success) setProducts(response.products);
 	};
 	const handleQuantity = useCallback(
 		(number) => {
@@ -130,14 +135,14 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 			if (current) toast.error(response.mes);
 		}
 	};
-
 	useEffect(() => {
 		if (pid) {
 			fetchProductData();
 			fetchProductsData();
+			fetchProductsCateData();
 		}
 		window.scrollTo(0, 0);
-		titleRef.current.scrollIntoView({ block: "center" });
+		titleRef.current?.scrollIntoView({ block: "center" });
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [pid]);
 	useEffect(() => {
@@ -350,6 +355,7 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 				<>
 					<div className="w-main m-auto mt-8">
 						<ProductInfomation
+							products={products}
 							totalRatings={product?.totalRatings}
 							ratings={product?.ratings}
 							nameProduct={product?.title}

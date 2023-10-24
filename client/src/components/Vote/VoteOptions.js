@@ -11,7 +11,7 @@ const VoteOptions = ({ nameProduct, handleSubmitVoteOption }) => {
 	const [comment, setComment] = useState("");
 	const [score, setScore] = useState("");
 	useEffect(() => {
-		modalRef.current.scrollIntoView({ block: "center", behavior: "smooth" });
+		modalRef.current?.scrollIntoView({ block: "center", behavior: "smooth" });
 	});
 	return (
 		<div

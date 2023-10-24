@@ -49,3 +49,7 @@ export { default as SelectOption } from "./Search/SelectOption";
 
 export { default as PaginationItem } from "./Pagination/PaginationItem";
 export { default as Pagination } from "./Pagination/Pagination";
+
+export { default as DoughnutChart } from "./Chart/DoughnutChart";
+export { default as RadarChart } from "./Chart/RadarChart";
+export { default as VerticalBarChart } from "./Chart/VerticalBarChart";

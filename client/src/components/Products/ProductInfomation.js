@@ -10,8 +10,12 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import path from "utils/path";
 import Swal from "sweetalert2";
-const ProductInfomation = ({ totalRatings, ratings, nameProduct, pid, rerender }) => {
+const ProductInfomation = ({ totalRatings, ratings, nameProduct, pid, rerender, products }) => {
 	const [activedTab, setActivedTab] = useState(1);
+	// const { current } = useSelector((state) => state.user);
+	// console.log(products);
+	// const userId = current?._id;
+
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { isLoggedIn } = useSelector((state) => state.user);
