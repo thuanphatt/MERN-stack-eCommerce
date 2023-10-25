@@ -38,7 +38,7 @@ const WishList = ({ dispatch }) => {
 					<div className="text-center h-screen p-4 flex flex-col items-center gap-4 justify-center ">
 						<h2 className="text-gray-500 font-bold text-2xl">Danh sách yêu thích đang rỗng</h2>
 						<img
-							src="https://img.freepik.com/premium-vector/shopping-cart-with-cross-mark-wireless-paymant-icon-shopping-bag-failure-paymant-sign-online-shopping-vector_662353-912.jpg"
+							src="https://bernardjewelers.com/assets/images/empty-wishlist.png"
 							alt="Danh sách yêu thích rỗng"
 							className="w-[150px] h-[150px] object-cover rounded-md"
 						/>

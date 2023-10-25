@@ -5,18 +5,33 @@ const { verifyAccessToken, isAdmin } = require("../middlewares/verifyToken");
 router.get("/getBlogs", ctrls.getBlogs);
 router.get("/getBlog/:bid", ctrls.getBlog);
 
-router.post("/", [verifyAccessToken, isAdmin], ctrls.createNewBlog);
+router.post(
+	"/",
+	[verifyAccessToken, isAdmin],
+	fileUploader.fields([
+		{
+			name: "image",
+			maxCount: 1,
+		},
+	]),
+	ctrls.createNewBlog
+);
 
 router.put("/dislike/:bid", [verifyAccessToken], ctrls.dislikeBlog);
 router.put("/like/:bid", [verifyAccessToken], ctrls.likeBlog);
-router.put("/:bid", [verifyAccessToken, isAdmin], ctrls.updatedBlog);
-
-router.delete("/:bid", [verifyAccessToken, isAdmin], ctrls.deletedBlog);
 router.put(
-  "/uploadavatar/:bid",
-  [verifyAccessToken, isAdmin],
-  fileUploader.single("image"),
-  ctrls.uploadImagesBlog
+	"/:bid",
+	verifyAccessToken,
+	isAdmin,
+	fileUploader.fields([
+		{
+			name: "image",
+			maxCount: 1,
+		},
+	]),
+	ctrls.updatedBlog
 );
+router.delete("/:bid", [verifyAccessToken, isAdmin], ctrls.deletedBlog);
+router.put("/uploadavatar/:bid", [verifyAccessToken, isAdmin], fileUploader.single("image"), ctrls.uploadImagesBlog);
 
 module.exports = router;

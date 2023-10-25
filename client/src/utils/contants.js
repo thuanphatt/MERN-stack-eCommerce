@@ -21,6 +21,7 @@ const {
 	AiFillHeart,
 	SiSimpleanalytics,
 	MdLocalShipping,
+	BiLogoBlogger,
 } = icons;
 export const navigation = [
 	{
@@ -246,6 +247,21 @@ export const adminSidebar = [
 		text: "Thống kê doanh thu",
 		path: `/${path.ADMIN}/${path.REVENUE_STATISTICS}`,
 		icon: <SiSimpleanalytics size={20} />,
+	},
+	{
+		id: 8,
+		type: "PARENT",
+		text: "Quản lý tin tức",
+
+		icon: <BiLogoBlogger size={20} />,
+		submenu: [
+			{ text: "Tạo tin tức", path: `/${path.ADMIN}/${path.CREATE_BLOG}`, icon: <IoIosCreate size={20} /> },
+			{
+				text: "Quản lý tin tức",
+				path: `/${path.ADMIN}/${path.MANAGE_BLOG}`,
+				icon: <BiLogoBlogger size={20} />,
+			},
+		],
 	},
 ];
 export const memberSidebar = [

@@ -9,7 +9,7 @@ import { IoMdMail, IoIosArrowForward, IoIosCreate } from "react-icons/io";
 import { SiSimpleanalytics } from "react-icons/si";
 import { IoMenu } from "react-icons/io5";
 import { FaUserAlt, FaShieldAlt, FaMoneyBillWaveAlt } from "react-icons/fa";
-import { BiSolidLogOut, BiSolidDashboard, BiSolidCategoryAlt } from "react-icons/bi";
+import { BiSolidLogOut, BiSolidDashboard, BiSolidCategoryAlt, BiLogoBlogger } from "react-icons/bi";
 import { MdLocalShipping, MdGroups2, MdManageSearch } from "react-icons/md";
 import { RiBillFill, RiArrowGoBackFill } from "react-icons/ri";
 import { FaTty } from "react-icons/fa6";
@@ -62,5 +62,6 @@ const icons = {
 	SiSimpleanalytics,
 	FaMoneyBillWaveAlt,
 	AiOutlineHeart,
+	BiLogoBlogger,
 };
 export default icons;
