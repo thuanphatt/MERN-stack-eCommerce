@@ -24,6 +24,7 @@ export { default as DailyDeal } from "./Home/DailyDeal";
 export { default as HotCollections } from "./Home/HotCollections";
 export { default as FeatureProduct } from "./Home/FeatureProduct";
 export { default as Feedback } from "./Home/Feedback";
+export { default as InfoNews } from "./Home/InfoNews";
 
 export { default as ProductExtraInfoItem } from "./Products/ProductExtraInfoItem";
 export { default as ProductRating } from "./Products/ProductRating";

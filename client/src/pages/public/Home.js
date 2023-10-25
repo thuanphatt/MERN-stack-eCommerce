@@ -9,6 +9,7 @@ import {
 	HotCollections,
 	CustomerSlider,
 	Feedback,
+	InfoNews,
 } from "components";
 
 const Home = () => {
@@ -39,11 +40,9 @@ const Home = () => {
 			</div>
 			<Feedback />
 			<div className="my-4 w-main">
-				<h2 className="py-[15px] text-xl font-[#151515] uppercase font-semibold border-b-2 border-main">
-					TIN TỨC MỚI NHẤT
-				</h2>
+				<InfoNews />
 			</div>
-			<div className="w-main h-[500px]"></div>
+			<div className="w-main h-[50px]"></div>
 		</div>
 	);
 };

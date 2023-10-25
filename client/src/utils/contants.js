@@ -36,18 +36,18 @@ export const navigation = [
 	},
 	{
 		id: 2,
-		value: "BLOG",
-		path: path.BLOGS,
+		value: "DỊCH VỤ",
+		path: path.OUR_SERVICES,
 	},
 	{
 		id: 3,
-		value: "FAQs",
-		path: path.FAQs,
+		value: "TIN TỨC",
+		path: path.BLOGS,
 	},
 	{
 		id: 4,
-		value: "DỊCH VỤ",
-		path: path.OUR_SERVICES,
+		value: "FAQs",
+		path: path.FAQs,
 	},
 ];
 export const productExtraInfo = [
