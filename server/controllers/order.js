@@ -143,12 +143,12 @@ const getAdminOrder = asyncHandler(async (req, res) => {
 	if (queries?.q) {
 		delete formatedQueries.q;
 		queryObject = {
-			$or: [{ status: { $regex: queries.q, $options: "i" } }],
-			$or: [{ paymentMethod: { $regex: queries.q, $options: "i" } }],
+			// $or: [{ status: { $regex: queries.q, $options: "i" } }],
+			// $or: [{ paymentMethod: { $regex: queries.q, $options: "i" } }],
 			$or: [
-				{
-					"orderBy.firstName": { $regex: queries.q, $options: "i" },
-				},
+				// {
+				// 	"orderBy.firstName": { $regex: queries.q, $options: "i" },
+				// },
 				{ "orderBy.lastName": { $regex: queries.q, $options: "i" } },
 			],
 		};

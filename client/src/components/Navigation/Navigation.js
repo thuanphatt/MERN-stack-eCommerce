@@ -60,7 +60,7 @@ const Navigation = () => {
 									queries.q = "";
 								}}
 							>
-								<img src={el.thumb} alt="Ảnh sản phẩm" className="w-16 h-16 object-cover" key={el._id} />
+								<img src={el.thumb} alt="Ảnh sản phẩm" className="w-[80px] h-[80px] object-contain" key={el._id} />
 								<div className="flex flex-col gap-2 ml-4">
 									<span className="font-medium text-sm text-main truncate max-w-[200px]">{el.title}</span>
 									<span className="text-sm">{el.color}</span>

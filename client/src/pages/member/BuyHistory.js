@@ -1,4 +1,5 @@
 import { apiGetBuyHistory, apiUpdateStatus } from "apis";
+import clsx from "clsx";
 import { Button, Pagination } from "components";
 import withBaseComponent from "hocs/withBaseComponent";
 import moment from "moment";
@@ -65,6 +66,7 @@ const BuyHistory = () => {
 						<th className="py-3 px-1 border border-gray-800">Trạng thái</th>
 						<th className="py-3 px-1 border border-gray-800">Tổng cộng</th>
 						<th className="py-3 px-1 border border-gray-800">Thời gian</th>
+						<th className="py-3 px-1 border border-gray-800">Hành động</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -91,15 +93,18 @@ const BuyHistory = () => {
 								formatPrice(el?.total)
 							)} VND`}</td>
 							<td className="py-4 px-2 border-b border-r border-gray-800">{moment(el?.createdAt)?.fromNow()}</td>
-							{el.status === "Đang xử lý" && (
-								<Button
-									handleOnClick={() => {
-										handleCancelOrder(el._id);
-									}}
-								>
-									Hủy đơn
-								</Button>
-							)}
+							<td className="py-4 px-2 border-b border-r border-gray-800">
+								{el.status === "Đang xử lý" && (
+									<Button
+										handleOnClick={() => {
+											handleCancelOrder(el._id);
+										}}
+										style={clsx("px-4 py-2 rounded-md text-white font-semibold my-2 bg-red-500")}
+									>
+										Hủy đơn
+									</Button>
+								)}
+							</td>
 						</tr>
 					))}
 				</tbody>

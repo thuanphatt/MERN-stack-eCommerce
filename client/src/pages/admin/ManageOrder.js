@@ -1,6 +1,6 @@
 import moment from "moment";
 import React, { memo, useCallback, useEffect, useState } from "react";
-import { AiFillDelete, AiFillEdit, AiFillEye, AiFillFilter } from "react-icons/ai";
+import { AiFillDelete, AiFillEdit, AiFillEye, AiFillFilter, AiFillPrinter } from "react-icons/ai";
 import { createSearchParams, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
@@ -13,6 +13,8 @@ import { useForm } from "react-hook-form";
 import withBaseComponent from "hocs/withBaseComponent";
 import DetailOrder from "./DetailOrder";
 import useDebounce from "hooks/useDebounce";
+import jsPDF from "jspdf";
+import unidecode from "unidecode-plus";
 
 const ManagerOrder = ({ location, navigate }) => {
 	const [orders, setOrders] = useState([]);
@@ -31,7 +33,7 @@ const ManagerOrder = ({ location, navigate }) => {
 	const fetchOrders = async (params) => {
 		const response = await apiGetOrders({
 			...params,
-			limit: +process.env.REACT_APP_LIMIT,
+			// limit: +process.env.REACT_APP_LIMIT,
 			sort: isFilterDate ? "-createdAt" : "createdAt",
 		});
 
@@ -80,6 +82,27 @@ const ManagerOrder = ({ location, navigate }) => {
 			toast.success(response.mes);
 		} else toast.error(response.mes);
 	};
+	const handleExportOrder = (data) => {
+		const mobile = unidecode(data?.orderBy.mobile);
+		const products = unidecode(data.products.map((el) => `${el.title} / ${el.color} SL: ${el.quantity}`).toString());
+		const total = data?.total;
+		const fullName = unidecode(`${data?.orderBy.firstName} ${data?.orderBy.lastName}`);
+		const address = unidecode(data?.orderBy.address[0].toString());
+		const paymentMethod = unidecode(data?.paymentMethod);
+
+		const doc = new jsPDF();
+
+		doc.setFont("Helvetica"); // set font
+		doc.text("Thông tin don hang", 20, 10);
+		doc.text(`Tên: ${fullName}`, 20, 20);
+		doc.text(`${unidecode("SĐT")}: ${mobile}`, 20, 30);
+		doc.text(`${unidecode("Địa chỉ")}: ${address}`, 20, 40);
+		doc.text(`${unidecode("Sản phẩm")}: ${products}`, 20, 70);
+		doc.text(`Thanh toán: ${paymentMethod}`, 20, 50);
+		doc.text(`${unidecode("Tổng cộng")}: ${formatMoney(formatPrice(total))}`, 20, 60);
+
+		doc.save("order.pdf");
+	};
 
 	const queryDebounce = useDebounce(watch("q"), 800);
 	useEffect(() => {
@@ -99,13 +122,12 @@ const ManagerOrder = ({ location, navigate }) => {
 		fetchOrders(searchParams);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [params, update, isFilterDate, editedStatus]);
-
 	return (
 		<div className="w-full relative px-4 mx-auto">
 			{detailOrder && <DetailOrder detailOrder={detailOrder} setDetailOrder={setDetailOrder} />}
 			<header className="text-3xl font-bold py-4 border-b border-main">Quản lý đơn hàng</header>
-			<div className="flex justify-end items-center pr-4 mt-4">
-				<form className="w-[45%]">
+			<div className="flex justify-end items-center mt-4">
+				<form className="w-[25%]">
 					<InputForm id="q" register={register} errors={errors} fullWidth placeholder="Tìm kiếm đơn hàng ..." />
 				</form>
 			</div>
@@ -190,7 +212,7 @@ const ManagerOrder = ({ location, navigate }) => {
 										<AiFillEdit size={18} />
 									</span>
 									<span
-										className="cursor-pointer hover:text-gray-800 text-blue-500"
+										className="cursor-pointer hover:text-gray-800 text-gray-600"
 										onClick={() => {
 											handleDetailOrder(el._id);
 										}}
@@ -204,6 +226,14 @@ const ManagerOrder = ({ location, navigate }) => {
 										}}
 									>
 										<AiFillDelete size={18} />
+									</span>
+									<span
+										className="cursor-pointer hover:text-gray-800 text-green-700"
+										onClick={() => {
+											handleExportOrder(el);
+										}}
+									>
+										<AiFillPrinter size={18} />
 									</span>
 								</div>
 							</td>

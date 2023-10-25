@@ -20,7 +20,7 @@ const {
 	AiOutlineHistory,
 	AiFillHeart,
 	SiSimpleanalytics,
-	FaMoneyBillWaveAlt,
+	MdLocalShipping,
 } = icons;
 export const navigation = [
 	{
@@ -230,13 +230,13 @@ export const adminSidebar = [
 		type: "PARENT",
 		text: "Quản lý phí vận chuyển",
 
-		icon: <FaMoneyBillWaveAlt size={20} />,
+		icon: <MdLocalShipping size={20} />,
 		submenu: [
 			{ text: "Tạo phí vận chuyển", path: `/${path.ADMIN}/${path.CREATE_SHIP}`, icon: <IoIosCreate size={20} /> },
 			{
 				text: "Quản lý phí vận chuyển",
 				path: `/${path.ADMIN}/${path.MANAGE_SHIP}`,
-				icon: <FaMoneyBillWaveAlt size={20} />,
+				icon: <MdLocalShipping size={20} />,
 			},
 		],
 	},
