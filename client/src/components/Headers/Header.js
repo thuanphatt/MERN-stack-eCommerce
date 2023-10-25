@@ -5,11 +5,11 @@ import { Link } from "react-router-dom";
 import path from "utils/path";
 import { useSelector } from "react-redux";
 import withBaseComponent from "hocs/withBaseComponent";
-import { showCart } from "store/app/appSlice";
+import { showCart, showShowWishList } from "store/app/appSlice";
 
 const Header = ({ dispatch }) => {
 	const { current } = useSelector((state) => state.user);
-	const { BsFillTelephoneFill, IoMdMail, BsBagCheckFill } = icons;
+	const { BsFillTelephoneFill, IoMdMail, BsBagCheckFill, AiOutlineHeart, AiFillHeart } = icons;
 	return (
 		<div className="w-main h-[110px] py-[35px] flex justify-between">
 			<Link to={`/${path.HOME}`}>
@@ -31,16 +31,37 @@ const Header = ({ dispatch }) => {
 					<span className="text-center">Dịch vụ hỗ trợ 24/7</span>
 				</div>
 				{current && (
-					<div
-						className="flex items-center justify-center gap-3 px-6 border-r cursor-pointer"
-						onClick={() => {
-							dispatch(showCart());
-						}}
-					>
-						<BsBagCheckFill color="#79AC78" size={20} />
+					<>
+						{current.wishList.length > 0 ? (
+							<div
+								className="flex items-center justify-center gap-3 px-6 border-r cursor-pointer"
+								onClick={() => {
+									dispatch(showShowWishList());
+								}}
+							>
+								<AiFillHeart color="#79AC78" size={20} />
+							</div>
+						) : (
+							<div
+								className="flex items-center justify-center gap-3 px-6 border-r cursor-pointer"
+								onClick={() => {
+									dispatch(showShowWishList());
+								}}
+							>
+								<AiOutlineHeart color="#79AC78" size={20} />
+							</div>
+						)}
+						<div
+							className="flex items-center justify-center gap-3 px-6 border-r cursor-pointer"
+							onClick={() => {
+								dispatch(showCart());
+							}}
+						>
+							<BsBagCheckFill color="#79AC78" size={20} />
 
-						<span className="hover:text-[#79AC78] pt-1">{`${current?.cart?.length || 0} sản phẩm`}</span>
-					</div>
+							<span className="hover:text-[#79AC78] pt-1">{`${current?.cart?.length || 0} sản phẩm`}</span>
+						</div>
+					</>
 				)}
 			</div>
 		</div>

@@ -3,7 +3,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 import { Bar } from "react-chartjs-2";
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const VerticalBarChart = ({ nameProduct, soldProduct }) => {
+const VerticalBarChart = ({ nameProduct, soldProduct, label, color, title }) => {
 	const options = {
 		responsive: true,
 		plugins: {
@@ -12,7 +12,7 @@ const VerticalBarChart = ({ nameProduct, soldProduct }) => {
 			},
 			title: {
 				display: true,
-				text: "Biểu đồ thống kế Top 5 sản phẩm bán chạy nhất",
+				text: title,
 				position: "bottom",
 				font: {
 					size: 18,
@@ -27,9 +27,9 @@ const VerticalBarChart = ({ nameProduct, soldProduct }) => {
 		labels,
 		datasets: [
 			{
-				label: "Số lượng đã bán",
+				label: label,
 				data: soldProduct,
-				backgroundColor: "rgba(255, 99, 132, 0.5)",
+				backgroundColor: color,
 			},
 		],
 	};

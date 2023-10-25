@@ -33,6 +33,7 @@ export { default as ProductCard } from "./Products/ProductCard";
 export { default as CustomizeVariants } from "./Products/CustomizeVariants";
 export { default as Cart } from "./Products/Cart";
 export { default as OrderItem } from "./Products/OrderItem";
+export { default as WishList } from "./Products/WishList";
 
 export { default as Votebar } from "./Vote/Votebar";
 export { default as VoteOptions } from "./Vote/VoteOptions";
@@ -53,3 +54,4 @@ export { default as Pagination } from "./Pagination/Pagination";
 export { default as DoughnutChart } from "./Chart/DoughnutChart";
 export { default as RadarChart } from "./Chart/RadarChart";
 export { default as VerticalBarChart } from "./Chart/VerticalBarChart";
+export { default as AreaChart } from "./Chart/AreaChart";

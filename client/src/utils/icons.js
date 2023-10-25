@@ -25,6 +25,7 @@ import {
 	AiFillInfoCircle,
 	AiFillDelete,
 	AiFillEdit,
+	AiOutlineHeart,
 } from "react-icons/ai";
 const icons = {
 	BsFillTelephoneFill,
@@ -60,5 +61,6 @@ const icons = {
 	BiSolidCategoryAlt,
 	SiSimpleanalytics,
 	FaMoneyBillWaveAlt,
+	AiOutlineHeart,
 };
 export default icons;

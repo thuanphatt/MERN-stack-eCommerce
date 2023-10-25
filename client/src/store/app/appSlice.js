@@ -8,6 +8,7 @@ export const appSlice = createSlice({
 		isShowModal: false,
 		modalChildren: null,
 		isShowCart: false,
+		isShowWishList: false,
 	},
 	reducers: {
 		showModal: (state, action) => {
@@ -16,6 +17,9 @@ export const appSlice = createSlice({
 		},
 		showCart: (state) => {
 			state.isShowCart = state.isShowCart === false ? true : false;
+		},
+		showShowWishList: (state) => {
+			state.isShowWishList = state.isShowWishList === false ? true : false;
 		},
 	},
 	//   Code xử lý async action
@@ -41,6 +45,6 @@ export const appSlice = createSlice({
 		});
 	},
 });
-export const { showModal, showCart } = appSlice.actions;
+export const { showModal, showCart, showShowWishList } = appSlice.actions;
 
 export default appSlice.reducer;

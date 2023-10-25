@@ -345,6 +345,67 @@ const removeProductInCart = asyncHandler(async (req, res) => {
 		mes: response ? "Đã xóa khỏi giỏ hàng thành công" : "Đã có lỗi xảy ra",
 	});
 });
+const removeProductInWishList = asyncHandler(async (req, res) => {
+	const { _id } = req.user;
+	const { pid, color } = req.params;
+	const user = await User.findById(_id).select("wishList");
+	const alreadyProduct = user?.wishList?.find((el) => el.product.toString() === pid && el.color === color);
+	if (!alreadyProduct) {
+		return res.status(200).json({
+			success: true,
+			mes: "Đã thêm danh sách yêu thích thành công",
+		});
+	}
+	const response = await User.findByIdAndUpdate(
+		_id,
+		{ $pull: { wishList: { product: pid, color } } },
+		{
+			new: true,
+		}
+	);
+	return res.status(200).json({
+		success: response ? true : false,
+		mes: response ? "Đã xóa khỏi danh sách yêu thích thành công" : "Đã có lỗi xảy ra",
+	});
+});
+
+const addToWishList = asyncHandler(async (req, res) => {
+	const { _id } = req.user;
+	const { pid, quantity = 1, color, price, thumbnail, title } = req.body;
+	if (!pid || !color) throw new Error("Thông tin đầu vào bị thiếu");
+	const user = await User.findById(_id).select("wishList");
+	const alreadyProduct = user?.wishList?.find((el) => el.product.toString() === pid && el.color === color);
+	if (alreadyProduct) {
+		const response = await User.updateOne(
+			{ wishList: { $elemMatch: alreadyProduct } },
+			{
+				$set: {
+					"wishList.$.quantity": quantity,
+					"wishList.$.color": color,
+					"wishList.$.thumbnail": thumbnail,
+					"wishList.$.title": title,
+				},
+			},
+			{ new: true }
+		);
+		return res.status(200).json({
+			success: response ? true : false,
+			mes: response ? "Đã thêm sản phẩm vào danh sách thành công" : "Đã có lỗi xảy ra",
+		});
+	} else {
+		const response = await User.findByIdAndUpdate(
+			_id,
+			{ $push: { wishList: { product: pid, quantity, color, price, thumbnail, title } } },
+			{
+				new: true,
+			}
+		);
+		return res.status(200).json({
+			success: response ? true : false,
+			mes: response ? "Đã thêm sản phẩm vào danh sách thành công" : "Đã có lỗi xảy ra",
+		});
+	}
+});
 const createUsers = asyncHandler(async (req, res) => {
 	const response = await User.create(usersFakeData);
 	return res.status(200).json({
@@ -370,4 +431,6 @@ module.exports = {
 	registerFinal,
 	createUsers,
 	removeProductInCart,
+	addToWishList,
+	removeProductInWishList,
 };

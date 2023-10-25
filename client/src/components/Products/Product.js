@@ -8,7 +8,7 @@ import icons from "utils/icons";
 import withBaseComponent from "hocs/withBaseComponent";
 import { showModal } from "store/app/appSlice";
 import { DetailProduct } from "pages/public";
-import { apiAddToCart } from "apis";
+import { apiAddToCart, apiAddToWishList } from "apis";
 import { toast } from "react-toastify";
 import { getCurrent } from "store/user/asyncActions";
 import { useSelector } from "react-redux";
@@ -23,7 +23,6 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 
 	const handleClickOptions = async (e, name) => {
 		e.stopPropagation();
-		// Opps!", "Hãy đăng để thêm giỏ hàng", "info"
 		if (name === "CART") {
 			if (!current) {
 				Swal.fire({
@@ -67,7 +66,22 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 				})
 			);
 		}
-		if (name === "WISHLIST") console.log("WISHLIST");
+		if (name === "WISHLIST") {
+			const response = await apiAddToWishList({
+				pid: productData?._id,
+				color: productData?.color,
+				quantity: 1,
+				price: productData?.price,
+				thumbnail: productData?.thumb,
+				title: productData?.title,
+			});
+			if (response.success) {
+				toast.success(response.mes);
+				dispatch(getCurrent());
+			} else {
+				if (current) toast.error(response.mes);
+			}
+		}
 	};
 	return (
 		<div className="w-full text-base px-[10px]">
@@ -88,14 +102,21 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 				<div className="relative w-full">
 					{isShowOptions && (
 						<div className={clsx("absolute bottom-[-10px]  w-full flex justify-center gap-4 animate-slide-top")}>
-							<span
-								title="Thêm vào danh sách yêu thích"
-								onClick={(e) => {
-									handleClickOptions(e, "WISHLIST");
-								}}
-							>
-								<SelectOption icon={<AiFillHeart />} />
-							</span>
+							{current?.wishList.some((el) => el.product === productData?._id.toString()) ? (
+								<span title="Đã thêm vào danh sách yêu thích">
+									<SelectOption icon={<AiFillHeart color="red" />} />
+								</span>
+							) : (
+								<span
+									title="Thêm vào danh sách yêu thích"
+									onClick={(e) => {
+										handleClickOptions(e, "WISHLIST");
+									}}
+								>
+									<SelectOption icon={<AiFillHeart />} />
+								</span>
+							)}
+
 							{current?.cart.some((el) => el.product._id === productData?._id.toString()) ? (
 								<span title="Đã được thêm vào giỏ hàng">
 									<SelectOption icon={<BsFillCartCheckFill color="green" />} />

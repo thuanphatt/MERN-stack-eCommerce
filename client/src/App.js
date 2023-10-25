@@ -17,7 +17,7 @@ import { Route, Routes } from "react-router-dom";
 import path from "./utils/path";
 import { getCategories } from "./store/app/asyncAction";
 import { useDispatch, useSelector } from "react-redux";
-import { Cart, Modal } from "./components";
+import { Cart, Modal, WishList } from "./components";
 import {
 	AdminLayout,
 	CreateCategory,
@@ -31,11 +31,11 @@ import {
 	ManageUser,
 	RevenueStatistics,
 } from "pages/admin";
-import { MemberLayout, Personal, BuyHistory, WishList, Checkout, MyCart } from "pages/member";
-import { showCart } from "store/app/appSlice";
+import { MemberLayout, Personal, BuyHistory, Checkout, MyCart } from "pages/member";
+import { showCart, showShowWishList } from "store/app/appSlice";
 function App() {
 	const dispatch = useDispatch();
-	const { isShowModal, modalChildren, isShowCart } = useSelector((state) => state.app);
+	const { isShowModal, modalChildren, isShowCart, isShowWishList } = useSelector((state) => state.app);
 	useEffect(() => {
 		dispatch(getCategories());
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -50,6 +50,16 @@ function App() {
 					}}
 				>
 					<Cart />
+				</div>
+			)}
+			{isShowWishList && (
+				<div
+					className="bg-overlay z-50 absolute inset-0 flex justify-end "
+					onClick={() => {
+						dispatch(showShowWishList());
+					}}
+				>
+					<WishList />
 				</div>
 			)}
 			{isShowModal && <Modal>{modalChildren}</Modal>}

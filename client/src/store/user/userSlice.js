@@ -9,6 +9,7 @@ export const userSlice = createSlice({
 		isLoading: false,
 		mes: "",
 		currentCart: [],
+		currentWishlist: [],
 	},
 	reducers: {
 		login: (state, action) => {
@@ -34,6 +35,15 @@ export const userSlice = createSlice({
 				} else return el;
 			});
 		},
+		updateWishList: (state, action) => {
+			const { pid, quantity, color, category } = action.payload;
+			const updatingCurrentWishList = JSON.parse(JSON.stringify(state.currentWishlist));
+			state.currentWishlist = updatingCurrentWishList.map((el) => {
+				if (el.color === color && el.product?._id === pid) {
+					return { ...el, quantity, category };
+				} else return el;
+			});
+		},
 	},
 	// Code xử lý async action
 	extraReducers: (builder) => {
@@ -50,6 +60,7 @@ export const userSlice = createSlice({
 			state.current = action.payload;
 			state.isLoggedIn = true;
 			state.currentCart = action.payload.cart;
+			state.currentWishlist = action.payload.wishList;
 		});
 
 		// Khi thực hiện action login thất bại (Promise rejected)
