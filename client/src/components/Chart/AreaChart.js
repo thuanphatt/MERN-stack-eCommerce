@@ -11,9 +11,8 @@ import {
 	Filler,
 	Legend,
 } from "chart.js";
-import { faker } from "@faker-js/faker";
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Filler, Legend);
-const AreaChart = () => {
+const AreaChart = ({ dataRevenue, labels, label }) => {
 	const options = {
 		responsive: true,
 		plugins: {
@@ -22,7 +21,7 @@ const AreaChart = () => {
 			},
 			title: {
 				display: true,
-				text: "Biểu đồ thống kế Top 5 sản phẩm bán được đánh giá tốt nhất",
+				text: "Biểu đồ thống kế doanh thu trong tuần năm 2023",
 				position: "bottom",
 				font: {
 					size: 18,
@@ -33,14 +32,13 @@ const AreaChart = () => {
 		},
 	};
 
-	const labels = ["January", "February", "March", "April", "May", "June", "July"];
 	const data = {
 		labels,
 		datasets: [
 			{
 				fill: true,
-				label: "Dataset 2",
-				data: labels?.map(() => faker.number.int({ min: 0, max: 1000 })),
+				label,
+				data: dataRevenue,
 				borderColor: "rgb(53, 162, 235)",
 				backgroundColor: "rgba(53, 162, 235, 0.5)",
 			},

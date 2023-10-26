@@ -59,8 +59,8 @@ export const productExtraInfo = [
 	},
 	{
 		id: 2,
-		title: "Free Shipping",
-		sub: "Miễn phí trên tất cả các sản phẩm",
+		title: "Miễn phí vận chuyển",
+		sub: "Miễn phí trên tất cả đơn hàng trên 5,000,000 VND",
 		icon: <BsBagCheckFill size={20} />,
 	},
 	{

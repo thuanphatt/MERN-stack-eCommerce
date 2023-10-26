@@ -65,7 +65,6 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 
 	const fetchProductData = async () => {
 		const response = await apiGetProduct(pid);
-		// console.log(response)
 		if (response.success) {
 			setProduct(response.productData);
 			setCurrentImage(response?.productData?.thumb);
@@ -160,6 +159,7 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 				images: product?.varriants?.find((el) => el.sku === variant)?.images,
 				thumb: product?.varriants?.find((el) => el.sku === variant)?.thumb,
 			});
+			setCurrentImage(product?.varriants?.find((el) => el.sku === variant)?.thumb);
 		} else {
 			setCurrentProduct({
 				title: product?.title,
@@ -168,9 +168,11 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 				images: product?.images || [],
 				thumb: product?.thumb,
 			});
+			setCurrentImage(product?.thumb);
 		}
 	}, [variant, product]);
 	const handleClickImage = (e, el) => {
+		console.log(el);
 		e.stopPropagation();
 		setCurrentImage(el);
 	};
@@ -193,28 +195,30 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 			>
 				<div className={clsx("w-2/5 flex flex-col gap-4", isQuickView && "w-1/2 max-w-[50%]")}>
 					<ReactImageMagnify
-						className={clsx("h-[458px] w-[485px] border")}
+						className={clsx("h-[458px] w-[470px] border")}
 						{...{
 							smallImage: {
-								alt: "",
+								alt: "smallImage",
 								isFluidWidth: true,
+								width: 100,
+								height: 100,
+								sizes: "(height: 480px)",
 								src:
-									currentProduct?.thumb ||
 									currentImage ||
 									"https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg",
 							},
 							largeImage: {
 								src:
-									currentProduct?.thumb ||
 									currentImage ||
 									"https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg",
 								width: 1200,
 								height: 1200,
+								alt: "largeImage",
 							},
 						}}
 					/>
 
-					<div className="w-[485px] mt-[30px]">
+					<div className="w-[488px] mt-[30px]">
 						<Slider {...settings} className="img-slider">
 							{typeof currentProduct.images?.length === "undefined" &&
 								product?.images.map((el) => (
@@ -223,18 +227,18 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 											onClick={(e) => handleClickImage(e, el)}
 											src={el}
 											alt="sub-product"
-											className="h-[143px] w-[143px] border object-cover cursor-pointer"
+											className="h-[143px] w-[143px] border object-contain cursor-pointer"
 										/>
 									</div>
 								))}
 							{currentProduct.images?.length > 0 &&
 								currentProduct.images.map((el) => (
-									<div className="px-2" key={el}>
+									<div key={el}>
 										<img
 											onClick={(e) => handleClickImage(e, el)}
 											src={el}
 											alt="sub-product"
-											className="h-[143px] w-[143px] border object-cover cursor-pointer"
+											className="h-[143px] w-[143px] border object-contain cursor-pointer"
 										/>
 									</div>
 								))}
@@ -363,15 +367,14 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 							rerender={rerender}
 						/>
 					</div>
-					<div className="w-main m-auto mt-4">
-						<h2 className="py-[15px] text-xl font-[#151515] uppercase font-semibold border-b-2 border-main mb-4">
+					<div className="w-main m-auto mb-6">
+						<h2 className="py-[15px] text-xl font-[#151515] uppercase font-semibold border-b-2 border-main mb-6">
 							CÓ THỂ BẠN CŨNG THÍCH
 						</h2>
-						<div className="mt-2 mx-[-10px] pt-3">
+						<div className="mb-6 mx-[-10px]">
 							<CustomerSlider products={relatedProducts} normal={true} />
 						</div>
 					</div>
-					<div className="h-[800px] w-full"></div>
 				</>
 			)}
 		</div>

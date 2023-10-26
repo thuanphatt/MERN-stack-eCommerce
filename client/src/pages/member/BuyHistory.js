@@ -27,7 +27,6 @@ const BuyHistory = () => {
 			setCounts(response.counts);
 		}
 	};
-
 	const render = useCallback(() => {
 		setUpdate(!update);
 	}, [update]);
@@ -56,11 +55,10 @@ const BuyHistory = () => {
 		const searchParams = Object.fromEntries([...params]);
 		fetchOrder(searchParams);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [update, order?.status, params, isFilterDate]);
+	}, [update, params, isFilterDate]);
 	return (
 		<div className="w-full relative px-4 ">
 			<header className="text-3xl font-semibold py-4 border-b border-main">Lịch sử mua hàng</header>
-
 			<table className="table-auto mb-6 text-center text-sm mx-4 my-8">
 				<thead className="font-bold bg-gray-600 text-white">
 					<tr className="border border-gray-800">

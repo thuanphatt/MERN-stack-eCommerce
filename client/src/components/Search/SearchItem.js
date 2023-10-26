@@ -24,7 +24,7 @@ const SearchItem = ({ name, activeClick, changeActiveFilter, type = "checkbox" }
 	};
 	const handleSelectBrand = (e) => {
 		const alreadyEl = selectedBrand.find((el) => el === e.target.value);
-		if (alreadyEl) setSelected((prev) => prev.filter((el) => el !== e.target.value));
+		if (alreadyEl) setSelectedBrand((prev) => prev.filter((el) => el !== e.target.value));
 		else setSelectedBrand((prev) => [...prev, e.target.value]);
 		changeActiveFilter(null);
 	};

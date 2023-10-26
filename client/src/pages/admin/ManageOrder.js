@@ -33,7 +33,7 @@ const ManagerOrder = ({ location, navigate }) => {
 	const fetchOrders = async (params) => {
 		const response = await apiGetOrders({
 			...params,
-			// limit: +process.env.REACT_APP_LIMIT,
+			limit: +process.env.REACT_APP_LIMIT,
 			sort: isFilterDate ? "-createdAt" : "createdAt",
 		});
 
@@ -201,7 +201,6 @@ const ManagerOrder = ({ location, navigate }) => {
 							) : (
 								<td className="py-4 px-2 border-b border-r border-gray-800 truncate max-w-[150px]">{el.status}</td>
 							)}
-
 							<td className="py-4 px-2 border-b border-r border-gray-800">{`${formatMoney(
 								formatPrice(el?.total)
 							)} VND`}</td>
@@ -232,14 +231,16 @@ const ManagerOrder = ({ location, navigate }) => {
 									>
 										<AiFillDelete size={18} />
 									</span>
-									<span
-										className="cursor-pointer hover:text-gray-800 text-green-700"
-										onClick={() => {
-											handleExportOrder(el);
-										}}
-									>
-										<AiFillPrinter size={18} />
-									</span>
+									{el.status === "Thành công" && (
+										<span
+											className="cursor-pointer hover:text-gray-800 text-green-700"
+											onClick={() => {
+												handleExportOrder(el);
+											}}
+										>
+											<AiFillPrinter size={18} />
+										</span>
+									)}
 								</div>
 							</td>
 						</tr>
