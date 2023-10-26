@@ -3,19 +3,19 @@ import clsx from "clsx";
 import React, { memo, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { createSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
 
 import { getCurrent } from "store/user/asyncActions";
 import { typePayment } from "utils/contants";
 import { formatMoney, formatPrice } from "utils/helpers";
 import { apiCreateOrder, apiGetCoupons, apiGetShipments, apiUpdateCurrent } from "apis";
-import { InputForm, OrderItem, Select } from "components";
+import { Button, InputForm, OrderItem, Select } from "components";
 import Congratulation from "components/Common/Congratulation";
 import withBaseComponent from "hocs/withBaseComponent";
 import path from "utils/path";
 
-const MyCart = ({ dispatch, navigate }) => {
+const MyCart = ({ dispatch, navigate, location }) => {
 	const {
 		register,
 		formState: { errors },
@@ -47,22 +47,61 @@ const MyCart = ({ dispatch, navigate }) => {
 	const finalPrice = total > freeship ? total : total + cost;
 
 	const handleSaveOrder = async () => {
-		const response = await apiCreateOrder({
-			products: currentCart,
-			total: finalPrice,
-			address,
-			orderBy: current,
-			status: "Đang xử lý",
-			paymentMethod: "COD",
-			coupon: discountCode,
-		});
-		if (response.success) {
-			setIsSuccess(true);
-			setTimeout(() => {
-				Swal.fire("Chúc mừng", "Đã đặt hàng thành công", "success").then(() => {
-					navigate(`/${path.HOME}`);
-				});
-			}, 1500);
+		if (current?.address.length === 0) {
+			Swal.fire({
+				title: "Opps",
+				text: "Hãy cập nhật địa chỉ trước khi thanh toán",
+				cancelButtonText: "Hủy",
+				confirmButtonText: "Cập nhật",
+				showCancelButton: true,
+				icon: "info",
+			}).then(async (result) => {
+				if (result.isConfirmed) {
+					navigate({
+						pathname: `/${path.MEMBER}/${path.PERSONAL}`,
+						search: createSearchParams({ redirect: location.pathname }).toString(),
+					});
+				}
+			});
+		} else {
+			const response = await apiCreateOrder({
+				products: currentCart,
+				total: finalPrice,
+				address,
+				orderBy: current,
+				status: "Đang xử lý",
+				paymentMethod: "COD",
+				coupon: discountCode,
+			});
+			if (response.success) {
+				setIsSuccess(true);
+				setTimeout(() => {
+					Swal.fire("Chúc mừng", "Đã đặt hàng thành công", "success").then(() => {
+						navigate(`/${path.HOME}`);
+					});
+				}, 1500);
+			}
+		}
+	};
+	const handleSubmit = () => {
+		if (current?.address.length === 0) {
+			Swal.fire({
+				title: "Opps",
+				text: "Hãy cập nhật địa chỉ trước khi thanh toán",
+				cancelButtonText: "Hủy",
+				confirmButtonText: "Cập nhật",
+				showCancelButton: true,
+				icon: "info",
+			}).then(async (result) => {
+				if (result.isConfirmed) {
+					navigate({
+						pathname: `/${path.MEMBER}/${path.PERSONAL}`,
+						search: createSearchParams({ redirect: location.pathname }).toString(),
+					});
+				}
+			});
+		} else {
+			navigate(`/${path.CHECKOUT}`);
 		}
 	};
 	useEffect(() => {
@@ -143,18 +182,20 @@ const MyCart = ({ dispatch, navigate }) => {
 								<div className="flex flex-col gap-1 mt-4 w-[30%]">
 									<span className="text-sm font-medium">{`Họ và tên : ${current.firstName} ${current.lastName}`}</span>
 									<span className="text-sm font-medium">{`Số điện thoại : ${current.mobile}`}</span>
-									<InputForm
-										label="Địa chỉ nhận hàng của bạn"
-										register={register}
-										errors={errors}
-										id="address"
-										validate={{
-											required: "Không được bỏ trống trường này",
-										}}
-										fullWidth
-										placeholder="Nhập tên địa chỉ nhận hàng của bạn"
-										style={clsx("text-sm")}
-									/>
+									{current?.address.length > 0 && (
+										<InputForm
+											label="Địa chỉ nhận hàng của bạn"
+											register={register}
+											errors={errors}
+											id="address"
+											validate={{
+												required: "Không được bỏ trống trường này",
+											}}
+											fullWidth
+											placeholder="Nhập tên địa chỉ nhận hàng của bạn"
+											style={clsx("text-sm")}
+										/>
+									)}
 								</div>
 							)}
 						</div>
@@ -179,9 +220,7 @@ const MyCart = ({ dispatch, navigate }) => {
 							Vận chuyển, thuế và giảm giá được tính khi thanh toán. Cập nhật giỏ hàng
 						</span>
 						{watch("typePayment") !== "1" ? (
-							<Link to={`/${path.CHECKOUT}`} className="bg-main px-4 py-2 text-white rounded-md">
-								Thanh toán
-							</Link>
+							<Button handleOnClick={handleSubmit}>Thanh toán</Button>
 						) : (
 							<span
 								onClick={() => {

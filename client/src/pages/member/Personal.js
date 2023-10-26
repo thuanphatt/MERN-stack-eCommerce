@@ -10,7 +10,9 @@ import { apiUpdateCurrent } from "apis";
 import { getCurrent } from "store/user/asyncActions";
 import { toast } from "react-toastify";
 import { getBase64 } from "utils/helpers";
-const Personal = () => {
+import { useSearchParams } from "react-router-dom";
+import withBaseComponent from "hocs/withBaseComponent";
+const Personal = ({ navigate }) => {
 	const {
 		register,
 		formState: { errors, isDirty },
@@ -23,6 +25,8 @@ const Personal = () => {
 	const [preview, setPreview] = useState({
 		avatar: "",
 	});
+	const [searchParams] = useSearchParams();
+
 	useEffect(() => {
 		reset({
 			email: current?.email,
@@ -60,6 +64,7 @@ const Personal = () => {
 		if (response.success) {
 			dispatch(getCurrent());
 			setPreview({ avatar: "" });
+			if (searchParams.get("redirect")) return navigate(searchParams.get("redirect"));
 			toast.success(response.mes);
 		} else {
 			toast.error(response.mes);
@@ -169,4 +174,4 @@ const Personal = () => {
 		</div>
 	);
 };
-export default memo(Personal);
+export default withBaseComponent(memo(Personal));

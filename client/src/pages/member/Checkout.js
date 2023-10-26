@@ -16,17 +16,11 @@ const Checkout = ({ dispatch }) => {
 		register,
 		formState: { errors },
 		watch,
-		reset,
 	} = useForm();
-	const address = watch("address");
 	const [isSuccess, setIsSuccess] = useState(false);
 	const [shipment, setShipment] = useState(null);
 	const [coupons, setCoupons] = useState(null);
-	useEffect(() => {
-		reset({
-			address: current?.address,
-		});
-	}, [current]);
+
 	const fetchCoupons = async () => {
 		const response = await apiGetCoupons();
 		if (response.success) setCoupons(response.coupons);
@@ -68,7 +62,7 @@ const Checkout = ({ dispatch }) => {
 				<h2 className="font-bold text-2xl mb-6">Thanh toán</h2>
 				<div className="flex w-full gap-6">
 					<div className="flex-1">
-						<table className="table-auto w-full">
+						<table className="table-auto w-full mb-4">
 							<thead>
 								<tr className="border bg-gray-300 ">
 									<th className="text-left p-2">Sản phẩm</th>
@@ -108,25 +102,13 @@ const Checkout = ({ dispatch }) => {
 						</div>
 					</div>
 					<div className="flex-1 flex flex-col gap-4">
-						<InputForm
-							label="Địa chỉ nhận hàng của bạn"
-							register={register}
-							errors={errors}
-							id="address"
-							validate={{
-								required: "Không được bỏ trống trường này",
-							}}
-							fullWidth
-							placeholder="Nhập tên địa chỉ nhận hàng của bạn"
-							style={clsx("text-sm")}
-						/>
 						<div>
 							<Paypal
 								setIsSuccess={setIsSuccess}
 								payload={{
 									products: currentCart,
 									total: Math.round(finalPrice / 24475),
-									address,
+									address: current?.address,
 									orderBy: current,
 									coupon: discountCode,
 								}}
