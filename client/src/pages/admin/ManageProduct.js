@@ -9,7 +9,7 @@ import { Pagination, CustomizeVariants } from "components";
 import UpdateProduct from "./UpdateProduct";
 import { formatPrice, formatMoney } from "utils/helpers";
 import useDebounce from "hooks/useDebounce";
-import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import { AiFillDelete, AiFillEdit, AiFillFilter } from "react-icons/ai";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { BiCustomize } from "react-icons/bi";
@@ -27,9 +27,14 @@ const ManageProduct = () => {
 	const [editProduct, setEditProduct] = useState(null);
 	const [update, setUpdate] = useState(false);
 	const [customizeVariant, setCustomizeVariant] = useState(null);
+	const [isFilterPrice, setIsFilterPrice] = useState(null);
 
 	const fetchProducts = async (params) => {
-		const response = await apiGetProducts({ ...params, limit: +process.env.REACT_APP_LIMIT });
+		const response = await apiGetProducts({
+			...params,
+			limit: +process.env.REACT_APP_LIMIT,
+			sort: isFilterPrice ? "price" : "-price",
+		});
 
 		if (response.success) {
 			setProducts(response.products);
@@ -76,7 +81,8 @@ const ManageProduct = () => {
 	useEffect(() => {
 		const searchParams = Object.fromEntries([...params]);
 		fetchProducts(searchParams);
-	}, [params, update]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [params, update, isFilterPrice]);
 	return (
 		<div className="w-full flex flex-col gap-4 relative">
 			{editProduct && (
@@ -94,17 +100,17 @@ const ManageProduct = () => {
 				</div>
 			)}
 			<div className="w-full h-[69px]"></div>
-			<div className="flex items-center justify-betweend p-4 border-b w-full fixed top-0 bg-gray-100 mx-[28px]">
+			<div className="flex items-center justify-betweend p-4 border-b w-full fixed top-0 bg-gray-100">
 				<h1 className="text-3xl font-bold tracking-tight ">
 					<span>Quản lý sản phẩm</span>
 				</h1>
 			</div>
-			<div className="flex justify-end items-center pr-4">
+			<div className="flex justify-end items-center pr-5">
 				<form className="w-[45%]">
 					<InputForm id="q" register={register} errors={errors} fullWidth placeholder="Tìm kiếm sản phẩm ..." />
 				</form>
 			</div>
-			<table className="table-auto mb-6 text-center text-sm mx-[40px]">
+			<table className="table-auto mb-6 text-center text-sm w-main mx-auto">
 				<thead className="font-bold bg-gray-600 text-white">
 					<tr className="border border-gray-800">
 						<th className="py-3 px-1 border border-gray-800">STT</th>
@@ -112,7 +118,17 @@ const ManageProduct = () => {
 						<th className="py-3 px-1 border border-gray-800">Tên</th>
 						<th className="py-3 px-1 border border-gray-800">Thương hiệu</th>
 						<th className="py-3 px-1 border border-gray-800">Danh mục</th>
-						<th className="py-3 px-1 border border-gray-800 min-w-[120px]">Giá</th>
+						<th className="py-3 px-1 border-gray-800 min-w-[120px] flex items-center gap-2 justify-center">
+							<span>Giá</span>
+							<span
+								className="cursor-pointer"
+								onClick={() => {
+									setIsFilterPrice(!isFilterPrice);
+								}}
+							>
+								<AiFillFilter size={16} />
+							</span>
+						</th>
 						<th className="py-3 px-1 border border-gray-800 min-w-[120px]">Giá nhập</th>
 						<th className="py-3 px-1 border border-gray-800">Số lượng</th>
 						<th className="py-3 px-1 border border-gray-800">Đã bán</th>

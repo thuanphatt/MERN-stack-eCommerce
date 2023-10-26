@@ -4,6 +4,7 @@ import { Button, Pagination } from "components";
 import withBaseComponent from "hocs/withBaseComponent";
 import moment from "moment";
 import React, { memo, useCallback, useEffect, useState } from "react";
+import { AiFillFilter } from "react-icons/ai";
 import { useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
@@ -14,10 +15,12 @@ const BuyHistory = () => {
 	const [counts, setCounts] = useState(0);
 	const [params] = useSearchParams();
 	const [update, setUpdate] = useState(false);
+	const [isFilterDate, setIsFilterDate] = useState(false);
 	const fetchOrder = async (params) => {
 		const response = await apiGetBuyHistory({
 			...params,
 			limit: +process.env.REACT_APP_LIMIT,
+			sort: isFilterDate ? "-createdAt" : "createdAt",
 		});
 		if (response.success) {
 			setOrder(response.order);
@@ -52,7 +55,8 @@ const BuyHistory = () => {
 	useEffect(() => {
 		const searchParams = Object.fromEntries([...params]);
 		fetchOrder(searchParams);
-	}, [update, order?.status, params]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [update, order?.status, params, isFilterDate]);
 	return (
 		<div className="w-full relative px-4 ">
 			<header className="text-3xl font-semibold py-4 border-b border-main">Lịch sử mua hàng</header>
@@ -65,7 +69,17 @@ const BuyHistory = () => {
 						<th className="py-3 px-1 border border-gray-800">Sản phẩm</th>
 						<th className="py-3 px-1 border border-gray-800">Trạng thái</th>
 						<th className="py-3 px-1 border border-gray-800">Tổng cộng</th>
-						<th className="py-3 px-1 border border-gray-800">Thời gian</th>
+						<th className="py-3 px-1 border-gray-800 flex items-center gap-1">
+							<span>Thời gian</span>
+							<span
+								className="cursor-pointer hover:text-main p-1"
+								onClick={() => {
+									setIsFilterDate(!isFilterDate);
+								}}
+							>
+								<AiFillFilter size={16} />
+							</span>
+						</th>
 						<th className="py-3 px-1 border border-gray-800">Hành động</th>
 					</tr>
 				</thead>

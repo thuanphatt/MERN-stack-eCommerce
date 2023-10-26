@@ -80,6 +80,7 @@ const Checkout = ({ dispatch }) => {
 								))}
 							</tbody>
 						</table>
+
 						<InputForm
 							label="Mã giảm giá của bạn"
 							register={register}
@@ -102,6 +103,10 @@ const Checkout = ({ dispatch }) => {
 						</div>
 					</div>
 					<div className="flex-1 flex flex-col gap-4">
+						<div className="flex items-center gap-4">
+							<strong>Địa chỉ nhận hàng:</strong>
+							<h2>{current?.address}</h2>
+						</div>
 						<div>
 							<Paypal
 								setIsSuccess={setIsSuccess}

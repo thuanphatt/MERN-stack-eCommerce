@@ -82,12 +82,15 @@ const ManageUser = () => {
 	}, [queriesDebounce, params, update]);
 
 	return (
-		<div className={clsx("w-full", editElement && "pl-[80px]")}>
-			<h1 className="h-[75px] flex items-center justify-between text-3xl font-bold px-4 border-b w-full tracking-tight">
-				<span>Quản lý người dùng</span>
-			</h1>
+		<div className={clsx("w-full flex flex-col gap-4 relative", editElement && "pl-[80px]")}>
+			<div className="w-full h-[69px]"></div>
+			<div className="flex items-center justify-betweend p-4 border-b w-full fixed top-0 bg-gray-100">
+				<h1 className="text-3xl font-bold tracking-tight ">
+					<span>Quản lý người dùng</span>
+				</h1>
+			</div>
 			<div className="w-full p-4">
-				<div className="flex justify-end py-4">
+				<div className="flex justify-end items-center ">
 					<InputField
 						isHideLabel
 						nameKey={"q"}

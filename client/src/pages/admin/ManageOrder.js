@@ -123,15 +123,20 @@ const ManagerOrder = ({ location, navigate }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [params, update, isFilterDate, editedStatus]);
 	return (
-		<div className="w-full relative px-4 mx-auto">
+		<div className="w-full flex flex-col gap-4 relative">
 			{detailOrder && <DetailOrder detailOrder={detailOrder} setDetailOrder={setDetailOrder} />}
-			<header className="text-3xl font-bold py-4 border-b border-main">Quản lý đơn hàng</header>
-			<div className="flex justify-end items-center mt-4">
+			<div className="w-full h-[69px]"></div>
+			<div className="flex items-center justify-betweend p-4 border-b w-full fixed top-0 bg-gray-100">
+				<h1 className="text-3xl font-bold tracking-tight ">
+					<span>Quản lý đơn hàng</span>
+				</h1>
+			</div>
+			<div className="flex justify-end items-center pr-5">
 				<form className="w-[25%]">
 					<InputForm id="q" register={register} errors={errors} fullWidth placeholder="Tìm kiếm đơn hàng ..." />
 				</form>
 			</div>
-			<table className="table-auto mb-6 text-center text-sm mx-4 my-8">
+			<table className="table-auto mb-6 text-center text-sm mx-auto w-main">
 				<thead className="font-bold bg-gray-600 text-white">
 					<tr className="border border-gray-800">
 						<th className="py-4 px-2 border border-gray-800">STT</th>
@@ -144,7 +149,7 @@ const ManagerOrder = ({ location, navigate }) => {
 						<th className="py-4 px-2 flex items-center gap-2">
 							<span>Thời gian</span>
 							<span
-								className="cursor-pointer "
+								className="cursor-pointer"
 								onClick={() => {
 									setIsFilterDate(!isFilterDate);
 								}}

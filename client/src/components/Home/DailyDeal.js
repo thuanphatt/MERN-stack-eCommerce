@@ -87,13 +87,15 @@ const DailyDeal = () => {
 					alt={productRandom?.title}
 					className="w-full object-contain min-h-[350px]"
 				></img>
-				<span className="line-clamp-1 text-center capitalize">{productRandom?.title.toLowerCase()}</span>
+				<span className="line-clamp-1 text-center capitalize font-medium text-lg">
+					{productRandom?.title.toLowerCase()}
+				</span>
 				<span className="flex h-4">
 					{renderStarFromNumber(productRandom?.totalRatings)?.map((el, index) => (
 						<span key={index}>{el}</span>
 					))}
 				</span>
-				<span>{`${formatMoney(productRandom?.price)} VND`}</span>
+				<span className="font-medium text-lg">{`${formatMoney(productRandom?.price)} VND`}</span>
 			</div>
 			<div className="mt-4">
 				<div className="flex justify-center gap-2 items-center mt-8 mb-3">

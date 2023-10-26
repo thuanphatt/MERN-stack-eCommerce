@@ -43,14 +43,19 @@ const ManageCategory = () => {
 		fetchCategories();
 	}, [update]);
 	return (
-		<div className="w-full relative px-4 mx-auto h-full">
+		<div className="w-full flex flex-col gap-4 relative">
 			{editCategory && (
 				<div className="absolute bg-gray-100 inset-0 min-h-screen z-50">
 					<UpdateCate editCategory={editCategory} render={render} setEditCategory={setEditCategory} />
 				</div>
 			)}
-			<header className="text-3xl font-bold py-4 border-b border-main">Quản lý danh mục</header>
-			<table className="table-auto mb-6 text-center text-sm mx-4 my-8">
+			<div className="w-full h-[69px]"></div>
+			<div className="flex items-center justify-betweend p-4 border-b w-full fixed top-0 bg-gray-100">
+				<h1 className="text-3xl font-bold tracking-tight ">
+					<span>Quản lý danh mục</span>
+				</h1>
+			</div>
+			<table className="table-auto mb-6 text-center text-sm w-main mx-auto my-6">
 				<thead className="font-bold bg-gray-600 text-white">
 					<tr className="border border-gray-800">
 						<th className="py-3 px-1 border border-gray-800">STT</th>
@@ -73,8 +78,8 @@ const ManageCategory = () => {
 									</div>
 								))}
 							</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800 truncate max-w-[150px]">
-								<img src={el.image} alt={el.title} />
+							<td className="py-2 px-1 border-b border-r border-gray-800 flex items-center justify-center">
+								<img src={el.image} alt={el.title} className="w-[100px] h-[100px] object-contain" />
 							</td>
 							<td className="py-2 px-1 border-b border-r border-gray-800">{moment(el.createdAt)?.fromNow()}</td>
 							<td className="py-2 px-1 border-b border-r border-gray-800">

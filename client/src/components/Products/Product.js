@@ -166,8 +166,8 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 						</span>
 						<span className="text-gray-500">{`Đã bán: ${productData?.sold}`}</span>
 					</div>
-					<span className="line-clamp-1 capitalize">{productData?.title.toLowerCase()}</span>
-					<span>{formatMoney(productData?.price)}VND</span>
+					<span className="line-clamp-1 capitalize font-medium">{productData?.title.toLowerCase()}</span>
+					<span>{`${formatMoney(productData?.price)} VND`}</span>
 				</div>
 			</div>
 		</div>

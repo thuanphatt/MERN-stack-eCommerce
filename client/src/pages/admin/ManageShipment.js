@@ -44,15 +44,20 @@ const ManageShipment = () => {
 		fetchShipment();
 	}, [update]);
 	return (
-		<div className="w-full relative px-4 mx-auto h-full">
+		<div className="w-full flex flex-col gap-4 relative">
 			{editShipment && (
 				<div className="absolute bg-gray-100 inset-0 min-h-screen z-50">
 					{/* <UpdateCate editCategory={editCategory} render={render} setEditCategory={setEditCategory} /> */}
 					editShipment
 				</div>
 			)}
-			<header className="text-3xl font-bold py-4 border-b border-main">Quản lý phí vận chuyển</header>
-			<table className="table-auto mb-6 text-center text-sm mx-4 my-8">
+			<div className="w-full h-[69px]"></div>
+			<div className="flex items-center justify-betweend p-4 border-b w-full fixed top-0 bg-gray-100">
+				<h1 className="text-3xl font-bold tracking-tight ">
+					<span>Quản lý danh mục</span>
+				</h1>
+			</div>
+			<table className="table-auto mb-6 text-center text-sm mx-auto my-8 w-main">
 				<thead className="font-bold bg-gray-600 text-white">
 					<tr className="border border-gray-800">
 						<th className="py-3 px-1 border border-gray-800">STT</th>

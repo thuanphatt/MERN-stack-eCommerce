@@ -29,7 +29,7 @@ const Navigation = () => {
 	}, [queriesDebounce, params]);
 
 	return (
-		<div className="border-y w-main h-[48px] py-4 flex items-center text-sm">
+		<div className="border-y w-main h-[48px] py-4 flex items-center text-sm font-semibold">
 			{navigation.map((el) => (
 				<NavLink
 					to={el.path}
@@ -39,7 +39,7 @@ const Navigation = () => {
 					{el.value}
 				</NavLink>
 			))}
-			<div className="relative ml-auto">
+			<div className="relative ml-auto font-medium">
 				<InputField
 					isHideLabel
 					nameKey={"q"}
