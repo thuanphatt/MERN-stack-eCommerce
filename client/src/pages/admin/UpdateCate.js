@@ -63,7 +63,7 @@ const UpdateCate = ({ editCategory, setEditCategory, render, dispatch }) => {
 		<div className="w-full flex flex-col gap-4 relative bg-gray-100 h-full">
 			<div className="flex items-center justify-betweend p-4 border-b w-full">
 				<h1 className="text-3xl font-bold tracking-tight ">
-					<span>Cập nhật sản phẩm</span>
+					<span>Cập nhật danh mục</span>
 				</h1>
 				<span
 					className="ml-auto cursor-pointer hover:underline"

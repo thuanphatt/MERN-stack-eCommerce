@@ -6,6 +6,7 @@ import { apiGetShipments, apiDeleteShipment } from "apis";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { formatMoney, formatPrice } from "utils/helpers";
+import UpdateShipment from "./UpdateShipment";
 
 const ManageShipment = () => {
 	const [shipments, setShipments] = useState(null);
@@ -13,7 +14,6 @@ const ManageShipment = () => {
 	const [update, setUpdate] = useState(false);
 	const fetchShipment = async () => {
 		const response = await apiGetShipments();
-		console.log(response);
 		if (response.success) setShipments(response.shipment);
 	};
 	const render = useCallback(() => {
@@ -22,7 +22,7 @@ const ManageShipment = () => {
 	const handleDeleteShipment = (sid) => {
 		Swal.fire({
 			title: "Bạn có chắc chắn không ?",
-			text: "Sau khi bạn xóa danh mục này sẽ không thể khôi phục lại",
+			text: "Sau khi bạn xóa phí vận chuyển này sẽ không thể khôi phục lại",
 			cancelButtonText: "Không",
 			confirmButtonText: "Có",
 			showCancelButton: true,
@@ -47,14 +47,13 @@ const ManageShipment = () => {
 		<div className="w-full flex flex-col gap-4 relative">
 			{editShipment && (
 				<div className="absolute bg-gray-100 inset-0 min-h-screen z-50">
-					{/* <UpdateCate editCategory={editCategory} render={render} setEditCategory={setEditCategory} /> */}
-					editShipment
+					<UpdateShipment editShipment={editShipment} render={render} setEditShipment={setEditShipment} />
 				</div>
 			)}
 			<div className="w-full h-[69px]"></div>
 			<div className="flex items-center justify-betweend p-4 border-b w-full fixed top-0 bg-gray-100">
 				<h1 className="text-3xl font-bold tracking-tight ">
-					<span>Quản lý danh mục</span>
+					<span>Quản lý phí vận chuyển</span>
 				</h1>
 			</div>
 			<table className="table-auto mb-6 text-center text-sm mx-auto my-8 w-main">

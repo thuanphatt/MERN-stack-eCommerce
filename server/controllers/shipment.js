@@ -18,7 +18,6 @@ const getShipment = asyncHandler(async (req, res) => {
 });
 const updatedShipment = asyncHandler(async (req, res) => {
 	const { sid } = req.params;
-	if (Object.keys(req.body).length === 0) throw new Error("Thông tin đầu vào bị thiếu");
 	const response = await Shipment.findByIdAndUpdate(sid, req.body, {
 		new: true,
 	});

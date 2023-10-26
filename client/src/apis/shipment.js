@@ -15,3 +15,9 @@ export const apiDeleteShipment = (sid) =>
 		url: "/shipment/" + sid,
 		method: "delete",
 	});
+export const apiUpdateShipment = (data, sid) =>
+	axios({
+		url: "/shipment/" + sid,
+		method: "put",
+		data,
+	});
