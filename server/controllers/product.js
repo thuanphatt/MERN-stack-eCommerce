@@ -3,10 +3,10 @@ const asyncHandler = require("express-async-handler");
 const slugify = require("slugify");
 const makeSKU = require("uniqid");
 const createProduct = asyncHandler(async (req, res) => {
-	const { title, description, brand, price, category, color, inputPrice } = req.body;
+	const { title, description, brand, price, category, color, inputPrice, video } = req.body;
 	const thumb = req?.files?.thumb[0]?.path;
 	const images = req.files?.images?.map((el) => el.path);
-	if (!(title && description && brand && price && category && color && inputPrice))
+	if (!(title && description && brand && price && category && color && inputPrice && video))
 		throw new Error("Thông tin đầu vào bị thiếu");
 	req.body.slug = slugify(title);
 	if (req.body.thumb) req.body.thumb = thumb;

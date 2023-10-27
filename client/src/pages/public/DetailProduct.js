@@ -172,7 +172,6 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 		}
 	}, [variant, product]);
 	const handleClickImage = (e, el) => {
-		console.log(el);
 		e.stopPropagation();
 		setCurrentImage(el);
 	};
@@ -357,8 +356,9 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 			</div>
 			{!isQuickView && (
 				<>
-					<div className="w-main m-auto mt-8">
+					<div className="w-full mt-8">
 						<ProductInfomation
+							product={product}
 							products={products}
 							totalRatings={product?.totalRatings}
 							ratings={product?.ratings}
@@ -367,6 +367,7 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 							rerender={rerender}
 						/>
 					</div>
+
 					<div className="w-main m-auto mb-6">
 						<h2 className="py-[15px] text-xl font-[#151515] uppercase font-semibold border-b-2 border-main mb-6">
 							CÓ THỂ BẠN CŨNG THÍCH

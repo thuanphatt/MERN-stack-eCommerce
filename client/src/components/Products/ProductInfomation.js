@@ -1,8 +1,9 @@
+/* eslint-disable jsx-a11y/iframe-has-title */
 import React, { memo, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { productInfoTabs } from "utils/contants";
-import { renderStarFromNumber } from "utils/helpers";
+import { getIdYoutube, renderStarFromNumber } from "utils/helpers";
 import { Votebar, Button, VoteOptions, Comment } from "components";
 import { apiRatings } from "apis";
 import { showModal } from "store/app/appSlice";
@@ -10,12 +11,8 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import path from "utils/path";
 import Swal from "sweetalert2";
-const ProductInfomation = ({ totalRatings, ratings, nameProduct, pid, rerender, products }) => {
+const ProductInfomation = ({ totalRatings, ratings, nameProduct, pid, rerender, products, product }) => {
 	const [activedTab, setActivedTab] = useState(1);
-	// const { current } = useSelector((state) => state.user);
-	// console.log(products);
-	// const userId = current?._id;
-
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { isLoggedIn } = useSelector((state) => state.user);
@@ -53,10 +50,9 @@ const ProductInfomation = ({ totalRatings, ratings, nameProduct, pid, rerender, 
 			);
 		}
 	};
-
 	return (
 		<div>
-			<div className="flex items-center gap-1 relative bottom-[-1px]">
+			<div className="flex items-center gap-1 relative bottom-[-1px] w-main mx-auto">
 				{productInfoTabs.map((el, index) => (
 					<span
 						key={index}
@@ -71,11 +67,20 @@ const ProductInfomation = ({ totalRatings, ratings, nameProduct, pid, rerender, 
 					</span>
 				))}
 			</div>
-			<div className="border w-full p-4">
+			<div className="border p-4 w-main mx-auto">
 				{productInfoTabs.some((el) => activedTab === el.id) &&
 					productInfoTabs.find((el) => el.id === activedTab)?.content}
 			</div>
-			<div className="py-8 w-main">
+			{product?.video && (
+				<div className="w-full my-6">
+					<iframe
+						width="420"
+						height="315"
+						src={`https://www.youtube.com/embed/${getIdYoutube(product?.video)}?autoplay=1&mute=1&loop=1&controls=0`}
+					></iframe>
+				</div>
+			)}
+			<div className="py-8 w-main mx-auto">
 				<div className="flex flex-col border p-2">
 					<span className="p-2 px-4 text-[#505050]">ĐÁNH GIÁ CỦA NHỮNG KHÁCH HÀNG ĐÃ MUA</span>
 					<div className="flex">

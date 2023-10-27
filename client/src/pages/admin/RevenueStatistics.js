@@ -12,12 +12,13 @@ const RevenueStatistics = () => {
 	useEffect(() => {
 		fetchOrders();
 	}, []);
+
 	return (
 		<div className="w-full relative px-4 mx-auto">
 			<header className="text-3xl font-bold py-4 border-b border-main">Thống kê doanh thu</header>
 			<div className="flex items-center w-full mt-4 justify-center">
 				<div className="flex-1 w-full flex flex-col items-center gap-4">
-					<div className="h-[400px] w-full flex justify-center items-center">
+					<div className="max-h-[400px] w-full flex justify-center items-center">
 						<AreaChart
 							dataRevenue={calculateRevunue(orders, "week").revenueWeek}
 							labels={calculateRevunue(orders, "week").dayOfRevenueWeek}
@@ -28,7 +29,7 @@ const RevenueStatistics = () => {
 					</div>
 				</div>
 				<div className="flex-1 w-full flex flex-col items-center gap-4">
-					<div className="h-[400px] w-full flex justify-center items-center">
+					<div className="max-h-[400px] w-full flex justify-center items-center">
 						<AreaChart
 							dataRevenue={calculateRevunue(orders, "month").revenueMonth}
 							labels={calculateRevunue(orders, "month").monthOfRevenueMonth}

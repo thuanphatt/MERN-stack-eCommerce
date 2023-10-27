@@ -23,6 +23,10 @@ var productSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
+		video: {
+			type: String,
+			required: true,
+		},
 		thumb: {
 			type: String,
 			required: true,

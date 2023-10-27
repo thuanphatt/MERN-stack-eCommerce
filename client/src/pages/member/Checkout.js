@@ -9,7 +9,7 @@ import clsx from "clsx";
 import Congratulation from "components/Common/Congratulation";
 import withBaseComponent from "hocs/withBaseComponent";
 import { getCurrent } from "store/user/asyncActions";
-import { apiGetCoupons, apiGetShipments, apiUpdateCurrent } from "apis";
+import { apiGetCoupons, apiGetShipments } from "apis";
 const Checkout = ({ dispatch }) => {
 	const { currentCart, current } = useSelector((state) => state.user);
 	const {
@@ -38,13 +38,9 @@ const Checkout = ({ dispatch }) => {
 	const sumProductPrice = currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0);
 	const total = isDiscount ? sumProductPrice - sumProductPrice * (discountPercent / 100) : sumProductPrice;
 	const finalPrice = total > freeship ? total : total + cost;
-	const updateAddress = async () => {
-		const response = await apiUpdateCurrent({ address: [watch("address")] });
-		console.log(response);
-	};
+
 	useEffect(() => {
 		if (isSuccess) {
-			updateAddress();
 			dispatch(getCurrent());
 		}
 	}, [isSuccess]);

@@ -185,6 +185,20 @@ const CreateProduct = () => {
 								?.brand?.map((item) => ({ code: item, value: item }))}
 						/>
 					</div>
+					<div className="w-full my-6">
+						<InputForm
+							fullWidth
+							label="Video mô tả"
+							register={register}
+							errors={errors}
+							id="video"
+							validate={{
+								required: "Không được bỏ trống trường này",
+							}}
+							style={clsx("flex-1")}
+							placeholder="Nhập url video mô tả của sản phẩm"
+						/>
+					</div>
 					<MarkdownEditor
 						name="description"
 						changeValue={changeValue}
@@ -192,6 +206,7 @@ const CreateProduct = () => {
 						invalidFields={invalidFields}
 						setInvalidFields={setInvalidFields}
 					/>
+
 					<div className="flex flex-col gap-2 mt-6 relative">
 						<label htmlFor="thumb" className="font-semibold">
 							Tải ảnh chính của sản phẩm

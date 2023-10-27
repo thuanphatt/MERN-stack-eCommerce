@@ -155,3 +155,13 @@ export const calculateRevunue = (orders, timeFor) => {
 		return { revenueMonth, monthOfRevenueMonth };
 	}
 };
+export const getIdYoutube = (url) => {
+	// Sử dụng regex để tìm video ID
+	const videoID = url?.match(/v=([a-zA-Z0-9_-]+)/);
+
+	if (videoID) {
+		return videoID[1];
+	} else {
+		console.log("Không tìm thấy video ID.");
+	}
+};

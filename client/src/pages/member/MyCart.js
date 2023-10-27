@@ -79,7 +79,7 @@ const MyCart = ({ dispatch, navigate, location }) => {
 					Swal.fire("Chúc mừng", "Đã đặt hàng thành công", "success").then(() => {
 						navigate(`/${path.HOME}`);
 					});
-				}, 1500);
+				}, 500);
 			}
 		}
 	};
