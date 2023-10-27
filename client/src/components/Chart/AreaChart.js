@@ -12,7 +12,7 @@ import {
 	Legend,
 } from "chart.js";
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Filler, Legend);
-const AreaChart = ({ dataRevenue, labels, label }) => {
+const AreaChart = ({ dataRevenue, labels, label, title, backgroundColor, borderColor = "rgb(255, 99, 132)" }) => {
 	const options = {
 		responsive: true,
 		plugins: {
@@ -21,7 +21,7 @@ const AreaChart = ({ dataRevenue, labels, label }) => {
 			},
 			title: {
 				display: true,
-				text: "Biểu đồ thống kế doanh thu trong tuần năm 2023",
+				text: title,
 				position: "bottom",
 				font: {
 					size: 18,
@@ -39,8 +39,8 @@ const AreaChart = ({ dataRevenue, labels, label }) => {
 				fill: true,
 				label,
 				data: dataRevenue,
-				borderColor: "rgb(53, 162, 235)",
-				backgroundColor: "rgba(53, 162, 235, 0.5)",
+				borderColor,
+				backgroundColor,
 			},
 		],
 	};

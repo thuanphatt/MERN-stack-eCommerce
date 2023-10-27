@@ -1,3 +1,4 @@
+import moment from "moment";
 import icons from "./icons";
 const { AiFillStar, AiOutlineStar } = icons;
 export const createSlug = (string) =>
@@ -89,4 +90,68 @@ export const getBase64 = (file) => {
 		reader.onload = () => resolve(reader.result);
 		reader.onerror = (error) => reject(error);
 	});
+};
+export const calculateRevunue = (orders, timeFor) => {
+	// Hàm tính tổng doanh thu cho một danh sách giao dịch
+	function calculateTotalRevenue(transactions) {
+		return transactions?.reduce((total, transaction) => total + transaction.total, 0);
+	}
+
+	if (timeFor === "week") {
+		// Lấy ngày hiện tại
+		const today = new Date();
+
+		// Lấy ngày đầu của tuần (Chủ Nhật là ngày đầu tuần)
+		const startOfTime = new Date(today);
+		const weeklyRevenueByDay = [];
+		startOfTime.setDate(today.getDate() - today.getDay());
+		for (let i = 0; i < 7; i++) {
+			const currentDate = new Date(startOfTime);
+			currentDate.setDate(startOfTime.getDate() + i);
+
+			const dailyRevenue = orders?.filter((transaction) => {
+				const transactionDate = new Date(transaction.createdAt);
+				return (
+					transaction.status === "Thành công" &&
+					transactionDate.getDate() === currentDate.getDate() &&
+					transactionDate.getMonth() === currentDate.getMonth() &&
+					transactionDate.getFullYear() === currentDate.getFullYear()
+				);
+			});
+
+			const totalDailyRevenue = calculateTotalRevenue(dailyRevenue);
+
+			weeklyRevenueByDay.push({
+				date: currentDate,
+				revenue: totalDailyRevenue,
+			});
+		}
+		const revenueWeek = [];
+		const dayOfRevenueWeek = [];
+		weeklyRevenueByDay.forEach((item) => {
+			revenueWeek.push(item.revenue);
+			dayOfRevenueWeek.push(moment(item.date).format("DD/MM"));
+		});
+		return { revenueWeek, dayOfRevenueWeek };
+	}
+	if (timeFor === "month") {
+		// Lấy tháng hiện tại
+		const currentMonth = new Date().getMonth() + 1;
+		// Tạo mảng để lưu trữ tổng doanh thu cho từng tháng
+		const revenueMonth = Array(12).fill(0);
+		orders?.forEach((transaction) => {
+			const transactionDate = new Date(transaction.createdAt);
+			const transactionMonth = transactionDate?.getMonth() + 1; // Ghi chú: Tháng trong JavaScript bắt đầu từ 0, nên cần +1.
+			// Kiểm tra nếu giao dịch thuộc về tháng hiện tại hoặc trước đó
+			if (transactionMonth <= currentMonth) {
+				revenueMonth[transactionMonth - 1] += transaction.total; // Trừ 1 vì tháng bắt đầu từ 1.
+			}
+		});
+		const monthOfRevenueMonth = [];
+		for (let month = 1; month <= 12; month++) {
+			monthOfRevenueMonth.push(`${month}/2023`);
+		}
+
+		return { revenueMonth, monthOfRevenueMonth };
+	}
 };
