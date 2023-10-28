@@ -114,9 +114,8 @@ const getUserOrder = asyncHandler(async (req, res) => {
 		.exec()
 		.then(async (response) => {
 			const counts = await Order.find({
-				$and: [queries, queryObject], // Combine the queries
+				$and: [{ "orderBy._id": _id }, queryObject, queries], // Chỉ đếm đơn hàng của người dùng hiện tại
 			}).countDocuments();
-
 			return res.status(200).json({
 				success: response ? true : false,
 				counts,
