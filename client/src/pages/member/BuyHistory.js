@@ -1,16 +1,28 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { apiGetBuyHistory, apiUpdateStatus } from "apis";
 import clsx from "clsx";
-import { Button, Pagination } from "components";
+import { Button, CustomSelect, InputForm, Pagination } from "components";
 import withBaseComponent from "hocs/withBaseComponent";
+import useDebounce from "hooks/useDebounce";
 import moment from "moment";
 import React, { memo, useCallback, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { AiFillFilter } from "react-icons/ai";
-import { useSearchParams } from "react-router-dom";
+import { createSearchParams, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { statusOrdersLabel } from "utils/contants";
 import { formatMoney, formatPrice } from "utils/helpers";
+import path from "utils/path";
 
-const BuyHistory = () => {
+const BuyHistory = ({ navigate, location }) => {
+	const {
+		register,
+		watch,
+		formState: { errors },
+	} = useForm();
+	const q = watch("q");
+	const status = watch("status");
 	const [order, setOrder] = useState(null);
 	const [counts, setCounts] = useState(0);
 	const [params] = useSearchParams();
@@ -30,6 +42,12 @@ const BuyHistory = () => {
 	const render = useCallback(() => {
 		setUpdate(!update);
 	}, [update]);
+	const handleSearchStatus = ({ value }) => {
+		navigate({
+			pathname: location.pathname,
+			search: createSearchParams({ status: value }).toString(),
+		});
+	};
 	const handleCancelOrder = async (oid) => {
 		Swal.fire({
 			title: "Bạn có chắc chắn không ?",
@@ -51,26 +69,57 @@ const BuyHistory = () => {
 			}
 		});
 	};
+	const queryDebounce = useDebounce(q, 800);
+	useEffect(() => {
+		if (queryDebounce) {
+			navigate({
+				pathname: location.pathname,
+				search: createSearchParams({ q: queryDebounce }).toString(),
+			});
+		} else {
+			navigate({
+				pathname: location.pathname,
+			});
+		}
+	}, [queryDebounce]);
 	useEffect(() => {
 		const searchParams = Object.fromEntries([...params]);
 		fetchOrder(searchParams);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [update, params, isFilterDate]);
+	}, [params, isFilterDate]);
 	return (
 		<div className="w-full relative px-4 ">
 			<header className="text-3xl font-semibold py-4 border-b border-main">Lịch sử mua hàng</header>
-			<table className="table-auto mb-6 text-center text-sm mx-4 my-8">
-				<thead className="font-bold bg-gray-600 text-white">
-					<tr className="border border-gray-800">
-						<th className="py-3 px-1 border border-gray-800">STT</th>
-						<th className="py-3 px-1 border border-gray-800">Mã đơn</th>
-						<th className="py-3 px-1 border border-gray-800">Sản phẩm</th>
-						<th className="py-3 px-1 border border-gray-800">Trạng thái</th>
-						<th className="py-3 px-1 border border-gray-800">Tổng cộng</th>
-						<th className="py-3 px-1 border-gray-800 flex items-center gap-1">
+			<div className="flex justify-end items-center pt-6 pr-3">
+				<form className="w-[45%] grid grid-cols-2 gap-2">
+					<div className="col-span-1">
+						<InputForm id="q" register={register} errors={errors} fullWidth placeholder="Tìm kiếm đơn hàng ..." />
+					</div>
+					<div className="col-span-1 flex items-center">
+						<CustomSelect
+							options={statusOrdersLabel}
+							value={status}
+							onChange={(val) => {
+								if (!val) {
+									navigate(`/${path.MEMBER}/${path.BUY_HISTORY}`);
+								}
+								val && handleSearchStatus(val);
+							}}
+							wrapClassName="w-full"
+						/>
+					</div>
+				</form>
+			</div>
+			<table className="table-auto mb-6 text-center text-sm my-8 w-main mx-auto">
+				<thead className="font-bold bg-main text-white">
+					<tr className="">
+						<th className="py-4 px-2">#</th>
+						<th className="py-4 px-2">Sản phẩm</th>
+						<th className="py-4 px-2">Trạng thái</th>
+						<th className="py-4 px-2">Tổng cộng</th>
+						<th className="py-4 px-2 border-gray-800 flex items-center gap-1 justify-center">
 							<span>Thời gian</span>
 							<span
-								className="cursor-pointer hover:text-main p-1"
+								className="cursor-pointer hover:text-gray-800 p-1"
 								onClick={() => {
 									setIsFilterDate(!isFilterDate);
 								}}
@@ -78,34 +127,26 @@ const BuyHistory = () => {
 								<AiFillFilter size={16} />
 							</span>
 						</th>
-						<th className="py-3 px-1 border border-gray-800">Hành động</th>
+						<th className="py-4 px-2 ">Hành động</th>
 					</tr>
 				</thead>
 				<tbody>
 					{order?.map((el, index) => (
-						<tr key={index}>
-							<td className="py-4 px-2 border border-gray-800">
+						<tr key={index} className="border border-t-0 border-[#ccc]">
+							<td className="py-4 px-2 ">
 								{(+params.get("page") > 1 ? +params.get("page") - 1 : 0) * process.env.REACT_APP_LIMIT + index + 1}
 							</td>
-
-							<td className="py-4 px-2 border border-gray-800">{el.orderBy?._id}</td>
-							<td className="py-4 px-2 border-b border-r border-gray-800 max-h-[50px] overflow-y-auto">
-								{el.products.map((item) => (
-									<div className="flex items-center gap-4 justify-center p-2 h-full" key={item._id}>
-										<div className="flex flex-col gap-1 flex-1 items-start">
-											<span className="text-sm truncate max-w-[150px]">{item.title}</span>
-											<span>{`Màu sắc: ${item.color}`}</span>
-											<img src={item.thumbnail} alt="thumb" className="w-12 h-12 object-cover" />
-										</div>
-									</div>
-								))}
+							<td className="py-4 px-2 max-h-[50px] overflow-y-auto">
+								<ul className="flex items-center gap-2 justify-center p-2 h-full flex-col">
+									{el.products.map((item) => (
+										<li className="text-sm" key={item._id}>{`${item.title} - ${item.color}`}</li>
+									))}
+								</ul>
 							</td>
-							<td className="py-4 px-2 border-b border-r border-gray-800 truncate max-w-[150px]">{el?.status}</td>
-							<td className="py-4 px-2 border-b border-r border-gray-800">{`${formatMoney(
-								formatPrice(el?.total)
-							)} VND`}</td>
-							<td className="py-4 px-2 border-b border-r border-gray-800">{moment(el?.createdAt)?.fromNow()}</td>
-							<td className="py-4 px-2 border-b border-r border-gray-800">
+							<td className="py-4 px-2 truncate max-w-[150px]">{el?.status}</td>
+							<td className="py-4 px-2">{`${formatMoney(formatPrice(el?.total))} VND`}</td>
+							<td className="py-4 px-2">{moment(el?.createdAt)?.fromNow()}</td>
+							<td className="py-4 px-2">
 								{el.status === "Đang xử lý" && (
 									<Button
 										handleOnClick={() => {

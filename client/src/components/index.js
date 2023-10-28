@@ -45,6 +45,7 @@ export { default as InputSelect } from "./Inputs/InputSelect";
 export { default as InputForm } from "./Inputs/InputForm";
 export { default as Select } from "./Inputs/Select";
 export { default as MarkdownEditor } from "./Inputs/MarkdownEditor";
+export { default as CustomSelect } from "./Inputs/CustomSelect";
 
 export { default as SearchItem } from "./Search/SearchItem";
 export { default as SelectOption } from "./Search/SelectOption";

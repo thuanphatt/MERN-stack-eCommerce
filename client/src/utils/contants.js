@@ -18,7 +18,6 @@ const {
 	AiFillInfoCircle,
 	BiSolidCategoryAlt,
 	AiOutlineHistory,
-	AiFillHeart,
 	SiSimpleanalytics,
 	MdLocalShipping,
 	BiLogoBlogger,
@@ -293,13 +292,6 @@ export const memberSidebar = [
 		path: `/${path.MEMBER}/${path.BUY_HISTORY}`,
 		icon: <AiOutlineHistory size={20} />,
 	},
-	{
-		id: 5,
-		type: "SINGLE",
-		text: "Danh sách yêu thích",
-		path: `/${path.MEMBER}/${path.WISHLIST}`,
-		icon: <AiFillHeart size={20} />,
-	},
 ];
 
 export const roles = [
@@ -377,5 +369,24 @@ export const feedbackUser = [
 	{
 		id: 3,
 		src: "https://globalcheck.com.vn/apt-upload/image/data/baner.png",
+	},
+];
+
+export const statusOrdersLabel = [
+	{
+		label: "Đã hủy",
+		value: "Đã hủy",
+	},
+	{
+		label: "Đang xử lý",
+		value: "Đang xử lý",
+	},
+	{
+		label: "Đang giao",
+		value: "Đang giao",
+	},
+	{
+		label: "Thành công",
+		value: "Thành công",
 	},
 ];

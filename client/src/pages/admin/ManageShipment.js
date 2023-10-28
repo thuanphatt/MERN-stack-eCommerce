@@ -57,25 +57,25 @@ const ManageShipment = () => {
 				</h1>
 			</div>
 			<table className="table-auto mb-6 text-center text-sm mx-auto my-8 w-main">
-				<thead className="font-bold bg-gray-600 text-white">
-					<tr className="border border-gray-800">
-						<th className="py-3 px-1 border border-gray-800">STT</th>
-						<th className="py-3 px-1 border border-gray-800">Tên</th>
-						<th className="py-3 px-1 border border-gray-800">Phí vận chuyển</th>
-						<th className="py-3 px-1 border border-gray-800">Mức miễn phí vận chuyển</th>
-						<th className="py-3 px-1 border border-gray-800">Thời gian</th>
-						<th className="py-3 px-1 border border-gray-800">Hành động</th>
+				<thead className="font-bold bg-main text-white">
+					<tr className="">
+						<th className="py-4 px-2 ">STT</th>
+						<th className="py-4 px-2 ">Tên</th>
+						<th className="py-4 px-2 ">Phí vận chuyển</th>
+						<th className="py-4 px-2 ">Mức miễn phí</th>
+						<th className="py-4 px-2 ">Thời gian</th>
+						<th className="py-4 px-2 ">Hành động</th>
 					</tr>
 				</thead>
 				<tbody>
 					{shipments?.map((el, index) => (
-						<tr key={index}>
-							<td className="py-2 px-1 border border-gray-800">{index + 1}</td>
-							<td className="py-2 px-1 border border-gray-800">{el.name}</td>
-							<td className="py-2 px-1 border border-gray-800">{`${formatMoney(formatPrice(el.cost))} VND`}</td>
-							<td className="py-2 px-1 border border-gray-800">{`${formatMoney(formatPrice(el.freeship))} VND`}</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800">{moment(el.createdAt)?.fromNow()}</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800">
+						<tr key={index} className="border border-t-0 border-[#ccc]">
+							<td className="py-4 px-2 ">{index + 1}</td>
+							<td className="py-4 px-2 ">{el.name}</td>
+							<td className="py-4 px-2 ">{`${formatMoney(formatPrice(el.cost))} VND`}</td>
+							<td className="py-4 px-2 ">{`${formatMoney(formatPrice(el.freeship))} VND`}</td>
+							<td className="py-4 px-2">{moment(el.createdAt)?.fromNow()}</td>
+							<td className="py-4 px-2">
 								<div className="flex items-center gap-4 justify-center">
 									<span
 										className="cursor-pointer hover:text-gray-800 text-blue-500"

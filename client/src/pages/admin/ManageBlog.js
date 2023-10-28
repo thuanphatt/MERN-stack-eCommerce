@@ -50,34 +50,34 @@ const ManageBlog = () => {
 				</div>
 			)}
 			<header className="text-3xl font-bold py-4 border-b border-main">Quản lý tin tức</header>
-			<table className="table-auto mb-6 text-center text-sm mx-4 my-8">
-				<thead className="font-bold bg-gray-600 text-white">
-					<tr className="border border-gray-800">
-						<th className="py-3 px-1 border border-gray-800">STT</th>
-						<th className="py-3 px-1 border border-gray-800">Tựa đề</th>
-						<th className="py-3 px-1 border border-gray-800">Ảnh</th>
-						<th className="py-3 px-1 border border-gray-800">Danh mục</th>
-						<th className="py-3 px-1 border border-gray-800">Mô tả</th>
-						<th className="py-3 px-1 border border-gray-800">Lượt xem</th>
-						<th className="py-3 px-1 border border-gray-800">Người đăng</th>
-						<th className="py-3 px-1 border border-gray-800">Thời gian</th>
-						<th className="py-3 px-1 border border-gray-800">Hành động</th>
+			<table className="table-auto mb-6 text-center text-sm my-8 w-main mx-auto">
+				<thead className="font-bold bg-main text-white">
+					<tr className="">
+						<th className="py-4 px-2 ">STT</th>
+						<th className="py-4 px-2 ">Tựa đề</th>
+						<th className="py-4 px-2 ">Ảnh</th>
+						<th className="py-4 px-2 ">Danh mục</th>
+						<th className="py-4 px-2 ">Mô tả</th>
+						<th className="py-4 px-2 ">Lượt xem</th>
+						<th className="py-4 px-2 ">Người đăng</th>
+						<th className="py-4 px-2 ">Thời gian</th>
+						<th className="py-4 px-2 ">Hành động</th>
 					</tr>
 				</thead>
 				<tbody>
 					{blogs?.map((el, index) => (
-						<tr key={index}>
-							<td className="py-2 px-1 border border-gray-800">{index + 1}</td>
-							<td className="py-2 px-1 border border-gray-800 truncate max-w-[200px]">{el.title}</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800">
+						<tr key={index} className="border border-t-0 border-[#ccc]">
+							<td className="py-4 px-2 ">{index + 1}</td>
+							<td className="py-4 px-2  truncate max-w-[200px]">{el.title}</td>
+							<td className="py-4 px-2">
 								<img src={el.image} alt={el.title} className="w-16 h-16 object-contain" />
 							</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800">{el.category}</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800 truncate max-w-[200px]">{el.description}</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800">{el.numberViews}</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800">{el.author}</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800">{moment(el.createdAt)?.fromNow()}</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800">
+							<td className="py-4 px-2">{el.category}</td>
+							<td className="py-4 px-2 truncate max-w-[200px]">{el.description}</td>
+							<td className="py-4 px-2">{el.numberViews}</td>
+							<td className="py-4 px-2">{el.author}</td>
+							<td className="py-4 px-2">{moment(el.createdAt)?.fromNow()}</td>
+							<td className="py-4 px-2">
 								<div className="flex items-center gap-4 justify-center">
 									<span
 										className="cursor-pointer hover:text-gray-800 text-blue-500"

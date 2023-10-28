@@ -111,14 +111,14 @@ const ManageProduct = () => {
 				</form>
 			</div>
 			<table className="table-auto mb-6 text-center text-sm w-main mx-auto">
-				<thead className="font-bold bg-gray-600 text-white">
-					<tr className="border border-gray-800">
-						<th className="py-3 px-1 border border-gray-800">STT</th>
-						<th className="py-3 px-1 border border-gray-800">Hình ảnh</th>
-						<th className="py-3 px-1 border border-gray-800">Tên</th>
-						<th className="py-3 px-1 border border-gray-800">Thương hiệu</th>
-						<th className="py-3 px-1 border border-gray-800">Danh mục</th>
-						<th className="py-3 px-1 border-gray-800 min-w-[120px] flex items-center gap-2 justify-center">
+				<thead className="font-bold bg-main text-white">
+					<tr className="text-center">
+						<th className="py-3 px-1 ">#</th>
+						<th className="py-3 px-1 ">Hình ảnh</th>
+						<th className="py-3 px-1 ">Tên</th>
+						<th className="py-3 px-1 ">Thương hiệu</th>
+						<th className="py-3 px-1 ">Danh mục</th>
+						<th className="py-3 px-1 border-gray-800 min-w-[120px] flex gap-2 justify-center items-center pt-5">
 							<span>Giá</span>
 							<span
 								className="cursor-pointer"
@@ -129,43 +129,37 @@ const ManageProduct = () => {
 								<AiFillFilter size={16} />
 							</span>
 						</th>
-						<th className="py-3 px-1 border border-gray-800 min-w-[120px]">Giá nhập</th>
-						<th className="py-3 px-1 border border-gray-800">Số lượng</th>
-						<th className="py-3 px-1 border border-gray-800">Đã bán</th>
-						<th className="py-3 px-1 border border-gray-800">Màu sắc</th>
-						<th className="py-3 px-1 border border-gray-800">Đánh giá</th>
-						<th className="py-3 px-1 border border-gray-800">Biến thể</th>
-						<th className="py-3 px-1 border border-gray-800">Ngày tạo</th>
-						<th className="py-3 px-1 border border-gray-800">Hành động</th>
+						<th className="py-3 px-1  min-w-[120px]">Giá nhập</th>
+						<th className="py-3 px-1 ">Số lượng</th>
+						<th className="py-3 px-1 ">Đã bán</th>
+						<th className="py-3 px-1 ">Màu sắc</th>
+						<th className="py-3 px-1 ">Đánh giá</th>
+						<th className="py-3 px-1 ">Biến thể</th>
+						<th className="py-3 px-1 ">Ngày tạo</th>
+						<th className="py-3 px-1 ">Hành động</th>
 					</tr>
 				</thead>
 				<tbody>
 					{products?.map((el, index) => (
-						<tr key={index}>
-							<td className="py-2 px-1 border border-gray-800">
+						<tr key={index} className="border-b border-r border-l border-[#ccc]">
+							<td className="py-2 px-1 ">
 								{(+params.get("page") > 1 ? +params.get("page") - 1 : 0) * process.env.REACT_APP_LIMIT + index + 1}
 							</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800 flex items-center justify-center">
+							<td className="py-2 px-1 flex items-center justify-center">
 								<img src={el.thumb} alt="thumb" className="w-12 h-12 object-cover" />
 							</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800 truncate max-w-[150px]">{el.title}</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800">{el.brand}</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800">{el.category[0]}</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800">{`${formatMoney(
-								formatPrice(el?.price)
-							)} VND`}</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800">{`${formatMoney(
-								formatPrice(el?.inputPrice)
-							)} VND`}</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800">{el.quantity}</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800">{el.sold}</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800">{el.color}</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800">{el.totalRatings}</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800">{el?.varriants?.length || 0}</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800">
-								{moment(el.createdAt)?.format("DD/MM/YYYY")}
-							</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800">
+							<td className="py-2 px-1 truncate max-w-[150px]">{el.title}</td>
+							<td className="py-2 px-1">{el.brand}</td>
+							<td className="py-2 px-1">{el.category[0]}</td>
+							<td className="py-2 px-1">{`${formatMoney(formatPrice(el?.price))} VND`}</td>
+							<td className="py-2 px-1">{`${formatMoney(formatPrice(el?.inputPrice))} VND`}</td>
+							<td className="py-2 px-1">{el.quantity}</td>
+							<td className="py-2 px-1">{el.sold}</td>
+							<td className="py-2 px-1">{el.color}</td>
+							<td className="py-2 px-1">{el.totalRatings}</td>
+							<td className="py-2 px-1">{el?.varriants?.length || 0}</td>
+							<td className="py-2 px-1">{moment(el.createdAt)?.format("DD/MM/YYYY")}</td>
+							<td className="py-2 px-1">
 								<div className="flex items-center gap-4 justify-center">
 									<span
 										className="cursor-pointer hover:text-gray-800 text-blue-500"

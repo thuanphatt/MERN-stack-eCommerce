@@ -56,33 +56,33 @@ const ManageCategory = () => {
 				</h1>
 			</div>
 			<table className="table-auto mb-6 text-center text-sm w-main mx-auto my-6">
-				<thead className="font-bold bg-gray-600 text-white">
-					<tr className="border border-gray-800">
-						<th className="py-3 px-1 border border-gray-800">STT</th>
-						<th className="py-3 px-1 border border-gray-800">Danh mục</th>
-						<th className="py-3 px-1 border border-gray-800">Thương hiệu</th>
-						<th className="py-3 px-1 border border-gray-800">Ảnh</th>
-						<th className="py-3 px-1 border border-gray-800">Thời gian</th>
-						<th className="py-3 px-1 border border-gray-800">Hành động</th>
+				<thead className="font-bold bg-main text-white">
+					<tr className="text-center">
+						<th className="py-3 px-1 ">#</th>
+						<th className="py-3 px-1 ">Danh mục</th>
+						<th className="py-3 px-1 ">Thương hiệu</th>
+						<th className="py-3 px-1 ">Ảnh</th>
+						<th className="py-3 px-1 ">Thời gian</th>
+						<th className="py-3 px-1 ">Hành động</th>
 					</tr>
 				</thead>
 				<tbody>
 					{categories?.map((el, index) => (
-						<tr key={index}>
-							<td className="py-2 px-1 border border-gray-800">{index + 1}</td>
-							<td className="py-2 px-1 border border-gray-800">{el.title}</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800 truncate max-w-[150px]">
+						<tr key={index} className="border border-t-0 border-[#ccc]">
+							<td className="py-2 px-1 ">{index + 1}</td>
+							<td className="py-2 px-1 ">{el.title}</td>
+							<td className="py-2 px-1 truncate max-w-[150px]">
 								{el.brand.map((item) => (
 									<div key={item} className="flex flex-col gap-2">
 										<span className="text-sm">{item}</span>
 									</div>
 								))}
 							</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800 flex items-center justify-center">
+							<td className="py-2 px-1 flex items-center justify-center">
 								<img src={el.image} alt={el.title} className="w-[100px] h-[100px] object-contain" />
 							</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800">{moment(el.createdAt)?.fromNow()}</td>
-							<td className="py-2 px-1 border-b border-r border-gray-800">
+							<td className="py-2 px-1">{moment(el.createdAt)?.fromNow()}</td>
+							<td className="py-2 px-1">
 								<div className="flex items-center gap-4 justify-center">
 									<span
 										className="cursor-pointer hover:text-gray-800 text-blue-500"

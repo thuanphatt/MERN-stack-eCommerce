@@ -82,7 +82,7 @@ const ManageUser = () => {
 	}, [queriesDebounce, params, update]);
 
 	return (
-		<div className={clsx("w-full flex flex-col gap-4 relative", editElement && "pl-[80px]")}>
+		<div className={clsx("w-full flex flex-col gap-4 relative", editElement && "pl-[26px]")}>
 			<div className="w-full h-[69px]"></div>
 			<div className="flex items-center justify-betweend p-4 border-b w-full fixed top-0 bg-gray-100">
 				<h1 className="text-3xl font-bold tracking-tight ">
@@ -96,15 +96,21 @@ const ManageUser = () => {
 						nameKey={"q"}
 						value={queries.q}
 						setValue={setQueries}
-						style={"w-[500px]"}
+						style={
+							"p-2 rounded-sm border-2 border-gray-500 w-full placeholder:text-sm outline-none my-auto max-h-[42px] mb-6"
+						}
 						placeholder="Tìm kiếm người dùng ..."
 					/>
 				</div>
 				<form onSubmit={handleSubmit(handleUpdate)}>
-					{editElement && <Button type="submit">Cập nhật</Button>}
+					{editElement && (
+						<div className="absolute bottom-[70%]">
+							<Button type="submit">Cập nhật</Button>
+						</div>
+					)}
 					<table className="table-auto mb-6 text-left w-full">
-						<thead className="font-bold bg-gray-600 text-sm text-white">
-							<tr className="border border-gray-500">
+						<thead className="font-bold bg-main text-sm text-white text-center">
+							<tr>
 								<th className="px-4 py-2">#</th>
 								<th className="px-4 py-2">Email</th>
 								<th className="px-4 py-2">Họ</th>
@@ -119,9 +125,9 @@ const ManageUser = () => {
 						{usersData && (
 							<tbody>
 								{usersData?.users?.map((el, index) => (
-									<tr key={el._id} className="border border-gray-500">
-										<td className="py-2 px-4">{index + 1}</td>
-										<td className="py-2 px-4">
+									<tr key={el._id} className="text-center border border-[#ccc]">
+										<td className="px-2 py-4">{index + 1}</td>
+										<td className="px-2 py-4">
 											{editElement?._id === el._id ? (
 												<InputForm
 													fullWidth
@@ -141,7 +147,7 @@ const ManageUser = () => {
 												<span>{el.email}</span>
 											)}
 										</td>
-										<td className="py-2 px-4">
+										<td className="px-2 py-4">
 											{editElement?._id === el._id ? (
 												<InputForm
 													fullWidth
@@ -155,7 +161,7 @@ const ManageUser = () => {
 												<span>{el.firstName}</span>
 											)}
 										</td>
-										<td className="py-2 px-4">
+										<td className="px-2 py-4">
 											{editElement?._id === el._id ? (
 												<InputForm
 													fullWidth
@@ -169,7 +175,7 @@ const ManageUser = () => {
 												<span>{el.lastName}</span>
 											)}
 										</td>
-										<td className="py-2 px-4">
+										<td className="px-2 py-4">
 											{editElement?._id === el._id ? (
 												<InputForm
 													fullWidth
@@ -189,7 +195,7 @@ const ManageUser = () => {
 												<span>{el.mobile}</span>
 											)}
 										</td>
-										<td className="py-2 px-4">
+										<td className="px-2 py-4">
 											{editElement?._id === el._id ? (
 												<Select
 													fullWidth
@@ -222,7 +228,7 @@ const ManageUser = () => {
 											)}
 										</td>
 
-										<td className="py-2 px-4 flex items-center pt-3">
+										<td className="py-2 px-4 flex items-center pt-3 justify-center">
 											{editElement?._id === el._id ? (
 												<span
 													className="px-2 hover:underline cursor-pointer"

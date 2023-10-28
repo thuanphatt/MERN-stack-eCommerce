@@ -26,7 +26,7 @@ const InputForm = ({
 				defaultValue={defaultValue}
 				placeholder={placeholder}
 				className={clsx(
-					"p-2 rounded-sm border-2 border-gray-500 w-full placeholder:text-sm outline-none my-auto max-h-[42px]",
+					"p-2 rounded-sm border-2 border-[#ccc] w-full placeholder:text-sm outline-none my-auto max-h-[42px]",
 					fullWidth && "w-full"
 				)}
 				readOnly={readOnly}

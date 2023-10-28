@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import moment from "moment";
 import React, { memo, useCallback, useEffect, useState } from "react";
 import { AiFillDelete, AiFillEdit, AiFillEye, AiFillFilter, AiFillPrinter } from "react-icons/ai";
@@ -6,7 +7,7 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 
 import { apiDeleteOrder, apiDetailOrder, apiGetOrders, apiUpdateStatus } from "apis";
-import { InputForm, Pagination } from "components";
+import { CustomSelect, InputForm, Pagination } from "components";
 import { formatMoney, formatPrice } from "utils/helpers";
 import { useForm } from "react-hook-form";
 // import { useDebounce } from "react-use";
@@ -15,6 +16,9 @@ import DetailOrder from "./DetailOrder";
 import useDebounce from "hooks/useDebounce";
 import jsPDF from "jspdf";
 import unidecode from "unidecode-plus";
+import { RiArrowGoBackFill } from "react-icons/ri";
+import path from "utils/path";
+import { statusOrdersLabel } from "utils/contants";
 
 const ManagerOrder = ({ location, navigate }) => {
 	const [orders, setOrders] = useState([]);
@@ -23,6 +27,7 @@ const ManagerOrder = ({ location, navigate }) => {
 		formState: { errors },
 		watch,
 	} = useForm();
+	const status = watch("status");
 	const [editOrder, setEditOrder] = useState(null);
 	const [detailOrder, setDetailOrder] = useState(null);
 	const [params] = useSearchParams();
@@ -103,7 +108,12 @@ const ManagerOrder = ({ location, navigate }) => {
 
 		doc.save("order.pdf");
 	};
-
+	const handleSearchStatus = ({ value }) => {
+		navigate({
+			pathname: location.pathname,
+			search: createSearchParams({ status: value }).toString(),
+		});
+	};
 	const queryDebounce = useDebounce(watch("q"), 800);
 	useEffect(() => {
 		if (queryDebounce) {
@@ -120,7 +130,6 @@ const ManagerOrder = ({ location, navigate }) => {
 	useEffect(() => {
 		const searchParams = Object.fromEntries([...params]);
 		fetchOrders(searchParams);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [params, update, isFilterDate, editedStatus]);
 	return (
 		<div className="w-full flex flex-col gap-4 relative">
@@ -132,21 +141,36 @@ const ManagerOrder = ({ location, navigate }) => {
 				</h1>
 			</div>
 			<div className="flex justify-end items-center pr-5">
-				<form className="w-[25%]">
-					<InputForm id="q" register={register} errors={errors} fullWidth placeholder="Tìm kiếm đơn hàng ..." />
+				<form className="w-[45%] grid grid-cols-2 gap-2">
+					<div className="col-span-1">
+						<InputForm id="q" register={register} errors={errors} fullWidth placeholder="Tìm kiếm đơn hàng ..." />
+					</div>
+					<div className="col-span-1 flex items-center">
+						<CustomSelect
+							options={statusOrdersLabel}
+							value={status}
+							onChange={(val) => {
+								if (!val) {
+									navigate(`/${path.ADMIN}/${path.MANAGE_ORDER}`);
+								}
+								val && handleSearchStatus(val);
+							}}
+							wrapClassName="w-full"
+						/>
+					</div>
 				</form>
 			</div>
 			<table className="table-auto mb-6 text-center text-sm mx-auto w-main">
-				<thead className="font-bold bg-gray-600 text-white">
-					<tr className="border border-gray-800">
-						<th className="py-4 px-2 border border-gray-800">STT</th>
-						<th className="py-4 px-2 border border-gray-800">Mã đơn</th>
-						<th className="py-4 px-2 border border-gray-800">Người đặt</th>
-						<th className="py-4 px-2 border border-gray-800">Sản phẩm</th>
-						<th className="py-4 px-2 border border-gray-800">Phương thức TT</th>
-						<th className="py-4 px-2 border border-gray-800">Trạng thái</th>
-						<th className="py-4 px-2 border border-gray-800">Tổng cộng</th>
-						<th className="py-4 px-2 flex items-center gap-2">
+				<thead className="font-bold bg-main text-white">
+					<tr className="text-center">
+						<th className="py-4 px-2">#</th>
+
+						<th className="py-4 px-2">Người đặt</th>
+						<th className="py-4 px-2">Sản phẩm</th>
+						<th className="py-4 px-2">Phương thức TT</th>
+						<th className="py-4 px-2">Trạng thái</th>
+						<th className="py-4 px-2">Tổng cộng</th>
+						<th className="py-4 px-2 flex items-center gap-2 justify-center">
 							<span>Thời gian</span>
 							<span
 								className="cursor-pointer"
@@ -157,34 +181,31 @@ const ManagerOrder = ({ location, navigate }) => {
 								<AiFillFilter size={16} />
 							</span>
 						</th>
-						<th className="py-4 px-2 border border-gray-800">Hành động</th>
+						<th className="py-4 px-2">Hành động</th>
 					</tr>
 				</thead>
 				<tbody>
 					{orders?.map((el, index) => (
-						<tr key={index}>
-							<td className="py-4 px-2 border border-gray-800">
+						<tr key={index} className="border-b border-r border-l border-[#ccc]">
+							<td className="py-4 px-2">
 								{(+params.get("page") > 1 ? +params.get("page") - 1 : 0) * process.env.REACT_APP_LIMIT + index + 1}
 							</td>
-							<td className="py-4 px-2 border border-gray-800">{el._id}</td>
-							<td className="py-4 px-2 border border-gray-800">
-								<div className="flex flex-col gap-1 items-start">
-									<span className="text-sm">{`${el.orderBy?.firstName} ${el.orderBy?.lastName}`}</span>
-								</div>
+
+							<td className="py-4 px-2">
+								<span className="text-sm">{`${el.orderBy?.firstName} ${el.orderBy?.lastName}`}</span>
 							</td>
-							<td className="py-4 px-2 border-b border-r border-gray-800 max-h-[50px] overflow-y-auto">
+							<td className="py-4 px-2">
 								{el.products.map((item) => (
-									<div className="flex items-center gap-4 justify-center p-2 border-b h-full" key={item._id}>
-										<div className="flex flex-col gap-1 flex-1 items-start">
-											<span className="text-sm truncate max-w-[150px]">{item.title}</span>
-										</div>
+									<div className="flex flex-col gap-1" key={item._id}>
+										<span className="text-sm ">{item.title}</span>
 									</div>
 								))}
 							</td>
-							<td className="py-4 px-2 border-b border-r border-gray-800 truncate max-w-[150px]">{el.paymentMethod}</td>
+							<td className="py-4 px-2 ">{el.paymentMethod}</td>
 							{editOrder?._id === el._id ? (
-								<td className="py-4 px-2 border-b border-r border-gray-800 truncate max-w-[150px]">
+								<td className="py-4 px-2 ">
 									<select
+										className="text-[12px] text-gray-500 p-2 outline"
 										value={el.status || editedStatus}
 										onChange={(e) => {
 											const newStatus = e.target.value;
@@ -199,22 +220,34 @@ const ManagerOrder = ({ location, navigate }) => {
 									</select>
 								</td>
 							) : (
-								<td className="py-4 px-2 border-b border-r border-gray-800 truncate max-w-[150px]">{el.status}</td>
+								<td className="py-4 px-2 truncate max-w-[150px]">{el.status}</td>
 							)}
-							<td className="py-4 px-2 border-b border-r border-gray-800">{`${formatMoney(
-								formatPrice(el?.total)
-							)} VND`}</td>
-							<td className="py-4 px-2 border-b border-r border-gray-800">{moment(el.createdAt)?.fromNow()}</td>
-							<td className="py-4 px-2 border-b border-r border-gray-800">
+
+							<td className="py-4 px-2">{`${formatMoney(formatPrice(el?.total))} VND`}</td>
+							<td className="py-4 px-2">{moment(el.createdAt)?.fromNow()}</td>
+							<td className="py-4 px-2">
 								<div className="flex items-center gap-3 justify-center">
-									<span
-										className="cursor-pointer hover:text-gray-800 text-blue-500"
-										onClick={() => {
-											setEditOrder(el);
-										}}
-									>
-										<AiFillEdit size={18} />
-									</span>
+									{editOrder?._id === el._id ? (
+										<span
+											className="hover:underline cursor-pointer"
+											onClick={() => {
+												setEditOrder(null);
+											}}
+										>
+											<RiArrowGoBackFill color="black" />
+										</span>
+									) : (
+										<>
+											<span
+												className="cursor-pointer hover:text-gray-800 text-blue-500"
+												onClick={() => {
+													setEditOrder(el);
+												}}
+											>
+												<AiFillEdit size={18} />
+											</span>
+										</>
+									)}
 									<span
 										className="cursor-pointer hover:text-gray-800 text-gray-600"
 										onClick={() => {

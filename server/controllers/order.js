@@ -84,7 +84,7 @@ const getUserOrder = asyncHandler(async (req, res) => {
 
 	let queryObject = {};
 	// Filtering
-	if (queries?.status) formatedQueries.status = { $regex: queries.title, $options: "i" };
+	if (queries?.status) formatedQueries.status = { $regex: queries.status, $options: "i" };
 	if (queries?.q) {
 		delete formatedQueries.q;
 		queryObject = {
@@ -114,7 +114,7 @@ const getUserOrder = asyncHandler(async (req, res) => {
 		.exec()
 		.then(async (response) => {
 			const counts = await Order.find({
-				$and: [{ "orderBy._id": _id }, queryObject], // Chỉ đếm đơn hàng của người dùng hiện tại
+				$and: [queries, queryObject], // Combine the queries
 			}).countDocuments();
 
 			return res.status(200).json({
@@ -137,20 +137,12 @@ const getAdminOrder = asyncHandler(async (req, res) => {
 
 	let queryObject = {};
 	// Filtering
-	if (queries?.status) formatedQueries.status = { $regex: queries.title, $options: "i" };
-	// if (queries?.category) formatedQueries.category = { $regex: queries.category, $options: "i" };
+	if (queries?.status) formatedQueries.status = { $regex: queries.status, $options: "i" };
 
 	if (queries?.q) {
 		delete formatedQueries.q;
 		queryObject = {
-			// $or: [{ status: { $regex: queries.q, $options: "i" } }],
-			// $or: [{ paymentMethod: { $regex: queries.q, $options: "i" } }],
-			$or: [
-				// {
-				// 	"orderBy.firstName": { $regex: queries.q, $options: "i" },
-				// },
-				{ "orderBy.lastName": { $regex: queries.q, $options: "i" } },
-			],
+			$or: [{ status: { $regex: queries.q, $options: "i" } }],
 		};
 	}
 	const qr = { ...formatedQueries, ...queryObject };

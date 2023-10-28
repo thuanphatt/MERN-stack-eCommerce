@@ -154,6 +154,20 @@ export const calculateRevunue = (orders, timeFor) => {
 
 		return { revenueMonth, monthOfRevenueMonth };
 	}
+	if (timeFor === "today") {
+		// Lấy tháng hiện tại
+		const today = new Date();
+
+		// Tính tổng doanh thu cho ngày cụ thể
+		const dailyRevenue = orders
+			?.filter(
+				(transaction) =>
+					transaction.status === "Thành công" && transaction.createdAt.startsWith(moment(today).format("YYYY-MM-DD"))
+			)
+			?.reduce((total, transaction) => total + transaction.total, 0);
+
+		return formatMoney(formatPrice(dailyRevenue));
+	}
 };
 export const getIdYoutube = (url) => {
 	// Sử dụng regex để tìm video ID
@@ -164,4 +178,8 @@ export const getIdYoutube = (url) => {
 	} else {
 		console.log("Không tìm thấy video ID.");
 	}
+};
+export const calculateTotalRevenue = (transactions) => {
+	const orderTotal = transactions?.filter((el) => el.status === "Thành công");
+	return formatMoney(formatPrice(orderTotal?.reduce((total, transaction) => total + transaction.total, 0)));
 };
