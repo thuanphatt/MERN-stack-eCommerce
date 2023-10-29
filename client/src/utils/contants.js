@@ -390,3 +390,51 @@ export const statusOrdersLabel = [
 		value: "Thành công",
 	},
 ];
+export const roleLabel = [
+	{
+		label: "Admin",
+		value: "2001",
+	},
+	{
+		label: "Người dùng",
+		value: "2000",
+	},
+];
+export const cateLabel = [
+	{
+		label: "MÁY BAY NÔNG NGHIỆP",
+		value: "MÁY BAY NÔNG NGHIỆP",
+	},
+	{
+		label: "ROBOT PHUN THUỐC TỰ ĐỘNG",
+		value: "ROBOT PHUN THUỐC TỰ ĐỘNG",
+	},
+	{
+		label: "MÁY CẮT CỎ TỰ ĐỘNG",
+		value: "MÁY CẮT CỎ TỰ ĐỘNG",
+	},
+	{
+		label: "THIẾT BỊ DẪN ĐƯỜNG TỰ ĐỘNG",
+		value: "THIẾT BỊ DẪN ĐƯỜNG TỰ ĐỘNG",
+	},
+	{
+		label: "TRẠM THAM CHIẾU CORS",
+		value: "TRẠM THAM CHIẾU CORS",
+	},
+	{
+		label: "LINH KIỆN",
+		value: "LINH KIỆN",
+	},
+	{
+		label: "PHỤ KIỆN",
+		value: "PHỤ KIỆN",
+	},
+	{
+		label: "HỆ THỐNG GIÁM SÁT NÔNG NGHIỆP IoT",
+		value: "HỆ THỐNG GIÁM SÁT NÔNG NGHIỆP IoT",
+	},
+	{
+		label: "THIẾT BỊ ĐIỀU HƯỚNG",
+		value: "THIẾT BỊ ĐIỀU HƯỚNG",
+	},
+];

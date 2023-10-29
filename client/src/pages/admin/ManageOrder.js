@@ -143,7 +143,13 @@ const ManagerOrder = ({ location, navigate }) => {
 			<div className="flex justify-end items-center pr-5">
 				<form className="w-[45%] grid grid-cols-2 gap-2">
 					<div className="col-span-1">
-						<InputForm id="q" register={register} errors={errors} fullWidth placeholder="Tìm kiếm đơn hàng ..." />
+						<InputForm
+							id="q"
+							register={register}
+							errors={errors}
+							fullWidth
+							placeholder="Tìm kiếm tên người đặt hàng ..."
+						/>
 					</div>
 					<div className="col-span-1 flex items-center">
 						<CustomSelect

@@ -1,4 +1,4 @@
-import { InputForm } from "components";
+import { CustomSelect, InputForm } from "components";
 import React, { memo, useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import moment from "moment";
@@ -13,12 +13,15 @@ import { AiFillDelete, AiFillEdit, AiFillFilter } from "react-icons/ai";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { BiCustomize } from "react-icons/bi";
+import path from "utils/path";
+import { cateLabel } from "utils/contants";
 const ManageProduct = () => {
 	const {
 		register,
 		watch,
 		formState: { errors },
 	} = useForm();
+	const category = watch("category");
 	const navigate = useNavigate();
 	const location = useLocation();
 	const [params] = useSearchParams();
@@ -66,6 +69,12 @@ const ManageProduct = () => {
 			}
 		});
 	};
+	const handleSearchCate = ({ value }) => {
+		navigate({
+			pathname: location?.pathname,
+			search: createSearchParams({ category: value }).toString(),
+		});
+	};
 	useEffect(() => {
 		if (queryDebounce) {
 			navigate({
@@ -106,9 +115,32 @@ const ManageProduct = () => {
 				</h1>
 			</div>
 			<div className="flex justify-end items-center pr-5">
-				<form className="w-[45%]">
-					<InputForm id="q" register={register} errors={errors} fullWidth placeholder="Tìm kiếm sản phẩm ..." />
-				</form>
+				<div className="flex justify-end items-center mb-6">
+					<form className="grid grid-cols-2 gap-2 w-[700px]">
+						<div className="col-span-1">
+							<InputForm
+								id="q"
+								register={register}
+								errors={errors}
+								fullWidth
+								placeholder="Tìm kiếm theo tên sản phẩm..."
+							/>
+						</div>
+						<div className="col-span-1 flex items-center">
+							<CustomSelect
+								options={cateLabel}
+								value={category}
+								onChange={(val) => {
+									if (!val) {
+										navigate(`/${path.ADMIN}/${path.MANAGE_PRODUCT}`);
+									}
+									val && handleSearchCate(val);
+								}}
+								wrapClassName="w-full"
+							/>
+						</div>
+					</form>
+				</div>
 			</div>
 			<table className="table-auto mb-6 text-center text-sm w-main mx-auto">
 				<thead className="font-bold bg-main text-white">

@@ -196,39 +196,45 @@ const getUsers = asyncHandler(async (req, res) => {
 	let queryString = JSON.stringify(queries);
 	queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, (matchEl) => `$${matchEl}`);
 	const formatedQueries = JSON.parse(queryString);
-	if (queries?.name) formatedQueries.name = { $regex: queries.name, $options: "i" };
-	if (req.query.q) {
-		delete formatedQueries.q;
-		formatedQueries["$or"] = [
-			{ firstName: { $regex: req.query.q, $options: "i" } },
-			{ lastName: { $regex: req.query.q, $options: "i" } },
-			{ email: { $regex: req.query.q, $options: "i" } },
-			// { mobile: { $regex: req.query.q, $options: "i" } },
-		];
-	}
 
-	let queryCommand = User.find(formatedQueries);
+	let queryObject = {};
+	// Filtering
+	if (queries?.role) formatedQueries.role = { $regex: queries.role, $options: "i" };
+
+	if (queries?.q) {
+		delete formatedQueries.q;
+		queryObject = {
+			$or: [{ email: { $regex: queries.q, $options: "i" } }],
+		};
+	}
+	const qr = { ...formatedQueries, ...queryObject };
+	let queryCommand = User.find(qr);
+
 	if (req.query.sort) {
 		const sortBy = req.query.sort?.split(",").join(" ");
 		queryCommand = queryCommand.sort(sortBy);
 	}
+
 	if (req.query.fields) {
 		const fields = req.query.fields?.split(",").join(" ");
 		queryCommand = queryCommand.select(fields);
 	}
 
-	const page = +req.query.page || 1; // + mean: convert string to number
-	const limit = +req.query.limit || process.env.LIMIT_PRODUCTS; // number of object after call API
+	const page = +req.query.page || 1;
+	const limit = +req.query.limit;
+	// const limit = +req.query.limit || process.env.LIMIT_PRODUCTS;
 	const skip = (page - 1) * limit;
+
 	queryCommand.skip(skip).limit(limit);
+
 	queryCommand
 		.exec()
 		.then(async (response) => {
-			const counts = await User.find(queries).countDocuments();
+			const counts = await User.find(qr).countDocuments();
 			return res.status(200).json({
 				success: response ? true : false,
 				counts,
-				users: response ? response : "Cannot get users",
+				users: response ? response : "Không thể lấy tất cả người dùng",
 			});
 		})
 		.catch((err) => {

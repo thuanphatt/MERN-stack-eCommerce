@@ -113,9 +113,7 @@ const getUserOrder = asyncHandler(async (req, res) => {
 	queryCommand
 		.exec()
 		.then(async (response) => {
-			const counts = await Order.find({
-				$and: [{ "orderBy._id": _id }, queryObject, queries], // Chỉ đếm đơn hàng của người dùng hiện tại
-			}).countDocuments();
+			const counts = await Order.find(qr).countDocuments();
 			return res.status(200).json({
 				success: response ? true : false,
 				counts,
@@ -141,7 +139,10 @@ const getAdminOrder = asyncHandler(async (req, res) => {
 	if (queries?.q) {
 		delete formatedQueries.q;
 		queryObject = {
-			$or: [{ status: { $regex: queries.q, $options: "i" } }],
+			$or: [
+				{ "orderBy.lastName": { $regex: queries.q, $options: "i" } },
+				{ "orderBy.firstName": { $regex: queries.q, $options: "i" } },
+			],
 		};
 	}
 	const qr = { ...formatedQueries, ...queryObject };
@@ -167,9 +168,7 @@ const getAdminOrder = asyncHandler(async (req, res) => {
 	queryCommand
 		.exec()
 		.then(async (response) => {
-			const counts = await Order.find({
-				$and: [queries, queryObject], // Combine the queries
-			}).countDocuments();
+			const counts = await Order.find(qr).countDocuments();
 
 			return res.status(200).json({
 				success: response ? true : false,

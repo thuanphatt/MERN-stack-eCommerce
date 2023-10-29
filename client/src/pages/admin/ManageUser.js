@@ -3,24 +3,26 @@
 import React, { memo, useCallback, useEffect, useState } from "react";
 import moment from "moment";
 import "moment/locale/vi";
-import { useSearchParams } from "react-router-dom";
+import { createSearchParams, useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import clsx from "clsx";
 
-import { InputField, InputForm, Select, Button } from "components";
+import { InputForm, Select, Button, CustomSelect } from "components";
 import { apiDeleteUser, apiGetUsers, apiUpdateUser } from "apis/user";
-import { roles, blockStatus } from "utils/contants";
+import { roles, blockStatus, roleLabel } from "utils/contants";
 import useDebounce from "hooks/useDebounce";
 import { Pagination } from "components";
 import icons from "utils/icons";
 import Swal from "sweetalert2";
-const ManageUser = () => {
+import path from "utils/path";
+import withBaseComponent from "hocs/withBaseComponent";
+const ManageUser = ({ navigate, location }) => {
 	const { AiFillEdit, AiFillDelete, RiArrowGoBackFill } = icons;
 	const {
 		handleSubmit,
 		register,
-
+		watch,
 		formState: { errors },
 		reset,
 	} = useForm({
@@ -32,17 +34,19 @@ const ManageUser = () => {
 		isBlocked: "",
 	});
 	const [usersData, setUsersData] = useState(null);
+	const [counts, setCounts] = useState(0);
 	const [update, setUpdate] = useState(false);
-	const [queries, setQueries] = useState({
-		q: "",
-	});
+
+	const role = watch("role");
 	const [editElement, setEditElement] = useState(null);
 	const [params] = useSearchParams();
-	const queriesDebounce = useDebounce(queries.q, 800);
 
 	const fetchUsers = async (params) => {
 		const response = await apiGetUsers({ ...params, limit: process.env.REACT_APP_LIMIT });
-		if (response.success) setUsersData(response);
+		if (response.success) {
+			setUsersData(response);
+			setCounts(response.counts);
+		}
 	};
 
 	const render = useCallback(() => {
@@ -75,11 +79,29 @@ const ManageUser = () => {
 			}
 		});
 	};
+	const handleSearchRole = ({ value }) => {
+		navigate({
+			pathname: location?.pathname,
+			search: createSearchParams({ role: value }).toString(),
+		});
+	};
+	const queryDebounce = useDebounce(watch("q"), 800);
 	useEffect(() => {
-		const queries = Object.fromEntries([...params]);
-		if (queriesDebounce) queries.q = queriesDebounce;
-		fetchUsers(queries);
-	}, [queriesDebounce, params, update]);
+		if (queryDebounce) {
+			navigate({
+				pathname: location?.pathname,
+				search: createSearchParams({ q: queryDebounce }).toString(),
+			});
+		} else {
+			navigate({
+				pathname: location?.pathname,
+			});
+		}
+	}, [queryDebounce]);
+	useEffect(() => {
+		const searchParams = Object.fromEntries([...params]);
+		fetchUsers(searchParams);
+	}, [params, update]);
 
 	return (
 		<div className={clsx("w-full flex flex-col gap-4 relative", editElement && "pl-[26px]")}>
@@ -90,17 +112,31 @@ const ManageUser = () => {
 				</h1>
 			</div>
 			<div className="w-full p-4">
-				<div className="flex justify-end items-center ">
-					<InputField
-						isHideLabel
-						nameKey={"q"}
-						value={queries.q}
-						setValue={setQueries}
-						style={
-							"p-2 rounded-sm border-2 border-gray-500 w-full placeholder:text-sm outline-none my-auto max-h-[42px] mb-6"
-						}
-						placeholder="Tìm kiếm người dùng ..."
-					/>
+				<div className="flex justify-end items-center mb-6">
+					<form className="w-[45%] grid grid-cols-2 gap-2">
+						<div className="col-span-1">
+							<InputForm
+								id="q"
+								register={register}
+								errors={errors}
+								fullWidth
+								placeholder="Tìm kiếm theo email người dùng ..."
+							/>
+						</div>
+						<div className="col-span-1 flex items-center">
+							<CustomSelect
+								options={roleLabel}
+								value={role}
+								onChange={(val) => {
+									if (!val) {
+										navigate(`/${path.ADMIN}/${path.MANAGE_USER}`);
+									}
+									val && handleSearchRole(val);
+								}}
+								wrapClassName="w-full"
+							/>
+						</div>
+					</form>
 				</div>
 				<form onSubmit={handleSubmit(handleUpdate)}>
 					{editElement && (
@@ -272,11 +308,11 @@ const ManageUser = () => {
 					</table>
 				</form>
 				<div className="text-right w-full">
-					<Pagination totalCount={usersData?.counts} />
+					<Pagination totalCount={counts} />
 				</div>
 			</div>
 		</div>
 	);
 };
 
-export default memo(ManageUser);
+export default withBaseComponent(memo(ManageUser));
