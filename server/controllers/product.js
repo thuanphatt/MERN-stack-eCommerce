@@ -1,4 +1,5 @@
 const Product = require("../models/product");
+const Order = require("../models/order");
 const asyncHandler = require("express-async-handler");
 const slugify = require("slugify");
 const makeSKU = require("uniqid");
@@ -23,7 +24,7 @@ const getProduct = asyncHandler(async (req, res) => {
 		path: "ratings",
 		populate: {
 			path: "postedBy",
-			select: "firstName lastName avatar",
+			select: "avatar firstName lastName",
 		},
 	});
 	return res.status(200).json({
@@ -138,46 +139,66 @@ const deleteProduct = asyncHandler(async (req, res) => {
 const ratings = asyncHandler(async (req, res) => {
 	const { _id } = req.user;
 	const { star, comment, pid, updatedAt } = req.body;
-
 	if (!star || !pid) throw new Error("Thông tin đầu vào bị thiếu");
 	const ratingProduct = await Product.findById(pid);
+	const orders = await Order.find({ "orderBy._id": _id });
+	const ordersSuccessed = orders.filter((order) => order.status === "Thành công");
+	const hasPurchased = ordersSuccessed
+		.flatMap((order) => order.products)
+		.some((el) => {
+			const isMatch = el.product.toString() === ratingProduct._id.toString();
+			return isMatch;
+		});
 	const isRating = ratingProduct?.ratings?.find((el) => el.postedBy.toString() === _id);
-	if (isRating) {
-		// update star & comment
-		await Product.updateOne(
-			{ ratings: { $elemMatch: isRating } },
-			{
-				$set: { "ratings.$.star": star, "ratings.$.comment": comment, "ratings.$.updatedAt": updatedAt },
-			},
-			{ new: true }
-		);
-	} else {
-		// add star & comment
-		const response = await Product.findByIdAndUpdate(
-			pid,
-			{
-				$push: {
-					ratings: {
-						star,
-						comment,
-						postedBy: _id,
-						updatedAt,
+	if (hasPurchased) {
+		if (isRating) {
+			// update star & comment
+			await Product.updateOne(
+				{ ratings: { $elemMatch: isRating } },
+				{
+					$set: { "ratings.$.star": star, "ratings.$.comment": comment, "ratings.$.updatedAt": updatedAt },
+				},
+				{ new: true }
+			);
+		} else {
+			// add star & comment
+			const response = await Product.findByIdAndUpdate(
+				pid,
+				{
+					$push: {
+						ratings: {
+							star,
+							comment,
+							postedBy: _id,
+							updatedAt,
+						},
 					},
 				},
-			},
-			{ new: true }
-		);
+				{ new: true }
+			);
+			return res.status(200).json({
+				success: response ? true : false,
+				mes: response ? "Đánh giá sản phẩm thành công" : "Không thể đánh giá sản phẩm",
+			});
+		}
+		// sum total rating
+		const updatedProduct = await Product.findById(pid);
+		const ratingCount = updatedProduct.ratings.length;
+		const sumRatings = updatedProduct.ratings.reduce((sum, el) => sum + +el.star, 0);
+		if (updatedProduct.totalRatings > 0) {
+			updatedProduct.totalRatings = Math.round((sumRatings * 10) / ratingCount) / 10;
+		}
+		await updatedProduct.save();
+		return res.status(200).json({
+			success: true,
+			mes: updatedProduct ? "Đánh giá sản phẩm thành công" : "Không thể đánh giá sản phẩm",
+		});
+	} else {
+		return res.status(500).json({
+			success: false,
+			error: "Không thể đánh giá sản phẩm",
+		});
 	}
-	// sum total rating
-	const updatedProduct = await Product.findById(pid);
-	const ratingCount = updatedProduct.ratings.length;
-	const sumRatings = updatedProduct.ratings.reduce((sum, el) => sum + +el.star, 0);
-	updatedProduct.totalRatings = Math.round((sumRatings * 10) / ratingCount) / 10;
-	await updatedProduct.save();
-	return res.status(200).json({
-		success: true,
-		updatedProduct,
-	});
 });
 const uploadImagesProduct = asyncHandler(async (req, res) => {
 	const { pid } = req.params;

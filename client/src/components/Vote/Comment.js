@@ -2,13 +2,13 @@ import React, { memo } from "react";
 import moment from "moment";
 import "moment/locale/vi";
 import { renderStarFromNumber } from "utils/helpers";
-import avatar from "assets/avatarDefault.jpg";
+import avatarDefault from "assets/avatarDefault.jpg";
 const Comment = ({ img, name = "Anonymous", comment, updatedAt, star }) => {
 	moment.locale("vi");
 	return (
 		<div className="flex gap-4">
 			<div className="flex-none">
-				<img src={img || avatar} alt="avatar" className="w-[25px] h-[25px] object-cover rounded-full" />
+				<img src={img || avatarDefault} alt="avatar" className="w-[25px] h-[25px] object-cover rounded-full" />
 			</div>
 			<div className="flex flex-col flex-auto ">
 				<div className="flex justify-between items-center">

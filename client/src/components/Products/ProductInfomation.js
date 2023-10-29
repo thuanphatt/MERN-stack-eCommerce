@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/iframe-has-title */
 import React, { memo, useState } from "react";
-import { useDispatch } from "react-redux";
 
 import { productInfoTabs } from "utils/contants";
 import { getIdYoutube, renderStarFromNumber } from "utils/helpers";
@@ -8,20 +7,23 @@ import { Votebar, Button, VoteOptions, Comment } from "components";
 import { apiRatings } from "apis";
 import { showModal } from "store/app/appSlice";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import path from "utils/path";
 import Swal from "sweetalert2";
-const ProductInfomation = ({ totalRatings, ratings, nameProduct, pid, rerender, products, product }) => {
+import { toast } from "react-toastify";
+import withBaseComponent from "hocs/withBaseComponent";
+const ProductInfomation = ({ totalRatings, ratings, nameProduct, pid, rerender, product, dispatch, navigate }) => {
 	const [activedTab, setActivedTab] = useState(1);
-	const dispatch = useDispatch();
-	const navigate = useNavigate();
+
 	const { isLoggedIn } = useSelector((state) => state.user);
 	const handleSubmitVoteOption = async ({ comment, score }) => {
 		if (!comment || !pid || !score) {
 			alert("Hãy đánh giá trước khi gửi");
 			return;
 		}
-		await apiRatings({ star: score, comment, pid: pid, updatedAt: Date.now() });
+		const response = await apiRatings({ star: score, comment, pid: pid, updatedAt: Date.now() });
+		if (response.success) {
+			toast.success("Đánh giá sản phẩm thành công");
+		} else toast.error(response.error);
 		dispatch(
 			showModal({
 				isShowModal: false,
@@ -116,6 +118,7 @@ const ProductInfomation = ({ totalRatings, ratings, nameProduct, pid, rerender, 
 								star={el?.star}
 								updatedAt={el?.updatedAt}
 								name={`${el?.postedBy?.firstName} ${el?.postedBy?.lastName}`}
+								img={el?.postedBy.avatar}
 							/>
 						))}
 					</div>
@@ -125,4 +128,4 @@ const ProductInfomation = ({ totalRatings, ratings, nameProduct, pid, rerender, 
 	);
 };
 
-export default memo(ProductInfomation);
+export default withBaseComponent(memo(ProductInfomation));
