@@ -15,10 +15,8 @@ const createNewOrder = asyncHandler(async (req, res) => {
 			const productInOrder = products.find((product) => product._id === productId);
 			if (productInOrder) {
 				const product = await Product.findOne({ _id: productInOrder.product._id });
-
 				if (product) {
 					const quantityProductOrder = productInOrder.quantity;
-
 					await Product.findOneAndUpdate(
 						{ _id: productInOrder.product._id },
 						{
@@ -33,28 +31,29 @@ const createNewOrder = asyncHandler(async (req, res) => {
 
 	// Tạo đối tượng Order
 	const data = { products, total, orderBy };
-	if (paymentMethod === "Paypal") {
-		totalVND = total * 24475;
-		data.total = totalVND;
-	}
-	if (coupon) {
-		const selectedCoupon = await Coupon.findById(coupon);
+	if (data) {
 		if (paymentMethod === "Paypal") {
 			totalVND = total * 24475;
 			data.total = totalVND;
-			totalVND = Math.round((totalVND * (1 - +selectedCoupon.discount / 100)) / 1000) * 1000 || totalVND;
+		}
+		if (coupon) {
+			const selectedCoupon = await Coupon.findById(coupon);
+			if (paymentMethod === "Paypal") {
+				totalVND = total * 24475;
+				data.total = totalVND;
+				totalVND = Math.round((totalVND * (1 - +selectedCoupon.discount / 100)) / 1000) * 1000 || totalVND;
+				data.coupon = coupon;
+			}
 			data.coupon = coupon;
 		}
-		data.coupon = coupon;
+		if (status) data.status = status;
+		if (paymentMethod) data.paymentMethod = paymentMethod;
+		const rs = await Order.create(data);
+		res.json({
+			success: rs ? true : false,
+			result: rs ? rs : "Đã có lỗi xảy ra",
+		});
 	}
-	if (status) data.status = status;
-	if (paymentMethod) data.paymentMethod = paymentMethod;
-	const rs = await Order.create(data);
-
-	res.json({
-		success: rs ? true : false,
-		result: rs ? rs : "Đã có lỗi xảy ra",
-	});
 });
 
 const updateStatus = asyncHandler(async (req, res) => {

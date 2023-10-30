@@ -8,6 +8,7 @@ const coupon = require("./coupon");
 const order = require("./order");
 const shipment = require("./shipment");
 const insertData = require("./insertData");
+const payment = require("./vnpay");
 const { notFound, errorHandler } = require("../middlewares/errorHandler");
 const initRoutes = (app) => {
 	app.use("/api/user", userRouter);
@@ -20,6 +21,7 @@ const initRoutes = (app) => {
 	app.use("/api/order", order);
 	app.use("/api/insert", insertData);
 	app.use("/api/shipment", shipment);
+	app.use("/api/payment", payment);
 
 	app.use(notFound);
 	app.use(errorHandler);

@@ -85,12 +85,7 @@ export const productInfoTabs = [
 	{
 		id: 1,
 		name: "Mô tả",
-		content: `Công nghệ: GSM/HSPA/LTE 
-		Kích thước: 144,6 x 69,2 x 7,3 mm 
-		Trọng lượng: 129 g 
-		Màn hình: IPS LCD 5,15 inch 
-		Độ phân giải: 1080 x 1920 OS: Android OS, v6.0 (Marshmallow) 
-		Chipset: Snapdragon 820 CPU: Quad-core Bên trong: 32GB/64GB/128GB Camera: 16 MP, f/2.0 - 4 MP, f/2.0`,
+		content: `Sản phẩm được trang bị camera cảm biến môi trường hai mắt và vòi ly tâm kép cải tiến vượt trội đi đầu thế giới. Sản phẩm có thể tự động tránh chướng ngại vật liên tục và an toàn, đồng thời có thể bay trên địa hình đồi núi dốc lên đến 85 độ và phù hợp với nhiều loại cây trồng như cây vải, nhãn, cam,...`,
 	},
 	{
 		id: 2,
@@ -341,6 +336,10 @@ export const typePayment = [
 	{
 		code: 2,
 		value: "Thanh toán qua Paypal",
+	},
+	{
+		code: 3,
+		value: "Thanh toán qua VNPay",
 	},
 ];
 export const srcImg = [

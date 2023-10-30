@@ -14,6 +14,7 @@ import { Button, InputForm, OrderItem, Select } from "components";
 import Congratulation from "components/Common/Congratulation";
 import withBaseComponent from "hocs/withBaseComponent";
 import path from "utils/path";
+import { apiCreateVnpay, apiReturnVnpay } from "apis/vnpay";
 
 const MyCart = ({ dispatch, navigate, location }) => {
 	const {
@@ -45,7 +46,6 @@ const MyCart = ({ dispatch, navigate, location }) => {
 	const sumProductPrice = currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0);
 	const total = isDiscount ? sumProductPrice - sumProductPrice * (discountPercent / 100) : sumProductPrice;
 	const finalPrice = total > freeship ? total : total + cost;
-
 	const handleSaveOrder = async () => {
 		if (current?.address.length === 0) {
 			Swal.fire({
@@ -104,19 +104,38 @@ const MyCart = ({ dispatch, navigate, location }) => {
 			navigate(`/${path.CHECKOUT}`);
 		}
 	};
-	useEffect(() => {
-		reset({
-			address: current?.address,
-		});
-	}, [current]);
+	const handleSubmitVNPay = async () => {
+		if (current?.address.length === 0) {
+			Swal.fire({
+				title: "Opps",
+				text: "Hãy cập nhật địa chỉ trước khi thanh toán",
+				cancelButtonText: "Hủy",
+				confirmButtonText: "Cập nhật",
+				showCancelButton: true,
+				icon: "info",
+			}).then(async (result) => {
+				if (result.isConfirmed) {
+					navigate({
+						pathname: `/${path.MEMBER}/${path.PERSONAL}`,
+						search: createSearchParams({ redirect: location.pathname }).toString(),
+					});
+				}
+			});
+		} else {
+			const response = await apiCreateVnpay({ amount: finalPrice });
+			if (response.success) {
+				window.location.href = response.paymentUrl;
+			}
+		}
+	};
 	useEffect(() => {
 		reset({
 			address: current?.address,
 		});
 	}, [current]);
 	const updateAddress = async () => {
+		// eslint-disable-next-line no-unused-vars
 		const response = await apiUpdateCurrent({ address });
-		console.log(response);
 	};
 	useEffect(() => {
 		if (isSuccess) {
@@ -132,11 +151,38 @@ const MyCart = ({ dispatch, navigate, location }) => {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [watch("typePayment")]);
+
+	const fetchReturnVNpay = async () => {
+		const queryString = window.location.search;
+		const queryParams = new URLSearchParams(queryString).toString();
+		const response = await apiReturnVnpay(queryParams);
+		const data = {
+			products: currentCart,
+			total: sumProductPrice,
+			address: current?.address,
+			orderBy: current,
+			status: "Đang xử lý",
+			paymentMethod: "VNPay",
+			coupon: discountCode,
+		};
+		console.log(data);
+		if (response.Message === "Success" && typeof data.total === "number") {
+			const response = await apiCreateOrder(data);
+			if (response.success) {
+				setIsSuccess(true);
+				setTimeout(() => {
+					Swal.fire("Chúc mừng", "Đã đặt hàng thành công", "success").then(() => {
+						navigate(`/${path.HOME}`);
+					});
+				}, 500);
+			}
+		}
+	};
 	useEffect(() => {
 		fetchShipment();
 		fetchCoupons();
+		fetchReturnVNpay();
 	}, []);
-
 	return (
 		<div className="flex flex-col justify-start w-full">
 			<div className="h-[81px] bg-gray-100 flex justify-center items-center">
@@ -219,9 +265,8 @@ const MyCart = ({ dispatch, navigate, location }) => {
 						<span className="text-sm italic text-gray-500">
 							Vận chuyển, thuế và giảm giá được tính khi thanh toán. Cập nhật giỏ hàng
 						</span>
-						{watch("typePayment") !== "1" ? (
-							<Button handleOnClick={handleSubmit}>Thanh toán</Button>
-						) : (
+
+						{watch("typePayment") === "1" && (
 							<span
 								onClick={() => {
 									handleSaveOrder();
@@ -232,6 +277,8 @@ const MyCart = ({ dispatch, navigate, location }) => {
 								Thanh toán
 							</span>
 						)}
+						{watch("typePayment") === "2" && <Button handleOnClick={handleSubmit}>Thanh toán</Button>}
+						{watch("typePayment") === "3" && <Button handleOnClick={handleSubmitVNPay}>Thanh toán</Button>}
 					</div>
 				</div>
 			) : (
