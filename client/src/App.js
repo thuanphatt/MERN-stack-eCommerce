@@ -13,6 +13,7 @@ import {
 	FinalRegister,
 	ResetPassword,
 	DetailBlog,
+	Trainning,
 } from "./pages/public";
 import { Route, Routes } from "react-router-dom";
 import path from "./utils/path";
@@ -75,6 +76,7 @@ function App() {
 					<Route path={path.DETAIL_BLOG__CATEGORY__BID__TITLE} element={<DetailBlog />}></Route>
 					<Route path={path.FAQs} element={<FAQ />}></Route>
 					<Route path={path.OUR_SERVICES} element={<Services />}></Route>
+					<Route path={path.TRAINNING} element={<Trainning />}></Route>
 					<Route path={path.PRODUCTS} element={<Products />}></Route>
 					<Route path={path.RESET_PASSWORD} element={<ResetPassword />}></Route>
 					<Route path={path.ALL} element={<Home />}></Route>

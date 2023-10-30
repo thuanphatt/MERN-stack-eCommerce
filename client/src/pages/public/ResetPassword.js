@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -36,4 +36,4 @@ const ResetPassword = () => {
 		</div>
 	);
 };
-export default ResetPassword;
+export default memo(ResetPassword);

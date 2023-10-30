@@ -43,8 +43,14 @@ export const navigation = [
 		value: "TIN TỨC",
 		path: path.BLOGS,
 	},
+
 	{
 		id: 4,
+		value: "ĐÀO TẠO",
+		path: path.TRAINNING,
+	},
+	{
+		id: 5,
 		value: "FAQs",
 		path: path.FAQs,
 	},

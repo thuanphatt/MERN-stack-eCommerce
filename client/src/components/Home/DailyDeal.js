@@ -20,7 +20,7 @@ const DailyDeal = () => {
 	const fetchDealDaily = async () => {
 		const response = await apiGetProducts({
 			limit: 1,
-			// totalRatings: 5,
+			totalRatings: 5,
 		});
 		if (response.success) {
 			setProductRandom(response.products[0]);
@@ -63,11 +63,10 @@ const DailyDeal = () => {
 			clearInterval(idInterval);
 		};
 	});
-
 	return (
 		<div className="w-full border flex-auto p-5 mt-[5px]">
 			<div className="flex items-center justify-between">
-				<span className="">
+				<span>
 					<AiFillStar size={20} color="#DD1111" />
 				</span>
 				<span className="font-semibold text-[20px] uppercase text-gray-700">Giảm giá sốc</span>
