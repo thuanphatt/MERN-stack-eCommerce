@@ -27,3 +27,14 @@ export const apiDeleteBlog = (bid) =>
 		url: "/blog/" + bid,
 		method: "delete",
 	});
+
+export const apiLikeBlog = (bid) =>
+	axios({
+		url: "/blog/like/" + bid,
+		method: "put",
+	});
+export const apiDisLikeBlog = (bid) =>
+	axios({
+		url: "/blog/dislike/" + bid,
+		method: "put",
+	});
