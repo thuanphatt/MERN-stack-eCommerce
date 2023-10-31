@@ -14,7 +14,7 @@ const Footer = () => {
 						<input
 							type="email"
 							className="rounded-l-full p-4 pr-0 w-full bg-[#D0E7D2] outline-none text-black placeholder:text-sm placeholder:text-gray-800 placeholder:opacity-70"
-							placeholder="Email address"
+							placeholder="Địa chỉ email"
 						></input>
 						<div className="w-[56px] h-[56px] bg-[#D0E7D2] rounded-r-full flex items-center justify-center text-black">
 							<IoMdMail size={16} />

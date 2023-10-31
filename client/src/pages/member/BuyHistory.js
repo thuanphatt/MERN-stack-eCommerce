@@ -85,7 +85,7 @@ const BuyHistory = ({ navigate, location }) => {
 	useEffect(() => {
 		const searchParams = Object.fromEntries([...params]);
 		fetchOrder(searchParams);
-	}, [params, isFilterDate]);
+	}, [params, isFilterDate, update]);
 	return (
 		<div className="w-full relative px-4 ">
 			<header className="text-3xl font-semibold py-4 border-b border-main">Lịch sử mua hàng</header>
@@ -147,7 +147,7 @@ const BuyHistory = ({ navigate, location }) => {
 							<td className="py-4 px-2">{`${formatMoney(formatPrice(el?.total))} VND`}</td>
 							<td className="py-4 px-2">{moment(el?.createdAt)?.fromNow()}</td>
 							<td className="py-4 px-2">
-								{el.status === "Đang xử lý" && (
+								{el.status === "Đang xử lý" && el.paymentMethod === "COD" && (
 									<Button
 										handleOnClick={() => {
 											handleCancelOrder(el._id);

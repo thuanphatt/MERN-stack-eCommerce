@@ -158,14 +158,13 @@ const MyCart = ({ dispatch, navigate, location }) => {
 		const response = await apiReturnVnpay(queryParams);
 		const data = {
 			products: currentCart,
-			total: sumProductPrice,
+			total: finalPrice,
 			address: current?.address,
 			orderBy: current,
 			status: "Đang xử lý",
 			paymentMethod: "VNPay",
 			coupon: discountCode,
 		};
-		console.log(data);
 		if (response.Message === "Success" && typeof data.total === "number") {
 			const response = await apiCreateOrder(data);
 			if (response.success) {
@@ -181,8 +180,13 @@ const MyCart = ({ dispatch, navigate, location }) => {
 	useEffect(() => {
 		fetchShipment();
 		fetchCoupons();
-		fetchReturnVNpay();
 	}, []);
+	useEffect(() => {
+		if (currentCart.length > 0 && finalPrice) {
+			fetchReturnVNpay();
+		}
+	}, [finalPrice]);
+	console.log(currentCart);
 	return (
 		<div className="flex flex-col justify-start w-full">
 			<div className="h-[81px] bg-gray-100 flex justify-center items-center">
@@ -202,7 +206,7 @@ const MyCart = ({ dispatch, navigate, location }) => {
 						<OrderItem
 							el={el?.product}
 							key={el?._id}
-							quantity={el.quantity}
+							_quantity={el.quantity}
 							color={el.color}
 							title={el.title}
 							thumb={el.thumbnail}
