@@ -1,16 +1,30 @@
 import React, { memo } from "react";
 import clsx from "clsx";
-const Select = ({ label, options = [], register, errors, id, validate, fullWidth, style, defaultValue }) => {
+const Select = ({
+	label,
+	options = [],
+	register,
+	errors,
+	id,
+	validate,
+	fullWidth,
+	style,
+	defaultValue,
+	multiple,
+	styleSelect,
+}) => {
 	return (
 		<div className={clsx("flex flex-col gap-2 relative", style)}>
 			{label && <label htmlFor={id}>{label}</label>}
 			<select
+				multiple={multiple ? true : false}
 				defaultValue={defaultValue}
 				id={id}
 				{...register(id, validate)}
 				className={clsx(
 					"bg-white border border-gray-300 text-sm rounded-sm block w-full px-1 py-2 text-black max-h-[50px]",
-					fullWidth && "w-full"
+					fullWidth && "w-full",
+					styleSelect
 				)}
 			>
 				<option value="">--Chọn--</option>

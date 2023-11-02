@@ -40,7 +40,7 @@ const DetailBlog = () => {
 			<div className="h-[81px] bg-gray-100 flex justify-center items-center">
 				<div className="w-main">
 					<h3 className="uppercase font-semibold mb-1"> {detailBlog?.title}</h3>
-					<Breakcrumb title={detailBlog?.title} />
+					<Breakcrumb title={detailBlog?.title} category="Tin tức" />
 				</div>
 			</div>
 			<div className="w-main mx-auto bg-white shadow-lg rounded-xl overflow-hidden md:flex flex flex-col my-8">

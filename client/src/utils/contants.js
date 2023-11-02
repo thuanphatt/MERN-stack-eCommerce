@@ -21,6 +21,7 @@ const {
 	SiSimpleanalytics,
 	MdLocalShipping,
 	BiLogoBlogger,
+	RiCustomerService2Fill,
 } = icons;
 export const navigation = [
 	{
@@ -51,7 +52,7 @@ export const navigation = [
 	},
 	{
 		id: 5,
-		value: "FAQs",
+		value: "HỎI ĐÁP",
 		path: path.FAQs,
 	},
 ];
@@ -113,8 +114,22 @@ export const productInfoTabs = [
 		`,
 	},
 ];
-export const colors = ["đen", "xanh", "trắng", "cam", "xám", "đỏ"];
-export const brands = ["g", "GY", "RG", "XAG", "NX", "30S", "GC", "IFC"];
+export const colors = ["đen", "xanh", "trắng", "cam", "xám", "đỏ", "vàng"];
+export const brands = [
+	"g",
+	"GY",
+	"RG",
+	"XAG",
+	"NX",
+	"30S",
+	"GC",
+	"IFC",
+	"Azud",
+	"ARKA",
+	"Greentech",
+	"LZ1E",
+	"Rainbird",
+];
 export const sorts = [
 	{
 		id: 1,
@@ -241,6 +256,7 @@ export const adminSidebar = [
 			},
 		],
 	},
+
 	{
 		id: 7,
 		type: "SINGLE",
@@ -260,6 +276,21 @@ export const adminSidebar = [
 				text: "Quản lý tin tức",
 				path: `/${path.ADMIN}/${path.MANAGE_BLOG}`,
 				icon: <BiLogoBlogger size={20} />,
+			},
+		],
+	},
+	{
+		id: 9,
+		type: "PARENT",
+		text: "Quản lý dịch vụ",
+
+		icon: <RiCustomerService2Fill size={20} />,
+		submenu: [
+			{ text: "Tạo dịch vụ", path: `/${path.ADMIN}/${path.CREATE_SERVICE}`, icon: <IoIosCreate size={20} /> },
+			{
+				text: "Quản lý dịch vụ",
+				path: `/${path.ADMIN}/${path.MANAGE_SERVICE}`,
+				icon: <RiCustomerService2Fill size={20} />,
 			},
 		],
 	},
@@ -435,11 +466,15 @@ export const cateLabel = [
 		value: "PHỤ KIỆN",
 	},
 	{
-		label: "HỆ THỐNG GIÁM SÁT NÔNG NGHIỆP IoT",
-		value: "HỆ THỐNG GIÁM SÁT NÔNG NGHIỆP IoT",
-	},
-	{
 		label: "THIẾT BỊ ĐIỀU HƯỚNG",
 		value: "THIẾT BỊ ĐIỀU HƯỚNG",
+	},
+	{
+		label: "HỆ THỐNG TƯỚI TỰ ĐỘNG",
+		value: "HỆ THỐNG TƯỚI TỰ ĐỘNG",
+	},
+	{
+		label: "HỆ THỐNG NUÔI TRỒNG THỦY SẢN 4.0",
+		value: "HỆ THỐNG NUÔI TRỒNG THỦY SẢN 4.0",
 	},
 ];

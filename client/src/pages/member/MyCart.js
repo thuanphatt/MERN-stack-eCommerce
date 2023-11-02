@@ -186,7 +186,6 @@ const MyCart = ({ dispatch, navigate, location }) => {
 			fetchReturnVNpay();
 		}
 	}, [finalPrice]);
-	console.log(currentCart);
 	return (
 		<div className="flex flex-col justify-start w-full">
 			<div className="h-[81px] bg-gray-100 flex justify-center items-center">

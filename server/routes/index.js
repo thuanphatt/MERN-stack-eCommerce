@@ -9,6 +9,7 @@ const order = require("./order");
 const shipment = require("./shipment");
 const insertData = require("./insertData");
 const payment = require("./vnpay");
+const service = require("./service");
 const { notFound, errorHandler } = require("../middlewares/errorHandler");
 const initRoutes = (app) => {
 	app.use("/api/user", userRouter);
@@ -22,6 +23,7 @@ const initRoutes = (app) => {
 	app.use("/api/insert", insertData);
 	app.use("/api/shipment", shipment);
 	app.use("/api/payment", payment);
+	app.use("/api/service", service);
 
 	app.use(notFound);
 	app.use(errorHandler);

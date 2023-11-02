@@ -2,17 +2,17 @@ import React, { useEffect, useState, memo } from "react";
 import { apiGetProducts } from "apis/product";
 import { CustomerSlider } from "components";
 import { getNewProducts } from "store/products/asyncActions";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import withBaseComponent from "hocs/withBaseComponent";
 const tabs = [
 	{ id: 1, name: "Bán chạy" },
 	{ id: 2, name: "Mới nhất" },
 ];
-const BestSeller = () => {
+const BestSeller = ({ navigate, dispatch }) => {
 	const [bestSeller, setBestSeller] = useState(null);
 	const [activedTab, setActivedTab] = useState(1);
 	const [products, setProducts] = useState(null);
-	// redux
-	const dispatch = useDispatch();
+	const [productBanner, setProductBanner] = useState(null);
 	const { newProducts } = useSelector((state) => state.products);
 
 	const fetchProducts = async () => {
@@ -20,6 +20,11 @@ const BestSeller = () => {
 		if (response?.success) {
 			setBestSeller(response.products);
 			setProducts(response.products);
+			setProductBanner(
+				response.products.filter(
+					(product) => product._id === "6534ecfca87c24c93c67b346" || product._id === "6534fe97a87c24c93c67b880"
+				)
+			);
 		}
 	};
 	useEffect(() => {
@@ -51,20 +56,36 @@ const BestSeller = () => {
 			<div className="mt-2 mx-[-10px] pt-3">
 				<CustomerSlider products={products} activedTab={activedTab} />
 			</div>
-			<div className="flex gap-4 mt-5 w-[440px]">
-				<img
-					src="https://globalcheck.com.vn/apt-upload/image/cache/data/banner/banner-trang-chu/banner-website-may-bay-nong-nghiep-g300pro-2709-2025x950resize_and_crop.png"
-					alt="banner1"
-					className="flex-1 object-contain"
-				></img>
-				<img
-					src="https://globalcheck.com.vn/apt-upload/image/cache/data/banner/banner-trang-chu/banner-website-thiet-bi-dan-duong-nx510-2709-2025x950resize_and_crop.png"
-					alt="banner2"
-					className="flex-1 object-contain"
-				></img>
+			<div className="flex gap-4 mt-5">
+				<div
+					className="cursor-pointer flex-1 hover:opacity-80"
+					onClick={() => {
+						productBanner &&
+							navigate(`/${productBanner[1]?.category}/${productBanner[1]?._id}/${productBanner[1]?.title}`);
+					}}
+				>
+					<img
+						src="https://globalcheck.com.vn/apt-upload/image/cache/data/banner/banner-trang-chu/banner-website-may-bay-nong-nghiep-g300pro-2709-2025x950resize_and_crop.png"
+						alt="banner1"
+						className="object-contain"
+					></img>
+				</div>
+				<div
+					className="cursor-pointer flex-1 hover:opacity-80"
+					onClick={() => {
+						productBanner &&
+							navigate(`/${productBanner[0]?.category}/${productBanner[0]?._id}/${productBanner[0]?.title}`);
+					}}
+				>
+					<img
+						src="https://globalcheck.com.vn/apt-upload/image/cache/data/banner/banner-trang-chu/banner-website-thiet-bi-dan-duong-nx510-2709-2025x950resize_and_crop.png"
+						alt="banner2"
+						className="object-contain"
+					></img>
+				</div>
 			</div>
 		</div>
 	);
 };
 
-export default memo(BestSeller);
+export default withBaseComponent(memo(BestSeller));

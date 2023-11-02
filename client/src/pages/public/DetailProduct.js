@@ -179,8 +179,11 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 		<div className="w-full">
 			{!isQuickView && (
 				<div className="h-[81px] bg-gray-100 flex justify-center items-center">
-					<div className="w-main" ref={titleRef}>
-						<h3 className="uppercase font-semibold mb-1"> {currentProduct.title || product?.title}</h3>
+					<div className="w-main">
+						<h3 className="uppercase font-semibold mb-1" ref={titleRef}>
+							{" "}
+							{currentProduct.title || product?.title}
+						</h3>
 						<Breakcrumb title={currentProduct.title || product?.title} category={category} />
 					</div>
 				</div>

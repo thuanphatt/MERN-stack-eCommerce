@@ -88,7 +88,7 @@ const CreateProduct = () => {
 				toast.success(response.mes);
 				reset();
 				setPayload({
-					thumb: "",
+					thumb: null,
 					images: [],
 				});
 			} else toast.error(response.mes);

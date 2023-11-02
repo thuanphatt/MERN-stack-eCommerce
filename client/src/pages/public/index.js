@@ -10,3 +10,4 @@ export { default as FinalRegister } from "./FinalRegister";
 export { default as ResetPassword } from "./ResetPassword";
 export { default as DetailBlog } from "./DetailBlog";
 export { default as Trainning } from "./Trainning";
+export { default as DetailService } from "./DetailService";

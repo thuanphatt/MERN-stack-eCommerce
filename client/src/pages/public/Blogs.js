@@ -37,8 +37,8 @@ const Blogs = ({ navigate }) => {
 			</div>
 			<div className="h-[81px] bg-gray-100 flex justify-center items-center">
 				<div className="w-main">
-					<h3 className="uppercase font-semibold mb-1"> {blogsData?.title}</h3>
-					<Breakcrumb title={blogsData?.title} category={blogsData?.category} />
+					<h3 className="uppercase font-semibold mb-1"> Tin tức</h3>
+					<Breakcrumb category="Tin tức" />
 				</div>
 			</div>
 			<div className="flex justify-between w-main mx-auto mt-4">

@@ -14,6 +14,7 @@ import {
 	ResetPassword,
 	DetailBlog,
 	Trainning,
+	DetailService,
 } from "./pages/public";
 import { Route, Routes } from "react-router-dom";
 import path from "./utils/path";
@@ -25,12 +26,14 @@ import {
 	CreateBlog,
 	CreateCategory,
 	CreateProduct,
+	CreateService,
 	CreateShip,
 	Dashboard,
 	ManageBlog,
 	ManageCategory,
 	ManageOrder,
 	ManageProduct,
+	ManageSerice,
 	ManageShipment,
 	ManageUser,
 	RevenueStatistics,
@@ -45,7 +48,7 @@ function App() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	return (
-		<div className="font-main h-screen relative">
+		<div className="font-main min-h-screen relative">
 			{isShowCart && (
 				<div
 					className="bg-overlay z-50 absolute inset-0 flex justify-end "
@@ -74,6 +77,7 @@ function App() {
 					<Route path={path.BLOGS} element={<Blogs />}></Route>
 					<Route path={path.DETAIL_PRODUCT__CATEGORY__PID__TITLE} element={<DetailProduct />}></Route>
 					<Route path={path.DETAIL_BLOG__CATEGORY__BID__TITLE} element={<DetailBlog />}></Route>
+					<Route path={path.DETAIL_SERVICE__BID__TITLE} element={<DetailService />}></Route>
 					<Route path={path.FAQs} element={<FAQ />}></Route>
 					<Route path={path.OUR_SERVICES} element={<Services />}></Route>
 					<Route path={path.TRAINNING} element={<Trainning />}></Route>
@@ -89,7 +93,9 @@ function App() {
 					<Route path={path.MANAGE_CATEGORY} element={<ManageCategory />}></Route>
 					<Route path={path.MANAGE_BLOG} element={<ManageBlog />}></Route>
 					<Route path={path.MANAGE_SHIP} element={<ManageShipment />}></Route>
+					<Route path={path.MANAGE_SERVICE} element={<ManageSerice />}></Route>
 					<Route path={path.CREATE_BLOG} element={<CreateBlog />}></Route>
+					<Route path={path.CREATE_SERVICE} element={<CreateService />}></Route>
 					<Route path={path.CREATE_PRODUCT} element={<CreateProduct />}></Route>
 					<Route path={path.REVENUE_STATISTICS} element={<RevenueStatistics />}></Route>
 					<Route path={path.CREATE_CATEGORY} element={<CreateCategory />}></Route>

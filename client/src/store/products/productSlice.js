@@ -4,8 +4,13 @@ export const productSlice = createSlice({
 	name: "product",
 	initialState: {
 		newProducts: null,
+		dealDaily: null,
 	},
-	reducers: {},
+	reducers: {
+		getDealDaily: (state, action) => {
+			state.dealDaily = action.payload;
+		},
+	},
 	//   Code xử lý async action
 	extraReducers: (builder) => {
 		// Bắt đầu thực hiện action login (Promise pending)
@@ -29,6 +34,6 @@ export const productSlice = createSlice({
 		});
 	},
 });
-// export const {} = productSlice.actions;
+export const { getDealDaily } = productSlice.actions;
 
 export default productSlice.reducer;
