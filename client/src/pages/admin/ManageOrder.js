@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import moment from "moment";
 import React, { memo, useCallback, useEffect, useState } from "react";
-import { AiFillDelete, AiFillEdit, AiFillEye, AiFillFilter, AiFillPrinter } from "react-icons/ai";
+import { AiFillDelete, AiFillEdit, AiFillEye, AiFillFilter } from "react-icons/ai";
 import { createSearchParams, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
@@ -14,8 +14,7 @@ import { useForm } from "react-hook-form";
 import withBaseComponent from "hocs/withBaseComponent";
 import DetailOrder from "./DetailOrder";
 import useDebounce from "hooks/useDebounce";
-import jsPDF from "jspdf";
-import unidecode from "unidecode-plus";
+
 import { RiArrowGoBackFill } from "react-icons/ri";
 import path from "utils/path";
 import { statusOrdersLabel } from "utils/contants";
@@ -87,27 +86,7 @@ const ManagerOrder = ({ location, navigate }) => {
 			toast.success(response.mes);
 		} else toast.error(response.mes);
 	};
-	const handleExportOrder = (data) => {
-		const mobile = unidecode(data?.orderBy.mobile);
-		const products = unidecode(data.products.map((el) => `${el.title} / ${el.color} SL: ${el.quantity}`).toString());
-		const total = data?.total;
-		const fullName = unidecode(`${data?.orderBy.firstName} ${data?.orderBy.lastName}`);
-		const address = unidecode(data?.orderBy.address[0].toString());
-		const paymentMethod = unidecode(data?.paymentMethod);
 
-		const doc = new jsPDF();
-
-		doc.setFont("Helvetica"); // set font
-		doc.text("Thông tin don hang", 20, 10);
-		doc.text(`Tên: ${fullName}`, 20, 20);
-		doc.text(`${unidecode("SĐT")}: ${mobile}`, 20, 30);
-		doc.text(`${unidecode("Địa chỉ")}: ${address}`, 20, 40);
-		doc.text(`${unidecode("Sản phẩm")}: ${products}`, 20, 70);
-		doc.text(`Thanh toán: ${paymentMethod}`, 20, 50);
-		doc.text(`${unidecode("Tổng cộng")}: ${formatMoney(formatPrice(total))}`, 20, 60);
-
-		doc.save("order.pdf");
-	};
 	const handleSearchStatus = ({ value }) => {
 		navigate({
 			pathname: location.pathname,
@@ -270,16 +249,6 @@ const ManagerOrder = ({ location, navigate }) => {
 									>
 										<AiFillDelete size={18} />
 									</span>
-									{el.status === "Thành công" && (
-										<span
-											className="cursor-pointer hover:text-gray-800 text-green-700"
-											onClick={() => {
-												handleExportOrder(el);
-											}}
-										>
-											<AiFillPrinter size={18} />
-										</span>
-									)}
 								</div>
 							</td>
 						</tr>

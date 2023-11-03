@@ -1,8 +1,11 @@
 import { apiGetCoupon, apiGetShipments } from "apis";
 import moment from "moment";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 import React, { memo, useEffect, useState } from "react";
 import { IoReturnDownBack } from "react-icons/io5";
 import { formatMoney, formatPrice } from "utils/helpers";
+import { AiFillPrinter } from "react-icons/ai";
 
 const DetailOrder = ({ detailOrder, setDetailOrder }) => {
 	const [shipment, setShipment] = useState(null);
@@ -17,29 +20,46 @@ const DetailOrder = ({ detailOrder, setDetailOrder }) => {
 	};
 	const cost = Number(shipment?.map((el) => el.cost));
 	const freeship = Number(shipment?.map((el) => el.freeship));
+	const handleExportOrder = () => {
+		html2canvas(document.querySelector("#content")).then((canvas) => {
+			const imgData = canvas.toDataURL("image/png");
+			const pdf = new jsPDF();
+			const imgProps = pdf.getImageProperties(imgData);
+			const pdfWidth = pdf.internal.pageSize.getWidth();
+			const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+			pdf.addImage(
+				{ imageData: imgData, format: "PNG", x: 0, y: 0, autoResize: true },
+				"PNG",
+				0,
+				0,
+				pdfWidth,
+				pdfHeight
+			);
+			pdf.save("order.pdf");
+		});
+	};
 	useEffect(() => {
 		fetchShipment();
 		fetchCoupon(detailOrder?.coupon);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-	console.log(discount);
 	return (
-		<div className="inset-0 bg-gray-100 absolute z-100 ">
-			<div className="flex items-center justify-betweend p-4 border-b w-full">
-				<h1 className="text-3xl font-bold tracking-tight ">
-					<span>Chi tiết đơn hàng</span>
-				</h1>
-				<span
-					className="ml-auto cursor-pointer hover:underline"
-					onClick={() => {
-						setDetailOrder(null);
-					}}
-				>
-					<IoReturnDownBack size={24} />
-				</span>
-			</div>
-			<div className="p-4 border rounded-lg shadow-lg border-t-0">
-				<div className="flex flex-col gap-4">
+		<div className="inset-0 bg-gray-100 absolute z-100">
+			<div className="p-4 border rounded-lg shadow-lg border-t-0" id="content">
+				<div className="flex items-center justify-betweend pb-4 border-b w-full ">
+					<h1 className="text-3xl font-bold tracking-tight ">
+						<span>Chi tiết đơn hàng</span>
+					</h1>
+					<span
+						className="ml-auto cursor-pointer hover:underline"
+						onClick={() => {
+							setDetailOrder(null);
+						}}
+					>
+						<IoReturnDownBack size={24} />
+					</span>
+				</div>
+				<div className="flex flex-col gap-4 pt-4">
 					<div className="flex gap-2">
 						<div className="flex-1">
 							<strong>Họ và tên:</strong> {`${detailOrder?.orderBy?.firstName} ${detailOrder?.orderBy?.lastName}`}
@@ -92,6 +112,16 @@ const DetailOrder = ({ detailOrder, setDetailOrder }) => {
 					<span>
 						<strong>Tổng cộng:</strong> {formatMoney(formatPrice(detailOrder?.total))} VND
 					</span>
+					{detailOrder?.status === "Thành công" && (
+						<span
+							className="cursor-pointer hover:text-gray-800 text-green-700 flex items-center"
+							onClick={() => {
+								handleExportOrder();
+							}}
+						>
+							<AiFillPrinter size={18} />
+						</span>
+					)}
 				</div>
 			</div>
 		</div>

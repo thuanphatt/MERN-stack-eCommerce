@@ -46,7 +46,7 @@ const Services = () => {
 												</li>
 											))}
 										{el?.description?.length === 1 && (
-											<div className="text-sm mb-8 ">
+											<div className="text-sm mb-8">
 												<div
 													dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(el?.description[0]) }}
 													className="truncate h-[100px] w-full"
@@ -54,12 +54,12 @@ const Services = () => {
 											</div>
 										)}
 									</ul>
-									{/* <Link
+									<Link
 										class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
-										to={`/${path.DETAIL_SERVICE__BID__TITLE}`}
+										to={`/${el._id}/${el._name}`}
 									>
 										Tìm Hiểu Thêm
-									</Link> */}
+									</Link>
 								</div>
 							</div>
 						</div>
