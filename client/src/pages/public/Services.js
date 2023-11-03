@@ -3,7 +3,6 @@ import { Breakcrumb } from "components";
 import DOMPurify from "dompurify";
 import React, { memo, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import path from "utils/path";
 
 const Services = () => {
 	const [services, setServices] = useState(null);
@@ -31,12 +30,12 @@ const Services = () => {
 			</div>
 			<div className="w-main mx-auto">
 				<header class="text-3xl font-bold my-8">BẢO HÀNH - BẢO TRÌ - SỬA CHỮA</header>
-				<div class="flex flex-wrap gap-4 justify-between items-center">
+				<div class="flex gap-4 justify-between items-center">
 					{services?.map((el, index) => (
-						<div class="w-full md:w-1/2 lg:w-1/3" key={index}>
+						<div class="w-full md:w-1/2 flex-1" key={index}>
 							<div class="service-card">
 								<div class="service-image"></div>
-								<div class="p-4">
+								<div class="p-4 w-full">
 									<h3 class="text-xl font-semibold mb-2">{el.name}</h3>
 									<ul className="list-square text-sm text-gray-500">
 										{el?.description?.length > 1 &&
@@ -46,11 +45,8 @@ const Services = () => {
 												</li>
 											))}
 										{el?.description?.length === 1 && (
-											<div className="text-sm mb-8">
-												<div
-													dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(el?.description[0]) }}
-													className="truncate h-[100px] w-full"
-												></div>
+											<div className="text-sm mb-8 max-h-[100px] max-w-[500px] overflow-y-hidden text-justify">
+												<div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(el?.description[0]) }}></div>
 											</div>
 										)}
 									</ul>
