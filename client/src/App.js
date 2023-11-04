@@ -40,6 +40,8 @@ import {
 } from "pages/admin";
 import { MemberLayout, Personal, BuyHistory, Checkout, MyCart } from "pages/member";
 import { showCart, showShowWishList } from "store/app/appSlice";
+import CreateCoupon from "pages/admin/CreateCoupon";
+import ManageCoupon from "pages/admin/ManageCoupon";
 function App() {
 	const dispatch = useDispatch();
 	const { isShowModal, modalChildren, isShowCart, isShowWishList } = useSelector((state) => state.app);
@@ -94,12 +96,14 @@ function App() {
 					<Route path={path.MANAGE_BLOG} element={<ManageBlog />}></Route>
 					<Route path={path.MANAGE_SHIP} element={<ManageShipment />}></Route>
 					<Route path={path.MANAGE_SERVICE} element={<ManageSerice />}></Route>
+					<Route path={path.MANAGE_COUPON} element={<ManageCoupon />}></Route>
 					<Route path={path.CREATE_BLOG} element={<CreateBlog />}></Route>
 					<Route path={path.CREATE_SERVICE} element={<CreateService />}></Route>
 					<Route path={path.CREATE_PRODUCT} element={<CreateProduct />}></Route>
 					<Route path={path.REVENUE_STATISTICS} element={<RevenueStatistics />}></Route>
 					<Route path={path.CREATE_CATEGORY} element={<CreateCategory />}></Route>
 					<Route path={path.CREATE_SHIP} element={<CreateShip />}></Route>
+					<Route path={path.CREATE_COUPON} element={<CreateCoupon />}></Route>
 				</Route>
 				<Route path={path.MEMBER} element={<MemberLayout />}>
 					<Route path={path.PERSONAL} element={<Personal />}></Route>

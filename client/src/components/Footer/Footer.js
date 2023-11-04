@@ -1,7 +1,12 @@
 import React, { memo } from "react";
+import { FaMapMarkerAlt, FaPhoneAlt, FaFacebook, FaTwitter, FaLinkedin } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
+import { createSlug } from "utils/helpers";
 import icons from "utils/icons";
 const { IoMdMail } = icons;
 const Footer = () => {
+	const { categories } = useSelector((state) => state.app);
 	return (
 		<div className="w-full ">
 			<div className="flex justify-center items-center h-[103px] bg-main">
@@ -26,35 +31,59 @@ const Footer = () => {
 				<div className="w-main flex">
 					<div className="flex-2 flex-col gap-2 flex">
 						<h2 className="mb-[20px] text-[15px] font-medium border-main border-l-4 pl-4">Về chúng tôi</h2>
-						<span>
-							<span>Địa chỉ: </span>
+						<span className="flex items-center gap-1">
+							<FaMapMarkerAlt size={14} />
+							<span>Địa chỉ:</span>
 							<span className="opacity-50">Vĩnh Long, Việt Nam</span>
 						</span>
-						<span>
+						<span className="flex items-center gap-1">
+							<FaPhoneAlt size={12} />
 							<span>Hotline: </span>
 							<span className="opacity-50">(+1234)56789xxx</span>
 						</span>
-						<span>
+						<span className="flex items-center gap-1">
+							<IoMdMail size={14} />
 							<span>Email: </span>
 							<span className="opacity-50">thphatt@gmail.com</span>
 						</span>
+						<span className="flex items-center gap-2 mt-[20px]">
+							<a href="https://www.facebook.com/nthuanphatt/" className="p-4 rounded-md shadow-md text-white bg-main">
+								<FaFacebook size={16} />
+							</a>
+							<a href="https://www.facebook.com/nthuanphatt/" className="p-4 rounded-md shadow-md text-white bg-main">
+								<FaTwitter size={16} />
+							</a>
+							<a href="https://www.facebook.com/nthuanphatt/" className="p-4 rounded-md shadow-md text-white bg-main">
+								<FaLinkedin size={16} />
+							</a>
+							<a href="https://www.facebook.com/nthuanphatt/" className="p-4 rounded-md shadow-md text-white bg-main">
+								<IoMdMail size={16} />
+							</a>
+						</span>
 					</div>
 					<div className="flex-1 flex flex-col gap-2">
-						<h2 className="mb-[20px] text-[15px] font-medium border-main border-l-4 pl-4">THÔNG TIN</h2>
-						<span className="opacity-50">...</span>
-						<span className="opacity-50">...</span>
-						<span className="opacity-50">...</span>
-						<span className="opacity-50">...</span>
-						<span className="opacity-50">...</span>
+						<h2 className="mb-[20px] text-[15px] font-medium border-main border-l-4 pl-4 uppercase">Sản phẩm</h2>
+						{categories?.slice(0, 5).map((el) => (
+							<NavLink
+								to={el.title}
+								key={createSlug(el.title)}
+								className={({ isActive }) =>
+									isActive ? "bg-main text-white hover:text-main" : "text-sm hover:text-main"
+								}
+							>
+								<span className="opacity-50"> {el.title}</span>
+							</NavLink>
+						))}
 					</div>
 					<div className="flex-1 flex flex-col gap-2">
-						<h2 className="mb-[20px] text-[15px] font-medium border-main border-l-4 pl-4">CHÚNG TA LÀ AI</h2>
-						<span className="opacity-50">Hỗ trợ</span>
-						<span className="opacity-50">Miễn phí giao hàng</span>
-						<span className="opacity-50">FAQs</span>
-						<span className="opacity-50">Đổi và trả hàng</span>
-						<span className="opacity-50">...</span>
+						<h2 className="mb-[20px] text-[15px] font-medium border-main border-l-4 pl-4">CHÍNH SÁCH DỊCH VỤ</h2>
+						<span className="opacity-50">Chính sách bảo vệ thông tin cá nhân</span>
+						<span className="opacity-50">Chính sách đổi trả</span>
+						<span className="opacity-50">Điều Khoản Sử Dụng</span>
+						<span className="opacity-50">Chính sách thanh toán</span>
+						<span className="opacity-50">Chính sách hoàn tiền</span>
 					</div>
+
 					<div className="flex-1 flex flex-col gap-2">
 						<h2 className="mb-[20px] text-[15px] font-medium border-main border-l-4 pl-4">#THPHAT</h2>
 					</div>

@@ -5,6 +5,7 @@ import banner2 from "assets/banner2.png";
 import banner3 from "assets/banner3.png";
 const {
 	FaShieldAlt,
+	BiSolidCoupon,
 	AiFillHome,
 	AiFillGift,
 	BsFillReplyFill,
@@ -132,9 +133,14 @@ export const brands = [
 ];
 export const sorts = [
 	{
-		id: 1,
+		id: 0,
 		value: "-sold",
 		text: "Bán chạy nhất",
+	},
+	{
+		id: 1,
+		value: "-totalRatings",
+		text: "Đánh giá cao nhất",
 	},
 	{
 		id: 2,
@@ -291,6 +297,21 @@ export const adminSidebar = [
 				text: "Quản lý dịch vụ",
 				path: `/${path.ADMIN}/${path.MANAGE_SERVICE}`,
 				icon: <RiCustomerService2Fill size={20} />,
+			},
+		],
+	},
+	{
+		id: 10,
+		type: "PARENT",
+		text: "Quản lý mã giảm giá",
+
+		icon: <BiSolidCoupon size={20} />,
+		submenu: [
+			{ text: "Tạo mã giảm giá", path: `/${path.ADMIN}/${path.CREATE_COUPON}`, icon: <IoIosCreate size={20} /> },
+			{
+				text: "Quản lý mã giảm giá",
+				path: `/${path.ADMIN}/${path.MANAGE_COUPON}`,
+				icon: <BiSolidCoupon size={20} />,
 			},
 		],
 	},

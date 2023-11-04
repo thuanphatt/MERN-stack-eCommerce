@@ -28,10 +28,12 @@ const path = {
 	CREATE_PRODUCT: "create-product",
 	CREATE_SERVICE: "create-service",
 	MANAGE_CATEGORY: "manage-category",
+	MANAGE_COUPON: "manage-coupon",
 	REVENUE_STATISTICS: "revenue-statistics",
 	CREATE_CATEGORY: "create-category",
 	CREATE_SHIP: "create-ship",
 	CREATE_BLOG: "create-blog",
+	CREATE_COUPON: "create-coupon",
 	//Member
 	MEMBER: "member",
 	PERSONAL: "personal",

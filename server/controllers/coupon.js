@@ -9,15 +9,63 @@ const createNewCoupon = asyncHandler(async (req, res) => {
 	});
 	return res.json({
 		success: response ? true : false,
-		createdCoupon: response ? response : "Cannot be created coupon",
+		mes: response ? "Đã tạo mã giảm giá thành công" : "Không thể tạo mã giảm giá",
 	});
 });
 const getCoupons = asyncHandler(async (req, res) => {
-	const response = await Coupon.find().select("-createdAt -updatedAt");
-	return res.json({
-		success: response ? true : false,
-		coupons: response ? response : "Không thể lấy mã giảm giá",
-	});
+	const queries = { ...req.query };
+	const excludeFields = ["limit", "sort", "page", "fields"];
+	excludeFields.forEach((el) => delete queries[el]);
+	let queryString = JSON.stringify(queries);
+	queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, (matchEl) => `$${matchEl}`);
+	const formatedQueries = JSON.parse(queryString);
+
+	let queryObject = {};
+	// Filtering
+	if (queries?.type) formatedQueries.type = { $regex: queries.type, $options: "i" };
+
+	if (queries?.q) {
+		delete formatedQueries.q;
+		queryObject = {
+			$or: [{ name: { $regex: queries.q, $options: "i" } }],
+		};
+	}
+	const qr = { ...formatedQueries, ...queryObject };
+	let queryCommand = Coupon.find(qr);
+
+	if (req.query.sort) {
+		const sortBy = req.query.sort?.split(",").join(" ");
+		queryCommand = queryCommand.sort(sortBy);
+	}
+
+	if (req.query.fields) {
+		const fields = req.query.fields?.split(",").join(" ");
+		queryCommand = queryCommand.select(fields);
+	}
+
+	const page = +req.query.page || 1;
+	const limit = +req.query.limit;
+	// const limit = +req.query.limit || process.env.LIMIT_PRODUCTS;
+	const skip = (page - 1) * limit;
+
+	queryCommand.skip(skip).limit(limit);
+
+	queryCommand
+		.exec()
+		.then(async (response) => {
+			const counts = await Coupon.find({
+				$and: [queries, queryObject], // Combine the queries
+			}).countDocuments();
+
+			return res.status(200).json({
+				success: response ? true : false,
+				coupons: response ? response : "Không thể lấy mã giảm giá",
+				counts,
+			});
+		})
+		.catch((err) => {
+			throw new Error(err.message);
+		});
 });
 const getCoupon = asyncHandler(async (req, res) => {
 	const { cid } = req.params;
@@ -36,7 +84,7 @@ const updatedCoupon = asyncHandler(async (req, res) => {
 	});
 	return res.json({
 		success: response ? true : false,
-		updatedCoupon: response ? response : "Cannot updated coupon",
+		mes: response ? "Đã cập nhật mã giảm giá thành công" : "Không thể cập nhật mã giảm giá",
 	});
 });
 const deletedCoupon = asyncHandler(async (req, res) => {
@@ -44,7 +92,7 @@ const deletedCoupon = asyncHandler(async (req, res) => {
 	const response = await Coupon.findByIdAndDelete(cid);
 	return res.json({
 		success: response ? true : false,
-		deletedCoupon: response ? response : "Cannot be deleted coupon",
+		mes: response ? "Đã xóa mã giảm giá thành công" : "Không thể xóa mã giảm giá",
 	});
 });
 

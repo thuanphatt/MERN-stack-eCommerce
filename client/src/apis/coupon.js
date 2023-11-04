@@ -9,3 +9,14 @@ export const apiGetCoupon = (cid) =>
 		url: "/coupon/current/" + cid,
 		method: "get",
 	});
+export const apiDeleteCoupon = (cid) =>
+	axios({
+		url: "/coupon/" + cid,
+		method: "delete",
+	});
+export const apiCreateCoupon = (data) =>
+	axios({
+		url: "/coupon/",
+		method: "post",
+		data,
+	});

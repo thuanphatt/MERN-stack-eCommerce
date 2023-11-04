@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import withBaseComponent from "hocs/withBaseComponent";
 import { getDealDaily } from "store/products/productSlice";
+import { apiGetCoupon } from "apis";
 const { AiFillStar, IoMenu } = icons;
 let idInterval;
 const DailyDeal = ({ dispatch }) => {
@@ -19,7 +20,15 @@ const DailyDeal = ({ dispatch }) => {
 	const [minute, setMinute] = useState(0);
 	const [second, setSecond] = useState(0);
 	const [expireTime, setExpireTime] = useState(false);
+	const [coupon, setCoupon] = useState(null);
 	const navigate = useNavigate();
+	const fetchCoupon = async (data) => {
+		const response = await apiGetCoupon(data);
+		if (response.success) setCoupon(response.coupon);
+	};
+	useEffect(() => {
+		fetchCoupon("65360e932a31a89b30ff2da0");
+	}, []);
 	const fetchDealDaily = async () => {
 		const response = await apiGetProducts({
 			limit: 5,
@@ -27,7 +36,9 @@ const DailyDeal = ({ dispatch }) => {
 		});
 		if (response.success) {
 			const products = response.products[Math.round(Math.random() * 5)];
+
 			dispatch(getDealDaily({ data: products, time: Date.now() + 24 * 60 * 60 * 1000 }));
+
 			const today = `${moment().format("MM/DD/YYYY")} 5:00:00`;
 			const seconds = new Date(today).getTime() - new Date().getTime() + 24 * 3600 * 1000; // miliseconds = 5h (today) - now time + ms of 1 day
 
@@ -41,6 +52,7 @@ const DailyDeal = ({ dispatch }) => {
 			setSecond(59);
 		}
 	};
+
 	useEffect(() => {
 		if (dealDaily?.time) {
 			const timeRemaining = dealDaily?.time - Date.now();
@@ -82,7 +94,7 @@ const DailyDeal = ({ dispatch }) => {
 				<span>
 					<AiFillStar size={20} color="#DD1111" />
 				</span>
-				<span className="font-semibold text-[20px] uppercase text-gray-700">Giảm giá sốc</span>
+				<span className="font-semibold text-[20px] uppercase text-gray-700">{coupon?.name}</span>
 				<span></span>
 			</div>
 			<div
@@ -107,7 +119,12 @@ const DailyDeal = ({ dispatch }) => {
 						<span key={index}>{el}</span>
 					))}
 				</span>
-				<span className="font-medium text-lg">{`${formatMoney(dealDaily?.data?.price)} VND`}</span>
+				<span className="flex items-center gap-2 justify-center">
+					<span className="font-medium text-lg">{`${formatMoney(
+						dealDaily?.data?.price - dealDaily?.data?.price * (coupon?.discount / 100)
+					)} VND`}</span>
+					<span className="text-red-500 font-semibold text-lg">{`GIẢM ${coupon?.discount} %`}</span>
+				</span>
 			</div>
 			<div className="mt-4">
 				<div className="flex justify-center gap-2 items-center mt-8 mb-3">
