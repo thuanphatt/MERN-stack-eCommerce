@@ -11,7 +11,7 @@ const path = {
 	DETAIL_CART: "detail-cart",
 	DETAIL_PRODUCT__CATEGORY__PID__TITLE: ":category/:pid/:title",
 	DETAIL_BLOG__CATEGORY__BID__TITLE: "blogs/:bid/:title",
-	DETAIL_SERVICE__BID__TITLE: "services/:sid/:name",
+	DETAIL_SERVICE__SID__TITLE: "services/:sid/:name",
 	REGISTER_FINAL: "registerfinal/:status",
 	RESET_PASSWORD: "reset-password/:token",
 	CHECKOUT: "checkout",

@@ -79,7 +79,7 @@ function App() {
 					<Route path={path.BLOGS} element={<Blogs />}></Route>
 					<Route path={path.DETAIL_PRODUCT__CATEGORY__PID__TITLE} element={<DetailProduct />}></Route>
 					<Route path={path.DETAIL_BLOG__CATEGORY__BID__TITLE} element={<DetailBlog />}></Route>
-					<Route path={path.DETAIL_SERVICE__BID__TITLE} element={<DetailService />}></Route>
+					<Route path={path.DETAIL_SERVICE__SID__TITLE} element={<DetailService />}></Route>
 					<Route path={path.FAQs} element={<FAQ />}></Route>
 					<Route path={path.OUR_SERVICES} element={<Services />}></Route>
 					<Route path={path.TRAINNING} element={<Trainning />}></Route>

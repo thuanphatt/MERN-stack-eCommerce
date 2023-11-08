@@ -4,27 +4,29 @@ const asyncHandler = require("express-async-handler");
 
 const createNewService = asyncHandler(async (req, res) => {
 	const { name, description, type, products, price } = req.body;
+	const _products = req.body.products.split(",");
 
+	const image = req?.files?.image[0]?.path;
+	if (req.body.image) req.body.image = image;
 	if (!(name && description && type && price && products)) {
 		return res.status(400).json({ success: false, mes: "Thông tin đầu vào bị thiếu" });
 	}
-	try {
-		// Truy vấn các sản phẩm với các id trong mảng productIds
-		const productList = await Product.find({ _id: { $in: products } });
-		if (!productList || productList.length === 0) {
-			return res.status(400).json({ success: false, mes: "Không tìm thấy sản phẩm nào" });
-		}
-		// Tạo dịch vụ với danh sách sản phẩm tương ứng
-		const newService = await Service.create({ name, description, type, price, products: productList });
 
-		return res.status(200).json({
-			success: true,
-			mes: "Tạo dịch vụ thành công",
-			newService,
-		});
-	} catch (error) {
-		return res.status(500).json({ success: false, mes: "Lỗi trong quá trình tạo dịch vụ" });
+	// Truy vấn các sản phẩm với các id trong mảng productIds
+	const productList = await Product.find({ _id: { $in: _products } });
+
+	if (!productList || productList.length === 0) {
+		return res.status(400).json({ success: false, mes: "Không tìm thấy sản phẩm nào" });
 	}
+
+	// Tạo dịch vụ với danh sách sản phẩm tương ứng
+	const newService = await Service.create({ name, description, image, type, price, products: productList });
+
+	return res.status(200).json({
+		success: true,
+		mes: "Tạo dịch vụ thành công",
+		newService,
+	});
 });
 
 const getServices = asyncHandler(async (req, res) => {

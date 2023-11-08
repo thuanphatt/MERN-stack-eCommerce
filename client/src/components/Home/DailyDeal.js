@@ -31,8 +31,7 @@ const DailyDeal = ({ dispatch }) => {
 	}, []);
 	const fetchDealDaily = async () => {
 		const response = await apiGetProducts({
-			limit: 5,
-			sort: "-totalRatings",
+			"totalRatings[gt]": 4,
 		});
 		if (response.success) {
 			const products = response.products[Math.round(Math.random() * 5)];

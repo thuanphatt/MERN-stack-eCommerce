@@ -1,10 +1,9 @@
 import { apiGetServices } from "apis";
-import { Breakcrumb } from "components";
-import DOMPurify from "dompurify";
+import { Breakcrumb, Button } from "components";
+import withBaseComponent from "hocs/withBaseComponent";
 import React, { memo, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 
-const Services = () => {
+const Services = ({ navigate }) => {
 	const [services, setServices] = useState(null);
 	const fetchServices = async () => {
 		const response = await apiGetServices();
@@ -32,30 +31,18 @@ const Services = () => {
 				<header class="text-3xl font-bold my-8">BẢO HÀNH - BẢO TRÌ - SỬA CHỮA</header>
 				<div class="flex gap-4 justify-between items-center">
 					{services?.map((el, index) => (
-						<div class="w-full md:w-1/2 flex-1" key={index}>
-							<div class="service-card">
-								<div class="service-image"></div>
-								<div class="p-4 w-full">
-									<h3 class="text-xl font-semibold mb-2">{el.name}</h3>
-									<ul className="list-square text-sm text-gray-500">
-										{el?.description?.length > 1 &&
-											el?.description?.map((item, index) => (
-												<li key={index} className="leading-[28px]">
-													{item}
-												</li>
-											))}
-										{el?.description?.length === 1 && (
-											<div className="text-sm mb-8 max-h-[100px] max-w-[500px] overflow-y-hidden text-justify">
-												<div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(el?.description[0]) }}></div>
-											</div>
-										)}
-									</ul>
-									<Link
-										class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
-										to={`/${el._id}/${el._name}`}
+						<div class="w-full md:w-1/2 flex-1 border shadow-md p-4 my-4 rounded-sm min-h-[350px]" key={index}>
+							<div>
+								<img src={el.image} alt={el.name} className="w-full h-[200px] object-contain"></img>
+								<div class="p-4 w-full flex items-center justify-center flex-col">
+									<h3 class="text-sm font-semibold mb-2">{el.name}</h3>
+									<Button
+										handleOnClick={() => {
+											navigate(`/services/${el?._id}/${el?.name}`);
+										}}
 									>
 										Tìm Hiểu Thêm
-									</Link>
+									</Button>
 								</div>
 							</div>
 						</div>
@@ -66,4 +53,4 @@ const Services = () => {
 	);
 };
 
-export default memo(Services);
+export default withBaseComponent(memo(Services));
