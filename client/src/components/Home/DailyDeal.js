@@ -119,10 +119,8 @@ const DailyDeal = ({ dispatch }) => {
 					))}
 				</span>
 				<span className="flex items-center gap-2 justify-center">
-					<span className="font-medium text-lg">{`${formatMoney(
-						dealDaily?.data?.price - dealDaily?.data?.price * (coupon?.discount / 100)
-					)} VND`}</span>
-					<span className="text-red-500 font-semibold text-lg">{`GIẢM ${coupon?.discount} %`}</span>
+					<span className="font-medium text-lg">{`${formatMoney(dealDaily?.data?.price)} VND`}</span>
+					<span className="text-red-500 font-semibold text-lg">{`GIẢM 50%`}</span>
 				</span>
 			</div>
 			<div className="mt-4">

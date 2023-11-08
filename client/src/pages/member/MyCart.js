@@ -15,6 +15,8 @@ import Congratulation from "components/Common/Congratulation";
 import withBaseComponent from "hocs/withBaseComponent";
 import path from "utils/path";
 import { apiCreateVnpay, apiReturnVnpay } from "apis/vnpay";
+import moment from "moment";
+import { toast } from "react-toastify";
 
 const MyCart = ({ dispatch, navigate, location }) => {
 	const {
@@ -39,12 +41,12 @@ const MyCart = ({ dispatch, navigate, location }) => {
 	};
 	const discountCode = watch("discountCode");
 	const conpouArr = coupons?.map((el) => el);
-	const discountPercent = conpouArr?.find((el) => el._id === discountCode)?.discount;
-	const isDiscount = conpouArr?.some((el) => el._id === discountCode);
+	const discountPrice = conpouArr?.find((el) => el._id === discountCode)?.discount;
+	const isDiscount = conpouArr?.some((el) => el._id === discountCode && moment(el.expiry).isAfter(moment()));
 	const cost = Number(shipment?.map((el) => el.cost));
 	const freeship = Number(shipment?.map((el) => el.freeship));
 	const sumProductPrice = currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0);
-	const total = isDiscount ? sumProductPrice - sumProductPrice * (discountPercent / 100) : sumProductPrice;
+	const total = isDiscount ? sumProductPrice - discountPrice : sumProductPrice;
 	const finalPrice = total > freeship ? total : total + cost;
 	const handleSaveOrder = async () => {
 		if (current?.address.length === 0) {
@@ -151,7 +153,15 @@ const MyCart = ({ dispatch, navigate, location }) => {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [watch("typePayment")]);
-
+	useEffect(() => {
+		if (discountCode) {
+			if (isDiscount) {
+				toast.success("Áp dụng mã giảm giá thành công");
+			} else {
+				toast.warning("Mã giảm giá đã hết hạn");
+			}
+		}
+	}, [isDiscount, discountCode]);
 	const fetchReturnVNpay = async () => {
 		const queryString = window.location.search;
 		const queryParams = new URLSearchParams(queryString).toString();
@@ -260,6 +270,7 @@ const MyCart = ({ dispatch, navigate, location }) => {
 							placeholder="Nhập mã giảm giá của bạn"
 							style={clsx("text-sm")}
 						/>
+						{isDiscount && <span>{`Mã giảm giá : ${formatMoney(formatPrice(discountPrice))} VND`}</span>}
 						<span>{`Phí vận chuyển : ${formatMoney(formatPrice(total > freeship ? 0 : cost))} VND`}</span>
 						<div className="flex items-center justify-between gap-4">
 							<span>Tổng cộng:</span>

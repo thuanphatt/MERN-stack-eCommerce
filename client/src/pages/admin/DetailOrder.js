@@ -104,7 +104,7 @@ const DetailOrder = ({ detailOrder, setDetailOrder }) => {
 				</div>
 				<div className="text-right mt-6 flex flex-col gap-2">
 					<span>
-						<strong>Mã giảm giá:</strong> {discount || 0} %
+						<strong>Mã giảm giá:</strong> {formatMoney(formatPrice(discount)) || 0} VND
 					</span>
 					<span>
 						<strong>Phí vận chuyển:</strong> {formatMoney(formatPrice(detailOrder?.total > freeship ? 0 : cost))} VND

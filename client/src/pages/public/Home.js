@@ -10,6 +10,7 @@ import {
 	CustomerSlider,
 	Feedback,
 	InfoNews,
+	DiscountCode,
 } from "components";
 
 const Home = () => {
@@ -25,6 +26,9 @@ const Home = () => {
 					<Banner />
 					<BestSeller />
 				</div>
+			</div>
+			<div className="my-4 w-main">
+				<DiscountCode />
 			</div>
 			<div className="my-4 w-main">
 				<FeatureProduct />
