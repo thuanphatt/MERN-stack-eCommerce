@@ -11,7 +11,6 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import withBaseComponent from "hocs/withBaseComponent";
 import { getDealDaily } from "store/products/productSlice";
-import { apiGetCoupon } from "apis";
 const { AiFillStar, IoMenu } = icons;
 let idInterval;
 const DailyDeal = ({ dispatch }) => {
@@ -20,27 +19,15 @@ const DailyDeal = ({ dispatch }) => {
 	const [minute, setMinute] = useState(0);
 	const [second, setSecond] = useState(0);
 	const [expireTime, setExpireTime] = useState(false);
-	const [coupon, setCoupon] = useState(null);
 	const navigate = useNavigate();
-	const fetchCoupon = async (data) => {
-		const response = await apiGetCoupon(data);
-		if (response.success) setCoupon(response.coupon);
-	};
-	useEffect(() => {
-		fetchCoupon("65360e932a31a89b30ff2da0");
-	}, []);
+
 	const fetchDealDaily = async () => {
-		const response = await apiGetProducts({
-			"totalRatings[gt]": 4,
-		});
+		const response = await apiGetProducts();
 		if (response.success) {
 			const products = response.products[Math.round(Math.random() * 5)];
-
 			dispatch(getDealDaily({ data: products, time: Date.now() + 24 * 60 * 60 * 1000 }));
-
 			const today = `${moment().format("MM/DD/YYYY")} 5:00:00`;
 			const seconds = new Date(today).getTime() - new Date().getTime() + 24 * 3600 * 1000; // miliseconds = 5h (today) - now time + ms of 1 day
-
 			const number = secondsToHms(seconds);
 			setHour(number.h);
 			setMinute(number.m);
@@ -52,9 +39,9 @@ const DailyDeal = ({ dispatch }) => {
 		}
 	};
 
+	let timeRemaining = dealDaily?.time - Date.now();
 	useEffect(() => {
 		if (dealDaily?.time) {
-			const timeRemaining = dealDaily?.time - Date.now();
 			const number = secondsToHms(timeRemaining);
 			setHour(number.h);
 			setMinute(number.m);
@@ -63,8 +50,8 @@ const DailyDeal = ({ dispatch }) => {
 	}, [dealDaily]);
 	useEffect(() => {
 		idInterval && clearInterval(idInterval);
-		if (dealDaily?.time < Date.now()) fetchDealDaily();
-	}, [expireTime, dealDaily]);
+		if (timeRemaining < 0) fetchDealDaily();
+	}, [expireTime]);
 	useEffect(() => {
 		idInterval = setInterval(() => {
 			if (second > 0) setSecond((prev) => prev - 1);
@@ -86,14 +73,14 @@ const DailyDeal = ({ dispatch }) => {
 		return () => {
 			clearInterval(idInterval);
 		};
-	});
+	}, [second, minute, hour, expireTime]);
 	return (
 		<div className="w-full border flex-auto p-5 mt-[5px]">
 			<div className="flex items-center justify-between">
 				<span>
 					<AiFillStar size={20} color="#DD1111" />
 				</span>
-				<span className="font-semibold text-[20px] uppercase text-gray-700">{coupon?.name}</span>
+				<span className="font-semibold text-[20px] uppercase text-gray-700">Giảm giá sốc</span>
 				<span></span>
 			</div>
 			<div
@@ -120,7 +107,7 @@ const DailyDeal = ({ dispatch }) => {
 				</span>
 				<span className="flex items-center gap-2 justify-center">
 					<span className="font-medium text-lg">{`${formatMoney(dealDaily?.data?.price)} VND`}</span>
-					<span className="text-red-500 font-semibold text-lg">{`GIẢM 50%`}</span>
+					{/* <span className="text-red-500 font-semibold text-lg">{`GIẢM 50%`}</span> */}
 				</span>
 			</div>
 			<div className="mt-4">

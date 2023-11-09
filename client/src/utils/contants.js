@@ -346,6 +346,15 @@ export const memberSidebar = [
 		icon: <AiOutlineHistory size={20} />,
 	},
 ];
+export const colorArr = [
+	{ id: 1, value: "Đen" },
+	{ id: 2, value: "Xanh" },
+	{ id: 3, value: "Trắng" },
+	{ id: 4, value: "Cam" },
+	{ id: 5, value: "Xám" },
+	{ id: 6, value: "Đỏ" },
+	{ id: 7, value: "Vàng" },
+];
 
 export const roles = [
 	{
@@ -386,6 +395,7 @@ export const statusOrder = [
 		value: "Thành công",
 	},
 ];
+
 export const typePayment = [
 	{
 		code: 1,

@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { apiDeleteCoupon, apiGetCoupons } from "apis";
 import Swal from "sweetalert2";
 import { Pagination } from "components";
-import UpdateService from "./UpdateService";
+import UpdateCoupon from "./UpdateCoupon";
 
 const ManageCoupon = () => {
 	const [coupons, setCoupons] = useState(null);
@@ -51,7 +51,7 @@ const ManageCoupon = () => {
 		<div className="w-full relative px-4 mx-auto h-full">
 			{editCoupon && (
 				<div className="absolute bg-gray-100 inset-0 min-h-screen z-50">
-					<UpdateService editCoupon={editCoupon} render={render} setEditCoupon={setEditCoupon} />
+					<UpdateCoupon editCoupon={editCoupon} render={render} setEditCoupon={setEditCoupon} />
 				</div>
 			)}
 			<header className="text-3xl font-bold py-4 border-b border-main">Quản lý tin tức</header>
@@ -60,9 +60,9 @@ const ManageCoupon = () => {
 					<tr className="">
 						<th className="py-4 px-2 ">STT</th>
 						<th className="py-4 px-2 ">Tên</th>
-						<th className="py-4 px-2 ">Mức giảm</th>
-						<th className="py-4 px-2 ">Thời hạn</th>
-						<th className="py-4 px-2 ">Thời gian</th>
+						<th className="py-4 px-2 ">Giá giảm</th>
+						<th className="py-4 px-2 ">Có hiệu lực đến</th>
+						<th className="py-4 px-2 ">Ngày tạo</th>
 						<th className="py-4 px-2 ">Hành động</th>
 					</tr>
 				</thead>

@@ -96,7 +96,7 @@ const Personal = ({ navigate }) => {
 
 				<div className="flex items-center gap-2">
 					<span className="font-medium ">Trạng thái:</span>
-					<span className={clsx("text-green-500", current?.isBlocked && "text-red-50")}>
+					<span className={clsx("text-green-500", current?.isBlocked && "text-red-500")}>
 						{current?.isBlocked ? "Đã bị khóa" : "Đang hoạt động"}
 					</span>
 				</div>

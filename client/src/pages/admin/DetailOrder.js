@@ -35,7 +35,7 @@ const DetailOrder = ({ detailOrder, setDetailOrder }) => {
 				pdfWidth,
 				pdfHeight
 			);
-			pdf.save("order.pdf");
+			pdf.save(`${detailOrder?.orderBy?.firstName} ${detailOrder?.orderBy?.lastName}.pdf`);
 		});
 	};
 	useEffect(() => {

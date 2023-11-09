@@ -10,9 +10,58 @@ const createNewOrder = asyncHandler(async (req, res) => {
 	let totalVND;
 	if (address) {
 		await User.findOneAndUpdate({ _id: _id }, { $set: { address, cart: [] } });
-		const idProductArr = products.map((el) => el._id);
+	}
+
+	// Tạo đối tượng Order
+	const data = { products, total, orderBy };
+	if (data) {
+		if (paymentMethod === "Paypal") {
+			totalVND = total * 24475;
+			data.total = totalVND;
+		}
+		const conponsOrderArr = await Order.find({ coupon });
+		const couponCode = conponsOrderArr.map((el) => el.coupon.toString());
+		const isValided = couponCode.includes(coupon);
+
+		if (coupon && !isValided) {
+			const selectedCoupon = await Coupon.findById(coupon);
+
+			if (paymentMethod === "Paypal") {
+				totalVND = total * 24475;
+				data.total = totalVND;
+				totalVND = Math.round((totalVND * (1 - +selectedCoupon.discount / 100)) / 1000) * 1000 || totalVND;
+				data.coupon = coupon;
+			}
+			data.coupon = coupon;
+		}
+		if (status) data.status = status;
+		if (paymentMethod) data.paymentMethod = paymentMethod;
+
+		// const rs = await Order.create(data);
+		// res.json({
+		// 	success: rs ? true : false,
+		// 	result: rs ? rs : "Đã có lỗi xảy ra",
+		// });
+	}
+});
+
+const updateStatus = asyncHandler(async (req, res) => {
+	const { oid } = req.params;
+	const { status } = req.body;
+
+	if (!status) throw new Error("Thông tin đầu vào bị thiếu");
+	const response = await Order.findByIdAndUpdate(
+		oid,
+		{ status: status },
+		{
+			new: true,
+		}
+	);
+	if (status === "Đang giao") {
+		const orderCurrent = await Order.findById(oid);
+		const idProductArr = orderCurrent.products.map((el) => el._id);
 		for (const productId of idProductArr) {
-			const productInOrder = products.find((product) => product._id === productId);
+			const productInOrder = orderCurrent.products.find((product) => product._id === productId);
 			if (productInOrder) {
 				const product = await Product.findOne({ _id: productInOrder.product._id });
 				if (product) {
@@ -28,45 +77,6 @@ const createNewOrder = asyncHandler(async (req, res) => {
 			}
 		}
 	}
-
-	// Tạo đối tượng Order
-	const data = { products, total, orderBy };
-	if (data) {
-		if (paymentMethod === "Paypal") {
-			totalVND = total * 24475;
-			data.total = totalVND;
-		}
-		if (coupon) {
-			const selectedCoupon = await Coupon.findById(coupon);
-			if (paymentMethod === "Paypal") {
-				totalVND = total * 24475;
-				data.total = totalVND;
-				totalVND = Math.round((totalVND * (1 - +selectedCoupon.discount / 100)) / 1000) * 1000 || totalVND;
-				data.coupon = coupon;
-			}
-			data.coupon = coupon;
-		}
-		if (status) data.status = status;
-		if (paymentMethod) data.paymentMethod = paymentMethod;
-		const rs = await Order.create(data);
-		res.json({
-			success: rs ? true : false,
-			result: rs ? rs : "Đã có lỗi xảy ra",
-		});
-	}
-});
-
-const updateStatus = asyncHandler(async (req, res) => {
-	const { oid } = req.params;
-	const { status } = req.body;
-	if (!status) throw new Error("Thông tin đầu vào bị thiếu");
-	const response = await Order.findByIdAndUpdate(
-		oid,
-		{ status: status },
-		{
-			new: true,
-		}
-	);
 	res.json({
 		success: response ? true : false,
 		mes: response ? "Cập nhật trạng thái thành công" : "Đã có lỗi xảy ra",

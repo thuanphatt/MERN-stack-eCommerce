@@ -49,7 +49,7 @@ const CreateCoupon = ({ dispatch }) => {
 					<div className="w-full my-6">
 						<InputForm
 							type="number"
-							label="Mức giảm (Theo %)"
+							label="Số tiền giảm (VND)"
 							register={register}
 							errors={errors}
 							id="discount"
@@ -63,7 +63,7 @@ const CreateCoupon = ({ dispatch }) => {
 
 					<div className="w-full my-6">
 						<InputForm
-							label="Ngày hết hạn"
+							label="Thời hạn (ngày)"
 							register={register}
 							errors={errors}
 							id="expiry"
@@ -71,6 +71,7 @@ const CreateCoupon = ({ dispatch }) => {
 								required: "Không được bỏ trống trường này",
 							}}
 							fullWidth
+							placeholder="VD: Nhập 7 => sẽ có hiệu lực 7 ngày kể từ ngày tạo"
 						/>
 					</div>
 

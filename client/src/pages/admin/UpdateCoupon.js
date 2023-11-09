@@ -7,6 +7,7 @@ import { apiUpdateService } from "apis";
 import { Button, InputForm, Loading } from "components";
 import withBaseComponent from "hocs/withBaseComponent";
 import { showModal } from "store/app/appSlice";
+import moment from "moment";
 const UpdateCoupon = ({ editCoupon, setEditCoupon, render, dispatch }) => {
 	const {
 		register,
@@ -20,7 +21,7 @@ const UpdateCoupon = ({ editCoupon, setEditCoupon, render, dispatch }) => {
 			name: editCoupon?.name || "",
 			discount: editCoupon?.discount || "",
 
-			expiry: editCoupon?.expiry || "",
+			expiry: moment(editCoupon?.expiry).format("DD/MM/YYYY") || "",
 		});
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -69,7 +70,7 @@ const UpdateCoupon = ({ editCoupon, setEditCoupon, render, dispatch }) => {
 					<div className="w-full my-6">
 						<InputForm
 							type="number"
-							label="Mức giảm (Theo %)"
+							label="Số tiền giảm (VND)"
 							register={register}
 							errors={errors}
 							id="discount"
@@ -83,8 +84,7 @@ const UpdateCoupon = ({ editCoupon, setEditCoupon, render, dispatch }) => {
 
 					<div className="w-full my-6">
 						<InputForm
-							disabled
-							label="Ngày hết hạn"
+							label="Thời hạn (ngày)"
 							register={register}
 							errors={errors}
 							id="expiry"
@@ -92,6 +92,7 @@ const UpdateCoupon = ({ editCoupon, setEditCoupon, render, dispatch }) => {
 								required: "Không được bỏ trống trường này",
 							}}
 							fullWidth
+							placeholder="VD: Nhập 7 => sẽ có hiệu lực 7 ngày kể từ ngày tạo"
 						/>
 					</div>
 

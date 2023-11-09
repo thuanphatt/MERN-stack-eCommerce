@@ -9,13 +9,12 @@ import Swal from "sweetalert2";
 import { getCurrent } from "store/user/asyncActions";
 import { typePayment } from "utils/contants";
 import { formatMoney, formatPrice } from "utils/helpers";
-import { apiCreateOrder, apiGetCoupons, apiGetShipments, apiUpdateCurrent } from "apis";
+import { apiCreateOrder, apiGetCoupons, apiGetOrders, apiGetShipments, apiUpdateCurrent } from "apis";
 import { Button, InputForm, OrderItem, Select } from "components";
 import Congratulation from "components/Common/Congratulation";
 import withBaseComponent from "hocs/withBaseComponent";
 import path from "utils/path";
 import { apiCreateVnpay, apiReturnVnpay } from "apis/vnpay";
-import moment from "moment";
 import { toast } from "react-toastify";
 
 const MyCart = ({ dispatch, navigate, location }) => {
@@ -27,6 +26,7 @@ const MyCart = ({ dispatch, navigate, location }) => {
 	} = useForm();
 	const { currentCart, current } = useSelector((state) => state.user);
 	const [activePayment, setActivePayment] = useState(false);
+	const [orders, setOrders] = useState(null);
 	const [shipment, setShipment] = useState(null);
 	const [coupons, setCoupons] = useState(null);
 	const address = watch("address");
@@ -39,16 +39,26 @@ const MyCart = ({ dispatch, navigate, location }) => {
 		const response = await apiGetCoupons();
 		if (response.success) setCoupons(response.coupons);
 	};
+	const fetchOrders = async () => {
+		const response = await apiGetOrders();
+		if (response.success) setOrders(response.orders);
+	};
 	const discountCode = watch("discountCode");
+	const couponOrderArr = orders?.map((el) => el.coupon?.toString());
+	const isUsed = couponOrderArr?.includes(discountCode);
 	const conpouArr = coupons?.map((el) => el);
 	const discountPrice = conpouArr?.find((el) => el._id === discountCode)?.discount;
-	const isDiscount = conpouArr?.some((el) => el._id === discountCode && moment(el.expiry).isAfter(moment()));
+	const isDiscount = conpouArr?.some((el) => el._id === discountCode);
 	const cost = Number(shipment?.map((el) => el.cost));
 	const freeship = Number(shipment?.map((el) => el.freeship));
 	const sumProductPrice = currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0);
-	const total = isDiscount ? sumProductPrice - discountPrice : sumProductPrice;
+	const total = isDiscount && !isUsed ? sumProductPrice - discountPrice : sumProductPrice;
 	const finalPrice = total > freeship ? total : total + cost;
 	const handleSaveOrder = async () => {
+		if (current?.isBlocked) {
+			toast.warning("Tài khoản đã bị khóa tính năng thanh toán");
+			return;
+		}
 		if (current?.address.length === 0) {
 			Swal.fire({
 				title: "Opps",
@@ -86,6 +96,10 @@ const MyCart = ({ dispatch, navigate, location }) => {
 		}
 	};
 	const handleSubmit = () => {
+		if (current?.isBlocked) {
+			toast.warning("Tài khoản đã bị khóa tính năng thanh toán");
+			return;
+		}
 		if (current?.address.length === 0) {
 			Swal.fire({
 				title: "Opps",
@@ -107,6 +121,10 @@ const MyCart = ({ dispatch, navigate, location }) => {
 		}
 	};
 	const handleSubmitVNPay = async () => {
+		if (current?.isBlocked) {
+			toast.warning("Tài khoản đã bị khóa tính năng thanh toán");
+			return;
+		}
 		if (current?.address.length === 0) {
 			Swal.fire({
 				title: "Opps",
@@ -153,15 +171,7 @@ const MyCart = ({ dispatch, navigate, location }) => {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [watch("typePayment")]);
-	useEffect(() => {
-		if (discountCode) {
-			if (isDiscount) {
-				toast.success("Áp dụng mã giảm giá thành công");
-			} else {
-				toast.warning("Mã giảm giá đã hết hạn");
-			}
-		}
-	}, [isDiscount, discountCode]);
+
 	const fetchReturnVNpay = async () => {
 		const queryString = window.location.search;
 		const queryParams = new URLSearchParams(queryString).toString();
@@ -176,6 +186,7 @@ const MyCart = ({ dispatch, navigate, location }) => {
 			coupon: discountCode,
 		};
 		if (response.Message === "Success" && typeof data.total === "number") {
+			console.log(data);
 			const response = await apiCreateOrder(data);
 			if (response.success) {
 				setIsSuccess(true);
@@ -190,12 +201,21 @@ const MyCart = ({ dispatch, navigate, location }) => {
 	useEffect(() => {
 		fetchShipment();
 		fetchCoupons();
+		fetchOrders();
 	}, []);
 	useEffect(() => {
 		if (currentCart.length > 0 && finalPrice) {
 			fetchReturnVNpay();
 		}
 	}, [finalPrice]);
+	useEffect(() => {
+		if (isUsed && discountCode) {
+			toast.warning("Mã giảm giá đã được sử dụng!");
+		}
+		if (!isUsed && isDiscount) {
+			toast.success("Áp dụng mã giảm giá thành công");
+		}
+	}, [isUsed, isDiscount]);
 	return (
 		<div className="flex flex-col justify-start w-full">
 			<div className="h-[81px] bg-gray-100 flex justify-center items-center">
@@ -259,7 +279,7 @@ const MyCart = ({ dispatch, navigate, location }) => {
 							)}
 						</div>
 						<InputForm
-							label="Mã giảm giá của bạn"
+							label="Mã giảm giá"
 							register={register}
 							errors={errors}
 							id="discountCode"
@@ -270,15 +290,14 @@ const MyCart = ({ dispatch, navigate, location }) => {
 							placeholder="Nhập mã giảm giá của bạn"
 							style={clsx("text-sm")}
 						/>
-						{isDiscount && <span>{`Mã giảm giá : ${formatMoney(formatPrice(discountPrice))} VND`}</span>}
+						{isDiscount && !isUsed && (
+							<span>{`Mã giảm giá : ${formatMoney(formatPrice(!isUsed ? discountPrice : 0))} VND`}</span>
+						)}
 						<span>{`Phí vận chuyển : ${formatMoney(formatPrice(total > freeship ? 0 : cost))} VND`}</span>
 						<div className="flex items-center justify-between gap-4">
 							<span>Tổng cộng:</span>
-							<h2 className="font-bold">{`${formatMoney(formatPrice(finalPrice))} VND`}</h2>
+							<h2 className="font-bold">{`${formatMoney(formatPrice(finalPrice < 0 ? 0 : finalPrice))} VND`}</h2>
 						</div>
-						<span className="text-sm italic text-gray-500">
-							Vận chuyển, thuế và giảm giá được tính khi thanh toán. Cập nhật giỏ hàng
-						</span>
 
 						{watch("typePayment") === "1" && (
 							<span

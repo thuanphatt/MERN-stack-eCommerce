@@ -8,6 +8,7 @@ import { validate, getBase64 } from "utils/helpers";
 import { Button, InputForm, Select, MarkdownEditor, Loading } from "components";
 import { apiCreateProduct } from "apis";
 import { showModal } from "store/app/appSlice";
+import { colorArr } from "utils/contants";
 
 const CreateProduct = () => {
 	const dispatch = useDispatch();
@@ -72,9 +73,7 @@ const CreateProduct = () => {
 		const invalids = validate(payload, setInvalidFields);
 		if (invalids === 0) {
 			if (data.category) data.category = categories?.find((el) => el._id === data.category).title;
-
 			const finalPayload = { ...data, ...payload };
-
 			const formData = new FormData();
 			for (let i of Object.entries(finalPayload)) formData.append(i[0], i[1]);
 			if (finalPayload.thumb) formData.append("thumb", finalPayload?.thumb[0]);
@@ -149,16 +148,18 @@ const CreateProduct = () => {
 							style={clsx("flex-1")}
 							placeholder="Nhập số lượng của sản phẩm"
 						/>
-						<InputForm
+
+						<Select
 							label="Màu sắc"
 							register={register}
 							errors={errors}
 							id="color"
-							validate={{
-								required: "Không được bỏ trống trường này",
-							}}
 							style={clsx("flex-1")}
-							placeholder="Nhập màu sắc của sản phẩm"
+							validate={{ required: "Không được để trống trường này" }}
+							options={colorArr?.map((el) => ({
+								value: el.value,
+								code: el.value,
+							}))}
 						/>
 					</div>
 					<div className="w-full flex gap-4 my-6 items-center">

@@ -97,7 +97,7 @@ const DetailService = ({ navigate }) => {
 								<h3 className="text-xl font-semibold">{`Phí dịch vụ: ${formatMoney(
 									formatPrice(detailService?.price)
 								)} VND`}</h3>
-								<h3 className="text-xl font-semibold">{`Tổng phí: ${formatMoney(
+								<h3 className="text-xl font-semibold">{`Giá tham khảo: ${formatMoney(
 									formatPrice(totalProduct + detailService?.price)
 								)} VND`}</h3>
 								<span className="text-lg font-semibold">Liên hệ : 093232323</span>

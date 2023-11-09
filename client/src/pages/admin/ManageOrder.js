@@ -110,6 +110,7 @@ const ManagerOrder = ({ location, navigate }) => {
 		const searchParams = Object.fromEntries([...params]);
 		fetchOrders(searchParams);
 	}, [params, update, isFilterDate, editedStatus]);
+
 	return (
 		<div className="w-full flex flex-col gap-4 relative">
 			{detailOrder && <DetailOrder detailOrder={detailOrder} setDetailOrder={setDetailOrder} />}
@@ -212,26 +213,32 @@ const ManagerOrder = ({ location, navigate }) => {
 							<td className="py-4 px-2">{moment(el.createdAt)?.fromNow()}</td>
 							<td className="py-4 px-2">
 								<div className="flex items-center gap-3 justify-center">
-									{editOrder?._id === el._id ? (
-										<span
-											className="hover:underline cursor-pointer"
-											onClick={() => {
-												setEditOrder(null);
-											}}
-										>
-											<RiArrowGoBackFill color="black" />
-										</span>
+									{el?.status !== "Thành công" ? (
+										<div>
+											{editOrder?._id === el._id ? (
+												<span
+													className="hover:underline cursor-pointer"
+													onClick={() => {
+														setEditOrder(null);
+													}}
+												>
+													<RiArrowGoBackFill color="black" />
+												</span>
+											) : (
+												<span
+													className="cursor-pointer hover:text-gray-800 text-blue-500"
+													onClick={() => {
+														setEditOrder(el);
+													}}
+												>
+													<AiFillEdit size={18} />
+												</span>
+											)}
+										</div>
 									) : (
-										<>
-											<span
-												className="cursor-pointer hover:text-gray-800 text-blue-500"
-												onClick={() => {
-													setEditOrder(el);
-												}}
-											>
-												<AiFillEdit size={18} />
-											</span>
-										</>
+										<span className="cursor-pointer hover:text-gray-800 text-gray-500">
+											<AiFillEdit size={18} />
+										</span>
 									)}
 									<span
 										className="cursor-pointer hover:text-gray-800 text-gray-600"

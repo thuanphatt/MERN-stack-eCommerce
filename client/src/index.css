@@ -7,17 +7,19 @@
 /* custom react slick */
 .custom-slider button.slick-prev {
 	left: 0px;
+	top: 40%;
 	z-index: 10;
 }
 .custom-slider button.slick-next {
-	right: 60px;
+	top: 40%;
+	right: 40px;
 	z-index: 10;
 }
 .custom-slider button.slick-prev::before {
 	color: rgb(53, 50, 50);
 	content: "\276E";
-	height: 80px;
-	width: 80px;
+	height: 60px;
+	width: 60px;
 	font-size: 30px;
 	background: #9a9191;
 	display: flex;
@@ -27,8 +29,38 @@
 .custom-slider button.slick-next::before {
 	color: rgb(53, 50, 50);
 	content: "\276F";
-	height: 80px;
-	width: 80px;
+	height: 60px;
+	width: 60px;
+	font-size: 30px;
+	background: #9a9191;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.custom-slider-sm button.slick-prev {
+	left: 0px;
+	z-index: 10;
+}
+.custom-slider-sm button.slick-next {
+	right: 25px;
+	z-index: 10;
+}
+.custom-slider-sm button.slick-prev::before {
+	color: rgb(53, 50, 50);
+	content: "\276E";
+	height: 40px;
+	width: 40px;
+	font-size: 30px;
+	background: #9a9191;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.custom-slider-sm button.slick-next::before {
+	color: rgb(53, 50, 50);
+	content: "\276F";
+	height: 40px;
+	width: 40px;
 	font-size: 30px;
 	background: #9a9191;
 	display: flex;

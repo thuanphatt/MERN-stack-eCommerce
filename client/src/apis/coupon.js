@@ -1,8 +1,9 @@
 import axios from "../axios";
-export const apiGetCoupons = () =>
+export const apiGetCoupons = (params) =>
 	axios({
 		url: "/coupon",
 		method: "get",
+		params,
 	});
 export const apiGetCoupon = (cid) =>
 	axios({
