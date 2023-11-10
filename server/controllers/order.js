@@ -14,18 +14,14 @@ const createNewOrder = asyncHandler(async (req, res) => {
 
 	// Tạo đối tượng Order
 	const data = { products, total, orderBy };
+
 	if (data) {
 		if (paymentMethod === "Paypal") {
 			totalVND = total * 24475;
 			data.total = totalVND;
 		}
-		const conponsOrderArr = await Order.find({ coupon });
-		const couponCode = conponsOrderArr.map((el) => el.coupon.toString());
-		const isValided = couponCode.includes(coupon);
-
-		if (coupon && !isValided) {
+		if (coupon) {
 			const selectedCoupon = await Coupon.findById(coupon);
-
 			if (paymentMethod === "Paypal") {
 				totalVND = total * 24475;
 				data.total = totalVND;
@@ -37,11 +33,11 @@ const createNewOrder = asyncHandler(async (req, res) => {
 		if (status) data.status = status;
 		if (paymentMethod) data.paymentMethod = paymentMethod;
 
-		// const rs = await Order.create(data);
-		// res.json({
-		// 	success: rs ? true : false,
-		// 	result: rs ? rs : "Đã có lỗi xảy ra",
-		// });
+		const rs = await Order.create(data);
+		res.json({
+			success: rs ? true : false,
+			result: rs ? rs : "Đã có lỗi xảy ra",
+		});
 	}
 });
 
@@ -114,7 +110,7 @@ const getUserOrder = asyncHandler(async (req, res) => {
 	}
 
 	const page = +req.query.page || 1;
-	const limit = +req.query.limit || process.env.LIMIT_PRODUCTS;
+	const limit = +req.query.limit;
 	const skip = (page - 1) * limit;
 
 	queryCommand.skip(skip).limit(limit);

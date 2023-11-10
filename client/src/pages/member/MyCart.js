@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 import { getCurrent } from "store/user/asyncActions";
 import { typePayment } from "utils/contants";
 import { formatMoney, formatPrice } from "utils/helpers";
-import { apiCreateOrder, apiGetCoupons, apiGetOrders, apiGetShipments, apiUpdateCurrent } from "apis";
+import { apiCreateOrder, apiGetBuyHistory, apiGetCoupons, apiGetShipments, apiUpdateCurrent } from "apis";
 import { Button, InputForm, OrderItem, Select } from "components";
 import Congratulation from "components/Common/Congratulation";
 import withBaseComponent from "hocs/withBaseComponent";
@@ -40,11 +40,11 @@ const MyCart = ({ dispatch, navigate, location }) => {
 		if (response.success) setCoupons(response.coupons);
 	};
 	const fetchOrders = async () => {
-		const response = await apiGetOrders();
-		if (response.success) setOrders(response.orders);
+		const response = await apiGetBuyHistory();
+		if (response.success) setOrders(response.order);
 	};
 	const discountCode = watch("discountCode");
-	const couponOrderArr = orders?.map((el) => el.coupon?.toString());
+	const couponOrderArr = orders?.map((el) => el?.coupon);
 	const isUsed = couponOrderArr?.includes(discountCode);
 	const conpouArr = coupons?.map((el) => el);
 	const discountPrice = conpouArr?.find((el) => el._id === discountCode)?.discount;
@@ -186,7 +186,6 @@ const MyCart = ({ dispatch, navigate, location }) => {
 			coupon: discountCode,
 		};
 		if (response.Message === "Success" && typeof data.total === "number") {
-			console.log(data);
 			const response = await apiCreateOrder(data);
 			if (response.success) {
 				setIsSuccess(true);

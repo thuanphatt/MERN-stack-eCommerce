@@ -39,8 +39,8 @@ const DailyDeal = ({ dispatch }) => {
 		}
 	};
 
-	let timeRemaining = dealDaily?.time - Date.now();
 	useEffect(() => {
+		let timeRemaining = dealDaily?.time - Date.now();
 		if (dealDaily?.time) {
 			const number = secondsToHms(timeRemaining);
 			setHour(number.h);
@@ -50,7 +50,9 @@ const DailyDeal = ({ dispatch }) => {
 	}, [dealDaily]);
 	useEffect(() => {
 		idInterval && clearInterval(idInterval);
-		if (timeRemaining < 0) fetchDealDaily();
+		if (hour === 0 && minute === 0 && second === 0 && expireTime) {
+			fetchDealDaily();
+		}
 	}, [expireTime]);
 	useEffect(() => {
 		idInterval = setInterval(() => {
@@ -105,9 +107,12 @@ const DailyDeal = ({ dispatch }) => {
 						<span key={index}>{el}</span>
 					))}
 				</span>
+				{/* hiện tại đang set cứng */}
 				<span className="flex items-center gap-2 justify-center">
-					<span className="font-medium text-lg">{`${formatMoney(dealDaily?.data?.price)} VND`}</span>
-					{/* <span className="text-red-500 font-semibold text-lg">{`GIẢM 50%`}</span> */}
+					<span className="font-medium text-lg">{`${formatMoney(
+						dealDaily?.data?.price - (dealDaily?.data?.price * 20) / 100
+					)} VND`}</span>
+					<span className="text-red-500 font-semibold text-lg">{`GIẢM 20%`}</span>
 				</span>
 			</div>
 			<div className="mt-4">

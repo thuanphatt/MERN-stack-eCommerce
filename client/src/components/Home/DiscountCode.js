@@ -16,11 +16,15 @@ var settings = {
 
 const DiscountCode = () => {
 	const [coupons, setCoupons] = useState(null);
+	const [usedItems, setUsedItems] = useState([]);
 	const fetchCoupons = async () => {
 		const response = await apiGetCoupons();
 		if (response.success) setCoupons(response.coupons);
 	};
-
+	const handleCopyClick = (id) => {
+		const updatedItems = usedItems.includes(id) ? usedItems.filter((item) => item !== id) : [...usedItems, id];
+		setUsedItems(updatedItems);
+	};
 	const copyToClipboard = (text) => {
 		if (text) {
 			navigator.clipboard
@@ -45,7 +49,7 @@ const DiscountCode = () => {
 					?.filter((el) => moment(el?.expiry).isAfter(moment()))
 					.map((el, index) => (
 						<div className="flex items-center mt-4 gap-2">
-							<div className="flex items-center flex-1 border shadow-md mx-4" key={index}>
+							<div className="flex items-center flex-1 border shadow-md mx-1" key={index}>
 								<div className="flex-2 flex items-center justify-center px-2">
 									<img
 										src="https://static.thenounproject.com/png/2513410-200.png"
@@ -58,14 +62,21 @@ const DiscountCode = () => {
 									<span className="text-gray-500 text-sm">{`HSD: ${moment(el.expiry).format("DD/MM/YYYY")}`}</span>
 									<div className="flex items-center justify-between">
 										<span className="text-blue-500">Chi tiết</span>
-										<Button
-											style={clsx("px-2 py-1 text-white bg-main font-semibold my-2 text-sm")}
-											handleOnClick={() => {
-												copyToClipboard(el._id);
-											}}
-										>
-											Sao chép
-										</Button>
+										{usedItems.includes(el._id) ? (
+											<Button style={clsx("px-2 py-1 text-white bg-gray-400 font-semibold my-2 text-sm")}>
+												Đã sao chép
+											</Button>
+										) : (
+											<Button
+												style={clsx("px-2 py-1 text-white bg-main font-semibold my-2 text-sm")}
+												handleOnClick={() => {
+													handleCopyClick(el._id);
+													copyToClipboard(el._id);
+												}}
+											>
+												Sao chép
+											</Button>
+										)}
 									</div>
 								</div>
 							</div>
