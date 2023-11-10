@@ -10,12 +10,13 @@ import { getCurrent } from "store/user/asyncActions";
 import { typePayment } from "utils/contants";
 import { formatMoney, formatPrice } from "utils/helpers";
 import { apiCreateOrder, apiGetBuyHistory, apiGetCoupons, apiGetShipments, apiUpdateCurrent } from "apis";
-import { Button, InputForm, OrderItem, Select } from "components";
+import { Button, InputForm, Loading, OrderItem, Select } from "components";
 import Congratulation from "components/Common/Congratulation";
 import withBaseComponent from "hocs/withBaseComponent";
 import path from "utils/path";
 import { apiCreateVnpay, apiReturnVnpay } from "apis/vnpay";
 import { toast } from "react-toastify";
+import { showModal } from "store/app/appSlice";
 
 const MyCart = ({ dispatch, navigate, location }) => {
 	const {
@@ -76,6 +77,7 @@ const MyCart = ({ dispatch, navigate, location }) => {
 				}
 			});
 		} else {
+			dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 			const response = await apiCreateOrder({
 				products: currentCart,
 				total: finalPrice,
@@ -85,6 +87,7 @@ const MyCart = ({ dispatch, navigate, location }) => {
 				paymentMethod: "COD",
 				coupon: discountCode,
 			});
+			dispatch(showModal({ isShowModal: false, modalChildren: null }));
 			if (response.success) {
 				setIsSuccess(true);
 				setTimeout(() => {
@@ -142,7 +145,10 @@ const MyCart = ({ dispatch, navigate, location }) => {
 				}
 			});
 		} else {
+			dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
+
 			const response = await apiCreateVnpay({ amount: finalPrice });
+			dispatch(showModal({ isShowModal: false, modalChildren: null }));
 			if (response.success) {
 				window.location.href = response.paymentUrl;
 			}
@@ -186,7 +192,9 @@ const MyCart = ({ dispatch, navigate, location }) => {
 			coupon: discountCode,
 		};
 		if (response.Message === "Success" && typeof data.total === "number") {
+			dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 			const response = await apiCreateOrder(data);
+			dispatch(showModal({ isShowModal: false, modalChildren: null }));
 			if (response.success) {
 				setIsSuccess(true);
 				setTimeout(() => {

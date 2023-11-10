@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 
 import { apiDeleteOrder, apiDetailOrder, apiGetOrders, apiUpdateStatus } from "apis";
-import { CustomSelect, InputForm, Pagination } from "components";
+import { CustomSelect, InputForm, Loading, Pagination } from "components";
 import { formatMoney, formatPrice } from "utils/helpers";
 import { useForm } from "react-hook-form";
 // import { useDebounce } from "react-use";
@@ -18,8 +18,9 @@ import useDebounce from "hooks/useDebounce";
 import { RiArrowGoBackFill } from "react-icons/ri";
 import path from "utils/path";
 import { statusOrdersLabel } from "utils/contants";
+import { showModal } from "store/app/appSlice";
 
-const ManagerOrder = ({ location, navigate }) => {
+const ManagerOrder = ({ location, navigate, dispatch }) => {
 	const [orders, setOrders] = useState([]);
 	const {
 		register,
@@ -79,7 +80,11 @@ const ManagerOrder = ({ location, navigate }) => {
 	};
 
 	const handleUpdateStatus = async (oid, newStatus) => {
+		dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
+
 		const response = await apiUpdateStatus(oid, { status: newStatus });
+		dispatch(showModal({ isShowModal: false, modalChildren: null }));
+
 		if (response.success) {
 			setEditOrder(null);
 			render();
@@ -183,7 +188,7 @@ const ManagerOrder = ({ location, navigate }) => {
 							<td className="py-4 px-2">
 								{el.products.map((item) => (
 									<div className="flex flex-col gap-1" key={item._id}>
-										<span className="text-sm ">{item.title}</span>
+										<span className="text-sm max-w-[350px] truncate">{item.title}</span>
 									</div>
 								))}
 							</td>

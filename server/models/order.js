@@ -30,6 +30,7 @@ var orderSchema = new mongoose.Schema(
 			lastName: String,
 			address: Array,
 			mobile: String,
+			email: String,
 			_id: mongoose.Types.ObjectId,
 		},
 		paymentMethod: {

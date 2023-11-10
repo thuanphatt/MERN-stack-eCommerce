@@ -3,6 +3,7 @@ const User = require("../models/user");
 const Product = require("../models/product");
 const Coupon = require("../models/coupon");
 const asyncHandler = require("express-async-handler");
+const sendMail = require("../utils/sendMail");
 
 const createNewOrder = asyncHandler(async (req, res) => {
 	const { _id } = req.user;
@@ -32,8 +33,48 @@ const createNewOrder = asyncHandler(async (req, res) => {
 		}
 		if (status) data.status = status;
 		if (paymentMethod) data.paymentMethod = paymentMethod;
-
 		const rs = await Order.create(data);
+		if (rs) {
+			const productsHTML = data.products.map(
+				(product) =>
+					`<li>
+					<h2>${product.title}</h2>
+					<p>Số lượng: ${product.quantity}</p>
+					<p>Màu: ${product.color}</p>
+					<p>Giá: ${product.price}</p>
+					<img src="${product.thumbnail}" alt="${product.title}" style="max-width: 200px; height: auto;" />
+				  </li>`
+			);
+
+			const customerInfoHTML = `
+				<h2>Thông tin khách hàng</h2>
+				<p>Họ và tên: ${data.orderBy.firstName} ${data.orderBy.lastName}</p>
+				<p>Email: ${data.orderBy.email}</p>
+				<p>Địa chỉ: ${data.orderBy.address.join(", ")}</p>
+			  `;
+			const totalHTML = `<h2>Tổng tiền: ${data.total}</h2>`;
+			const statusHTML = `<h2>Trạng thái: ${data.status}</h2>`;
+			const paymentMethodHTML = `<h2>Hình thức thanh toán: ${data.paymentMethod}</h2>`;
+
+			const orderDetailsHTML = `
+				<h1 class="text-3xl font-bold tracking-tight">
+				  <span>Chi tiết đơn hàng </span>
+				 
+				</h1>
+				${statusHTML}
+				${paymentMethodHTML}
+				<ul>${productsHTML.join("")}</ul>
+				${customerInfoHTML}
+				${totalHTML}
+			  `;
+			const html = orderDetailsHTML;
+
+			await sendMail({
+				email: data.orderBy.email,
+				html,
+				subject: "Chúc mừng, bạn đã đặt hàng thành công vui lòng kiểm tra đơn hàng!",
+			});
+		}
 		res.json({
 			success: rs ? true : false,
 			result: rs ? rs : "Đã có lỗi xảy ra",
@@ -72,6 +113,47 @@ const updateStatus = asyncHandler(async (req, res) => {
 				}
 			}
 		}
+		const productsHTML = orderCurrent.products.map(
+			(product) =>
+				`<li>
+				<h2>${product.title}</h2>
+				<p>Số lượng: ${product.quantity}</p>
+				<p>Màu: ${product.color}</p>
+				<p>Giá: ${product.price}</p>
+				<img src="${product.thumbnail}" alt="${product.title}" style="max-width: 200px; height: auto;" />
+			  </li>`
+		);
+
+		const customerInfoHTML = `
+			<h2>Thông tin khách hàng</h2>
+			<p>Họ và tên: ${orderCurrent.orderBy.firstName} ${orderCurrent.orderBy.lastName}</p>
+			<p>Email: ${orderCurrent.orderBy.email}</p>
+			<p>Địa chỉ: ${orderCurrent.orderBy.address.join(", ")}</p>
+		  `;
+		const totalHTML = `<h2>Tổng tiền: ${orderCurrent.total}</h2>`;
+		const statusHTML = `<h2>Trạng thái: ${orderCurrent.status}</h2>`;
+		const paymentMethodHTML = `<h2>Hình thức thanh toán: ${orderCurrent.paymentMethod}</h2>`;
+
+		const orderDetailsHTML = `
+			<h1 class="text-3xl font-bold tracking-tight">
+				  <span>Đơn hàng đang trên đường được giao đến bạn </span>	
+			</h1>
+			<h3 class="text-xl font-bold tracking-tight">
+			<span>Chi tiết đơn hàng </span>
+			</h3>
+			
+			${statusHTML}
+			${paymentMethodHTML}
+			<ul>${productsHTML.join("")}</ul>
+			${customerInfoHTML}
+			${totalHTML}
+		  `;
+		const html = orderDetailsHTML;
+		await sendMail({
+			email: orderCurrent.orderBy.email,
+			html,
+			subject: "Đơn hàng đang trên đường giao đến bạn!",
+		});
 	}
 	res.json({
 		success: response ? true : false,
