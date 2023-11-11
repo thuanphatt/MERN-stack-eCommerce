@@ -3,7 +3,7 @@ import { formatMoney, renderStarFromNumber } from "utils/helpers";
 const ProductCard = ({ title, image, totalRatings, price, handleonClick }) => {
 	return (
 		<div
-			className="w-1/3 flex-auto px-[10px] mb-4"
+			className="col-span-1 w-full px-[10px] mb-4"
 			onClick={() => {
 				handleonClick();
 			}}

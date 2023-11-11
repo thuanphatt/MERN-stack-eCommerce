@@ -50,7 +50,7 @@ function App() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	return (
-		<div className="font-main min-h-screen relative">
+		<div className="font-main min-h-screen relative w-full">
 			{isShowCart && (
 				<div
 					className="bg-overlay z-50 absolute inset-0 flex justify-end "

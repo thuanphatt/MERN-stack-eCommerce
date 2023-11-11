@@ -19,6 +19,7 @@ export { default as TopHeader } from "./Headers/TopHeader";
 export { default as Footer } from "./Footer/Footer";
 
 export { default as Navigation } from "./Navigation/Navigation";
+export { default as NavigationRepo } from "./Navigation/NavigationRepo";
 export { default as BestSeller } from "./Home/BestSeller";
 export { default as DailyDeal } from "./Home/DailyDeal";
 export { default as HotCollections } from "./Home/HotCollections";

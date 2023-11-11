@@ -38,7 +38,7 @@ const BestSeller = ({ navigate, dispatch }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [activedTab]);
 	return (
-		<div>
+		<div className="mt-[48px] w-full">
 			<div className="flex ml-[-32px]">
 				{tabs.map((el) => (
 					<span
@@ -53,10 +53,10 @@ const BestSeller = ({ navigate, dispatch }) => {
 				))}
 			</div>
 			<div className="w-full border-b-2 border-main mt-3"></div>
-			<div className="mt-2 mx-[-10px] pt-3">
+			<div className="mt-2 mx-[-10px] pt-3 w-full">
 				<CustomerSlider products={products} activedTab={activedTab} />
 			</div>
-			<div className="flex gap-4 mt-5">
+			<div className="flex gap-4 mt-5 w-full">
 				<div
 					className="cursor-pointer flex-1 hover:opacity-80"
 					onClick={() => {

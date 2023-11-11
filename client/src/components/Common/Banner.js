@@ -10,13 +10,14 @@ const Banner = () => {
 		slidesToShow: 1,
 		slidesToScroll: 1,
 		autoplay: true,
+		arrows: false,
 	};
 	return (
 		<div className="w-full">
 			<Slider {...settings}>
 				{srcImg.map((el) => (
 					<div key={el.id}>
-						<img src={el.src} alt="img" className="w-full object-cover h-[442px]" />
+						<img src={el.src} alt="img" className="object-cover md:min-h-[390px] w-full min-h-[200px]" />
 					</div>
 				))}
 			</Slider>

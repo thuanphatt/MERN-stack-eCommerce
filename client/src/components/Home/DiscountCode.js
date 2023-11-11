@@ -6,12 +6,20 @@ import React, { memo, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Slider from "react-slick";
 
-var settings = {
+var _settings = {
 	dots: false,
 	infinite: false,
 	speed: 500,
 	slidesToShow: 4,
 	slidesToScroll: 1,
+	responsive: [
+		{
+			breakpoint: 430,
+			settings: {
+				slidesToShow: 1,
+			},
+		},
+	],
 };
 
 const DiscountCode = () => {
@@ -44,7 +52,7 @@ const DiscountCode = () => {
 		<div className="w-full">
 			<h2 className="py-[15px] text-xl font-[#151515] uppercase font-semibold border-b-2 border-main">Mã giảm giá</h2>
 
-			<Slider {...settings} className="custom-slider-sm">
+			<Slider {..._settings} className="custom-slider-sm">
 				{coupons
 					?.filter((el) => moment(el?.expiry).isAfter(moment()))
 					.map((el, index) => (

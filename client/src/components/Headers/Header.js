@@ -11,12 +11,12 @@ const Header = ({ dispatch }) => {
 	const { current } = useSelector((state) => state.user);
 	const { BsFillTelephoneFill, IoMdMail, BsBagCheckFill, AiOutlineHeart, AiFillHeart } = icons;
 	return (
-		<div className="w-main h-[110px] py-[35px] flex justify-between">
+		<div className="md:w-main h-[110px] py-[35px] flex justify-between w-full">
 			<Link to={`/${path.HOME}`}>
 				<img src={logo} alt="logo" className="w-[80px] h-[80px] object-contain"></img>
 			</Link>
 			<div className="flex text-[13px]">
-				<div className="flex flex-col px-6 border-r">
+				<div className="md:flex flex-col px-6 border-r hidden">
 					<span className="font-semibold flex gap-3  items-center">
 						<BsFillTelephoneFill color="#79AC78" />
 						(+84) 9009 9999

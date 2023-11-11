@@ -84,7 +84,7 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 		}
 	};
 	return (
-		<div className="w-full text-base px-[10px]">
+		<div className="w-full text-base md:px-[10px]">
 			<div
 				onClick={() => {
 					navigate(`/${productData?.category[0]}/${productData?._id}/${productData?.title}`);

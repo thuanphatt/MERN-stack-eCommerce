@@ -29,7 +29,7 @@ const Navigation = () => {
 	}, [queriesDebounce, params]);
 
 	return (
-		<div className="border-y w-main h-[48px] py-4 flex items-center text-sm font-semibold">
+		<div className="border-y w-main h-[48px] py-4 sm:flex items-center text-sm font-semibold hidden">
 			{navigation.map((el) => (
 				<NavLink
 					to={el.path}

@@ -4,7 +4,7 @@ import { Header, Navigation, TopHeader, Footer } from "components";
 
 const PublicLayout = () => {
 	return (
-		<div className="max-h-screen overflow-y-auto flex flex-col items-center">
+		<div className="max-h-screen overflow-y-auto flex flex-col items-center w-full">
 			<TopHeader />
 			<Header />
 			<Navigation />

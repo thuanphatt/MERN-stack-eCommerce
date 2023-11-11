@@ -11,13 +11,13 @@ const HotCollections = () => {
 			<h2 className="py-[15px] text-xl font-[#151515] uppercase font-semibold border-b-2 border-main">
 				BỘ SƯU TẬP HOT
 			</h2>
-			<div className="flex flex-wrap justify-between mt-4">
+			<div className="grid md:grid-cols-3 grid-cols-1 justify-between mt-4 gap-2">
 				{categories
 					?.filter((el) => el.brand.length > 0)
 					?.map((el) => (
-						<div key={el._id} id="hot-product" className="w-1/3 flex-initial p-2 mx-[-8px] ">
+						<div key={el._id} id="hot-product" className="col-span-1 md:p-2 md:mx-[-8px] ">
 							<div className="border flex min-h-[230px] p-4 gap-4 items-center ">
-								<img src={el.image} alt={el.title} className="w-[144px] h-[129px] object-cover flex-1"></img>
+								<img src={el.image} alt={el.title} className="md:w-[144px] h-[129px] object-cover flex-1"></img>
 								<div className="flex-1 text-gray-700">
 									<h4 className="font-semibold uppercase m-1  hover:text-gray-500">{el.title}</h4>
 									<ul className="text-sm">

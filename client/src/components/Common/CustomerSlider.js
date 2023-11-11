@@ -8,6 +8,14 @@ var settings = {
 	speed: 500,
 	slidesToShow: 3,
 	slidesToScroll: 1,
+	responsive: [
+		{
+			breakpoint: 430,
+			settings: {
+				slidesToShow: 1,
+			},
+		},
+	],
 };
 const CustomerSlider = ({ products, activedTab, normal }) => {
 	return (

@@ -4,7 +4,7 @@ import React from "react";
 const BlogItem = ({ title, description, image, views, time, handleOnClick }) => {
 	return (
 		<div
-			className="bg-white rounded-lg shadow-lg p-2 m-2 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 cursor-pointer"
+			className="bg-white rounded-lg shadow-lg cursor-pointer col-span-1 w-full"
 			onClick={() => {
 				handleOnClick && handleOnClick();
 			}}

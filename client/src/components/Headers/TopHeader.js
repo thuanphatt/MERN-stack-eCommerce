@@ -1,17 +1,23 @@
 import React, { memo, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
+import avatarDefault from "assets/avatarDefault.jpg";
 import path from "utils/path";
 import { getCurrent } from "store/user/asyncActions";
 import { clearMessage, logout } from "store/user/userSlice";
 import Swal from "sweetalert2";
+import { AiOutlineMenu } from "react-icons/ai";
+import NavigationRepo from "components/Navigation/NavigationRepo";
 const TopHeader = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [isShowOptions, setIsShowOptions] = useState(false);
+	const [isShowMenu, setIsShowMenu] = useState(false);
 	const { isLoggedIn, current, mes } = useSelector((state) => state.user);
-
+	const handleClickMenu = () => {
+		console.log("click menu");
+		setIsShowMenu(!isShowMenu);
+	};
 	useEffect(() => {
 		const setTimeOutId = setTimeout(() => {
 			if (isLoggedIn) dispatch(getCurrent());
@@ -39,9 +45,22 @@ const TopHeader = () => {
 		};
 	}, []);
 	return (
-		<div className="h-[38px] w-full bg-main items-center justify-center flex py-4">
-			<div className="w-main flex items-center justify-between text-xs text-white">
-				<span>ĐẶT HÀNG TRỰC TUYẾN HOẶC LIÊN HỆ (+84) 9009 9999</span>
+		<div className="md:h-[38px] h-full w-full bg-main items-center justify-center flex py-2">
+			{isShowMenu && <NavigationRepo />}
+			{!isShowMenu && (
+				<span
+					className="block md:hidden p-2"
+					onClick={() => {
+						handleClickMenu();
+					}}
+				>
+					<AiOutlineMenu size={20} color="white" />
+				</span>
+			)}
+
+			<div className="w-main flex items-center md:justify-between justify-end text-xs text-white px-4 md:px-0">
+				<span className="hidden md:block">ĐẶT HÀNG TRỰC TUYẾN HOẶC LIÊN HỆ (+84) 9009 9999</span>
+
 				{isLoggedIn && current ? (
 					<div className="flex items-center justify-center gap-2 relative" id="profile">
 						<span
@@ -50,7 +69,7 @@ const TopHeader = () => {
 								setIsShowOptions(!isShowOptions);
 							}}
 						>
-							<img src={current?.avatar} alt="avatar" className="w-6 h-6 object-cover rounded-full" />
+							<img src={current?.avatar || avatarDefault} alt="avatar" className="w-6 h-6 object-cover rounded-full" />
 							<span>{`${current?.firstName} ${current?.lastName}`}</span>
 						</span>
 
