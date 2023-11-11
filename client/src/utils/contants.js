@@ -53,8 +53,8 @@ export const navigation = [
 	},
 	{
 		id: 5,
-		value: "HỎI ĐÁP",
-		path: path.FAQs,
+		value: "LIÊN HỆ",
+		path: path.CONTACT,
 	},
 ];
 export const productExtraInfo = [

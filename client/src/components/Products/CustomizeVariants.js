@@ -59,6 +59,7 @@ const CustomizeVariants = ({ render, customizeVariant, setCustomizeVariant }) =>
 			dispatch(showModal({ isShowModal: false, modalChildren: null }));
 			if (response.success) {
 				toast.success(response.mes);
+				render();
 				reset();
 				setPreview({
 					thumb: null,

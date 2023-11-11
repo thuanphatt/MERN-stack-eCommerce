@@ -47,6 +47,11 @@ const DailyDeal = ({ dispatch }) => {
 			setMinute(number.m);
 			setSecond(number.s);
 		}
+		if (hour === 0 && minute === 0 && second === 0 && expireTime) {
+			setHour(23);
+			setMinute(59);
+			setSecond(59);
+		}
 	}, [dealDaily]);
 	useEffect(() => {
 		idInterval && clearInterval(idInterval);

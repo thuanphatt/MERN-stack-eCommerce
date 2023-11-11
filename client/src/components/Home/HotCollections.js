@@ -6,7 +6,6 @@ const { IoIosArrowForward } = icons;
 const HotCollections = () => {
 	const { categories } = useSelector((state) => state.app);
 	const navigate = useNavigate();
-
 	return (
 		<>
 			<h2 className="py-[15px] text-xl font-[#151515] uppercase font-semibold border-b-2 border-main">
@@ -32,6 +31,7 @@ const HotCollections = () => {
 														pathname: `${el.title}`,
 														search: createSearchParams({ brand: item }).toString(),
 													});
+													window.scrollTo({ top: 0, behavior: "smooth" });
 												}}
 											>
 												<IoIosArrowForward size={14} />

@@ -1,6 +1,8 @@
-import { apiGetOrders, apiGetProducts } from "apis";
-import { AreaChart, DoughnutChart, VerticalBarChart } from "components";
+import { apiGetOrders, apiGetProducts, apiGetUsers } from "apis";
+import { DoughnutChart, VerticalBarChart } from "components";
 import React, { memo, useEffect, useState } from "react";
+import { FaUser, FaUserCheck, FaUserTie, FaUserTimes } from "react-icons/fa";
+import { getTopOrderUser } from "utils/helpers";
 
 const Dashboard = () => {
 	const [orders, setOrders] = useState(null);
@@ -8,9 +10,16 @@ const Dashboard = () => {
 	const [soldProductData, setSoldProductData] = useState(null);
 	const [nameProductRating, setNameProductRating] = useState(null);
 	const [productRatingData, setProductRatingData] = useState(null);
+	const [users, setUsers] = useState(null);
 	const fetchOrders = async () => {
 		const response = await apiGetOrders();
-		if (response.success) setOrders(response.orders);
+		if (response.success) {
+			setOrders(response.orders);
+		}
+	};
+	const fetchUsers = async () => {
+		const response = await apiGetUsers();
+		if (response.success) setUsers(response.users);
 	};
 	const fetchTopProductSold = async () => {
 		const response = await apiGetProducts({ sort: "-sold", limit: 5 });
@@ -30,8 +39,8 @@ const Dashboard = () => {
 		fetchOrders();
 		fetchTopProductSold();
 		fetchTopProductRating();
+		fetchUsers();
 	}, []);
-
 	const statusArr = orders?.map((el) => {
 		return { status: el.status };
 	});
@@ -50,9 +59,41 @@ const Dashboard = () => {
 		count: statusCount[status],
 	}));
 	const countArray = resultArray.map((item) => item.count);
+
 	return (
 		<div className="w-full relative px-4 mx-auto">
 			<header className="text-3xl font-bold py-4 border-b border-main">Dashboard</header>
+			<div className="flex items-center gap-2 mt-4">
+				<div className="flex-1 stat-box border rounded-md shadow-md p-4 text-center bg-gray-100">
+					<span className="font-bold text-lg">{users?.length}</span>
+					<div className="flex items-center gap-2 justify-center">
+						<FaUser size={18} />
+						<h2 className="text-lg font-medium">Người dùng</h2>
+					</div>
+				</div>
+				<div className="flex-1 stat-box border rounded-md shadow-md p-4 text-center bg-blue-400 text-white">
+					<span className="font-bold text-lg">{users?.filter((el) => el.role === "2001").length}</span>
+					<div className="flex items-center gap-2 justify-center">
+						<FaUserTie size={18} />
+						<h2 className="text-lg font-medium">Admin</h2>
+					</div>
+				</div>
+				<div className="flex-1 stat-box border rounded-md shadow-md p-4 text-center bg-green-400 text-white">
+					<span className="font-bold text-lg">{users?.filter((el) => el.isBlocked === false).length}</span>
+					<div className="flex items-center gap-2 justify-center">
+						<FaUserCheck size={18} />
+						<h2 className="text-lg font-medium">Hoạt động</h2>
+					</div>
+				</div>
+				<div className="flex-1 stat-box border rounded-md shadow-md p-4 text-center bg-red-400 text-white">
+					<span className="font-bold text-lg">{users?.filter((el) => el.isBlocked === true).length}</span>
+					<div className="flex items-center gap-2 justify-center">
+						<FaUserTimes size={18} />
+						<h2 className="text-lg font-medium">Bị khóa</h2>
+					</div>
+				</div>
+			</div>
+
 			<div className="flex items-center w-full mt-4 justify-center">
 				<div className="flex-1 w-full flex flex-col items-center gap-4">
 					<div className="h-[400px] w-full flex justify-center items-center">
@@ -74,7 +115,13 @@ const Dashboard = () => {
 			<div className="flex items-center w-full mt-[100px] justify-center">
 				<div className="flex-1 w-full flex flex-col items-center gap-4">
 					<div className="h-[450px] w-full flex justify-center items-center">
-						<AreaChart />
+						<VerticalBarChart
+							nameProduct={getTopOrderUser(orders, "name")}
+							soldProduct={getTopOrderUser(orders, "total")}
+							label="VND"
+							color="rgba(255, 206, 86, 1)"
+							title="Biểu đồ thống kê Top 5 người dùng mua hàng nhiều nhất"
+						/>
 					</div>
 				</div>
 				<div className="flex-1 w-full flex flex-col items-center gap-4">
@@ -89,6 +136,28 @@ const Dashboard = () => {
 					</div>
 				</div>
 			</div>
+			{/* <div className="flex items-center w-full mt-[100px] justify-center">
+				<div className="flex-1 w-full flex flex-col items-center gap-4">
+					<div className="h-[450px] w-full flex justify-center items-center">
+						<AreaChart
+							labels={getTopOrderUser(orders, "name")}
+							dataRevenue={getTopOrderUser(orders, "total")}
+							label="VND"
+						/>
+					</div>
+				</div>
+				<div className="flex-1 w-full flex flex-col items-center gap-4">
+					<div className="h-[450px] w-full flex justify-center items-center">
+						<VerticalBarChart
+							nameProduct={nameProductRating}
+							soldProduct={productRatingData}
+							label="Đánh giá"
+							color="rgba(255, 99, 132, 0.5)"
+							title="Biểu đồ thống kê Top 5 sản phẩm được giá cao nhất"
+						/>
+					</div>
+				</div>
+			</div> */}
 		</div>
 	);
 };

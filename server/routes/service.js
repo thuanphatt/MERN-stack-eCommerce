@@ -3,7 +3,7 @@ const ctrls = require("../controllers/service");
 const fileUploader = require("../config/cloudinary.config");
 const { verifyAccessToken, isAdmin } = require("../middlewares/verifyToken");
 
-router.get("/admin", [verifyAccessToken, isAdmin], ctrls.getServices);
+router.get("/", [verifyAccessToken], ctrls.getServices);
 router.post(
 	"/",
 	[verifyAccessToken, isAdmin],

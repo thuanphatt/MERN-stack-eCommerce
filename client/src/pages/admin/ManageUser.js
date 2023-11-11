@@ -140,7 +140,7 @@ const ManageUser = ({ navigate, location }) => {
 				</div>
 				<form onSubmit={handleSubmit(handleUpdate)}>
 					{editElement && (
-						<div className="absolute bottom-[70%]">
+						<div className="absolute bottom-[76%]">
 							<Button type="submit">Cập nhật</Button>
 						</div>
 					)}

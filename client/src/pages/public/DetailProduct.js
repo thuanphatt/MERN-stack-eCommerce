@@ -140,8 +140,7 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 			fetchProductsData();
 			fetchProductsCateData();
 		}
-		window.scrollTo(0, 0);
-		titleRef.current?.scrollIntoView({ block: "center" });
+		titleRef.current?.scrollIntoView({ behavior: "smooth" });
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [pid]);
 	useEffect(() => {
@@ -176,14 +175,11 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 		setCurrentImage(el);
 	};
 	return (
-		<div className="w-full">
+		<div className="w-full" ref={titleRef}>
 			{!isQuickView && (
 				<div className="h-[81px] bg-gray-100 flex justify-center items-center">
 					<div className="w-main">
-						<h3 className="uppercase font-semibold mb-1" ref={titleRef}>
-							{" "}
-							{currentProduct.title || product?.title}
-						</h3>
+						<h3 className="uppercase font-semibold mb-1"> {currentProduct.title || product?.title}</h3>
 						<Breakcrumb title={currentProduct.title || product?.title} category={category} />
 					</div>
 				</div>

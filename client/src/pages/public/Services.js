@@ -1,10 +1,11 @@
 import { apiGetServices } from "apis";
 import { Breakcrumb, Button } from "components";
 import withBaseComponent from "hocs/withBaseComponent";
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 
 const Services = ({ navigate }) => {
 	const [services, setServices] = useState(null);
+	const titleRef = useRef();
 	const fetchServices = async () => {
 		const response = await apiGetServices();
 		if (response.success) setServices(response.services);
@@ -13,7 +14,7 @@ const Services = ({ navigate }) => {
 		fetchServices();
 	}, []);
 	return (
-		<div className="w-full">
+		<div className="w-full" ref={titleRef}>
 			<div className="w-full">
 				<img
 					src="https://globalcheck.com.vn/apt-upload/image/cache/data/banner/2021/2021-06/dich-vu-2-optimized-2025x950resize_and_crop.jpg"
@@ -38,6 +39,7 @@ const Services = ({ navigate }) => {
 									<h3 class="text-sm font-semibold mb-2">{el.name}</h3>
 									<Button
 										handleOnClick={() => {
+											titleRef.current?.scrollIntoView({ behavior: "smooth" });
 											navigate(`/services/${el?._id}/${el?.name}`);
 										}}
 									>

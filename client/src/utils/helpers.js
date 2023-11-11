@@ -154,6 +154,7 @@ export const calculateRevunue = (orders, timeFor) => {
 
 		return { revenueMonth, monthOfRevenueMonth };
 	}
+
 	if (timeFor === "today") {
 		// Lấy tháng hiện tại
 		const today = new Date();
@@ -182,4 +183,23 @@ export const getIdYoutube = (url) => {
 export const calculateTotalRevenue = (transactions) => {
 	const orderTotal = transactions?.filter((el) => el.status === "Thành công");
 	return formatMoney(formatPrice(orderTotal?.reduce((total, transaction) => total + transaction.total, 0)));
+};
+
+export const getTopOrderUser = (orders, type) => {
+	const orderTotals = orders
+		?.filter((order) => order.status === "Thành công")
+		.reduce((totals, order) => {
+			const existingOrder = totals.find((o) => o.name === order.orderBy.lastName);
+			if (existingOrder) {
+				existingOrder.total += order.total;
+			} else {
+				totals.push({ total: order.total, name: order.orderBy.lastName });
+			}
+			return totals;
+		}, []);
+
+	const top5Orders = orderTotals?.sort((a, b) => b.total - a.total).slice(0, 5);
+	console.log(top5Orders);
+	if (type === "total") return top5Orders?.map((el) => el.total);
+	if (type === "name") return top5Orders?.map((el) => el?.name);
 };

@@ -8,13 +8,13 @@ import {
 	Blogs,
 	Products,
 	DetailProduct,
-	FAQ,
 	Services,
 	FinalRegister,
 	ResetPassword,
 	DetailBlog,
 	Trainning,
 	DetailService,
+	Contact,
 } from "./pages/public";
 import { Route, Routes } from "react-router-dom";
 import path from "./utils/path";
@@ -80,7 +80,7 @@ function App() {
 					<Route path={path.DETAIL_PRODUCT__CATEGORY__PID__TITLE} element={<DetailProduct />}></Route>
 					<Route path={path.DETAIL_BLOG__CATEGORY__BID__TITLE} element={<DetailBlog />}></Route>
 					<Route path={path.DETAIL_SERVICE__SID__TITLE} element={<DetailService />}></Route>
-					<Route path={path.FAQs} element={<FAQ />}></Route>
+					<Route path={path.CONTACT} element={<Contact />}></Route>
 					<Route path={path.OUR_SERVICES} element={<Services />}></Route>
 					<Route path={path.TRAINNING} element={<Trainning />}></Route>
 					<Route path={path.PRODUCTS} element={<Products />}></Route>

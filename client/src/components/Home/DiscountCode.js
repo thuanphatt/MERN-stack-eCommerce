@@ -48,8 +48,8 @@ const DiscountCode = () => {
 				{coupons
 					?.filter((el) => moment(el?.expiry).isAfter(moment()))
 					.map((el, index) => (
-						<div className="flex items-center mt-4 gap-2">
-							<div className="flex items-center flex-1 border shadow-md mx-1" key={index}>
+						<div className="flex items-center mt-4 gap-2" key={index}>
+							<div className="flex items-center flex-1 border shadow-md mx-1">
 								<div className="flex-2 flex items-center justify-center px-2">
 									<img
 										src="https://static.thenounproject.com/png/2513410-200.png"

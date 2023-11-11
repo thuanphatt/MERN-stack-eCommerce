@@ -7,7 +7,7 @@ export const apiCreateService = (data) =>
 	});
 export const apiGetServices = (params) =>
 	axios({
-		url: "/service/admin",
+		url: "/service",
 		method: "get",
 		params,
 	});

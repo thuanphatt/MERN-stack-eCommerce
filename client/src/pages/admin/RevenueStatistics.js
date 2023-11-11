@@ -15,12 +15,23 @@ const RevenueStatistics = () => {
 	return (
 		<div className="w-full relative px-4 mx-auto">
 			<header className="text-3xl font-bold py-4 border-b border-main">Thống kê doanh thu</header>
+			<div className="flex items-center gap-2 mt-4">
+				<div className="flex-1 stat-box border rounded-md shadow-md p-4 text-center bg-gray-100">
+					<div className="flex items-center gap-2 justify-center">
+						<h2 className="text-lg font-medium">Tổng doanh thu:</h2>
+					</div>
+					<span className="font-bold text-lg">{` ${calculateTotalRevenue(orders)} VND`}</span>
+				</div>
+				<div className="flex-1 stat-box border rounded-md shadow-md p-4 text-center bg-blue-400 text-white">
+					<div className="flex items-center gap-2 justify-center">
+						<h2 className="text-lg font-medium">Doanh thu hôm nay:</h2>
+					</div>
+					<span className="font-bold text-lg">{`${calculateRevunue(orders, "today")} VND`}</span>
+				</div>
+			</div>
 			<div className="mt-4 flex flex-col gap-2">
-				<span className="text-lg font-medium">{`Tổng doanh thu: ${calculateTotalRevenue(orders)} VND`}</span>
-				<span className="text-lg font-medium">{`Tổng doanh thu hôm nay: ${calculateRevunue(
-					orders,
-					"today"
-				)} VND`}</span>
+				<span className="text-lg font-medium"></span>
+				<span className="text-lg font-medium"></span>
 			</div>
 			<div className="flex items-center w-full mt-4 justify-center">
 				<div className="flex-1 w-full flex flex-col items-center gap-4">

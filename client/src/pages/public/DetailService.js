@@ -10,6 +10,7 @@ import DOMPurify from "dompurify";
 import { useForm } from "react-hook-form";
 import useDebounce from "hooks/useDebounce";
 import withBaseComponent from "hocs/withBaseComponent";
+import { toast } from "react-toastify";
 const DetailService = ({ navigate }) => {
 	const param = useParams();
 	const {
@@ -20,21 +21,33 @@ const DetailService = ({ navigate }) => {
 	} = useForm();
 	const [detailService, setDetailService] = useState(null);
 	const [quantityProduct, setQuantityProduct] = useState(1);
+	const pricePredict = watch("pricePredict");
 	const [totalProduct, setTotalProduct] = useState(1);
 	const fetcSerivce = async (sid) => {
 		const response = await apiGetService(sid);
 		if (response.success) setDetailService(response.service);
 	};
-	const queryDebounce = useDebounce(watch("quanlity"), 800);
+	const queryDebounceQuantity = useDebounce(watch("quanlity"), 800);
+	const queryDebouncePrice = useDebounce(pricePredict, 800);
 	useEffect(() => {
 		fetcSerivce(param.sid);
 	}, [param.sid]);
 	useEffect(() => {
+		if (watch("quanlity") <= 4 && watch("quanlity")) {
+			toast.warning("Số ha không hợp lệ (không được nhỏ hơn 4)");
+			return;
+		}
 		setQuantityProduct(watch("quanlity") / 10);
-	}, [queryDebounce]);
+	}, [queryDebounceQuantity]);
+
 	useEffect(() => {
 		setTotalProduct(detailService?.products.reduce((sum, el) => sum + el.price * +Math.round(quantityProduct), 0));
-	}, [queryDebounce, totalProduct]);
+	}, [queryDebounceQuantity, totalProduct]);
+	useEffect(() => {
+		if (pricePredict <= totalProduct + detailService?.price && pricePredict) {
+			// (detailService?.products.map((el) => el));
+		}
+	}, [queryDebouncePrice]);
 	return (
 		<div className="w-full">
 			<div className="h-[81px] bg-gray-100 flex justify-center items-center">
@@ -55,19 +68,36 @@ const DetailService = ({ navigate }) => {
 					<div className="text-md mb-8 text-justify ">
 						<div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(detailService?.description) }}></div>
 					</div>
-					<form onSubmit={handleSubmit} className="py-2">
-						<InputForm
-							type="number"
-							label="Nhập ha đất để tính toán số lượng thiết bị cần thiết"
-							register={register}
-							errors={errors}
-							id="quanlity"
-							validate={{
-								required: "Không được bỏ trống trường này",
-							}}
-							fullWidth
-							placeholder="VD: 10 || 20 (ha)"
-						/>
+					<h2 className="text-2xl font-bold text-main">
+						Hãy cung cấp thông tin đầu vào để tính toán số lượng thiết bị cần thiết
+					</h2>
+					<form onSubmit={handleSubmit} className="py-2 flex items-center gap-4">
+						<div className="flex-1 w-full">
+							<InputForm
+								type="number"
+								label="Nhập ha đất"
+								register={register}
+								errors={errors}
+								id="quanlity"
+								validate={{
+									required: "Không được bỏ trống trường này",
+								}}
+								placeholder="VD: 10 || 20 (ha)"
+							/>
+						</div>
+						<div className="flex-1 w-full">
+							<InputForm
+								type="number"
+								label="Nhập chi phí"
+								register={register}
+								errors={errors}
+								id="pricePredict"
+								validate={{
+									required: "Không được bỏ trống trường này",
+								}}
+								placeholder="VD: 200000 || 250000 (VND)"
+							/>
+						</div>
 					</form>
 					{quantityProduct ? (
 						<>
@@ -85,7 +115,12 @@ const DetailService = ({ navigate }) => {
 									<div>
 										<h2 className="text-xl font-semibold">{el.title}</h2>
 										<p className="text-gray-600">{`Giá: ${formatMoney(formatPrice(el.price))} VND`}</p>
-										<p>{`Số lượng: ${Math.round(quantityProduct)} cái`}</p>
+
+										<p>{`Số lượng: ${
+											el.title === "Béc tới cánh đập chỉnh góc"
+												? Math.round(quantityProduct) * 10
+												: Math.round(quantityProduct)
+										} cái`}</p>
 									</div>
 								</div>
 							))}

@@ -88,7 +88,9 @@ const ProductInfomation = ({ totalRatings, ratings, nameProduct, pid, rerender, 
 					<span className="p-2 px-4 text-[#505050]">ĐÁNH GIÁ CỦA NHỮNG KHÁCH HÀNG ĐÃ MUA</span>
 					<div className="flex">
 						<div className="flex-4 flex flex-col items-center justify-center gap-2">
-							<span className="font-semibold text-[22px]">{`${totalRatings}/5`}</span>
+							<span className="font-semibold text-[22px]">{`${
+								Math.round((ratings?.reduce((sum, el) => sum + el.star, 0) * 10) / ratings?.length) / 10
+							}/5`}</span>
 							<span className="flex items-center gap-1">
 								{renderStarFromNumber(totalRatings)?.map((el, index) => (
 									<span key={index}>{el}</span>
