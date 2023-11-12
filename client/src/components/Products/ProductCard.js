@@ -3,7 +3,7 @@ import { formatMoney, renderStarFromNumber } from "utils/helpers";
 const ProductCard = ({ title, image, totalRatings, price, handleonClick }) => {
 	return (
 		<div
-			className="col-span-1 w-full px-[10px] mb-4"
+			className="col-span-1 w-full md:px-[10px] mb-4"
 			onClick={() => {
 				handleonClick();
 			}}
@@ -15,7 +15,7 @@ const ProductCard = ({ title, image, totalRatings, price, handleonClick }) => {
 						"https://stores.blackberrys.com/VendorpageTheme/Enterprise/EThemeForBlackberrys/images/product-not-found.jpg"
 					}
 					alt={title}
-					className="w-[120px] h-[120px] object-contain p-4"
+					className="md:w-[120px] md:h-[120px] object-contain md:p-4 p-2 w-[100px] h-[100px]"
 				></img>
 				<div className="flex flex-col gap-2 mt-[15px] items-start w-full text-xs">
 					<span className="line-clamp-1 capitalize font-medium">{title.toLowerCase()}</span>

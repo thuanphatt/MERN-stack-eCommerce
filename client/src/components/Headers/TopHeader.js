@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import avatarDefault from "assets/avatarDefault.jpg";
 import path from "utils/path";
 import { getCurrent } from "store/user/asyncActions";
@@ -8,16 +8,14 @@ import { clearMessage, logout } from "store/user/userSlice";
 import Swal from "sweetalert2";
 import { AiOutlineMenu } from "react-icons/ai";
 import NavigationRepo from "components/Navigation/NavigationRepo";
-const TopHeader = () => {
-	const dispatch = useDispatch();
+import withBaseComponent from "hocs/withBaseComponent";
+import { showMenuRepo } from "store/app/appSlice";
+import logo from "assets/logo.png";
+const TopHeader = ({ dispatch }) => {
 	const navigate = useNavigate();
 	const [isShowOptions, setIsShowOptions] = useState(false);
-	const [isShowMenu, setIsShowMenu] = useState(false);
 	const { isLoggedIn, current, mes } = useSelector((state) => state.user);
-	const handleClickMenu = () => {
-		console.log("click menu");
-		setIsShowMenu(!isShowMenu);
-	};
+	const { isShowMenuRepo } = useSelector((state) => state.app);
 	useEffect(() => {
 		const setTimeOutId = setTimeout(() => {
 			if (isLoggedIn) dispatch(getCurrent());
@@ -46,21 +44,30 @@ const TopHeader = () => {
 	}, []);
 	return (
 		<div className="md:h-[38px] h-full w-full bg-main items-center justify-center flex py-2">
-			{isShowMenu && <NavigationRepo />}
-			{!isShowMenu && (
-				<span
-					className="block md:hidden p-2"
+			{isShowMenuRepo && (
+				<div
+					className="bg-overlay z-50 absolute inset-0 flex justify-start "
 					onClick={() => {
-						handleClickMenu();
+						dispatch(showMenuRepo());
 					}}
 				>
-					<AiOutlineMenu size={20} color="white" />
-				</span>
+					<NavigationRepo />
+				</div>
 			)}
+			<span
+				className="px-4 py-2 md:hidden block"
+				onClick={() => {
+					dispatch(showMenuRepo());
+				}}
+			>
+				<AiOutlineMenu size={22} />
+			</span>
 
 			<div className="w-main flex items-center md:justify-between justify-end text-xs text-white px-4 md:px-0">
 				<span className="hidden md:block">ĐẶT HÀNG TRỰC TUYẾN HOẶC LIÊN HỆ (+84) 9009 9999</span>
-
+				<Link to={`/${path.HOME}`} className="flex items-center justify-center mr-[16%]">
+					<img src={logo} alt="logo" className="w-[80px] h-[60px] object-contain block md:hidden"></img>
+				</Link>
 				{isLoggedIn && current ? (
 					<div className="flex items-center justify-center gap-2 relative" id="profile">
 						<span
@@ -118,4 +125,4 @@ const TopHeader = () => {
 	);
 };
 
-export default memo(TopHeader);
+export default withBaseComponent(memo(TopHeader));

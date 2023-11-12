@@ -99,7 +99,7 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 					setIsShowOptions(false);
 				}}
 			>
-				<div className="relative w-full">
+				<div className="relative w-full flex items-center justify-center">
 					{isShowOptions && (
 						<div className={clsx("absolute bottom-[-10px]  w-full flex justify-center gap-4 animate-slide-top")}>
 							{current?.wishList.some((el) => el.product === productData?._id.toString()) ? (

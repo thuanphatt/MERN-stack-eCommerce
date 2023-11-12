@@ -97,7 +97,7 @@ const SearchItem = ({ name, activeClick, changeActiveFilter, type = "checkbox" }
 
 	return (
 		<div
-			className="relative flex items-center justify-between border border-gray-800 p-3 text-[12px] gap-6"
+			className="relative flex items-center justify-between border border-gray-800 p-3 text-[12px] md:gap-6"
 			onClick={() => {
 				changeActiveFilter(name);
 			}}

@@ -17,7 +17,11 @@ const HotCollections = () => {
 					?.map((el) => (
 						<div key={el._id} id="hot-product" className="col-span-1 md:p-2 md:mx-[-8px] ">
 							<div className="border flex min-h-[230px] p-4 gap-4 items-center ">
-								<img src={el.image} alt={el.title} className="md:w-[144px] h-[129px] object-cover flex-1"></img>
+								<img
+									src={el.image}
+									alt={el.title}
+									className="md:w-[144px] h-[129px] object-contain flex-1 max-w-[144px]"
+								></img>
 								<div className="flex-1 text-gray-700">
 									<h4 className="font-semibold uppercase m-1  hover:text-gray-500">{el.title}</h4>
 									<ul className="text-sm">

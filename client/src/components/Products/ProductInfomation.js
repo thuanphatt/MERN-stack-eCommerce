@@ -55,7 +55,7 @@ const ProductInfomation = ({ totalRatings, ratings, nameProduct, pid, rerender, 
 	};
 	return (
 		<div>
-			<div className="flex items-center gap-1 relative bottom-[-1px] w-main mx-auto">
+			<div className="flex items-center gap-1 relative bottom-[-1px] md:w-main mx-auto w-full">
 				{productInfoTabs.map((el, index) => (
 					<span
 						key={index}
@@ -70,22 +70,33 @@ const ProductInfomation = ({ totalRatings, ratings, nameProduct, pid, rerender, 
 					</span>
 				))}
 			</div>
-			<div className="border p-4 w-main mx-auto">
+			<div className="border p-4 md:w-main mx-auto w-full">
 				{productInfoTabs.some((el) => activedTab === el.id) &&
 					productInfoTabs.find((el) => el.id === activedTab)?.content}
 			</div>
 			{product?.video && (
-				<div className="w-full my-6">
-					<iframe
-						width="420"
-						height="315"
-						src={`https://www.youtube.com/embed/${getIdYoutube(product?.video)}?autoplay=1&mute=1&loop=1&controls=0`}
-					></iframe>
-				</div>
+				<>
+					<div className="w-full my-6 md:block hidden">
+						<iframe
+							width="420"
+							height="315"
+							src={`https://www.youtube.com/embed/${getIdYoutube(product?.video)}?autoplay=1&mute=1&loop=1&controls=0`}
+						></iframe>
+					</div>
+					<div className="w-full my-6 overflow-hidden md:hidden block md:h-full max-h-[650px]">
+						<iframe
+							width="430"
+							height="730"
+							src={`https://www.youtube.com/embed/${getIdYoutube(product?.video)}?autoplay=1&mute=1&loop=1&controls=0`}
+						></iframe>
+					</div>
+				</>
 			)}
-			<div className="py-8 w-main mx-auto">
+			<div className="py-8 md:w-main mx-auto w-full">
 				<div className="flex flex-col border p-2">
-					<span className="p-2 px-4 text-[#505050]">ĐÁNH GIÁ CỦA NHỮNG KHÁCH HÀNG ĐÃ MUA</span>
+					<span className="p-2 px-4 text-[#505050] md:text-base text-[14px] text-center md:text-left">
+						ĐÁNH GIÁ CỦA NHỮNG KHÁCH HÀNG ĐÃ MUA
+					</span>
 					<div className="flex">
 						<div className="flex-4 flex flex-col items-center justify-center gap-2">
 							<span className="font-semibold text-[22px]">{`${

@@ -30,23 +30,25 @@ const Home = () => {
 			<div className="my-4 md:w-main w-full">
 				<DiscountCode />
 			</div>
-			<div className="my-4 md:w-main w-full">
+			<div className="my-4 md:w-main w-full md:px-0 px-4">
 				<FeatureProduct />
 			</div>
-			<div className="my-4 md:w-main w-full">
+			<div className="my-4 md:w-main w-full md:px-0 px-4">
 				<h2 className="py-[15px] text-xl font-[#151515] uppercase font-semibold border-b-2 border-main">Mới nhất</h2>
-				<div className="mt-2 mx-[-10px] pt-3 w-full">
+				<div className="mt-2 md:mx-[-10px] pt-3 w-full">
 					<CustomerSlider products={newProducts} />
 				</div>
 			</div>
-			<div className="my-4 md:w-main w-full">
+			<div className="my-4 md:w-main w-full md:px-0 px-4">
 				<HotCollections />
 			</div>
-			<Feedback />
-			<div className="my-4 md:w-main w-full">
+			<div className="my-4 md:w-main w-full md:px-0 px-4">
+				<Feedback />
+			</div>
+			<div className="my-4 md:w-main w-full md:px-0 px-4">
 				<InfoNews />
 			</div>
-			<div className="md:w-main h-[50px] w-full"></div>
+			<div className="md:w-main h-[50px] w-full md:px-0 px-4"></div>
 		</div>
 	);
 };

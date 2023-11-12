@@ -5,15 +5,15 @@ import { Link } from "react-router-dom";
 import path from "utils/path";
 import { useSelector } from "react-redux";
 import withBaseComponent from "hocs/withBaseComponent";
-import { showCart, showShowWishList } from "store/app/appSlice";
+import { showCart, showWishList } from "store/app/appSlice";
 
 const Header = ({ dispatch }) => {
 	const { current } = useSelector((state) => state.user);
 	const { BsFillTelephoneFill, IoMdMail, BsBagCheckFill, AiOutlineHeart, AiFillHeart } = icons;
 	return (
-		<div className="md:w-main h-[110px] py-[35px] flex justify-between w-full">
+		<div className="md:w-main h-[110px] py-[35px] flex md:justify-between justify-center w-full">
 			<Link to={`/${path.HOME}`}>
-				<img src={logo} alt="logo" className="w-[80px] h-[80px] object-contain"></img>
+				<img src={logo} alt="logo" className="w-[80px] h-[80px] object-contain hidden md:block"></img>
 			</Link>
 			<div className="flex text-[13px]">
 				<div className="md:flex flex-col px-6 border-r hidden">
@@ -36,7 +36,7 @@ const Header = ({ dispatch }) => {
 							<div
 								className="flex items-center justify-center gap-3 px-6 border-r cursor-pointer"
 								onClick={() => {
-									dispatch(showShowWishList());
+									dispatch(showWishList());
 								}}
 							>
 								<AiFillHeart color="#79AC78" size={20} />
@@ -45,7 +45,7 @@ const Header = ({ dispatch }) => {
 							<div
 								className="flex items-center justify-center gap-3 px-6 border-r cursor-pointer"
 								onClick={() => {
-									dispatch(showShowWishList());
+									dispatch(showWishList());
 								}}
 							>
 								<AiOutlineHeart color="#79AC78" size={20} />
@@ -59,7 +59,11 @@ const Header = ({ dispatch }) => {
 						>
 							<BsBagCheckFill color="#79AC78" size={20} />
 
-							<span className="hover:text-[#79AC78] pt-1">{`${current?.cart?.length || 0} sản phẩm`}</span>
+							<span className="hover:text-[#79AC78] pt-1 hidden md:block">{`${
+								current?.cart?.length || 0
+							} sản phẩm`}</span>
+
+							<span className="hover:text-[#79AC78] pt-1 block md:hidden">{`${current?.cart?.length || 0}`}</span>
 						</div>
 					</>
 				)}

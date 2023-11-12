@@ -177,23 +177,25 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 	return (
 		<div className="w-full" ref={titleRef}>
 			{!isQuickView && (
-				<div className="h-[81px] bg-gray-100 flex justify-center items-center">
-					<div className="w-main">
-						<h3 className="uppercase font-semibold mb-1"> {currentProduct.title || product?.title}</h3>
+				<div className="h-[81px] bg-gray-100 flex md:justify-center md:items-center md:px-0 px-4 md:flex-row flex-col md:pt-0 pt-4">
+					<div className="md:w-main w-full">
+						<h3 className="uppercase font-semibold mb-1 truncate md:max-w-full max-w-[400px]">
+							{currentProduct.title || product?.title}
+						</h3>
 						<Breakcrumb title={currentProduct.title || product?.title} category={category} />
 					</div>
 				</div>
 			)}
 			<div
 				className={clsx(
-					"w-main m-auto mt-5 flex bg-white",
-					isQuickView && "max-w-[70%] max-h-[80vh] overflow-y-auto gap-[150px] p-8"
+					"md:w-main m-auto mt-5 flex bg-white md:flex-row flex-col w-full",
+					isQuickView && "md:max-w-[70%] max-h-[80vh] overflow-y-auto gap-[150px] p-8"
 				)}
 				onClick={(e) => e.stopPropagation()}
 			>
-				<div className={clsx("w-2/5 flex flex-col gap-4", isQuickView && "w-1/2 max-w-[50%]")}>
+				<div className={clsx("md:w-2/5 flex flex-col gap-4 w-full", isQuickView && "md:w-1/2 max-w-[50%] w-full")}>
 					<ReactImageMagnify
-						className={clsx("h-[458px] w-[470px] border")}
+						className={clsx("h-[458px] md:w-[470px] border w-full")}
 						{...{
 							smallImage: {
 								alt: "smallImage",
@@ -216,7 +218,7 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 						}}
 					/>
 
-					<div className="w-[488px] mt-[30px]">
+					<div className="md:w-[488px] mt-[30px] w-full">
 						<Slider {...settings} className="img-slider">
 							{typeof currentProduct.images?.length === "undefined" &&
 								product?.images.map((el) => (
@@ -243,7 +245,7 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 						</Slider>
 					</div>
 				</div>
-				<div className={clsx("w-2/5 flex flex-col gap-4 pl-[45px] pr-6", isQuickView && "w-1/2")}>
+				<div className={clsx("md:w-2/5 flex flex-col gap-4 pl-[45px] pr-6", isQuickView && "w-1/2")}>
 					<div className="flex items-center justify-between">
 						<h3 className="text-[30px] font-semibold">{`${formatMoney(
 							formatPrice(currentProduct.price || product?.price)
@@ -335,7 +337,7 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 						</Button>
 						{!isQuickView && (
 							<Link to={`/${category}`}>
-								<div className="flex items-center gap-2 hover:text-main cursor-pointer">
+								<div className="flex items-center gap-2 hover:text-main cursor-pointer md:mb-0 mb-4">
 									<span>
 										<IoIosArrowRoundBack size={24} />
 									</span>
@@ -346,7 +348,7 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 					</div>
 				</div>
 				{!isQuickView && (
-					<div className="w-1/5">
+					<div className="md:w-1/5 w-full md:px-0 px-4">
 						{productExtraInfo.map((el) => (
 							<ProductExtraInfoItem key={el.id} title={el.title} sub={el.sub} icon={el.icon} />
 						))}
@@ -355,7 +357,7 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 			</div>
 			{!isQuickView && (
 				<>
-					<div className="w-full mt-8">
+					<div className="w-full mt-8 md:px-0 px-4">
 						<ProductInfomation
 							product={product}
 							products={products}
@@ -367,11 +369,11 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 						/>
 					</div>
 
-					<div className="w-main m-auto mb-6">
+					<div className="md:w-main mx-auto mb-6 w-full md:px-0 px-4">
 						<h2 className="py-[15px] text-xl font-[#151515] uppercase font-semibold border-b-2 border-main mb-6">
 							CÓ THỂ BẠN CŨNG THÍCH
 						</h2>
-						<div className="mb-6 mx-[-10px]">
+						<div className="mb-6 md:mx-[-10px]">
 							<CustomerSlider products={relatedProducts} normal={true} />
 						</div>
 					</div>

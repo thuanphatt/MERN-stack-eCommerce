@@ -18,7 +18,8 @@ const Votebar = ({ number, ratingCount, ratingTotal }) => {
 					<div ref={percentRef} className="absolute bg-main inset-0 rounded-l-full rounded-r-full"></div>
 				</div>
 			</div>
-			<div className="w-[15%] flex justify-end text-[12px]">{`${ratingCount || 0} đánh giá`}</div>
+			<div className="w-[15%] md:flex justify-end text-[12px] hidden">{`${ratingCount || 0} đánh giá`}</div>
+			<div className="w-[15%] flex justify-end text-[10px] md:hidden">{`${ratingCount || 0} lượt`}</div>
 		</div>
 	);
 };

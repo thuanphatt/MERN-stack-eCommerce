@@ -70,14 +70,16 @@ const Products = () => {
 
 	return (
 		<div className="w-full">
-			<div className="h-[81px] bg-gray-100 flex justify-center items-center">
-				<div className="w-main">
-					<h3 className="uppercase font-semibold mb-1">{category === ":category" ? "Sản phẩm" : category}</h3>
+			<div className="h-[81px] bg-gray-100 flex md:justify-center md:items-center md:px-0 px-4 md:flex-row flex-col md:pt-0 pt-4">
+				<div className="md:w-main w-full">
+					<h3 className="uppercase font-semibold mb-1 truncate md:max-w-full max-w-[400px]">
+						{category === ":category" ? "Sản phẩm" : category}
+					</h3>
 					<Breakcrumb category={category === ":category" ? "Sản phẩm" : category} />
 				</div>
 			</div>
-			<div className="w-main m-auto flex items-center justify-between border py-6 px-4 mt-8">
-				<div className="w-4/5 flex flex-col gap-2">
+			<div className="md:w-main w-full m-auto flex md:items-center justify-between border py-6 px-4 mt-8 md:flex-row flex-col md:gap-0 gap-4">
+				<div className="md:w-4/5 w-full flex flex-col gap-2">
 					<span className="font-semibold text-[14px]">Lọc theo</span>
 					<div className="flex items-center gap-2 text-gray-700">
 						<SearchItem name="Giá" activeClick={activeClick} changeActiveFilter={changeActiveFilter} type="input" />
@@ -91,16 +93,16 @@ const Products = () => {
 					</div>
 				</div>
 				<div className="w-1/5 flex flex-col gap-2">
-					<span className="font-semibold text-[14px]">Sắp xếp theo</span>
+					<span className="font-semibold text-[12px] w-full">Sắp xếp theo</span>
 					<div className="w-full">
 						<InputSelect value={sort} options={sorts} changeValue={changeValue} />
 					</div>
 				</div>
 			</div>
-			<div className="w-main m-auto mt-8">
+			<div className="md:w-main m-auto mt-8 w-full md:px-0 px-4">
 				<Masonry
 					breakpointCols={breakpointColumnsObj}
-					className="my-masonry-grid flex flex-wrap mx-[-10px]"
+					className="my-masonry-grid flex flex-wrap md:mx-[-10px]"
 					columnClassName="my-masonry-grid_column"
 				>
 					{productCategories?.products?.map((el) => (
@@ -109,11 +111,10 @@ const Products = () => {
 				</Masonry>
 			</div>
 			{productCategories && (
-				<div className="w-main m-auto my-4 flex justify-end">
+				<div className="md:w-main m-auto my-4 flex justify-end w-full md:px-0 px-4">
 					<Pagination totalCount={productCategories?.counts} />
 				</div>
 			)}
-			<div className="w-full h-[500px]"></div>
 		</div>
 	);
 };

@@ -39,7 +39,7 @@ import {
 	RevenueStatistics,
 } from "pages/admin";
 import { MemberLayout, Personal, BuyHistory, Checkout, MyCart } from "pages/member";
-import { showCart, showShowWishList } from "store/app/appSlice";
+import { showCart, showWishList } from "store/app/appSlice";
 import CreateCoupon from "pages/admin/CreateCoupon";
 import ManageCoupon from "pages/admin/ManageCoupon";
 function App() {
@@ -65,12 +65,13 @@ function App() {
 				<div
 					className="bg-overlay z-50 absolute inset-0 flex justify-end "
 					onClick={() => {
-						dispatch(showShowWishList());
+						dispatch(showWishList());
 					}}
 				>
 					<WishList />
 				</div>
 			)}
+
 			{isShowModal && <Modal>{modalChildren}</Modal>}
 			<Routes>
 				<Route path={path.CHECKOUT} element={<Checkout />}></Route>

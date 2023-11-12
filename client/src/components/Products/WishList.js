@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 import { apiRemoveProductInWishList } from "apis";
 import withBaseComponent from "hocs/withBaseComponent";
-import { showShowWishList } from "store/app/appSlice";
+import { showWishList } from "store/app/appSlice";
 import { getCurrent } from "store/user/asyncActions";
 import { formatMoney, formatPrice } from "utils/helpers";
 
@@ -27,7 +27,7 @@ const WishList = ({ dispatch }) => {
 				<span
 					className="cursor-pointer p-2 hover:text-gray-500"
 					onClick={() => {
-						dispatch(showShowWishList());
+						dispatch(showWishList());
 					}}
 				>
 					<AiOutlineClose size={24} />

@@ -19,7 +19,7 @@ const InfoNews = ({ navigate }) => {
 			<h2 className="py-[15px] text-xl font-[#151515] uppercase font-semibold border-b-2 border-main">
 				TIN TỨC MỚI NHẤT
 			</h2>
-			<div className="grid md:grid-cols-3 grid-cols-1 gap-2 flex-5 max-h-[400px] justify-evenly mt-8">
+			<div className="grid md:grid-cols-3 grid-cols-1 gap-2 flex-5 md:max-h-[400px] justify-evenly mt-8">
 				{blogsData?.map((blog, index) => (
 					<BlogItem
 						key={index}
