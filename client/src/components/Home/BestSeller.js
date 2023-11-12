@@ -53,7 +53,7 @@ const BestSeller = ({ navigate, dispatch }) => {
 				))}
 			</div>
 			<div className="w-full border-b-2 border-main mt-3"></div>
-			<div className="mt-2 md:mx-[-10px] pt-3 w-full">
+			<div className="mt-2 pt-3 w-full">
 				<CustomerSlider products={products} activedTab={activedTab} />
 			</div>
 			<div className="flex gap-4 mt-5 w-full">

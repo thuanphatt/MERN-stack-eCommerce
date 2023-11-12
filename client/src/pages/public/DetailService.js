@@ -21,6 +21,7 @@ const DetailService = ({ navigate }) => {
 	} = useForm();
 	const [detailService, setDetailService] = useState(null);
 	const [quantityProduct, setQuantityProduct] = useState(1);
+
 	const pricePredict = watch("pricePredict");
 	const [totalProduct, setTotalProduct] = useState(1);
 	const fetcSerivce = async (sid) => {
@@ -44,8 +45,7 @@ const DetailService = ({ navigate }) => {
 		setTotalProduct(detailService?.products.reduce((sum, el) => sum + el.price * +Math.round(quantityProduct), 0));
 	}, [queryDebounceQuantity, totalProduct]);
 	useEffect(() => {
-		if (pricePredict <= totalProduct + detailService?.price && pricePredict) {
-			// (detailService?.products.map((el) => el));
+		if (detailService && pricePredict) {
 		}
 	}, [queryDebouncePrice]);
 	return (
@@ -126,9 +126,6 @@ const DetailService = ({ navigate }) => {
 							))}
 
 							<div className="text-right mt-8 flex flex-col gap-2">
-								<h3 className="text-xl font-semibold">{`Số lượng sản phẩm cần thiết: ${
-									detailService?.products.length * Math.round(quantityProduct)
-								} cái`}</h3>
 								<h3 className="text-xl font-semibold">{`Phí dịch vụ: ${formatMoney(
 									formatPrice(detailService?.price)
 								)} VND`}</h3>

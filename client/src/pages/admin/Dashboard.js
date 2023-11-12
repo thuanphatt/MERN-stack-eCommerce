@@ -94,14 +94,14 @@ const Dashboard = () => {
 				</div>
 			</div>
 
-			<div className="flex items-center w-full mt-4 justify-center">
+			<div className="flex items-end w-full mt-4 justify-center">
 				<div className="flex-1 w-full flex flex-col items-center gap-4">
 					<div className="h-[400px] w-full flex justify-center items-center">
 						<DoughnutChart dataOrders={countArray} />
 					</div>
 				</div>
-				<div className="flex-1 w-full flex flex-col items-center gap-4">
-					<div className="h-[450px] w-full flex justify-center items-center">
+				<div className="flex-1 w-full flex flex-col items-end gap-4">
+					<div className="h-[450px] w-full flex justify-center items-end">
 						<VerticalBarChart
 							nameProduct={nameProduct}
 							soldProduct={soldProductData}
@@ -136,28 +136,6 @@ const Dashboard = () => {
 					</div>
 				</div>
 			</div>
-			{/* <div className="flex items-center w-full mt-[100px] justify-center">
-				<div className="flex-1 w-full flex flex-col items-center gap-4">
-					<div className="h-[450px] w-full flex justify-center items-center">
-						<AreaChart
-							labels={getTopOrderUser(orders, "name")}
-							dataRevenue={getTopOrderUser(orders, "total")}
-							label="VND"
-						/>
-					</div>
-				</div>
-				<div className="flex-1 w-full flex flex-col items-center gap-4">
-					<div className="h-[450px] w-full flex justify-center items-center">
-						<VerticalBarChart
-							nameProduct={nameProductRating}
-							soldProduct={productRatingData}
-							label="Đánh giá"
-							color="rgba(255, 99, 132, 0.5)"
-							title="Biểu đồ thống kê Top 5 sản phẩm được giá cao nhất"
-						/>
-					</div>
-				</div>
-			</div> */}
 		</div>
 	);
 };

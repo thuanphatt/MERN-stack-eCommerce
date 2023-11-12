@@ -35,7 +35,7 @@ const Home = () => {
 			</div>
 			<div className="my-4 md:w-main w-full md:px-0 px-4">
 				<h2 className="py-[15px] text-xl font-[#151515] uppercase font-semibold border-b-2 border-main">Mới nhất</h2>
-				<div className="mt-2 md:mx-[-10px] pt-3 w-full">
+				<div className="mt-2 pt-3 w-full">
 					<CustomerSlider products={newProducts} />
 				</div>
 			</div>
