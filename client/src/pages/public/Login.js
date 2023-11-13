@@ -10,6 +10,8 @@ import path from "utils/path";
 import { login } from "store/user/userSlice";
 import { validate } from "utils/helpers";
 import { showModal } from "store/app/appSlice";
+import { AiFillEye } from "react-icons/ai";
+import { BiSolidHide } from "react-icons/bi";
 const Login = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -27,6 +29,7 @@ const Login = () => {
 	const [isVerifiedEmail, setIsVerifiedEmail] = useState(false);
 	const [isForgotPassword, setIsForgotPassword] = useState(false);
 	const [invalidField, setInvalidField] = useState([]);
+	const [isShow, setIsShow] = useState(false);
 
 	const resetPayload = () => {
 		setPayload({
@@ -73,7 +76,9 @@ const Login = () => {
 	}, [payload, isRegister]);
 
 	const handleForgotPassword = async () => {
+		dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 		const response = await apiForgotPassword({ email });
+		dispatch(showModal({ isShowModal: false, modalChildren: null }));
 		if (response.success) {
 			toast.success(response.mes);
 		} else {
@@ -81,7 +86,9 @@ const Login = () => {
 		}
 	};
 	const handleFinalRegister = async () => {
+		dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 		const response = await apiFinalRegister(token);
+		dispatch(showModal({ isShowModal: false, modalChildren: null }));
 		if (response.success) {
 			Swal.fire("Xin chúc mừng", response.mes, "success").then(() => {
 				setIsRegister(false);
@@ -116,7 +123,7 @@ const Login = () => {
 							type="text"
 							name="email"
 							className="w-[800px] border-b pb-2 outline-none placeholder:text-sm"
-							placeholder="Example : email@gmail.com"
+							placeholder="VD : email@gmail.com"
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
 						></input>
@@ -130,7 +137,7 @@ const Login = () => {
 							// eslint-disable-next-line react/style-prop-object
 							style="px-4 py-2 rounded-md text-white bg-red-500 font-semibold my-2"
 						>
-							Trở lại
+							Quay lại
 						</Button>
 					</div>
 				</div>
@@ -144,7 +151,7 @@ const Login = () => {
 				<div className="p-8 bg-white rounded-md min-w-[730px] flex flex-col items-center justify-center">
 					<h1 className="text-[28px] font-semibold text-main mb-8">{isRegister ? "Đăng ký" : "Đăng nhập"}</h1>
 					{isRegister && (
-						<div className="flex items-center gap-2 justify-center">
+						<div className="flex items-center gap-2 justify-center relative">
 							<InputField
 								value={payload.firstName}
 								setValue={setPayload}
@@ -181,11 +188,30 @@ const Login = () => {
 						value={payload.password}
 						setValue={setPayload}
 						nameKey="password"
-						type="password"
+						type={`${isShow ? "text" : "password"}`}
 						invalidField={invalidField}
 						setInvalidField={setInvalidField}
 					/>
-
+					{payload.password && isRegister && (
+						<span
+							className="absolute right-[-330px] top-[34px] cursor-pointer p-2"
+							onClick={() => {
+								setIsShow(!isShow);
+							}}
+						>
+							{isShow ? <AiFillEye /> : <BiSolidHide />}
+						</span>
+					)}
+					{payload.password && !isRegister && (
+						<span
+							className="absolute right-[-330px] top-[-2px] cursor-pointer p-2"
+							onClick={() => {
+								setIsShow(!isShow);
+							}}
+						>
+							{isShow ? <AiFillEye /> : <BiSolidHide />}
+						</span>
+					)}
 					<Button handleOnClick={handleSubmit} fullwidth>
 						{isRegister ? "Đăng ký" : "Đăng nhập"}
 					</Button>

@@ -100,7 +100,9 @@ const ProductInfomation = ({ totalRatings, ratings, nameProduct, pid, rerender, 
 					<div className="flex">
 						<div className="flex-4 flex flex-col items-center justify-center gap-2">
 							<span className="font-semibold text-[22px]">{`${
-								Math.round((ratings?.reduce((sum, el) => sum + el.star, 0) * 10) / ratings?.length) / 10
+								ratings?.length > 0
+									? Math.round((ratings?.reduce((sum, el) => sum + el.star, 0) * 10) / ratings?.length) / 10
+									: 0
 							}/5`}</span>
 							<span className="flex items-center gap-1">
 								{renderStarFromNumber(totalRatings)?.map((el, index) => (

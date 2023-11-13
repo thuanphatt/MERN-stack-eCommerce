@@ -3,14 +3,15 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 import { Bar } from "react-chartjs-2";
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const VerticalBarChart = ({ nameProduct, soldProduct, label, color, title }) => {
+const HorizontalChart = ({ nameProduct, soldProduct, label, color, title }) => {
 	const options = {
-		responsive: true,
+		indexAxis: "y",
 		elements: {
 			bar: {
 				borderWidth: 2,
 			},
 		},
+		responsive: true,
 		plugins: {
 			legend: {
 				position: "top",
@@ -42,4 +43,4 @@ const VerticalBarChart = ({ nameProduct, soldProduct, label, color, title }) => 
 	return <Bar options={options} data={data} />;
 };
 
-export default memo(VerticalBarChart);
+export default memo(HorizontalChart);

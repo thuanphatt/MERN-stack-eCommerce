@@ -104,7 +104,8 @@ const handleVnpayReturn = async (req, res, next) => {
 						//that bai
 						//paymentStatus = '2'
 						// Ở đây cập nhật trạng thái giao dịch thanh toán thất bại vào CSDL của bạn
-						res.status(200).json({ RspCode: "00", Message: "Success" });
+						// res.status(200).json({ RspCode: "00", Message: "Success" });
+						res.status(200).json({ RspCode: "01", Message: "Failed" });
 					}
 				} else {
 					res.status(200).json({

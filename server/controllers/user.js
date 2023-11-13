@@ -151,34 +151,34 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 // Change password
 const forgotPassword = asyncHandler(async (req, res) => {
 	const { email } = req.body;
-	if (!email) throw new Error("Missing email");
+	if (!email) throw new Error("Email không tồn tại");
 	const user = await User.findOne({ email });
-	if (!user) throw new Error("User not found");
+	if (!user) throw new Error("Người dùng không tồn tại");
 	const resetToken = user.createPasswordChangedToken();
 	await user.save();
 
-	const html = `Xin vui lòng click vào link dưới đây để thay đổi mật khẩu của bạn.Link này sẽ hết hạn sau 15 phút kể từ bây giờ. <a href=${process.env.CLIENT_URL}/reset-password/${resetToken}>Click here</a>`;
+	const html = `Xin vui lòng bấm vào link bên dưới để thay đổi mật khẩu của bạn.Link này sẽ hết hạn sau 15 phút kể từ bây giờ. <br/> <a href=${process.env.CLIENT_URL}/reset-password/${resetToken}>Bấm vào đây</a>`;
 
 	const data = {
 		email,
 		html,
-		subject: "Forgot password",
+		subject: "Quên mật khẩu",
 	};
 	const rs = await sendMail(data);
 	return res.status(200).json({
 		success: rs.response?.includes("OK") ? true : false,
-		mes: rs.response?.includes("OK") ? "Hãy check mail của bạn" : "Đã có lỗi, hãy thử lại sau!",
+		mes: rs.response?.includes("OK") ? "Hãy kiểm tra mail của bạn" : "Đã có lỗi, hãy thử lại sau!",
 	});
 });
 const resetPassword = asyncHandler(async (req, res) => {
 	const { password, token } = req.body;
-	if (!password || !token) throw new Error("Misssing inputs");
+	if (!password || !token) throw new Error("Thiếu thông tin đầu vào");
 	const passwordResetToken = crypto.createHash("sha256").update(token).digest("hex");
 	const user = await User.findOne({
 		passwordResetToken,
 		passwordResetExpires: { $gt: Date.now() },
 	});
-	if (!user) throw new Error("Invalid password reset token");
+	if (!user) throw new Error("Mã reset token không chính xác");
 	user.password = password;
 	user.passwordResetToken = undefined;
 	user.passwordChangedAt = Date.now();
@@ -186,7 +186,7 @@ const resetPassword = asyncHandler(async (req, res) => {
 	await user.save();
 	return res.status(200).json({
 		success: user ? true : false,
-		mes: user ? "Update successful" : "Đã có lỗi xảy ra",
+		mes: user ? "Cập nhật mật khẩu thành công" : "Đã có lỗi xảy ra",
 	});
 });
 const getUsers = asyncHandler(async (req, res) => {

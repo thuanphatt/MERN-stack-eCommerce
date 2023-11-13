@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 
 import { apiDeleteOrder, apiDetailOrder, apiGetOrders, apiUpdateStatus } from "apis";
 import { CustomSelect, InputForm, Loading, Pagination } from "components";
-import { formatMoney, formatPrice } from "utils/helpers";
+import { formatExportData, formatMoney, formatPrice } from "utils/helpers";
 import { useForm } from "react-hook-form";
 // import { useDebounce } from "react-use";
 import withBaseComponent from "hocs/withBaseComponent";
@@ -19,6 +19,8 @@ import { RiArrowGoBackFill } from "react-icons/ri";
 import path from "utils/path";
 import { statusOrdersLabel } from "utils/contants";
 import { showModal } from "store/app/appSlice";
+import { CSVLink } from "react-csv";
+import { CiExport } from "react-icons/ci";
 
 const ManagerOrder = ({ location, navigate, dispatch }) => {
 	const [orders, setOrders] = useState([]);
@@ -30,6 +32,7 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 	const status = watch("status");
 	const [editOrder, setEditOrder] = useState(null);
 	const [detailOrder, setDetailOrder] = useState(null);
+	const [orderNoLimit, setOrderNoLimit] = useState(null);
 	const [params] = useSearchParams();
 	const [update, setUpdate] = useState(false);
 	const [isFilterDate, setIsFilterDate] = useState(false);
@@ -45,6 +48,13 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 		if (response.success) {
 			setOrders(response.orders);
 			setCounts(response.counts);
+		}
+	};
+	const fetchOrdersNoLimit = async () => {
+		const response = await apiGetOrders();
+
+		if (response.success) {
+			setOrderNoLimit(response.orders);
 		}
 	};
 
@@ -91,7 +101,7 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 			toast.success(response.mes);
 		} else toast.error(response.mes);
 	};
-
+	const data = formatExportData(orderNoLimit, "order");
 	const handleSearchStatus = ({ value }) => {
 		navigate({
 			pathname: location.pathname,
@@ -114,6 +124,7 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 	useEffect(() => {
 		const searchParams = Object.fromEntries([...params]);
 		fetchOrders(searchParams);
+		fetchOrdersNoLimit();
 	}, [params, update, isFilterDate, editedStatus]);
 
 	return (
@@ -125,7 +136,15 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 					<span>Quản lý đơn hàng</span>
 				</h1>
 			</div>
-			<div className="flex justify-end items-center pr-5">
+			<div className="flex justify-between items-center px-5">
+				<CSVLink
+					filename="allOrder.csv"
+					className="border-[2px] flex justify-center rounded-md items-center px-2 py-1 bg-main  text-white"
+					data={data}
+				>
+					<CiExport className="md:text-[20px] text-[18px] " />
+					<h2 className="font-[600] px-1">Xuất</h2>
+				</CSVLink>
 				<form className="w-[45%] grid grid-cols-2 gap-2">
 					<div className="col-span-1">
 						<InputForm

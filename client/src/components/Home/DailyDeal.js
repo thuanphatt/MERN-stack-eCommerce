@@ -40,8 +40,8 @@ const DailyDeal = ({ dispatch }) => {
 	};
 
 	useEffect(() => {
-		let timeRemaining = dealDaily?.time - Date.now();
 		if (dealDaily?.time) {
+			const timeRemaining = dealDaily?.time - Date.now();
 			const number = secondsToHms(timeRemaining);
 			setHour(number.h);
 			setMinute(number.m);
@@ -50,7 +50,7 @@ const DailyDeal = ({ dispatch }) => {
 	}, [dealDaily]);
 	useEffect(() => {
 		idInterval && clearInterval(idInterval);
-		if (hour === 0 && minute === 0 && second === 0 && expireTime) {
+		if (moment(moment(dealDaily?.time).format("MM/DD/YYYY")).isBefore(moment())) {
 			fetchDealDaily();
 		}
 	}, [expireTime]);

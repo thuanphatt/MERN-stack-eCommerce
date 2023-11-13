@@ -7,6 +7,8 @@ import { createSearchParams, useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import clsx from "clsx";
+import { CSVLink } from "react-csv";
+import { CiExport } from "react-icons/ci";
 
 import { InputForm, Select, Button, CustomSelect } from "components";
 import { apiDeleteUser, apiGetUsers, apiUpdateUser } from "apis/user";
@@ -17,6 +19,7 @@ import icons from "utils/icons";
 import Swal from "sweetalert2";
 import path from "utils/path";
 import withBaseComponent from "hocs/withBaseComponent";
+import { formatExportData } from "utils/helpers";
 const ManageUser = ({ navigate, location }) => {
 	const { AiFillEdit, AiFillDelete, RiArrowGoBackFill } = icons;
 	const {
@@ -60,6 +63,7 @@ const ManageUser = ({ navigate, location }) => {
 			toast.success(response.mes);
 		} else toast.error(response.mes);
 	};
+	const data = formatExportData(usersData, "user");
 	const handleDelete = (uid) => {
 		Swal.fire({
 			title: "Bạn có chắc chắn không ?",
@@ -102,7 +106,6 @@ const ManageUser = ({ navigate, location }) => {
 		const searchParams = Object.fromEntries([...params]);
 		fetchUsers(searchParams);
 	}, [params, update]);
-
 	return (
 		<div className={clsx("w-full flex flex-col gap-4 relative", editElement && "pl-[26px]")}>
 			<div className="w-full h-[69px]"></div>
@@ -112,7 +115,15 @@ const ManageUser = ({ navigate, location }) => {
 				</h1>
 			</div>
 			<div className="w-full p-4">
-				<div className="flex justify-end items-center mb-6">
+				<div className="flex justify-between items-center mb-6">
+					<CSVLink
+						filename="user.csv"
+						className="border-[2px] flex justify-center rounded-md items-center px-2 py-1 bg-main  text-white"
+						data={data}
+					>
+						<CiExport className="md:text-[20px] text-[18px] " />
+						<h2 className="font-[600] px-1">Xuất</h2>
+					</CSVLink>
 					<form className="w-[45%] grid grid-cols-2 gap-2">
 						<div className="col-span-1">
 							<InputForm
@@ -138,6 +149,7 @@ const ManageUser = ({ navigate, location }) => {
 						</div>
 					</form>
 				</div>
+
 				<form onSubmit={handleSubmit(handleUpdate)}>
 					{editElement && (
 						<div className="absolute bottom-[76%]">

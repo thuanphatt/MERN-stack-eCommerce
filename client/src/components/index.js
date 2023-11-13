@@ -59,3 +59,4 @@ export { default as DoughnutChart } from "./Chart/DoughnutChart";
 export { default as RadarChart } from "./Chart/RadarChart";
 export { default as VerticalBarChart } from "./Chart/VerticalBarChart";
 export { default as AreaChart } from "./Chart/AreaChart";
+export { default as HorizontalChart } from "./Chart/HorizontalChart";

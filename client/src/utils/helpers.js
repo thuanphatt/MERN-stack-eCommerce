@@ -199,7 +199,45 @@ export const getTopOrderUser = (orders, type) => {
 		}, []);
 
 	const top5Orders = orderTotals?.sort((a, b) => b.total - a.total).slice(0, 5);
-	console.log(top5Orders);
+
 	if (type === "total") return top5Orders?.map((el) => el.total);
 	if (type === "name") return top5Orders?.map((el) => el?.name);
+};
+
+export const formatExportData = (data, type) => {
+	let dataTable = [];
+	if (data && data.counts > 0 && type === "user") {
+		dataTable = data?.users?.map((user, index) => {
+			return {
+				STT: index + 1,
+				Email: user.email,
+				Họ: user.firstName,
+				Tên: user.lastName,
+				SĐT: user?.mobile,
+				Vai_Trò: user.role === "2001" ? "Admin" : "Người dùng",
+				Địa_Chỉ: user.address[0],
+				Trạng_Thái: user.isBlocked === true ? "Bị khóa" : "Hoạt động",
+				Ngày_Tạo: moment(user.createdAt).format("MM/DD/YYYY"),
+			};
+		});
+	}
+	if (data && data.length > 0 && type === "order") {
+		dataTable = data
+			?.filter((el) => el.status === "Thành công")
+			?.map((order, index) => {
+				return {
+					STT: index + 1,
+					Họ: order.orderBy.firstName,
+					Tên: order.orderBy.lastName,
+					Địa_Chỉ: order.orderBy.address[0],
+					SĐT: order?.orderBy.mobile,
+					Sản_Phẩm: order.products.map((el) => el.title),
+					Tổng_Cộng: order.total,
+					Trạng_Thái: order.status,
+					PTTT: order.paymentMethod,
+					Ngày_Tạo: moment(order.createdAt).format("MM/DD/YYYY"),
+				};
+			});
+	}
+	return dataTable;
 };
