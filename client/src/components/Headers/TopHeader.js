@@ -90,6 +90,7 @@ const TopHeader = ({ dispatch }) => {
 								<Link to={`/${path.MEMBER}/${path.PERSONAL}`} className="p-2 hover:bg-gray-200 border border-b-0">
 									Thông tin cá nhân
 								</Link>
+
 								<Link to={`/${path.MEMBER}/${path.MYCART}`} className="p-2 hover:bg-gray-200 border border-b-0">
 									Giỏ hàng của tôi
 								</Link>

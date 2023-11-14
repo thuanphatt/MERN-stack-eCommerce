@@ -5,18 +5,17 @@ import {
 	BsCartPlusFill,
 	BsFillCartCheckFill,
 } from "react-icons/bs";
-import { IoMdMail, IoIosArrowForward, IoIosCreate } from "react-icons/io";
+import { IoMdMail, IoIosArrowForward, IoIosCreate, IoIosInformationCircleOutline } from "react-icons/io";
 import { SiSimpleanalytics } from "react-icons/si";
-import { IoMenu } from "react-icons/io5";
+import { IoMenu, IoHomeOutline, IoCartOutline } from "react-icons/io5";
 import { FaUserAlt, FaShieldAlt, FaMoneyBillWaveAlt } from "react-icons/fa";
 
 import { BiSolidLogOut, BiSolidDashboard, BiSolidCategoryAlt, BiLogoBlogger, BiSolidCoupon } from "react-icons/bi";
-import { MdLocalShipping, MdGroups2, MdManageSearch } from "react-icons/md";
+import { MdLocalShipping, MdGroups2, MdManageSearch, MdOutlinePassword } from "react-icons/md";
 import { RiBillFill, RiArrowGoBackFill, RiCustomerService2Fill } from "react-icons/ri";
 import { FaTty } from "react-icons/fa6";
 import {
 	AiFillStar,
-	AiFillHome,
 	AiOutlineHistory,
 	AiOutlineStar,
 	AiFillEye,
@@ -45,7 +44,6 @@ const icons = {
 	AiFillGift,
 	BsFillReplyFill,
 	FaTty,
-	AiFillHome,
 	AiOutlineDown,
 	BiSolidDashboard,
 	MdGroups2,
@@ -66,5 +64,9 @@ const icons = {
 	BiLogoBlogger,
 	RiCustomerService2Fill,
 	BiSolidCoupon,
+	IoHomeOutline,
+	IoCartOutline,
+	IoIosInformationCircleOutline,
+	MdOutlinePassword,
 };
 export default icons;

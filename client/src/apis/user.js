@@ -45,6 +45,12 @@ export const apiUpdateUser = (data, uid) =>
 		method: "put",
 		data,
 	});
+export const apiChangePassword = (data, uid) =>
+	axios({
+		url: "/user/change-password/" + uid,
+		method: "put",
+		data,
+	});
 export const apiDeleteUser = (uid) =>
 	axios({
 		url: "/user/" + uid,

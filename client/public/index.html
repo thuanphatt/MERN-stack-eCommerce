@@ -11,16 +11,36 @@
 
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
   <title>Hệ thống kinh doanh dịch dụ & thiết bị nông nghiệp công nghệ cao</title>
+  <style>
+    #google_translate_element {
+      position: absolute;
+      top: 6px;
+      right: 22%;
+    }
+  </style>
 </head>
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
-  <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+  <div id="google_translate_element"></div>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      setTimeout(() => {
+        new google.translate.TranslateElement({
+          pageLanguage: 'vn', autoDisplay: false,
+        }, 'google_translate_element');
+      }, 800);
+    }
+  </script>
 
+  <script type="text/javascript"
+    src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
 </body>
 
 <!-- <df-messenger intent="WELCOME" chat-title="High-Tech_Agricultural_Equipment_and_Services_Business_System"
   agent-id="d7a22041-b559-4f00-b8ef-40b9559c062b" language-code="vi"></df-messenger> -->
+
 
 </html>

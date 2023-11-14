@@ -14,6 +14,7 @@ const path = {
 	DETAIL_SERVICE__SID__TITLE: "services/:sid/:name",
 	REGISTER_FINAL: "registerfinal/:status",
 	RESET_PASSWORD: "reset-password/:token",
+	CHANGE_PASSWORD: "change-password",
 	CHECKOUT: "checkout",
 
 	//Admin

@@ -189,6 +189,32 @@ const resetPassword = asyncHandler(async (req, res) => {
 		mes: user ? "Cập nhật mật khẩu thành công" : "Đã có lỗi xảy ra",
 	});
 });
+const changePassword = asyncHandler(async (req, res) => {
+	const { password, newPassword, confirmPassword } = req.body;
+	const { uid } = req.params;
+	if (!password || !newPassword || !confirmPassword) throw new Error("Thiếu thông tin đầu vào");
+	if (newPassword !== confirmPassword) {
+		return res.status(400).json({
+			success: false,
+			mes: "Mật khẩu mới và xác nhận mật khẩu không trùng khớp",
+		});
+	}
+	const user = await User.findById(uid);
+	const isCorrect = await user.isCorrectPassword(password);
+	if (!isCorrect) {
+		return res.status(400).json({
+			success: false,
+			mes: "Mật khẩu hiện tại không chính xác",
+		});
+	}
+	user.password = newPassword;
+	await user.save();
+	return res.status(200).json({
+		success: user ? true : false,
+		mes: user ? "Cập nhật mật khẩu thành công" : "Đã có lỗi xảy ra",
+	});
+});
+
 const getUsers = asyncHandler(async (req, res) => {
 	const queries = { ...req.query };
 	const excludeFields = ["limit", "sort", "page", "fields"];
@@ -439,4 +465,5 @@ module.exports = {
 	removeProductInCart,
 	addToWishList,
 	removeProductInWishList,
+	changePassword,
 };

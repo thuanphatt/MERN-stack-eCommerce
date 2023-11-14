@@ -132,3 +132,8 @@ iframe {
 	height: 100vh; /* Viewport-relative units */
 	width: 100vw;
 }
+/* custom google translate */
+#google_translate_element .skiptranslate {
+	height: 30px;
+	overflow: hidden;
+}

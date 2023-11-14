@@ -6,7 +6,8 @@ import banner3 from "assets/banner3.png";
 const {
 	FaShieldAlt,
 	BiSolidCoupon,
-	AiFillHome,
+	IoHomeOutline,
+	IoIosInformationCircleOutline,
 	AiFillGift,
 	BsFillReplyFill,
 	FaTty,
@@ -16,13 +17,14 @@ const {
 	RiBillFill,
 	IoIosCreate,
 	BsBagCheckFill,
-	AiFillInfoCircle,
 	BiSolidCategoryAlt,
 	AiOutlineHistory,
+	IoCartOutline,
 	SiSimpleanalytics,
 	MdLocalShipping,
 	BiLogoBlogger,
 	RiCustomerService2Fill,
+	MdOutlinePassword,
 } = icons;
 export const navigation = [
 	{
@@ -322,21 +324,21 @@ export const memberSidebar = [
 		type: "SINGLE",
 		text: "Trang chủ",
 		path: `/${path.HOME}`,
-		icon: <AiFillHome size={20} />,
+		icon: <IoHomeOutline size={20} />,
 	},
 	{
 		id: 2,
 		type: "SINGLE",
 		text: "Thông tin cá nhân",
 		path: `/${path.MEMBER}/${path.PERSONAL}`,
-		icon: <AiFillInfoCircle size={20} />,
+		icon: <IoIosInformationCircleOutline size={20} />,
 	},
 	{
 		id: 3,
 		type: "SINGLE",
 		text: "Giỏ hàng của tôi",
 		path: `/${path.MEMBER}/${path.MYCART}`,
-		icon: <BsBagCheckFill size={20} />,
+		icon: <IoCartOutline size={20} />,
 	},
 	{
 		id: 4,
@@ -344,6 +346,13 @@ export const memberSidebar = [
 		text: "Lịch sử mua hàng",
 		path: `/${path.MEMBER}/${path.BUY_HISTORY}`,
 		icon: <AiOutlineHistory size={20} />,
+	},
+	{
+		id: 5,
+		type: "SINGLE",
+		text: "Đổi mật khẩu",
+		path: `/${path.MEMBER}/${path.CHANGE_PASSWORD}`,
+		icon: <MdOutlinePassword size={20} />,
 	},
 ];
 export const colorArr = [

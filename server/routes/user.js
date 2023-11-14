@@ -14,6 +14,7 @@ router.post("/forgotpassword", ctrls.forgotPassword);
 router.get("/", [verifyAccessToken, isAdmin], ctrls.getUsers);
 
 router.put("/resetpassword", ctrls.resetPassword);
+router.put("/change-password/:uid", ctrls.changePassword);
 router.put("/current", verifyAccessToken, fileUploader.single("avatar"), ctrls.updateUser);
 router.put("/address", [verifyAccessToken], ctrls.updateUserAddress);
 router.put("/cart", [verifyAccessToken], ctrls.addToCart);
