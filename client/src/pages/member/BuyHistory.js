@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { apiGetBuyHistory, apiUpdateStatus } from "apis";
 import clsx from "clsx";
-import { Button, CustomSelect, InputForm, Pagination } from "components";
+import { Button, CustomSelect, InputForm, Loading, Pagination } from "components";
 import withBaseComponent from "hocs/withBaseComponent";
 import useDebounce from "hooks/useDebounce";
 import moment from "moment";
@@ -10,12 +10,13 @@ import { useForm } from "react-hook-form";
 import { AiFillFilter } from "react-icons/ai";
 import { createSearchParams, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { showModal } from "store/app/appSlice";
 import Swal from "sweetalert2";
 import { statusOrdersLabel } from "utils/contants";
 import { formatMoney, formatPrice } from "utils/helpers";
 import path from "utils/path";
 
-const BuyHistory = ({ navigate, location }) => {
+const BuyHistory = ({ navigate, location, dispatch }) => {
 	const {
 		register,
 		watch,
@@ -58,7 +59,11 @@ const BuyHistory = ({ navigate, location }) => {
 			icon: "warning",
 		}).then(async (result) => {
 			if (result.isConfirmed) {
+				dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 				const response = await apiUpdateStatus(oid, { status: "Đã hủy" });
+
+				dispatch(showModal({ isShowModal: false, modalChildren: null }));
+
 				if (response.success) {
 					render();
 					toast.success(response.mes);

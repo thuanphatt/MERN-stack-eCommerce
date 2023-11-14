@@ -2,8 +2,10 @@ import { PayPalScriptProvider, PayPalButtons, usePayPalScriptReducer } from "@pa
 import { apiCreateOrder } from "apis/order";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { showModal } from "store/app/appSlice";
 import Swal from "sweetalert2";
 import path from "utils/path";
+import Loading from "./Loading";
 
 // This value is from the props in the UI
 const style = { layout: "vertical" };
@@ -23,7 +25,10 @@ const ButtonWrapper = ({ currency, showSpinner, amount, payload, setIsSuccess })
 	}, [currency, showSpinner]);
 	const navigate = useNavigate();
 	const handleSaveOrder = async () => {
+		dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 		const response = await apiCreateOrder({ ...payload, status: "Đang xử lý", paymentMethod: "Paypal" });
+		dispatch(showModal({ isShowModal: false, modalChildren: null }));
+
 		if (response.success) {
 			setIsSuccess(true);
 			setTimeout(() => {

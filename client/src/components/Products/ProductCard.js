@@ -18,7 +18,7 @@ const ProductCard = ({ title, image, totalRatings, price, handleonClick }) => {
 					className="md:w-[120px] md:h-[120px] object-contain md:p-4 p-2 w-[100px] h-[100px]"
 				></img>
 				<div className="flex flex-col gap-2 mt-[15px] items-start w-full text-xs">
-					<span className="line-clamp-1 capitalize font-medium">{title.toLowerCase()}</span>
+					<span className="line-clamp-1 capitalize font-medium">{title?.toLowerCase()}</span>
 					{totalRatings > 0 && (
 						<span className="flex h-4">
 							{renderStarFromNumber(totalRatings, 14)?.map((el, index) => (

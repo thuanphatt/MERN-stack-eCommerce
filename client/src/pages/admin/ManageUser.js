@@ -10,7 +10,7 @@ import clsx from "clsx";
 import { CSVLink } from "react-csv";
 import { CiExport } from "react-icons/ci";
 
-import { InputForm, Select, Button, CustomSelect } from "components";
+import { InputForm, Select, Button, CustomSelect, Loading } from "components";
 import { apiDeleteUser, apiGetUsers, apiUpdateUser } from "apis/user";
 import { roles, blockStatus, roleLabel } from "utils/contants";
 import useDebounce from "hooks/useDebounce";
@@ -20,7 +20,8 @@ import Swal from "sweetalert2";
 import path from "utils/path";
 import withBaseComponent from "hocs/withBaseComponent";
 import { formatExportData } from "utils/helpers";
-const ManageUser = ({ navigate, location }) => {
+import { showModal } from "store/app/appSlice";
+const ManageUser = ({ navigate, location, dispatch }) => {
 	const { AiFillEdit, AiFillDelete, RiArrowGoBackFill } = icons;
 	const {
 		handleSubmit,
@@ -56,7 +57,10 @@ const ManageUser = ({ navigate, location }) => {
 		setUpdate(!update);
 	}, [update]);
 	const handleUpdate = async (data) => {
+		dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 		const response = await apiUpdateUser(data, editElement._id);
+		dispatch(showModal({ isShowModal: false, modalChildren: null }));
+
 		if (response.success) {
 			setEditElement(null);
 			render();
@@ -74,7 +78,9 @@ const ManageUser = ({ navigate, location }) => {
 			icon: "warning",
 		}).then(async (result) => {
 			if (result.isConfirmed) {
+				dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 				const response = await apiDeleteUser(uid);
+				dispatch(showModal({ isShowModal: false, modalChildren: null }));
 				if (response.success) {
 					render();
 					toast.success(response.mes);

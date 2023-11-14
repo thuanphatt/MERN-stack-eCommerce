@@ -1,4 +1,4 @@
-import { CustomSelect, InputForm } from "components";
+import { CustomSelect, InputForm, Loading } from "components";
 import React, { memo, useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import moment from "moment";
@@ -15,7 +15,9 @@ import Swal from "sweetalert2";
 import { BiCustomize } from "react-icons/bi";
 import path from "utils/path";
 import { cateLabel } from "utils/contants";
-const ManageProduct = () => {
+import withBaseComponent from "hocs/withBaseComponent";
+import { showModal } from "store/app/appSlice";
+const ManageProduct = ({ dispatch }) => {
 	const {
 		register,
 		watch,
@@ -58,7 +60,9 @@ const ManageProduct = () => {
 			icon: "warning",
 		}).then(async (result) => {
 			if (result.isConfirmed) {
+				dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 				const response = await apiDeleteProduct(pid);
+				dispatch(showModal({ isShowModal: false, modalChildren: null }));
 				if (response.success) {
 					render();
 					toast.success(response.mes);
@@ -230,4 +234,4 @@ const ManageProduct = () => {
 	);
 };
 
-export default memo(ManageProduct);
+export default withBaseComponent(memo(ManageProduct));

@@ -6,8 +6,11 @@ import { toast } from "react-toastify";
 import { apiDeleteBlog, apiGetBlogs } from "apis";
 import Swal from "sweetalert2";
 import UpdateBlog from "./UpdateBlog";
+import { showModal } from "store/app/appSlice";
+import { Loading } from "components";
+import withBaseComponent from "hocs/withBaseComponent";
 
-const ManageBlog = () => {
+const ManageBlog = ({ dispatch }) => {
 	const [blogs, setBlogs] = useState(null);
 	const [editBlog, setEditBlog] = useState(null);
 	const [update, setUpdate] = useState(false);
@@ -28,7 +31,11 @@ const ManageBlog = () => {
 			icon: "warning",
 		}).then(async (result) => {
 			if (result.isConfirmed) {
+				dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 				const response = await apiDeleteBlog(bid);
+
+				dispatch(showModal({ isShowModal: false, modalChildren: null }));
+
 				if (response.success) {
 					render();
 					toast.success(response.mes);
@@ -105,4 +112,4 @@ const ManageBlog = () => {
 	);
 };
 
-export default memo(ManageBlog);
+export default withBaseComponent(memo(ManageBlog));

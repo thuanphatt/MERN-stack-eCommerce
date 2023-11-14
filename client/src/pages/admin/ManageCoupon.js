@@ -5,10 +5,12 @@ import { toast } from "react-toastify";
 
 import { apiDeleteCoupon, apiGetCoupons } from "apis";
 import Swal from "sweetalert2";
-import { Pagination } from "components";
+import { Loading, Pagination } from "components";
 import UpdateCoupon from "./UpdateCoupon";
+import { showModal } from "store/app/appSlice";
+import withBaseComponent from "hocs/withBaseComponent";
 
-const ManageCoupon = () => {
+const ManageCoupon = ({ dispatch }) => {
 	const [coupons, setCoupons] = useState(null);
 	const [update, setUpdate] = useState(false);
 	const [editCoupon, setEditCoupon] = useState(null);
@@ -33,7 +35,9 @@ const ManageCoupon = () => {
 			icon: "warning",
 		}).then(async (result) => {
 			if (result.isConfirmed) {
+				dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 				const response = await apiDeleteCoupon(cid);
+				dispatch(showModal({ isShowModal: false, modalChildren: null }));
 				if (response.success) {
 					render();
 					toast.success(response.mes);
@@ -105,4 +109,4 @@ const ManageCoupon = () => {
 	);
 };
 
-export default memo(ManageCoupon);
+export default withBaseComponent(memo(ManageCoupon));

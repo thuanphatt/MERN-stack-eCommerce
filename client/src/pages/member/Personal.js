@@ -3,7 +3,7 @@ import React, { memo, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Button, InputForm } from "components";
+import { Button, InputForm, Loading } from "components";
 import avatarDefault from "assets/avatarDefault.jpg";
 import clsx from "clsx";
 import { apiUpdateCurrent } from "apis";
@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import { getBase64 } from "utils/helpers";
 import { useSearchParams } from "react-router-dom";
 import withBaseComponent from "hocs/withBaseComponent";
+import { showModal } from "store/app/appSlice";
 const Personal = ({ navigate }) => {
 	const {
 		register,
@@ -55,12 +56,11 @@ const Personal = ({ navigate }) => {
 	const handleSubmitInfo = async (data) => {
 		const formData = new FormData();
 		if (data?.avatar.length > 0) formData.append("avatar", data?.avatar[0]);
-
 		delete data.avatar;
-
 		for (let i of Object.entries(data)) formData.append(i[0], i[1]);
-
+		dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 		const response = await apiUpdateCurrent(formData);
+		dispatch(showModal({ isShowModal: false, modalChildren: null }));
 		if (response.success) {
 			dispatch(getCurrent());
 			setPreview({ avatar: "" });

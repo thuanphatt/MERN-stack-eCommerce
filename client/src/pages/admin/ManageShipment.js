@@ -7,8 +7,11 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { formatMoney, formatPrice } from "utils/helpers";
 import UpdateShipment from "./UpdateShipment";
+import { showModal } from "store/app/appSlice";
+import { Loading } from "components";
+import withBaseComponent from "hocs/withBaseComponent";
 
-const ManageShipment = () => {
+const ManageShipment = ({ dispatch }) => {
 	const [shipments, setShipments] = useState(null);
 	const [editShipment, setEditShipment] = useState(null);
 	const [update, setUpdate] = useState(false);
@@ -29,7 +32,10 @@ const ManageShipment = () => {
 			icon: "warning",
 		}).then(async (result) => {
 			if (result.isConfirmed) {
+				dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 				const response = await apiDeleteShipment(sid);
+				dispatch(showModal({ isShowModal: false, modalChildren: null }));
+
 				if (response.success) {
 					render();
 					toast.success(response.mes);
@@ -103,4 +109,4 @@ const ManageShipment = () => {
 	);
 };
 
-export default memo(ManageShipment);
+export default withBaseComponent(memo(ManageShipment));

@@ -41,7 +41,7 @@ const createNewOrder = asyncHandler(async (req, res) => {
 					<h2>${product.title}</h2>
 					<p>Số lượng: ${product.quantity}</p>
 					<p>Màu: ${product.color}</p>
-					<p>Giá: ${product.price}</p>
+					<p>Giá: ${product.price}VND</p>
 					<img src="${product.thumbnail}" alt="${product.title}" style="max-width: 200px; height: auto;" />
 				  </li>`
 			);
@@ -52,7 +52,7 @@ const createNewOrder = asyncHandler(async (req, res) => {
 				<p>Email: ${data.orderBy.email}</p>
 				<p>Địa chỉ: ${data.orderBy.address.join(", ")}</p>
 			  `;
-			const totalHTML = `<h2>Tổng tiền: ${data.total}</h2>`;
+			const totalHTML = `<h2>Tổng tiền: ${data.total}VND</h2>`;
 			const statusHTML = `<h2>Trạng thái: ${data.status}</h2>`;
 			const paymentMethodHTML = `<h2>Hình thức thanh toán: ${data.paymentMethod}</h2>`;
 

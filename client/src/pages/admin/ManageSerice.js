@@ -6,10 +6,12 @@ import { toast } from "react-toastify";
 import { apiDeleteService, apiGetServices } from "apis";
 import Swal from "sweetalert2";
 import { formatMoney, formatPrice } from "utils/helpers";
-import { Pagination } from "components";
+import { Loading, Pagination } from "components";
 import UpdateService from "./UpdateService";
+import { showModal } from "store/app/appSlice";
+import withBaseComponent from "hocs/withBaseComponent";
 
-const ManageSerice = () => {
+const ManageSerice = ({ dispatch }) => {
 	const [services, setServices] = useState(null);
 	const [update, setUpdate] = useState(false);
 	const [editService, setEditService] = useState(null);
@@ -34,7 +36,10 @@ const ManageSerice = () => {
 			icon: "warning",
 		}).then(async (result) => {
 			if (result.isConfirmed) {
+				dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 				const response = await apiDeleteService(sid);
+				dispatch(showModal({ isShowModal: false, modalChildren: null }));
+
 				if (response.success) {
 					render();
 					toast.success(response.mes);
@@ -124,4 +129,4 @@ const ManageSerice = () => {
 	);
 };
 
-export default memo(ManageSerice);
+export default withBaseComponent(memo(ManageSerice));

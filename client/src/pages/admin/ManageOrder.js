@@ -71,7 +71,9 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 			icon: "warning",
 		}).then(async (result) => {
 			if (result.isConfirmed) {
+				dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 				const response = await apiDeleteOrder(oid);
+				dispatch(showModal({ isShowModal: false, modalChildren: null }));
 				if (response.success) {
 					render();
 					toast.success(response.mes);
@@ -83,7 +85,10 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 		});
 	};
 	const handleDetailOrder = async (oid) => {
+		dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 		const response = await apiDetailOrder(oid);
+		dispatch(showModal({ isShowModal: false, modalChildren: null }));
+
 		if (response.success) {
 			setDetailOrder(response.mes);
 		}

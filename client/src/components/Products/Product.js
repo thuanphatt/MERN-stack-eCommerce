@@ -102,7 +102,7 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 				<div className="relative w-full flex items-center justify-center">
 					{isShowOptions && (
 						<div className={clsx("absolute bottom-[-10px]  w-full flex justify-center gap-4 animate-slide-top")}>
-							{current?.wishList.some((el) => el.product === productData?._id.toString()) ? (
+							{current?.wishList?.some((el) => el?.product === productData?._id.toString()) ? (
 								<span title="Đã thêm vào danh sách yêu thích">
 									<SelectOption icon={<AiFillHeart color="red" />} />
 								</span>
@@ -117,7 +117,7 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 								</span>
 							)}
 
-							{current?.cart.some((el) => el.product._id === productData?._id.toString()) ? (
+							{current?.cart?.some((el) => el?.product._id === productData?._id.toString()) ? (
 								<span title="Đã được thêm vào giỏ hàng">
 									<SelectOption icon={<BsFillCartCheckFill color="green" />} />
 								</span>
@@ -146,7 +146,7 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 							productData?.thumb ||
 							"https://stores.blackberrys.com/VendorpageTheme/Enterprise/EThemeForBlackberrys/images/product-not-found.jpg"
 						}
-						alt={productData.title}
+						alt={productData?.title}
 						className="w-[274px] h-[274px] object-contain"
 					></img>
 					{!normal && (
@@ -166,7 +166,7 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 						</span>
 						<span className="text-gray-500">{`Đã bán: ${productData?.sold}`}</span>
 					</div>
-					<span className="line-clamp-1 capitalize font-medium">{productData?.title.toLowerCase()}</span>
+					<span className="line-clamp-1 capitalize font-medium">{productData?.title?.toLowerCase()}</span>
 					<span>{`${formatMoney(productData?.price)} VND`}</span>
 				</div>
 			</div>
