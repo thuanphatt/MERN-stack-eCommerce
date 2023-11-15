@@ -42,6 +42,8 @@ import { MemberLayout, Personal, BuyHistory, Checkout, MyCart, ChangePassword } 
 import { showCart, showWishList } from "store/app/appSlice";
 import CreateCoupon from "pages/admin/CreateCoupon";
 import ManageCoupon from "pages/admin/ManageCoupon";
+import ManageBlogCategory from "pages/admin/ManageBlogCategory";
+import CreateBlogCategory from "pages/admin/CreateBlogCategory";
 function App() {
 	const dispatch = useDispatch();
 	const { isShowModal, modalChildren, isShowCart, isShowWishList } = useSelector((state) => state.app);
@@ -94,6 +96,7 @@ function App() {
 					<Route path={path.MANAGE_PRODUCT} element={<ManageProduct />}></Route>
 					<Route path={path.MANAGE_ORDER} element={<ManageOrder />}></Route>
 					<Route path={path.MANAGE_CATEGORY} element={<ManageCategory />}></Route>
+					<Route path={path.MANAGE_BLOGCATEGORY} element={<ManageBlogCategory />}></Route>
 					<Route path={path.MANAGE_BLOG} element={<ManageBlog />}></Route>
 					<Route path={path.MANAGE_SHIP} element={<ManageShipment />}></Route>
 					<Route path={path.MANAGE_SERVICE} element={<ManageSerice />}></Route>
@@ -103,6 +106,7 @@ function App() {
 					<Route path={path.CREATE_PRODUCT} element={<CreateProduct />}></Route>
 					<Route path={path.REVENUE_STATISTICS} element={<RevenueStatistics />}></Route>
 					<Route path={path.CREATE_CATEGORY} element={<CreateCategory />}></Route>
+					<Route path={path.CREATE_BLOGCATEGORY} element={<CreateBlogCategory />}></Route>
 					<Route path={path.CREATE_SHIP} element={<CreateShip />}></Route>
 					<Route path={path.CREATE_COUPON} element={<CreateCoupon />}></Route>
 				</Route>

@@ -5,8 +5,8 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
 import { getBase64 } from "utils/helpers";
-import { Button, InputForm, Loading } from "components";
-import { apiCreateBlog } from "apis";
+import { Button, InputForm, Loading, Select } from "components";
+import { apiCreateBlog, apiGetBlogCategories } from "apis";
 import { showModal } from "store/app/appSlice";
 
 const CreateCategory = () => {
@@ -22,7 +22,7 @@ const CreateCategory = () => {
 	const [preview, setPreview] = useState({
 		image: null,
 	});
-
+	const [blogCategories, setBlogCategories] = useState(null);
 	const handlePreviewThumb = async (file) => {
 		if (file?.type !== "image/png" && file?.type !== "image/jpeg" && file) {
 			toast.warning("File không được hỗ trợ");
@@ -37,7 +37,11 @@ const CreateCategory = () => {
 		if (watch("image") instanceof FileList && watch("image").length > 0) handlePreviewThumb(watch("image")[0]);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [watch("image")]);
-
+	const fetchBlogCategories = async () => {
+		const response = await apiGetBlogCategories();
+		if (response.success) setBlogCategories(response.blogCategories);
+	};
+	console.log(blogCategories);
 	const handleCreateBlog = async (data) => {
 		const finalPayload = { ...data };
 		const formData = new FormData();
@@ -52,6 +56,9 @@ const CreateCategory = () => {
 			setPreview((preview.image = ""));
 		} else toast.error(response.mes);
 	};
+	useEffect(() => {
+		fetchBlogCategories();
+	}, []);
 	return (
 		<div className={clsx("w-full")}>
 			<h1 className="h-[75px] flex items-center justify-between text-3xl font-bold px-4 border-b w-full tracking-tight">
@@ -86,16 +93,17 @@ const CreateCategory = () => {
 					</div>
 
 					<div className="w-full my-6">
-						<InputForm
+						<Select
 							label="Danh mục"
 							register={register}
 							errors={errors}
 							id="category"
-							validate={{
-								required: "Không được bỏ trống trường này",
-							}}
-							fullWidth
-							placeholder="Nhập tên danh mục của danh mục"
+							style={clsx("flex-1")}
+							validate={{ required: "Không được để trống trường này" }}
+							options={blogCategories?.map((el) => ({
+								code: el._id,
+								value: el.title,
+							}))}
 						/>
 					</div>
 

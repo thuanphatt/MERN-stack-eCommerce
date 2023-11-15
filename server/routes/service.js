@@ -3,7 +3,7 @@ const ctrls = require("../controllers/service");
 const fileUploader = require("../config/cloudinary.config");
 const { verifyAccessToken, isAdmin } = require("../middlewares/verifyToken");
 
-router.get("/", [verifyAccessToken], ctrls.getServices);
+router.get("/", ctrls.getServices);
 router.post(
 	"/",
 	[verifyAccessToken, isAdmin],
@@ -15,7 +15,7 @@ router.post(
 	]),
 	ctrls.createNewService
 );
-router.get("/:sid", [verifyAccessToken], ctrls.getService);
+router.get("/:sid", ctrls.getService);
 router.put("/:sid", [verifyAccessToken, isAdmin], ctrls.updatedSerice);
 router.delete("/:sid", [verifyAccessToken, isAdmin], ctrls.deletedSerice);
 

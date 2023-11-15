@@ -5,4 +5,5 @@ export * from "./order";
 export * from "./shipment";
 export * from "./coupon";
 export * from "./blog";
+export * from "./blogcategories";
 export * from "./service";

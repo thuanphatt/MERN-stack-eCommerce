@@ -3,11 +3,12 @@ import { useForm } from "react-hook-form";
 import { IoReturnDownBack } from "react-icons/io5";
 import { toast } from "react-toastify";
 
-import { apiUpdateBlog } from "apis";
-import { Button, InputForm, Loading } from "components";
+import { apiGetBlogCategories, apiUpdateBlog } from "apis";
+import { Button, InputForm, Loading, Select } from "components";
 import withBaseComponent from "hocs/withBaseComponent";
 import { showModal } from "store/app/appSlice";
 import { getBase64 } from "utils/helpers";
+import clsx from "clsx";
 
 const UpdateBlog = ({ editBlog, setEditBlog, render, dispatch }) => {
 	const {
@@ -21,7 +22,7 @@ const UpdateBlog = ({ editBlog, setEditBlog, render, dispatch }) => {
 	const [preview, setPreview] = useState({
 		image: "",
 	});
-
+	const [blogCategories, setBlogCategories] = useState(null);
 	useEffect(() => {
 		reset({
 			title: editBlog?.title || "",
@@ -36,6 +37,10 @@ const UpdateBlog = ({ editBlog, setEditBlog, render, dispatch }) => {
 	const handlePreviewThumb = async (file) => {
 		const base64Thumb = await getBase64(file);
 		setPreview((prev) => ({ ...prev, image: base64Thumb }));
+	};
+	const fetchBlogCategories = async () => {
+		const response = await apiGetBlogCategories();
+		if (response.success) setBlogCategories(response.blogCategories);
 	};
 	const handleUpdateBlog = async (data) => {
 		const finalPayload = { ...data };
@@ -56,6 +61,9 @@ const UpdateBlog = ({ editBlog, setEditBlog, render, dispatch }) => {
 		if (watch("image") instanceof FileList && watch("image").length > 0) handlePreviewThumb(watch("image")[0]);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [watch("image")]);
+	useEffect(() => {
+		fetchBlogCategories();
+	}, []);
 	return (
 		<div className="w-full flex flex-col gap-4 relative bg-gray-100 h-full">
 			<div className="flex items-center justify-betweend p-4 border-b w-full">
@@ -98,16 +106,17 @@ const UpdateBlog = ({ editBlog, setEditBlog, render, dispatch }) => {
 						/>
 					</div>
 					<div className="w-full my-6">
-						<InputForm
+						<Select
 							label="Danh mục"
 							register={register}
 							errors={errors}
 							id="category"
-							validate={{
-								required: "Không được bỏ trống trường này",
-							}}
-							fullWidth
-							placeholder="Nhập tên danh mục của danh mục"
+							style={clsx("flex-1")}
+							validate={{ required: "Không được để trống trường này" }}
+							options={blogCategories?.map((el) => ({
+								code: el.title,
+								value: el.title,
+							}))}
 						/>
 					</div>
 

@@ -248,9 +248,28 @@ export const adminSidebar = [
 			},
 		],
 	},
-
 	{
 		id: 6,
+		type: "PARENT",
+		text: "Quản lý danh mục tin tức",
+
+		icon: <BiSolidCategoryAlt size={20} />,
+		submenu: [
+			{
+				text: "Tạo danh mục tin tức",
+				path: `/${path.ADMIN}/${path.CREATE_BLOGCATEGORY}`,
+				icon: <IoIosCreate size={20} />,
+			},
+			{
+				text: "Quản lý danh mục tin tức",
+				path: `/${path.ADMIN}/${path.MANAGE_BLOGCATEGORY}`,
+				icon: <BiSolidCategoryAlt size={20} />,
+			},
+		],
+	},
+
+	{
+		id: 7,
 		type: "PARENT",
 		text: "Quản lý phí vận chuyển",
 
@@ -266,14 +285,14 @@ export const adminSidebar = [
 	},
 
 	{
-		id: 7,
+		id: 8,
 		type: "SINGLE",
 		text: "Thống kê doanh thu",
 		path: `/${path.ADMIN}/${path.REVENUE_STATISTICS}`,
 		icon: <SiSimpleanalytics size={20} />,
 	},
 	{
-		id: 8,
+		id: 9,
 		type: "PARENT",
 		text: "Quản lý tin tức",
 
@@ -288,7 +307,7 @@ export const adminSidebar = [
 		],
 	},
 	{
-		id: 9,
+		id: 10,
 		type: "PARENT",
 		text: "Quản lý dịch vụ",
 
@@ -303,7 +322,7 @@ export const adminSidebar = [
 		],
 	},
 	{
-		id: 10,
+		id: 11,
 		type: "PARENT",
 		text: "Quản lý mã giảm giá",
 

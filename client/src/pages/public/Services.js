@@ -13,6 +13,7 @@ const Services = ({ navigate }) => {
 	useEffect(() => {
 		fetchServices();
 	}, []);
+	console.log(services);
 	return (
 		<div className="w-full" ref={titleRef}>
 			<div className="w-full">
