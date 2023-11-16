@@ -25,6 +25,7 @@ import {
 	AiFillInfoCircle,
 	AiFillDelete,
 	AiFillEdit,
+	AiOutlineEye,
 	AiOutlineHeart,
 } from "react-icons/ai";
 const icons = {
@@ -68,5 +69,6 @@ const icons = {
 	IoCartOutline,
 	IoIosInformationCircleOutline,
 	MdOutlinePassword,
+	AiOutlineEye,
 };
 export default icons;

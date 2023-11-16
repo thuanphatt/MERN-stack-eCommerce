@@ -38,7 +38,7 @@ import {
 	ManageUser,
 	RevenueStatistics,
 } from "pages/admin";
-import { MemberLayout, Personal, BuyHistory, Checkout, MyCart, ChangePassword } from "pages/member";
+import { MemberLayout, Personal, BuyHistory, Checkout, MyCart, ChangePassword, ViewedProducts } from "pages/member";
 import { showCart, showWishList } from "store/app/appSlice";
 import CreateCoupon from "pages/admin/CreateCoupon";
 import ManageCoupon from "pages/admin/ManageCoupon";
@@ -120,6 +120,7 @@ function App() {
 					<Route path={path.BUY_HISTORY} element={<BuyHistory />}></Route>
 					<Route path={path.WISHLIST} element={<WishList />}></Route>
 					<Route path={path.CHANGE_PASSWORD} element={<ChangePassword />}></Route>
+					<Route path={path.VIEWED_PRODUCTS} element={<ViewedProducts />}></Route>
 				</Route>
 				<Route path={path.REGISTER_FINAL} element={<FinalRegister />}></Route>
 				<Route path={path.LOGIN} element={<Login />}></Route>

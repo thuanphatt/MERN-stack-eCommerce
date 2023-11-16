@@ -19,8 +19,10 @@ router.put("/current", verifyAccessToken, fileUploader.single("avatar"), ctrls.u
 router.put("/address", [verifyAccessToken], ctrls.updateUserAddress);
 router.put("/cart", [verifyAccessToken], ctrls.addToCart);
 router.put("/wishlist", [verifyAccessToken], ctrls.addToWishList);
+router.put("/viewed-products", [verifyAccessToken], ctrls.addToViewedProducts);
 router.delete("/removecart/:pid/:color", [verifyAccessToken], ctrls.removeProductInCart);
 router.delete("/removewishlist/:pid/:color", [verifyAccessToken], ctrls.removeProductInWishList);
+router.delete("/removeviewed-products/:pid/:color", [verifyAccessToken], ctrls.removeProductInViewedProducts);
 router.put("/:uid", [verifyAccessToken, isAdmin], ctrls.updateUserByAdmin);
 
 router.delete("/:uid", [verifyAccessToken, isAdmin], ctrls.deleteUser);

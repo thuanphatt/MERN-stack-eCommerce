@@ -22,6 +22,7 @@ const {
 	BiLogoBlogger,
 	RiCustomerService2Fill,
 	MdOutlinePassword,
+	AiOutlineEye,
 } = icons;
 export const navigation = [
 	{
@@ -374,12 +375,19 @@ export const memberSidebar = [
 	{
 		id: 4,
 		type: "SINGLE",
+		text: "Sản phẩm đã xem",
+		path: `/${path.MEMBER}/${path.VIEWED_PRODUCTS}`,
+		icon: <AiOutlineEye size={20} />,
+	},
+	{
+		id: 5,
+		type: "SINGLE",
 		text: "Lịch sử mua hàng",
 		path: `/${path.MEMBER}/${path.BUY_HISTORY}`,
 		icon: <AiOutlineHistory size={20} />,
 	},
 	{
-		id: 5,
+		id: 6,
 		type: "SINGLE",
 		text: "Đổi mật khẩu",
 		path: `/${path.MEMBER}/${path.CHANGE_PASSWORD}`,

@@ -74,6 +74,12 @@ export const apiAddToWishList = (data) =>
 		method: "put",
 		data,
 	});
+export const apiAddToViewedProducts = (data) =>
+	axios({
+		url: "/user/viewed-products",
+		method: "put",
+		data,
+	});
 export const apiRemoveProductInCart = (pid, color) =>
 	axios({
 		url: `/user/removecart/${pid}/${color}`,
@@ -82,5 +88,10 @@ export const apiRemoveProductInCart = (pid, color) =>
 export const apiRemoveProductInWishList = (pid, color) =>
 	axios({
 		url: `/user/removewishlist/${pid}/${color}`,
+		method: "delete",
+	});
+export const apiRemoveProductInViewedProducts = (pid, color) =>
+	axios({
+		url: `/user/removeviewed-products/${pid}/${color}`,
 		method: "delete",
 	});

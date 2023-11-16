@@ -55,6 +55,18 @@ var userSchema = new mongoose.Schema(
 				title: String,
 			},
 		],
+		viewedProducts: [
+			{
+				product: { type: mongoose.Types.ObjectId, ref: "Product" },
+				quantity: Number,
+				color: String,
+				price: Number,
+				thumbnail: String,
+				title: String,
+				sold: Number,
+				totalRatings: Number,
+			},
+		],
 		isBlocked: {
 			type: Boolean,
 			default: false,

@@ -97,6 +97,12 @@ const TopHeader = ({ dispatch }) => {
 								<Link to={`/${path.MEMBER}/${path.BUY_HISTORY}`} className="p-2 hover:bg-gray-200 border border-b-0">
 									Đơn hàng
 								</Link>
+								<Link
+									to={`/${path.MEMBER}/${path.VIEWED_PRODUCTS}`}
+									className="p-2 hover:bg-gray-200 border border-b-0"
+								>
+									Sản phẩm đã xem
+								</Link>
 								{+current?.role === 2001 && (
 									<Link to={`/${path.ADMIN}/${path.DASHBOARD}`} className="p-2 hover:bg-gray-200 border border-b-0">
 										Quản trị viên

@@ -4,15 +4,17 @@ import { useParams, useSearchParams, useNavigate, createSearchParams } from "rea
 import Masonry from "react-masonry-css";
 
 import { apiGetProducts } from "apis";
-import { Breakcrumb, Product, SearchItem, InputSelect, Pagination } from "components";
+import { Breakcrumb, Product, SearchItem, InputSelect, Pagination, Loading } from "components";
 import { sorts } from "utils/contants";
+import withBaseComponent from "hocs/withBaseComponent";
+import { showModal } from "store/app/appSlice";
 const breakpointColumnsObj = {
 	default: 4,
 	1100: 3,
 	700: 2,
 	500: 1,
 };
-const Products = () => {
+const Products = ({ dispatch }) => {
 	const navigate = useNavigate();
 	const [productCategories, setProductCategories] = useState(null);
 	const [activeClick, setActiveClick] = useState(null);
@@ -20,7 +22,10 @@ const Products = () => {
 	const [sort, setSort] = useState("");
 	const { category } = useParams();
 	const fetchProductsByCateroty = async (queries) => {
+		dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 		const response = await apiGetProducts(queries);
+		dispatch(showModal({ isShowModal: false, modalChildren: null }));
+
 		if (response.success) setProductCategories(response);
 	};
 	useEffect(() => {
@@ -121,4 +126,4 @@ const Products = () => {
 	);
 };
 
-export default memo(Products);
+export default withBaseComponent(memo(Products));

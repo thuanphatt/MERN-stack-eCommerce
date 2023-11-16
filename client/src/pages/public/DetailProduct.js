@@ -33,7 +33,8 @@ var settings = {
 	slidesToScroll: 1,
 };
 const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
-	const { current } = useSelector((state) => state.user);
+	const { current, currentViewedProducts } = useSelector((state) => state.user);
+
 	const params = useParams();
 	const titleRef = useRef();
 	const [product, setProduct] = useState(null);
@@ -375,6 +376,14 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 						</h2>
 						<div className="mb-6 md:mx-[-10px]">
 							<CustomerSlider products={relatedProducts} normal={true} />
+						</div>
+					</div>
+					<div className="md:w-main mx-auto mb-6 w-full md:px-0 px-4">
+						<h2 className="py-[15px] text-xl font-[#151515] uppercase font-semibold border-b-2 border-main mb-6">
+							NHỮNG SẢN PHẨM BẠN ĐÃ XEM
+						</h2>
+						<div className="mb-6 md:mx-[-10px]">
+							<CustomerSlider products={currentViewedProducts} normal={true} />
 						</div>
 					</div>
 				</>

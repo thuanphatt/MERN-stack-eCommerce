@@ -224,16 +224,13 @@ const MyCart = ({ dispatch, navigate, location }) => {
 		}
 	}, [isUsed, isDiscount]);
 	return (
-		<div className="flex flex-col justify-start w-full">
-			<div className="h-[81px] bg-gray-100 flex justify-center items-center">
-				<div className="w-main">
-					<header className="text-3xl font-semibold py-4 border-b border-main">Giỏ hàng của tôi</header>
-				</div>
-			</div>
+		<div className="flex flex-col justify-start w-full px-4">
+			<header className="text-3xl font-semibold py-4 border-b border-main">Giỏ hàng của tôi</header>
+
 			{isSuccess && <Congratulation />}
 			{currentCart.length > 0 ? (
 				<div className="flex flex-col border mt-8 w-main mx-auto py-8">
-					<div className="grid grid-cols-10 w-main mx-auto font-bold bg-gray-200 py-2">
+					<div className="grid grid-cols-10 w-main mx-auto font-bold bg-[#86A789] py-2 text-white">
 						<span className="w-full col-span-6 pl-4">Sản phẩm</span>
 						<span className="w-full text-center col-span-1">Số lượng</span>
 						<span className="w-full text-center col-span-3">Giá</span>

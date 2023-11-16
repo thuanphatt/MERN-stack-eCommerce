@@ -22,7 +22,7 @@ const Trainning = ({ navigate }) => {
 					className="w-full object-contain"
 				/>
 			</div>
-			<div className="grid grid-cols-10 w-full p-4">
+			<div className="grid grid-cols-10 p-4 md:w-main w-full mx-auto gap-4">
 				<div className="col-span-8 w-full">
 					<h2 className="font-bold text-2xl">Đào tạo và chuyển giao</h2>
 					<span className="italic text-gray-500">30/10/2023</span>
@@ -75,12 +75,12 @@ const Trainning = ({ navigate }) => {
 						<img
 							src="https://globalcheck.com.vn/apt-upload/image/data/b1.png"
 							alt=""
-							className="w-[550px] object-contain"
+							className="w-1/2 flex-1 object-contain"
 						/>
 						<img
 							src="https://globalcheck.com.vn/apt-upload/image/data/b2.png"
 							alt=""
-							className="w-[550px] object-contain"
+							className="w-1/2 flex-1 object-contain"
 						/>
 					</div>
 					<h2 className="font-bold text-2xl text-center mt-4">ĐỐI TƯỢNG ĐÀO TẠO</h2>

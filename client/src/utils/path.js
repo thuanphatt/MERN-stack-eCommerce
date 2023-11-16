@@ -45,5 +45,6 @@ const path = {
 	BUY_HISTORY: "buy-history",
 	MYCART: "my-cart",
 	WISHLIST: "wishlist",
+	VIEWED_PRODUCTS: "viewed-products",
 };
 export default path;

@@ -8,7 +8,7 @@ import icons from "utils/icons";
 import withBaseComponent from "hocs/withBaseComponent";
 import { showModal } from "store/app/appSlice";
 import { DetailProduct } from "pages/public";
-import { apiAddToCart, apiAddToWishList } from "apis";
+import { apiAddToCart, apiAddToViewedProducts, apiAddToWishList } from "apis";
 import { toast } from "react-toastify";
 import { getCurrent } from "store/user/asyncActions";
 import { useSelector } from "react-redux";
@@ -83,11 +83,32 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 			}
 		}
 	};
+	const handleClickProduct = async (e) => {
+		e.stopPropagation();
+		const response = await apiAddToViewedProducts({
+			pid: productData?._id,
+			color: productData?.color,
+			quantity: 1,
+			price: productData?.price,
+			thumbnail: productData?.thumb,
+			title: productData?.title,
+			sold: productData?.sold,
+			totalRatings: productData?.totalRatings,
+		});
+		if (response.success) {
+			dispatch(getCurrent());
+		} else {
+			if (current) {
+				return;
+			}
+		}
+	};
 	return (
 		<div className="w-full text-base md:px-1">
 			<div
-				onClick={() => {
+				onClick={(e) => {
 					navigate(`/${productData?.category[0]}/${productData?._id}/${productData?.title}`);
+					handleClickProduct(e);
 				}}
 				className="w-full border p-[15px] flex flex-col items-center cursor-pointer"
 				onMouseEnter={(e) => {
@@ -144,6 +165,7 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 					<img
 						src={
 							productData?.thumb ||
+							productData?.thumbnail ||
 							"https://stores.blackberrys.com/VendorpageTheme/Enterprise/EThemeForBlackberrys/images/product-not-found.jpg"
 						}
 						alt={productData?.title}
