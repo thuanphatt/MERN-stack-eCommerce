@@ -5,6 +5,7 @@ const blogCategoryRouter = require("./blogCategory");
 const blog = require("./blog");
 const brand = require("./brand");
 const coupon = require("./coupon");
+const banner = require("./banner");
 const order = require("./order");
 const shipment = require("./shipment");
 const insertData = require("./insertData");
@@ -19,6 +20,7 @@ const initRoutes = (app) => {
 	app.use("/api/brand", brand);
 	app.use("/api/blog", blog);
 	app.use("/api/coupon", coupon);
+	app.use("/api/banner", banner);
 	app.use("/api/order", order);
 	app.use("/api/insert", insertData);
 	app.use("/api/shipment", shipment);

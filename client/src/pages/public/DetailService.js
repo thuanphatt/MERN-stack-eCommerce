@@ -72,7 +72,7 @@ const DetailService = ({ navigate }) => {
 						Hãy cung cấp thông tin đầu vào để tính toán số lượng thiết bị cần thiết
 					</h2>
 					<form onSubmit={handleSubmit} className="py-2 flex items-center gap-4">
-						<div className="flex-1 w-full">
+						<div className="w-full">
 							<InputForm
 								type="number"
 								label="Nhập ha đất"
@@ -85,7 +85,7 @@ const DetailService = ({ navigate }) => {
 								placeholder="VD: 10 || 20 (ha)"
 							/>
 						</div>
-						<div className="flex-1 w-full">
+						{/* <div className="flex-1 w-full">
 							<InputForm
 								type="number"
 								label="Nhập chi phí"
@@ -97,7 +97,7 @@ const DetailService = ({ navigate }) => {
 								}}
 								placeholder="VD: 200000 || 250000 (VND)"
 							/>
-						</div>
+						</div> */}
 					</form>
 					{quantityProduct ? (
 						<>

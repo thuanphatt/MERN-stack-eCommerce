@@ -1,8 +1,9 @@
-import React, { memo } from "react";
+import { apiGetBanners } from "apis";
+import React, { memo, useEffect, useState } from "react";
 import Slider from "react-slick";
-import { srcImg } from "utils/contants";
 
 const Banner = () => {
+	const [banners, setBanners] = useState(null);
 	const settings = {
 		dots: true,
 		infinite: true,
@@ -12,12 +13,19 @@ const Banner = () => {
 		autoplay: true,
 		arrows: false,
 	};
+	const fetchBanners = async () => {
+		const response = await apiGetBanners();
+		if (response.success) setBanners(response.banners);
+	};
+	useEffect(() => {
+		fetchBanners();
+	}, []);
 	return (
 		<div className="w-full">
 			<Slider {...settings}>
-				{srcImg.map((el) => (
-					<div key={el.id}>
-						<img src={el.src} alt="img" className="object-cover md:min-h-[390px] w-full min-h-[200px] px-4 md:px-0" />
+				{banners?.map((el, index) => (
+					<div key={index}>
+						<img src={el.image} alt="img" className="object-cover md:min-h-[390px] w-full min-h-[200px] px-4 md:px-0" />
 					</div>
 				))}
 			</Slider>

@@ -99,7 +99,7 @@ const TopHeader = ({ dispatch }) => {
 								</Link>
 								{+current?.role === 2001 && (
 									<Link to={`/${path.ADMIN}/${path.DASHBOARD}`} className="p-2 hover:bg-gray-200 border border-b-0">
-										Admin
+										Quản trị viên
 									</Link>
 								)}
 

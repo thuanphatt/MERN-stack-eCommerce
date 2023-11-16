@@ -10,8 +10,8 @@ const BlogItem = ({ title, description, image, views, time, handleOnClick }) => 
 			}}
 		>
 			<div className="mt-1 p-2">
-				<img src={image} alt={title} className="object-contain w-full md:h-[150px] rounded-lg" />
-				<h2 className="text-sm font-semibold m-0 p-0">{title}</h2>
+				<img src={image} alt={title} className="object-cover w-full md:h-[150px]" />
+				<h2 className="text-sm font-semibold m-0 p-0 my-2">{title}</h2>
 				<p className="text-gray-600 mt-1 max-h-[100px] truncate whitespace-normal text-sm">{description}</p>
 				<div className="flex items-center text-sm text-gray-500 mt-4 w-full justify-between">
 					<div className="text-xs text-gray-400 mt-1">Đăng ngày: {moment(time).format("DD/MM/YYYY")}</div>

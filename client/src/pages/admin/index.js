@@ -8,14 +8,17 @@ export { default as ManageUser } from "./ManageUser";
 export { default as ManageShipment } from "./ManageShipment";
 export { default as ManageBlog } from "./ManageBlog";
 export { default as ManageSerice } from "./ManageSerice";
+export { default as ManageBanner } from "./ManageBanner";
 
 export { default as UpdateProduct } from "./UpdateProduct";
 export { default as UpdateCate } from "./UpdateCate";
+export { default as UpdateBanner } from "./UpdateBanner";
 
 export { default as CreateProduct } from "./CreateProduct";
 export { default as CreateCategory } from "./CreateCategory";
 export { default as CreateShip } from "./CreateShip";
 export { default as CreateBlog } from "./CreateBlog";
 export { default as CreateService } from "./CreateService";
+export { default as CreateBanner } from "./CreateBanner";
 
 export { default as RevenueStatistics } from "./RevenueStatistics";

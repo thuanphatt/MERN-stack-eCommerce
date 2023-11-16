@@ -7,3 +7,4 @@ export * from "./coupon";
 export * from "./blog";
 export * from "./blogcategories";
 export * from "./service";
+export * from "./banner";

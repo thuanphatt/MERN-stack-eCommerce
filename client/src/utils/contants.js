@@ -1,8 +1,5 @@
 import path from "./path";
 import icons from "./icons";
-import banner1 from "assets/banner1.png";
-import banner2 from "assets/banner2.png";
-import banner3 from "assets/banner3.png";
 const {
 	FaShieldAlt,
 	BiSolidCoupon,
@@ -336,6 +333,21 @@ export const adminSidebar = [
 			},
 		],
 	},
+	{
+		id: 12,
+		type: "PARENT",
+		text: "Quản lý banner",
+
+		icon: <BiSolidCategoryAlt size={20} />,
+		submenu: [
+			{ text: "Tạo banner", path: `/${path.ADMIN}/${path.CREATE_BANNER}`, icon: <IoIosCreate size={20} /> },
+			{
+				text: "Quản lý banner",
+				path: `/${path.ADMIN}/${path.MANAGE_BANNER}`,
+				icon: <BiSolidCategoryAlt size={20} />,
+			},
+		],
+	},
 ];
 export const memberSidebar = [
 	{
@@ -438,20 +450,7 @@ export const typePayment = [
 		value: "Thanh toán qua VNPay",
 	},
 ];
-export const srcImg = [
-	{
-		id: 2,
-		src: banner2,
-	},
-	{
-		id: 1,
-		src: banner1,
-	},
-	{
-		id: 3,
-		src: banner3,
-	},
-];
+
 export const feedbackUser = [
 	{
 		id: 1,

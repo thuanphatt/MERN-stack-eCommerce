@@ -10,16 +10,16 @@ const activedStyle = "px-4 py-2 flex items-center gap-2 bg-[#B0D9B1] font-medium
 const notActivedStyle = "px-4 py-2 flex items-center gap-2 font-medium w-full hover:bg-gray-200";
 const AdminSidebar = () => {
 	const [actived, setActived] = useState([]);
+
 	const handleShowTab = (tabId) => {
 		if (actived.some((el) => el === tabId)) setActived((prev) => prev.filter((el) => el !== tabId));
 		else setActived((prev) => [...prev, tabId]);
 	};
-
 	return (
-		<div className="bg-white h-full py-4">
+		<div className="bg-white h-full py-4 overflow-y-auto">
 			<Link className="flex flex-col justify-center gap-2 items-center p-4" to={`/${path.HOME}`}>
 				<img src={logo} alt="logo" className="w-[100px] object-contain " />
-				<small>Admin</small>
+				<small className="font-semibold">Quản trị viên</small>
 			</Link>
 			<div>
 				{adminSidebar.map((el) => (

@@ -41,7 +41,17 @@ const Blogs = ({ navigate }) => {
 					<Breakcrumb category="Tin tức" />
 				</div>
 			</div>
-			<div className="flex justify-between w-main mx-auto mt-4 gap-4 items-center">
+
+			<div className="md:w-main mx-auto flex items-center gap-2 my-6">
+				{blogsData
+					?.map((blog) => blog.category)
+					.map((category, index) => (
+						<span key={index} className="border-r pr-4 font-semibold">
+							{category}
+						</span>
+					))}
+			</div>
+			<div className="flex justify-between w-main mx-auto  gap-4">
 				<div className="grid md:grid-cols-3 grid-cols-1 w-main flex-3 gap-4">
 					{blogsData?.map((blog, index) => (
 						<BlogItem
