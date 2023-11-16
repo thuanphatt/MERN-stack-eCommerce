@@ -13,7 +13,7 @@ const Footer = () => {
 				<div className="w-main flex justify-between items-center">
 					<div className="flex flex-col flex-1">
 						<span className="text-[20px] text-gray-200">ĐĂNG KÝ BẢN TIN</span>
-						<small className="text-[13px] text-gray-900">Đăng ký ngay và nhận bản tin hàng tuần</small>
+						<small className="text-[13px] text-gray-900 md:block hidden">Đăng ký ngay và nhận bản tin hàng tuần</small>
 					</div>
 					<div className="flex-1 flex items-center">
 						<input

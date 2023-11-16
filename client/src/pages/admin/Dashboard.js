@@ -1,7 +1,10 @@
 import { apiGetOrders, apiGetProducts, apiGetUsers } from "apis";
 import { DoughnutChart, VerticalBarChart, HorizontalChart } from "components";
 import React, { memo, useEffect, useState } from "react";
-import { FaUser, FaUserCheck, FaUserTie, FaUserTimes } from "react-icons/fa";
+import { FaRegUser } from "react-icons/fa";
+import { LiaUserSlashSolid } from "react-icons/lia";
+import { FiUserCheck } from "react-icons/fi";
+import { RiAdminLine } from "react-icons/ri";
 import { getTopOrderUser } from "utils/helpers";
 
 const Dashboard = () => {
@@ -90,28 +93,28 @@ const Dashboard = () => {
 				<div className="flex-1 stat-box border rounded-md shadow-md p-4 text-center bg-gray-100">
 					<span className="font-bold text-lg">{users?.length}</span>
 					<div className="flex items-center gap-2 justify-center">
-						<FaUser size={18} />
+						<FaRegUser size={16} />
 						<h2 className="text-lg font-medium">Người dùng</h2>
 					</div>
 				</div>
 				<div className="flex-1 stat-box border rounded-md shadow-md p-4 text-center bg-blue-400 text-white">
 					<span className="font-bold text-lg">{users?.filter((el) => el.role === "2001").length}</span>
 					<div className="flex items-center gap-2 justify-center">
-						<FaUserTie size={18} />
+						<RiAdminLine size={18} />
 						<h2 className="text-lg font-medium">Admin</h2>
 					</div>
 				</div>
 				<div className="flex-1 stat-box border rounded-md shadow-md p-4 text-center bg-green-400 text-white">
 					<span className="font-bold text-lg">{users?.filter((el) => el.isBlocked === false).length}</span>
 					<div className="flex items-center gap-2 justify-center">
-						<FaUserCheck size={18} />
+						<FiUserCheck size={18} />
 						<h2 className="text-lg font-medium">Hoạt động</h2>
 					</div>
 				</div>
 				<div className="flex-1 stat-box border rounded-md shadow-md p-4 text-center bg-red-400 text-white">
 					<span className="font-bold text-lg">{users?.filter((el) => el.isBlocked === true).length}</span>
 					<div className="flex items-center gap-2 justify-center">
-						<FaUserTimes size={18} />
+						<LiaUserSlashSolid size={18} />
 						<h2 className="text-lg font-medium">Bị khóa</h2>
 					</div>
 				</div>

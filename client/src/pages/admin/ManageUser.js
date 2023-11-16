@@ -46,7 +46,10 @@ const ManageUser = ({ navigate, location, dispatch }) => {
 	const [params] = useSearchParams();
 
 	const fetchUsers = async (params) => {
+		dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 		const response = await apiGetUsers({ ...params, limit: process.env.REACT_APP_LIMIT });
+		dispatch(showModal({ isShowModal: false, modalChildren: null }));
+
 		if (response.success) {
 			setUsersData(response);
 			setCounts(response.counts);

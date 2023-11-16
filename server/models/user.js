@@ -65,6 +65,7 @@ var userSchema = new mongoose.Schema(
 				title: String,
 				sold: Number,
 				totalRatings: Number,
+				category: Array,
 			},
 		],
 		isBlocked: {

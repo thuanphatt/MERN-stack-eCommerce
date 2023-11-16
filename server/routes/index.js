@@ -10,6 +10,7 @@ const order = require("./order");
 const shipment = require("./shipment");
 const insertData = require("./insertData");
 const payment = require("./vnpay");
+const sale = require("./sale");
 const service = require("./service");
 const { notFound, errorHandler } = require("../middlewares/errorHandler");
 const initRoutes = (app) => {
@@ -24,6 +25,7 @@ const initRoutes = (app) => {
 	app.use("/api/order", order);
 	app.use("/api/insert", insertData);
 	app.use("/api/shipment", shipment);
+	app.use("/api/sale", sale);
 	app.use("/api/payment", payment);
 	app.use("/api/service", service);
 

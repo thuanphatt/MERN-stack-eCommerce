@@ -10,7 +10,6 @@ import { apiDeleteOrder, apiDetailOrder, apiGetOrders, apiUpdateStatus } from "a
 import { CustomSelect, InputForm, Loading, Pagination } from "components";
 import { formatExportData, formatMoney, formatPrice } from "utils/helpers";
 import { useForm } from "react-hook-form";
-// import { useDebounce } from "react-use";
 import withBaseComponent from "hocs/withBaseComponent";
 import DetailOrder from "./DetailOrder";
 import useDebounce from "hooks/useDebounce";
@@ -39,11 +38,13 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 	const [counts, setCounts] = useState(0);
 	const [editedStatus, setEditedStatus] = useState("Đang xử lý");
 	const fetchOrders = async (params) => {
+		dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 		const response = await apiGetOrders({
 			...params,
 			limit: +process.env.REACT_APP_LIMIT,
 			sort: isFilterDate ? "-createdAt" : "createdAt",
 		});
+		dispatch(showModal({ isShowModal: false, modalChildren: null }));
 
 		if (response.success) {
 			setOrders(response.orders);
@@ -51,7 +52,9 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 		}
 	};
 	const fetchOrdersNoLimit = async () => {
+		dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 		const response = await apiGetOrders();
+		dispatch(showModal({ isShowModal: false, modalChildren: null }));
 
 		if (response.success) {
 			setOrderNoLimit(response.orders);
@@ -96,7 +99,6 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 
 	const handleUpdateStatus = async (oid, newStatus) => {
 		dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
-
 		const response = await apiUpdateStatus(oid, { status: newStatus });
 		dispatch(showModal({ isShowModal: false, modalChildren: null }));
 
@@ -220,7 +222,7 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 							{editOrder?._id === el._id ? (
 								<td className="py-4 px-2 ">
 									<select
-										className="text-[12px] text-gray-500 p-2 outline"
+										className="text-[12px] text-gray-500 p-2"
 										value={el.status || editedStatus}
 										onChange={(e) => {
 											const newStatus = e.target.value;
@@ -228,10 +230,18 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 											handleUpdateStatus(el._id, newStatus); // Truyền giá trị mới vào handleUpdateStatus
 										}}
 									>
-										<option value="Đã hủy">Đã hủy</option>
-										<option value="Đang xử lý">Đang xử lý</option>
-										<option value="Đang giao">Đang giao</option>
-										<option value="Thành công">Thành công</option>
+										<option value="Đã hủy" className="text-sm w-full">
+											Đã hủy
+										</option>
+										<option value="Đang xử lý" className="text-sm w-full">
+											Đang xử lý
+										</option>
+										<option value="Đang giao" className="text-sm w-full">
+											Đang giao
+										</option>
+										<option value="Thành công" className="text-sm w-full">
+											Thành công
+										</option>
 									</select>
 								</td>
 							) : (

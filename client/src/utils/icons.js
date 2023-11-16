@@ -1,17 +1,37 @@
 import {
 	BsFillTelephoneFill,
-	BsBagCheckFill,
 	BsFillReplyFill,
 	BsCartPlusFill,
 	BsFillCartCheckFill,
+	BsCalendar2Event,
 } from "react-icons/bs";
-import { IoMdMail, IoIosArrowForward, IoIosCreate, IoIosInformationCircleOutline } from "react-icons/io";
+import { GrGroup } from "react-icons/gr";
+import { IoMdMail, IoIosArrowForward, IoIosInformationCircleOutline } from "react-icons/io";
 import { SiSimpleanalytics } from "react-icons/si";
-import { IoMenu, IoHomeOutline, IoCartOutline } from "react-icons/io5";
+import { RiCoupon3Line } from "react-icons/ri";
+import {
+	IoMenu,
+	IoHomeOutline,
+	IoCartOutline,
+	IoReceiptOutline,
+	IoBarChartOutline,
+	IoNewspaperOutline,
+	IoCreateOutline,
+	IoBagCheckOutline,
+	IoBagCheck,
+} from "react-icons/io5";
 import { FaUserAlt, FaShieldAlt, FaMoneyBillWaveAlt } from "react-icons/fa";
+import { LiaShippingFastSolid } from "react-icons/lia";
 
-import { BiSolidLogOut, BiSolidDashboard, BiSolidCategoryAlt, BiLogoBlogger, BiSolidCoupon } from "react-icons/bi";
-import { MdLocalShipping, MdGroups2, MdManageSearch, MdOutlinePassword } from "react-icons/md";
+import {
+	BiSolidLogOut,
+	BiSolidDashboard,
+	BiSolidCategoryAlt,
+	BiLogoBlogger,
+	BiSolidCoupon,
+	BiCategory,
+} from "react-icons/bi";
+import { MdLocalShipping, MdGroups2, MdManageSearch, MdOutlinePassword, MdOutlineDashboard } from "react-icons/md";
 import { RiBillFill, RiArrowGoBackFill, RiCustomerService2Fill } from "react-icons/ri";
 import { FaTty } from "react-icons/fa6";
 import {
@@ -31,9 +51,10 @@ import {
 const icons = {
 	BsFillTelephoneFill,
 	IoMdMail,
-	BsBagCheckFill,
+	IoBagCheckOutline,
 	AiFillStar,
 	AiOutlineStar,
+	GrGroup,
 	AiFillEye,
 	AiFillHeart,
 	IoMenu,
@@ -48,9 +69,11 @@ const icons = {
 	AiOutlineDown,
 	BiSolidDashboard,
 	MdGroups2,
+	BiCategory,
+	IoReceiptOutline,
 	MdManageSearch,
 	RiBillFill,
-	IoIosCreate,
+	IoCreateOutline,
 	AiFillInfoCircle,
 	AiFillDelete,
 	AiFillEdit,
@@ -70,5 +93,12 @@ const icons = {
 	IoIosInformationCircleOutline,
 	MdOutlinePassword,
 	AiOutlineEye,
+	MdOutlineDashboard,
+	IoBarChartOutline,
+	LiaShippingFastSolid,
+	IoNewspaperOutline,
+	RiCoupon3Line,
+	IoBagCheck,
+	BsCalendar2Event,
 };
 export default icons;

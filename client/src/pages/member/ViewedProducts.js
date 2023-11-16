@@ -18,7 +18,7 @@ const ViewedProducts = ({ dispatch }) => {
 		<div className="w-full min-h-full text-black px-4" onClick={(e) => e.stopPropagation()}>
 			<header className="text-3xl font-semibold py-4 border-b border-main">Sản phẩm đã xem</header>
 			<section className="min-h-full py-3 flex gap-4 flex-col">
-				{currentViewedProducts.length === 0 && (
+				{currentViewedProducts?.length === 0 && (
 					<div className="text-center h-screen p-4 flex flex-col items-center gap-4 justify-center ">
 						<h2 className="text-gray-500 font-bold text-2xl">Danh sách những sản phẩm đã xem đang rỗng</h2>
 						<img

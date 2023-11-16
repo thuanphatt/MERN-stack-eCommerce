@@ -76,15 +76,17 @@ const ProductInfomation = ({ totalRatings, ratings, nameProduct, pid, rerender, 
 			</div>
 			{product?.video && (
 				<>
-					<div className="w-full my-6 md:block hidden">
+					<div className="w-full my-6 md:flex hidden items-center justify-center">
 						<iframe
-							width="420"
+							className="w-main"
+							width="430"
 							height="315"
 							src={`https://www.youtube.com/embed/${getIdYoutube(product?.video)}?autoplay=1&mute=1&loop=1&controls=0`}
 						></iframe>
 					</div>
-					<div className="w-full my-6 overflow-hidden md:hidden block md:h-full max-h-[650px]">
+					<div className="w-full my-6 overflow-hidden md:hidden block md:h-full ">
 						<iframe
+							className="max-h-[300px]"
 							width="430"
 							height="730"
 							src={`https://www.youtube.com/embed/${getIdYoutube(product?.video)}?autoplay=1&mute=1&loop=1&controls=0`}

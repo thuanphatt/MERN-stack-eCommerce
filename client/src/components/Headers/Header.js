@@ -9,7 +9,7 @@ import { showCart, showWishList } from "store/app/appSlice";
 
 const Header = ({ dispatch }) => {
 	const { current } = useSelector((state) => state.user);
-	const { BsFillTelephoneFill, IoMdMail, BsBagCheckFill, AiOutlineHeart, AiFillHeart } = icons;
+	const { BsFillTelephoneFill, IoMdMail, IoBagCheckOutline, AiOutlineHeart, AiFillHeart, IoBagCheck } = icons;
 	return (
 		<div className="md:w-main h-[110px] py-[35px] flex md:justify-between justify-center w-full">
 			<Link to={`/${path.HOME}`}>
@@ -57,7 +57,11 @@ const Header = ({ dispatch }) => {
 								dispatch(showCart());
 							}}
 						>
-							<BsBagCheckFill color="#79AC78" size={20} />
+							{current?.cart.length === 0 ? (
+								<IoBagCheckOutline color="#79AC78" size={20} />
+							) : (
+								<IoBagCheck color="#79AC78" size={20} />
+							)}
 
 							<span className="hover:text-[#79AC78] pt-1 hidden md:block">{`${
 								current?.cart?.length || 0

@@ -463,7 +463,7 @@ const addToWishList = asyncHandler(async (req, res) => {
 });
 const addToViewedProducts = asyncHandler(async (req, res) => {
 	const { _id } = req.user;
-	const { pid, quantity = 1, color, price, thumbnail, title, sold, totalRatings } = req.body;
+	const { pid, quantity = 1, color, price, thumbnail, title, sold, totalRatings, category } = req.body;
 	if (!pid || !color) throw new Error("Thông tin đầu vào bị thiếu");
 	const user = await User.findById(_id).select("viewedProducts");
 	const alreadyProduct = user?.viewedProducts?.find((el) => el.product.toString() === pid && el.color === color);
@@ -485,7 +485,11 @@ const addToViewedProducts = asyncHandler(async (req, res) => {
 	} else {
 		const response = await User.findByIdAndUpdate(
 			_id,
-			{ $push: { viewedProducts: { product: pid, quantity, color, price, thumbnail, title, sold, totalRatings } } },
+			{
+				$push: {
+					viewedProducts: { product: pid, quantity, color, price, thumbnail, title, sold, totalRatings, category },
+				},
+			},
 			{
 				new: true,
 			}

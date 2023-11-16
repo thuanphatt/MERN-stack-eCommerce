@@ -46,6 +46,8 @@ import ManageBlogCategory from "pages/admin/ManageBlogCategory";
 import CreateBlogCategory from "pages/admin/CreateBlogCategory";
 import ManageBanner from "pages/admin/ManageBanner";
 import CreateBanner from "pages/admin/CreateBanner";
+import ManageSale from "pages/admin/ManageSale";
+import CreateSale from "pages/admin/CreateSale";
 function App() {
 	const dispatch = useDispatch();
 	const { isShowModal, modalChildren, isShowCart, isShowWishList } = useSelector((state) => state.app);
@@ -104,7 +106,9 @@ function App() {
 					<Route path={path.MANAGE_BANNER} element={<ManageBanner />}></Route>
 					<Route path={path.MANAGE_SERVICE} element={<ManageSerice />}></Route>
 					<Route path={path.MANAGE_COUPON} element={<ManageCoupon />}></Route>
+					<Route path={path.MANAGE_SALE} element={<ManageSale />}></Route>
 					<Route path={path.CREATE_BLOG} element={<CreateBlog />}></Route>
+					<Route path={path.CREATE_SALE} element={<CreateSale />}></Route>
 					<Route path={path.CREATE_SERVICE} element={<CreateService />}></Route>
 					<Route path={path.CREATE_BANNER} element={<CreateBanner />}></Route>
 					<Route path={path.CREATE_PRODUCT} element={<CreateProduct />}></Route>

@@ -2,27 +2,28 @@ import path from "./path";
 import icons from "./icons";
 const {
 	FaShieldAlt,
-	BiSolidCoupon,
+	RiCoupon3Line,
 	IoHomeOutline,
 	IoIosInformationCircleOutline,
 	AiFillGift,
 	BsFillReplyFill,
 	FaTty,
-	BiSolidDashboard,
-	MdGroups2,
+	MdOutlineDashboard,
+	GrGroup,
 	MdManageSearch,
-	RiBillFill,
-	IoIosCreate,
-	BsBagCheckFill,
-	BiSolidCategoryAlt,
+	IoReceiptOutline,
+	IoCreateOutline,
+	IoBagCheck,
+	BiCategory,
 	AiOutlineHistory,
 	IoCartOutline,
-	SiSimpleanalytics,
-	MdLocalShipping,
-	BiLogoBlogger,
+	IoBarChartOutline,
+	LiaShippingFastSolid,
+	IoNewspaperOutline,
 	RiCustomerService2Fill,
 	MdOutlinePassword,
 	AiOutlineEye,
+	BsCalendar2Event,
 } = icons;
 export const navigation = [
 	{
@@ -67,8 +68,8 @@ export const productExtraInfo = [
 	{
 		id: 2,
 		title: "Miễn phí vận chuyển",
-		sub: "Miễn phí trên tất cả đơn hàng trên 5,000,000 VND",
-		icon: <BsBagCheckFill size={20} />,
+		sub: "Miễn phí trên tất cả đơn hàng trên 1,000,000 VND",
+		icon: <IoBagCheck size={20} />,
 	},
 	{
 		id: 3,
@@ -201,14 +202,14 @@ export const adminSidebar = [
 		type: "SINGLE",
 		text: "Dashboard",
 		path: `/${path.ADMIN}/${path.DASHBOARD}`,
-		icon: <BiSolidDashboard size={20} />,
+		icon: <MdOutlineDashboard size={20} />,
 	},
 	{
 		id: 2,
 		type: "SINGLE",
 		text: "Quản lý người dùng",
 		path: `/${path.ADMIN}/${path.MANAGE_USER}`,
-		icon: <MdGroups2 size={20} />,
+		icon: <GrGroup size={18} />,
 	},
 	{
 		id: 3,
@@ -216,7 +217,7 @@ export const adminSidebar = [
 		text: "Quản lý sản phẩm",
 		icon: <MdManageSearch size={20} />,
 		submenu: [
-			{ text: "Tạo sản phẩm", path: `/${path.ADMIN}/${path.CREATE_PRODUCT}`, icon: <IoIosCreate size={20} /> },
+			{ text: "Tạo sản phẩm", path: `/${path.ADMIN}/${path.CREATE_PRODUCT}`, icon: <IoCreateOutline size={20} /> },
 			{
 				text: "Quản lý sản phẩm",
 				path: `/${path.ADMIN}/${path.MANAGE_PRODUCT}`,
@@ -229,20 +230,20 @@ export const adminSidebar = [
 		type: "SINGLE",
 		text: "Quản lý đơn hàng",
 		path: `/${path.ADMIN}/${path.MANAGE_ORDER}`,
-		icon: <RiBillFill size={20} />,
+		icon: <IoReceiptOutline size={20} />,
 	},
 	{
 		id: 5,
 		type: "PARENT",
 		text: "Quản lý danh mục",
 
-		icon: <BiSolidCategoryAlt size={20} />,
+		icon: <BiCategory size={20} />,
 		submenu: [
-			{ text: "Tạo danh mục", path: `/${path.ADMIN}/${path.CREATE_CATEGORY}`, icon: <IoIosCreate size={20} /> },
+			{ text: "Tạo danh mục", path: `/${path.ADMIN}/${path.CREATE_CATEGORY}`, icon: <IoCreateOutline size={20} /> },
 			{
 				text: "Quản lý danh mục",
 				path: `/${path.ADMIN}/${path.MANAGE_CATEGORY}`,
-				icon: <BiSolidCategoryAlt size={20} />,
+				icon: <BiCategory size={20} />,
 			},
 		],
 	},
@@ -251,17 +252,17 @@ export const adminSidebar = [
 		type: "PARENT",
 		text: "Quản lý danh mục tin tức",
 
-		icon: <BiSolidCategoryAlt size={20} />,
+		icon: <BiCategory size={20} />,
 		submenu: [
 			{
 				text: "Tạo danh mục tin tức",
 				path: `/${path.ADMIN}/${path.CREATE_BLOGCATEGORY}`,
-				icon: <IoIosCreate size={20} />,
+				icon: <IoCreateOutline size={20} />,
 			},
 			{
 				text: "Quản lý danh mục tin tức",
 				path: `/${path.ADMIN}/${path.MANAGE_BLOGCATEGORY}`,
-				icon: <BiSolidCategoryAlt size={20} />,
+				icon: <BiCategory size={20} />,
 			},
 		],
 	},
@@ -271,13 +272,13 @@ export const adminSidebar = [
 		type: "PARENT",
 		text: "Quản lý phí vận chuyển",
 
-		icon: <MdLocalShipping size={20} />,
+		icon: <LiaShippingFastSolid size={20} />,
 		submenu: [
-			{ text: "Tạo phí vận chuyển", path: `/${path.ADMIN}/${path.CREATE_SHIP}`, icon: <IoIosCreate size={20} /> },
+			{ text: "Tạo phí vận chuyển", path: `/${path.ADMIN}/${path.CREATE_SHIP}`, icon: <IoCreateOutline size={20} /> },
 			{
 				text: "Quản lý phí vận chuyển",
 				path: `/${path.ADMIN}/${path.MANAGE_SHIP}`,
-				icon: <MdLocalShipping size={20} />,
+				icon: <LiaShippingFastSolid size={20} />,
 			},
 		],
 	},
@@ -287,20 +288,20 @@ export const adminSidebar = [
 		type: "SINGLE",
 		text: "Thống kê doanh thu",
 		path: `/${path.ADMIN}/${path.REVENUE_STATISTICS}`,
-		icon: <SiSimpleanalytics size={20} />,
+		icon: <IoBarChartOutline size={20} />,
 	},
 	{
 		id: 9,
 		type: "PARENT",
 		text: "Quản lý tin tức",
 
-		icon: <BiLogoBlogger size={20} />,
+		icon: <IoNewspaperOutline size={20} />,
 		submenu: [
-			{ text: "Tạo tin tức", path: `/${path.ADMIN}/${path.CREATE_BLOG}`, icon: <IoIosCreate size={20} /> },
+			{ text: "Tạo tin tức", path: `/${path.ADMIN}/${path.CREATE_BLOG}`, icon: <IoCreateOutline size={20} /> },
 			{
 				text: "Quản lý tin tức",
 				path: `/${path.ADMIN}/${path.MANAGE_BLOG}`,
-				icon: <BiLogoBlogger size={20} />,
+				icon: <IoNewspaperOutline size={20} />,
 			},
 		],
 	},
@@ -311,7 +312,7 @@ export const adminSidebar = [
 
 		icon: <RiCustomerService2Fill size={20} />,
 		submenu: [
-			{ text: "Tạo dịch vụ", path: `/${path.ADMIN}/${path.CREATE_SERVICE}`, icon: <IoIosCreate size={20} /> },
+			{ text: "Tạo dịch vụ", path: `/${path.ADMIN}/${path.CREATE_SERVICE}`, icon: <IoCreateOutline size={20} /> },
 			{
 				text: "Quản lý dịch vụ",
 				path: `/${path.ADMIN}/${path.MANAGE_SERVICE}`,
@@ -324,28 +325,43 @@ export const adminSidebar = [
 		type: "PARENT",
 		text: "Quản lý mã giảm giá",
 
-		icon: <BiSolidCoupon size={20} />,
+		icon: <RiCoupon3Line size={20} />,
 		submenu: [
-			{ text: "Tạo mã giảm giá", path: `/${path.ADMIN}/${path.CREATE_COUPON}`, icon: <IoIosCreate size={20} /> },
+			{ text: "Tạo mã giảm giá", path: `/${path.ADMIN}/${path.CREATE_COUPON}`, icon: <IoCreateOutline size={20} /> },
 			{
 				text: "Quản lý mã giảm giá",
 				path: `/${path.ADMIN}/${path.MANAGE_COUPON}`,
-				icon: <BiSolidCoupon size={20} />,
+				icon: <RiCoupon3Line size={20} />,
 			},
 		],
 	},
 	{
 		id: 12,
 		type: "PARENT",
+		text: "Quản lý sự kiện",
+
+		icon: <BsCalendar2Event size={20} />,
+		submenu: [
+			{ text: "Tạo sự kiện", path: `/${path.ADMIN}/${path.CREATE_SALE}`, icon: <IoCreateOutline size={20} /> },
+			{
+				text: "Quản lý sự kiện",
+				path: `/${path.ADMIN}/${path.MANAGE_SALE}`,
+				icon: <BsCalendar2Event size={20} />,
+			},
+		],
+	},
+	{
+		id: 13,
+		type: "PARENT",
 		text: "Quản lý banner",
 
-		icon: <BiSolidCategoryAlt size={20} />,
+		icon: <BiCategory size={20} />,
 		submenu: [
-			{ text: "Tạo banner", path: `/${path.ADMIN}/${path.CREATE_BANNER}`, icon: <IoIosCreate size={20} /> },
+			{ text: "Tạo banner", path: `/${path.ADMIN}/${path.CREATE_BANNER}`, icon: <IoCreateOutline size={20} /> },
 			{
 				text: "Quản lý banner",
 				path: `/${path.ADMIN}/${path.MANAGE_BANNER}`,
-				icon: <BiSolidCategoryAlt size={20} />,
+				icon: <BiCategory size={20} />,
 			},
 		],
 	},

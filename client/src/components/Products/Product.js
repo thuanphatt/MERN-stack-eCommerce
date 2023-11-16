@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 
 import { formatMoney, renderStarFromNumber } from "utils/helpers";
 import newLabel from "assets/new.png";
@@ -8,7 +8,7 @@ import icons from "utils/icons";
 import withBaseComponent from "hocs/withBaseComponent";
 import { showModal } from "store/app/appSlice";
 import { DetailProduct } from "pages/public";
-import { apiAddToCart, apiAddToViewedProducts, apiAddToWishList } from "apis";
+import { apiAddToCart, apiAddToViewedProducts, apiAddToWishList, apiGetSales } from "apis";
 import { toast } from "react-toastify";
 import { getCurrent } from "store/user/asyncActions";
 import { useSelector } from "react-redux";
@@ -20,6 +20,14 @@ const { AiFillEye, AiFillHeart, BsCartPlusFill, BsFillCartCheckFill } = icons;
 const Product = ({ productData, isNew, normal, navigate, dispatch, location }) => {
 	const [isShowOptions, setIsShowOptions] = useState(false);
 	const { current } = useSelector((state) => state.user);
+	const [sales, setSales] = useState(null);
+	const fetchProductSales = async () => {
+		const response = await apiGetSales();
+		if (response.success) {
+			setSales(response.sales[0]);
+		}
+	};
+	const isProductInCategories = productData._id === sales?.products[0]._id;
 
 	const handleClickOptions = async (e, name) => {
 		e.stopPropagation();
@@ -94,6 +102,7 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 			title: productData?.title,
 			sold: productData?.sold,
 			totalRatings: productData?.totalRatings,
+			category: productData?.category,
 		});
 		if (response.success) {
 			dispatch(getCurrent());
@@ -103,6 +112,9 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 			}
 		}
 	};
+	useEffect(() => {
+		fetchProductSales();
+	}, []);
 	return (
 		<div className="w-full text-base md:px-1">
 			<div
@@ -179,7 +191,7 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 						></img>
 					)}
 				</div>
-				<div className="flex flex-col gap-1 mt-[15px] items-start w-full">
+				<div className="flex flex-col gap-1 mt-[15px] items-start w-full relative">
 					<div className="flex items-center justify-between w-full">
 						<span className="flex h-4">
 							{renderStarFromNumber(productData?.totalRatings)?.map((el, index) => (
@@ -189,7 +201,14 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 						<span className="text-gray-500">{`Đã bán: ${productData?.sold}`}</span>
 					</div>
 					<span className="line-clamp-1 capitalize font-medium">{productData?.title?.toLowerCase()}</span>
-					<span>{`${formatMoney(productData?.price)} VND`}</span>
+					<span>{`${formatMoney(
+						isProductInCategories
+							? productData?.price - (productData?.price * Number(sales?.discount)) / 100
+							: productData?.price
+					)} VND`}</span>
+					{isProductInCategories && (
+						<span className="absolute bottom-0 right-0 font-semibold text-red-500">{`GIẢM ${sales?.discount}%`}</span>
+					)}
 				</div>
 			</div>
 		</div>

@@ -35,11 +35,13 @@ const ManageProduct = ({ dispatch }) => {
 	const [isFilterPrice, setIsFilterPrice] = useState(null);
 
 	const fetchProducts = async (params) => {
+		dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 		const response = await apiGetProducts({
 			...params,
 			limit: +process.env.REACT_APP_LIMIT,
 			sort: isFilterPrice ? "price" : "-price",
 		});
+		dispatch(showModal({ isShowModal: false, modalChildren: null }));
 
 		if (response.success) {
 			setProducts(response.products);

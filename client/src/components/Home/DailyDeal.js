@@ -3,7 +3,6 @@ import React, { useState, useEffect, memo } from "react";
 import moment from "moment";
 
 import { Countdown } from "components";
-import { apiGetProducts } from "apis/product";
 import { formatMoney, renderStarFromNumber, secondsToHms } from "utils/helpers";
 
 import icons from "utils/icons";
@@ -11,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import withBaseComponent from "hocs/withBaseComponent";
 import { getDealDaily } from "store/products/productSlice";
+import { apiGetSales } from "apis";
 const { AiFillStar, IoMenu } = icons;
 let idInterval;
 const DailyDeal = ({ dispatch }) => {
@@ -18,14 +18,18 @@ const DailyDeal = ({ dispatch }) => {
 	const [hour, setHour] = useState(0);
 	const [minute, setMinute] = useState(0);
 	const [second, setSecond] = useState(0);
+	const [sales, setSales] = useState(null);
 	const [expireTime, setExpireTime] = useState(false);
 	const navigate = useNavigate();
-
+	const fetchSales = async () => {
+		const response = await apiGetSales();
+		setSales(response.sales[0]);
+	};
 	const fetchDealDaily = async () => {
-		const response = await apiGetProducts();
+		const response = await apiGetSales();
 		if (response.success) {
-			const products = response.products[Math.round(Math.random() * 5)];
-			dispatch(getDealDaily({ data: products, time: Date.now() + 24 * 60 * 60 * 1000 }));
+			const products = response.sales[0];
+			dispatch(getDealDaily({ data: products.products[0], time: Date.now() + 24 * 60 * 60 * 1000 }));
 			const today = `${moment().format("MM/DD/YYYY")} 5:00:00`;
 			const seconds = new Date(today).getTime() - new Date().getTime() + 24 * 3600 * 1000; // miliseconds = 5h (today) - now time + ms of 1 day
 			const number = secondsToHms(seconds);
@@ -55,6 +59,9 @@ const DailyDeal = ({ dispatch }) => {
 		}
 	}, [expireTime]);
 	useEffect(() => {
+		fetchSales();
+	}, []);
+	useEffect(() => {
 		idInterval = setInterval(() => {
 			if (second > 0) setSecond((prev) => prev - 1);
 			else {
@@ -76,6 +83,7 @@ const DailyDeal = ({ dispatch }) => {
 			clearInterval(idInterval);
 		};
 	}, [second, minute, hour, expireTime]);
+
 	return (
 		<div className="w-full border flex-auto p-5 mt-[5px] hidden md:block">
 			<div className="flex items-center justify-between">
@@ -100,19 +108,18 @@ const DailyDeal = ({ dispatch }) => {
 					className="w-full object-contain min-h-[350px]"
 				></img>
 				<span className="line-clamp-1 text-center capitalize font-medium text-lg">
-					{dealDaily?.data?.title.toLowerCase()}
+					{dealDaily?.data?.title?.toLowerCase()}
 				</span>
 				<span className="flex h-4 items-center gap-2">
 					{renderStarFromNumber(dealDaily?.data?.totalRatings)?.map((el, index) => (
 						<span key={index}>{el}</span>
 					))}
 				</span>
-				{/* hiện tại đang set cứng */}
 				<span className="flex items-center gap-2 justify-center">
 					<span className="font-medium text-lg">{`${formatMoney(
-						dealDaily?.data?.price - (dealDaily?.data?.price * 20) / 100
+						dealDaily?.data?.price - (dealDaily?.data?.price * Number(sales?.discount)) / 100
 					)} VND`}</span>
-					<span className="text-red-500 font-semibold text-lg">{`GIẢM 20%`}</span>
+					<span className="text-red-500 font-semibold text-lg">{`GIẢM ${Number(sales?.discount)}%`}</span>
 				</span>
 			</div>
 			<div className="mt-4">
