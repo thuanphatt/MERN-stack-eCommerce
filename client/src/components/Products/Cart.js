@@ -21,7 +21,7 @@ const Cart = ({ dispatch, navigate }) => {
 	};
 	return (
 		<div
-			className="w-[400px] h-screen bg-black text-white p-8 grid grid-rows-10 animate-slide-left"
+			className="md:w-[400px] w-[350px] h-screen bg-black text-white p-8 grid grid-rows-10 animate-slide-left"
 			onClick={(e) => e.stopPropagation()}
 		>
 			<h2 className="font-bold border-b uppercase border-gray-500 text-xl flex items-center justify-between row-span-1 h-full">
@@ -35,7 +35,7 @@ const Cart = ({ dispatch, navigate }) => {
 					<AiOutlineClose size={24} />
 				</span>
 			</h2>
-			<section className="row-span-7 h-full max-h-full overflow-y-auto py-3 flex gap-4 flex-col">
+			<section className="md:row-span-7 row-span-6 h-full max-h-full overflow-y-auto py-3 flex gap-4 flex-col">
 				{currentCart.length === 0 && (
 					<div className="text-center h-screen p-4 flex flex-col items-center gap-4 justify-center ">
 						<h2 className="text-gray-500 font-bold text-2xl">Giỏ hàng đang rỗng</h2>
@@ -77,7 +77,7 @@ const Cart = ({ dispatch, navigate }) => {
 						formatPrice(currentCart.reduce((sum, el) => sum + Number(el.price) * el.quantity, 0))
 					)} VND`}</span>
 				</div>
-				<span className="text-[12px] text-gray-500 font-light text-center ">
+				<span className="text-[12px] text-gray-500 font-light text-center">
 					Vận chuyển, thuế và giảm giá được tính khi thanh toán.
 				</span>
 				<Button

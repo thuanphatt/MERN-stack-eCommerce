@@ -23,11 +23,11 @@ const Trainning = ({ navigate }) => {
 				/>
 			</div>
 			<div className="grid grid-cols-10 p-4 md:w-main w-full mx-auto gap-4">
-				<div className="col-span-8 w-full">
+				<div className="md:col-span-8 col-span-10 w-full">
 					<h2 className="font-bold text-2xl">Đào tạo và chuyển giao</h2>
 					<span className="italic text-gray-500">30/10/2023</span>
 					<h2 className="font-bold text-2xl text-center mb-4">TRỞ THÀNH PHI CÔNG THẬT ĐƠN GIẢN</h2>
-					<p className="text-justify pl-6 text-lg">
+					<p className="text-justify md:pl-6 text-lg">
 						Bất cứ ai cũng có thể trở thành những người phi công điều khiển làm chủ công nghệ Drone không người lái ứng
 						dụng trong sản xuất nông nghiệp thực hiện phun tưới phân bón, thuốc BVTV, gieo hạt giống.
 						<br />
@@ -94,7 +94,7 @@ const Trainning = ({ navigate }) => {
 					</ul>
 				</div>
 
-				<div className="col-span-2 w-full">
+				<div className="col-span-2 w-full md:block hidden">
 					<div className="flex flex-col gap-2 mt-2">
 						<h2 className="text-2xl font-semibold border-b border-main mb-2">Tin tức mới nhất</h2>
 						{blogNews?.map((blog, index) => (

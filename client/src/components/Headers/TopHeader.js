@@ -82,7 +82,7 @@ const TopHeader = ({ dispatch }) => {
 
 						{isShowOptions && (
 							<div
-								className="absolute top-full left-4 bg-gray-100 w-full min-w-[150px] flex flex-col text-black z-100"
+								className="absolute md:top-full top-[35px] md:left-4 left[-50px] bg-gray-100 w-full min-w-[150px] flex flex-col text-black z-100"
 								onClick={(e) => {
 									e.stopPropagation();
 								}}

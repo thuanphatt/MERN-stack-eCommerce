@@ -7,19 +7,19 @@ const Contact = () => {
 	return (
 		<div className="w-full">
 			<div className="h-[81px] bg-gray-100 flex justify-center items-center">
-				<div className="w-main">
+				<div className="w-main md:px-0 px-4">
 					<h3 className="uppercase font-semibold mb-1"> Liên hệ</h3>
 					<Breakcrumb category="Liên hệ" />
 				</div>
 			</div>
-			<div className="w-main mx-auto my-4">
+			<div className="md:w-main w-full mx-auto my-4">
 				<h2 className="text-main text-3xl font-bold text-center py-4">THÔNG TIN LIÊN HỆ</h2>
 				<p className="text-center text-gray-600 text-sm my-4">
 					Cảm ơn bạn đã quan tâm đến sản phẩm của chúng tôi. Để đặt lịch tư vấn, bạn vui lòng điền thông tin vào mẫu đơn
 					bên trái hoặc điền đơn “đề nghị tư vấn” online. Chuyên viên tư vấn của chúng tôi sẽ liên hệ với bạn trong thời
 					gian sớm nhất.
 				</p>
-				<div className="flex items-center">
+				<div className="flex md:flex-row flex-col items-center">
 					<div className="flex-1 flex flex-col gap-2 items-center  p-4">
 						<span>
 							<AiOutlinePhone size={65} color="#79AC78" />
@@ -27,7 +27,7 @@ const Contact = () => {
 						<span className="text-[#333333] text-[18px] uppercase font-bold">hotline</span>
 						<span>0999.9999.999</span>
 					</div>
-					<div className="flex-1 flex flex-col gap-2 items-center border-r  border-l p-4">
+					<div className="flex-1 flex flex-col gap-2 items-center md:border-r md:border-l p-4">
 						<span>
 							<BiMap size={65} color="#79AC78" />
 						</span>
@@ -45,7 +45,7 @@ const Contact = () => {
 				<div className="my-6">
 					<section class="bg-gray-100 rounded-md">
 						<div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
-							<h2 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900">
+							<h2 class="mb-4 md:text-4xl text-2xl tracking-tight font-extrabold text-center text-gray-900">
 								LIÊN HỆ VỚI CHÚNG TÔI
 							</h2>
 							<p class="mb-8 lg:mb-16 font-light text-center text-gray-500 sm:text-xl">

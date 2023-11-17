@@ -18,64 +18,120 @@ const MemberSidebar = () => {
 	};
 
 	return (
-		<div className="bg-white h-full py-4 w-[250px] flex-none">
-			<div className="flex items-center flex-col justify-center gap-2 py-4">
-				<img src={current?.avatar || avatar} alt="logo" className="w-16 h-16 object-cover rounded-full" />
-				<small className="text-sm font-medium">{`${current?.firstName} ${current?.lastName}`}</small>
-			</div>
-			<div>
-				{memberSidebar.map((el) => (
-					<Fragment key={el.id}>
-						{el.type === "SINGLE" && (
-							<NavLink
-								to={el.path}
-								className={({ isActive }) => clsx(isActive && activedStyle, !isActive && notActivedStyle)}
-							>
-								<span> {el.icon}</span>
-								<span> {el.text}</span>
-							</NavLink>
-						)}
-						{el.type === "PARENT" && (
-							<div
-								className="flex flex-col items-start text-grey-200 font-medium"
-								onClick={() => {
-									handleShowTab(+el.id);
-								}}
-							>
-								<div className="flex items-center px-4 py-2 hover:bg-gray-300 w-full justify-between cursor-pointer">
-									<div className="flex items-center gap-2">
-										<span> {el.icon}</span>
-										<span> {el.text}</span>
+		<>
+			<div className="bg-white h-full py-4 w-[250px] flex-none md:block hidden">
+				<div className="flex items-center flex-col justify-center gap-2 py-4">
+					<img src={current?.avatar || avatar} alt="logo" className="w-16 h-16 object-cover rounded-full" />
+					<small className="text-sm font-medium">{`${current?.firstName} ${current?.lastName}`}</small>
+				</div>
+				<div>
+					{memberSidebar.map((el) => (
+						<Fragment key={el.id}>
+							{el.type === "SINGLE" && (
+								<NavLink
+									to={el.path}
+									className={({ isActive }) => clsx(isActive && activedStyle, !isActive && notActivedStyle)}
+								>
+									<span> {el.icon}</span>
+									<span> {el.text}</span>
+								</NavLink>
+							)}
+							{el.type === "PARENT" && (
+								<div
+									className="flex flex-col items-start text-grey-200 font-medium"
+									onClick={() => {
+										handleShowTab(+el.id);
+									}}
+								>
+									<div className="flex items-center px-4 py-2 hover:bg-gray-300 w-full justify-between cursor-pointer">
+										<div className="flex items-center gap-2">
+											<span> {el.icon}</span>
+											<span> {el.text}</span>
+										</div>
+										{actived.some((id) => id === el.id) ? (
+											<BiSolidRightArrow size={14} />
+										) : (
+											<BiSolidDownArrow size={14} />
+										)}
 									</div>
-									{actived.some((id) => id === el.id) ? (
-										<BiSolidRightArrow size={14} />
-									) : (
-										<BiSolidDownArrow size={14} />
+									{actived.some((id) => +id === +el.id) && (
+										<div className="flex flex-col w-full">
+											{el.submenu.map((item) => (
+												<NavLink
+													key={item.text}
+													to={item.path}
+													onClick={(e) => e.stopPropagation()}
+													className={({ isActive }) =>
+														clsx(isActive && activedStyle, !isActive && notActivedStyle, "pl-10")
+													}
+												>
+													<span> {item.icon}</span>
+													<span> {item.text}</span>
+												</NavLink>
+											))}
+										</div>
 									)}
 								</div>
-								{actived.some((id) => +id === +el.id) && (
-									<div className="flex flex-col w-full">
-										{el.submenu.map((item) => (
-											<NavLink
-												key={item.text}
-												to={item.path}
-												onClick={(e) => e.stopPropagation()}
-												className={({ isActive }) =>
-													clsx(isActive && activedStyle, !isActive && notActivedStyle, "pl-10")
-												}
-											>
-												<span> {item.icon}</span>
-												<span> {item.text}</span>
-											</NavLink>
-										))}
-									</div>
-								)}
-							</div>
-						)}
-					</Fragment>
-				))}
+							)}
+						</Fragment>
+					))}
+				</div>
 			</div>
-		</div>
+			<div className="bg-white h-full py-4 w-[60px] flex-none md:hidden block">
+				<div className="flex items-center flex-col justify-center gap-2 py-4">
+					<img src={current?.avatar || avatar} alt="logo" className="w-10 h-10 object-cover rounded-full" />
+				</div>
+				<div>
+					{memberSidebar.map((el) => (
+						<Fragment key={el.id}>
+							{el.type === "SINGLE" && (
+								<NavLink
+									to={el.path}
+									className={({ isActive }) => clsx(isActive && activedStyle, !isActive && notActivedStyle)}
+								>
+									<span> {el.icon}</span>
+								</NavLink>
+							)}
+							{el.type === "PARENT" && (
+								<div
+									className="flex flex-col items-start text-grey-200 font-medium"
+									onClick={() => {
+										handleShowTab(+el.id);
+									}}
+								>
+									<div className="flex items-center px-4 py-2 hover:bg-gray-300 w-full justify-between cursor-pointer">
+										<div className="flex items-center gap-2">
+											<span> {el.icon}</span>
+										</div>
+										{actived.some((id) => id === el.id) ? (
+											<BiSolidRightArrow size={14} />
+										) : (
+											<BiSolidDownArrow size={14} />
+										)}
+									</div>
+									{actived.some((id) => +id === +el.id) && (
+										<div className="flex flex-col w-full">
+											{el.submenu.map((item) => (
+												<NavLink
+													key={item.text}
+													to={item.path}
+													onClick={(e) => e.stopPropagation()}
+													className={({ isActive }) =>
+														clsx(isActive && activedStyle, !isActive && notActivedStyle, "pl-10")
+													}
+												>
+													<span> {item.icon}</span>
+												</NavLink>
+											))}
+										</div>
+									)}
+								</div>
+							)}
+						</Fragment>
+					))}
+				</div>
+			</div>
+		</>
 	);
 };
 

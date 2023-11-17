@@ -36,13 +36,13 @@ const Blogs = ({ navigate }) => {
 				/>
 			</div>
 			<div className="h-[81px] bg-gray-100 flex justify-center items-center">
-				<div className="w-main">
+				<div className="md:w-main w-full md:px-0 px-4">
 					<h3 className="uppercase font-semibold mb-1"> Tin tức</h3>
 					<Breakcrumb category="Tin tức" />
 				</div>
 			</div>
 
-			<div className="md:w-main mx-auto flex items-center gap-2 my-6">
+			<div className="md:w-main w-full mx-auto flex md:flex-row flex-col md:items-center gap-2 my-6 md:px-0 px-4">
 				{blogsData
 					?.map((blog) => blog.category)
 					.map((category, index) => (
@@ -51,7 +51,7 @@ const Blogs = ({ navigate }) => {
 						</span>
 					))}
 			</div>
-			<div className="flex justify-between w-main mx-auto  gap-4">
+			<div className="flex justify-between md:w-main w-full mx-auto gap-4 md:px-0 px-4">
 				<div className="grid md:grid-cols-3 grid-cols-1 w-main flex-3 gap-4">
 					{blogsData?.map((blog, index) => (
 						<BlogItem
@@ -67,7 +67,7 @@ const Blogs = ({ navigate }) => {
 						/>
 					))}
 				</div>
-				<div className="flex-1 flex flex-col gap-2">
+				<div className="flex-1 flex-col gap-2 md:flex hidden">
 					<h2 className="text-2xl font-semibold border-b border-main mb-2">Tin tức mới nhất</h2>
 					{blogNews?.map((blog, index) => (
 						<div
@@ -85,7 +85,7 @@ const Blogs = ({ navigate }) => {
 			</div>
 			<div className="w-full h-[50px]"></div>
 			{blogsData && (
-				<div className="w-main m-auto my-4 flex justify-end">
+				<div className="md:w-main w-full m-auto my-4 flex justify-end md:px-0 px-4">
 					<Pagination totalCount={counts} />
 				</div>
 			)}

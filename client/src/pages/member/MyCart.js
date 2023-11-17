@@ -226,11 +226,10 @@ const MyCart = ({ dispatch, navigate, location }) => {
 	return (
 		<div className="flex flex-col justify-start w-full px-4">
 			<header className="text-3xl font-semibold py-4 border-b border-main">Giỏ hàng của tôi</header>
-
 			{isSuccess && <Congratulation />}
 			{currentCart.length > 0 ? (
-				<div className="flex flex-col border mt-8 w-main mx-auto py-8">
-					<div className="grid grid-cols-10 w-main mx-auto font-bold bg-[#86A789] py-2 text-white">
+				<div className="flex flex-col border mt-8 md:w-main w-full mx-auto py-8">
+					<div className="grid grid-cols-10 md:w-main w-full mx-auto font-bold bg-[#86A789] py-2 text-white">
 						<span className="w-full col-span-6 pl-4">Sản phẩm</span>
 						<span className="w-full text-center col-span-1">Số lượng</span>
 						<span className="w-full text-center col-span-3">Giá</span>
@@ -247,7 +246,7 @@ const MyCart = ({ dispatch, navigate, location }) => {
 							pid={el.product._id}
 						/>
 					))}
-					<div className="w-main mx-auto flex flex-col items-end gap-3 my-4 p-4">
+					<div className="md:w-main w-full mx-auto flex flex-col items-end gap-3 my-4 p-4">
 						<div className="flex justify-start flex-col w-full">
 							<Select
 								label="Hình thức thanh toán"
@@ -319,7 +318,7 @@ const MyCart = ({ dispatch, navigate, location }) => {
 					</div>
 				</div>
 			) : (
-				<div className="w-main mx-auto text-center h-screen p-4 flex flex-col items-center gap-4 justify-center">
+				<div className="md:w-main w-full mx-auto text-center h-screen p-4 flex flex-col items-center gap-4 justify-center">
 					<h2 className="text-gray-500 font-bold text-2xl">Giỏ hàng đang trống!</h2>
 					<img
 						src="https://img.freepik.com/premium-vector/shopping-cart-with-cross-mark-wireless-paymant-icon-shopping-bag-failure-paymant-sign-online-shopping-vector_662353-912.jpg"

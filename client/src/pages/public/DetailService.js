@@ -49,19 +49,21 @@ const DetailService = ({ navigate }) => {
 		}
 	}, [queryDebouncePrice]);
 	return (
-		<div className="w-full">
+		<div className="w-full ">
 			<div className="h-[81px] bg-gray-100 flex justify-center items-center">
-				<div className="w-main">
+				<div className="w-main md:px-0 px-4">
 					<h3 className="uppercase font-semibold mb-1"> {detailService?.name}</h3>
 					<Breakcrumb title={detailService?.name} category="Dịch vụ" />
 				</div>
 			</div>
-			<div className="w-main mx-auto flex items-center justify-center mt-6">
+			<div className="md:w-main w-full mx-auto flex items-center justify-center mt-6">
 				<img src={detailService?.image} alt="thumb" className="w-[60%] object-contain" />
 			</div>
-			<div className="w-main mx-auto bg-white shadow-lg rounded-xl overflow-hidden md:flex flex flex-col mb-8">
-				<div className="p-8">
-					<h2 className="text-3xl font-bold leading-tight text-gray-800 text-center">{detailService?.name}</h2>
+			<div className="md:w-main w-full mx-auto bg-white shadow-lg rounded-xl overflow-hidden md:flex flex flex-col mb-8">
+				<div className="md:p-8 p-4">
+					<h2 className="md:text-3xl text-2xl font-bold leading-tight text-gray-800 text-center">
+						{detailService?.name}
+					</h2>
 					<div className="text-gray-600 text-lg text-right">{`Ngày tạo : ${moment(detailService?.createdAt).format(
 						"DD/MM/YYYY"
 					)}`}</div>
