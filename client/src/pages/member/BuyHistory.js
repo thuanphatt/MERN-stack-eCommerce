@@ -74,6 +74,30 @@ const BuyHistory = ({ navigate, location, dispatch }) => {
 			}
 		});
 	};
+	const handleReceivedOrder = async (oid) => {
+		Swal.fire({
+			title: "Bạn đã nhận được hàng chưa ?",
+			cancelButtonText: "Chưa",
+			confirmButtonText: "Đã nhận",
+			showCancelButton: true,
+			icon: "warning",
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+				dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
+				const response = await apiUpdateStatus(oid, { status: "Đã nhận hàng" });
+
+				dispatch(showModal({ isShowModal: false, modalChildren: null }));
+
+				if (response.success) {
+					render();
+					toast.success(response.mes);
+				} else {
+					toast.error(response.mes);
+				}
+			} else {
+			}
+		});
+	};
 	const queryDebounce = useDebounce(q, 800);
 	useEffect(() => {
 		if (queryDebounce) {
@@ -160,6 +184,16 @@ const BuyHistory = ({ navigate, location, dispatch }) => {
 										style={clsx("px-4 py-2 rounded-md text-white font-semibold my-2 bg-red-500")}
 									>
 										Hủy đơn
+									</Button>
+								)}
+								{el.status === "Đang giao" && el.paymentMethod === "COD" && (
+									<Button
+										handleOnClick={() => {
+											handleReceivedOrder(el._id);
+										}}
+										style={clsx("px-4 py-2 rounded-md text-white font-semibold my-2 bg-blue-500")}
+									>
+										Đã nhận hàng
 									</Button>
 								)}
 							</td>

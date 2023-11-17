@@ -31,8 +31,8 @@ const NavigationRepo = ({ navigate, dispatch }) => {
 		fetchProducts(queries);
 	}, [queriesDebounce, params]);
 	return (
-		<div className="w-[350px] min-h-full bg-black text-white animate-slide-right" onClick={(e) => e.stopPropagation()}>
-			<div className="w-[350px] min-h-full bg-black text-white p-8" onClick={(e) => e.stopPropagation()}>
+		<div className="w-[350px] h-screen bg-black text-white animate-slide-right" onClick={(e) => e.stopPropagation()}>
+			<div className="w-[350px] h-screen bg-black text-white p-8" onClick={(e) => e.stopPropagation()}>
 				<Link to={`/${path.HOME}`} className="flex items-center justify-center">
 					<img src={logo} alt="logo" className="w-[80px] h-[80px] object-cover block md:hidden"></img>
 				</Link>

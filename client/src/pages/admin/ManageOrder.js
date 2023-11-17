@@ -98,6 +98,7 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 	};
 
 	const handleUpdateStatus = async (oid, newStatus) => {
+		if (newStatus === "Đang xử lý") return toast.warning("Không thể thay đổi sang trạng thái này");
 		dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 		const response = await apiUpdateStatus(oid, { status: newStatus });
 		dispatch(showModal({ isShowModal: false, modalChildren: null }));
@@ -227,18 +228,16 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 										onChange={(e) => {
 											const newStatus = e.target.value;
 											setEditedStatus(newStatus);
-											handleUpdateStatus(el._id, newStatus); // Truyền giá trị mới vào handleUpdateStatus
+											handleUpdateStatus(el._id, newStatus);
 										}}
 									>
-										<option value="Đã hủy" className="text-sm w-full">
-											Đã hủy
-										</option>
 										<option value="Đang xử lý" className="text-sm w-full">
 											Đang xử lý
 										</option>
 										<option value="Đang giao" className="text-sm w-full">
 											Đang giao
 										</option>
+
 										<option value="Thành công" className="text-sm w-full">
 											Thành công
 										</option>

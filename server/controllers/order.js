@@ -155,6 +155,67 @@ const updateStatus = asyncHandler(async (req, res) => {
 			subject: "Đơn hàng đang trên đường giao đến bạn!",
 		});
 	}
+	if (status === "Đã nhận hàng") {
+		const orderCurrent = await Order.findById(oid);
+		const idProductArr = orderCurrent.products.map((el) => el._id);
+		for (const productId of idProductArr) {
+			const productInOrder = orderCurrent.products.find((product) => product._id === productId);
+			if (productInOrder) {
+				const product = await Product.findOne({ _id: productInOrder.product._id });
+				if (product) {
+					const quantityProductOrder = productInOrder.quantity;
+					await Product.findOneAndUpdate(
+						{ _id: productInOrder.product._id },
+						{
+							$set: { quantity: product.quantity - quantityProductOrder },
+							$inc: { sold: quantityProductOrder },
+						}
+					);
+				}
+			}
+		}
+		const productsHTML = orderCurrent.products.map(
+			(product) =>
+				`<li>
+				<h2>${product.title}</h2>
+				<p>Số lượng: ${product.quantity}</p>
+				<p>Màu: ${product.color}</p>
+				<p>Giá: ${product.price}</p>
+				<img src="${product.thumbnail}" alt="${product.title}" style="max-width: 200px; height: auto;" />
+			  </li>`
+		);
+
+		const customerInfoHTML = `
+			<h2>Thông tin khách hàng</h2>
+			<p>Họ và tên: ${orderCurrent.orderBy.firstName} ${orderCurrent.orderBy.lastName}</p>
+			<p>Email: ${orderCurrent.orderBy.email}</p>
+			<p>Địa chỉ: ${orderCurrent.orderBy.address.join(", ")}</p>
+		  `;
+		const totalHTML = `<h2>Tổng tiền: ${orderCurrent.total}</h2>`;
+		const statusHTML = `<h2>Trạng thái: ${orderCurrent.status}</h2>`;
+		const paymentMethodHTML = `<h2>Hình thức thanh toán: ${orderCurrent.paymentMethod}</h2>`;
+
+		const orderDetailsHTML = `
+			<h1 class="text-3xl font-bold tracking-tight">
+				  <span>Đơn hàng đã được giao đến bạn thành công</span>
+			</h1>
+			<h3 class="text-xl font-bold tracking-tight">
+			<span>Chi tiết đơn hàng </span>
+			</h3>
+
+			${statusHTML}
+			${paymentMethodHTML}
+			<ul>${productsHTML.join("")}</ul>
+			${customerInfoHTML}
+			${totalHTML}
+		  `;
+		const html = orderDetailsHTML;
+		await sendMail({
+			email: orderCurrent.orderBy.email,
+			html,
+			subject: "Đơn hàng đã được giao thành công!",
+		});
+	}
 	res.json({
 		success: response ? true : false,
 		mes: response ? "Cập nhật trạng thái thành công" : "Đã có lỗi xảy ra",
