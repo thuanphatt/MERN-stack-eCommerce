@@ -65,7 +65,7 @@ const ManageSerice = ({ dispatch }) => {
 					/>
 				</div>
 			)}
-			<header className="text-3xl font-bold py-4 border-b border-main">Quản lý tin tức</header>
+			<header className="text-3xl font-bold py-4 border-b border-main">Quản lý dịch vụ</header>
 			<table className="table-auto mb-6 text-center text-sm my-8 w-main mx-auto">
 				<thead className="font-bold bg-main text-white">
 					<tr className="">

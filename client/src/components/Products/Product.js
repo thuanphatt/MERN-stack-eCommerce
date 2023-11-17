@@ -28,7 +28,6 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 		}
 	};
 	const isProductInCategories = productData._id === sales?.products[0]._id;
-
 	const handleClickOptions = async (e, name) => {
 		e.stopPropagation();
 		if (name === "CART") {
@@ -53,7 +52,9 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 				pid: productData?._id,
 				color: productData?.color,
 				quantity: 1,
-				price: productData?.price,
+				price: isProductInCategories
+					? productData?.price - (productData?.price * Number(sales?.discount)) / 100
+					: productData?.price,
 				thumbnail: productData?.thumb,
 				title: productData?.title,
 			});
@@ -79,7 +80,9 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 				pid: productData?._id,
 				color: productData?.color,
 				quantity: 1,
-				price: productData?.price,
+				price: isProductInCategories
+					? productData?.price - (productData?.price * Number(sales?.discount)) / 100
+					: productData?.price,
 				thumbnail: productData?.thumb,
 				title: productData?.title,
 			});
@@ -97,7 +100,9 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 			pid: productData?._id,
 			color: productData?.color,
 			quantity: 1,
-			price: productData?.price,
+			price: isProductInCategories
+				? productData?.price - (productData?.price * Number(sales?.discount)) / 100
+				: productData?.price,
 			thumbnail: productData?.thumb,
 			title: productData?.title,
 			sold: productData?.sold,
@@ -201,13 +206,21 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 						<span className="text-gray-500">{`Đã bán: ${productData?.sold}`}</span>
 					</div>
 					<span className="line-clamp-1 capitalize font-medium">{productData?.title?.toLowerCase()}</span>
-					<span>{`${formatMoney(
-						isProductInCategories
-							? productData?.price - (productData?.price * Number(sales?.discount)) / 100
-							: productData?.price
-					)} VND`}</span>
+					{isProductInCategories ? (
+						<div className="flex items-center justify-between gap-[20px]">
+							<span className="line-through">{`${formatMoney(productData?.price)} VND`}</span>
+							<span className="text-red-500">{`${formatMoney(
+								isProductInCategories
+									? productData?.price - (productData?.price * Number(sales?.discount)) / 100
+									: productData?.price
+							)} VND`}</span>
+						</div>
+					) : (
+						<span>{`${formatMoney(productData?.price)} VND`}</span>
+					)}
+
 					{isProductInCategories && (
-						<span className="absolute bottom-0 right-0 font-semibold text-red-500">{`GIẢM ${sales?.discount}%`}</span>
+						<span className="absolute top-[-380%] left-[-15px] font-semibold text-white w-[96px] h-[35px] bg-red-500 p-2 flex items-center justify-center">{`GIẢM ${sales?.discount}%`}</span>
 					)}
 				</div>
 			</div>

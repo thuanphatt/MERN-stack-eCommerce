@@ -81,9 +81,18 @@ const getSale = asyncHandler(async (req, res) => {
 
 const updatedSale = asyncHandler(async (req, res) => {
 	const { sid } = req.params;
-	const updatedSale = await Sale.findByIdAndUpdate(sid, req.body, {
-		new: true,
-	});
+	const { name, type, products, discount } = req.body;
+	const productList = await Product.find({ _id: { $in: products } });
+	if (!productList || productList.length === 0) {
+		return res.status(400).json({ success: false, mes: "Không tìm thấy sản phẩm nào" });
+	}
+	const updatedSale = await Sale.findByIdAndUpdate(
+		sid,
+		{ name, discount, type, products: productList },
+		{
+			new: true,
+		}
+	);
 	return res.status(200).json({
 		success: updatedSale ? true : false,
 		mes: updatedSale ? "Cập nhật sale thành công" : "Không thể cập nhật sale",
@@ -91,7 +100,7 @@ const updatedSale = asyncHandler(async (req, res) => {
 });
 const deletedSale = asyncHandler(async (req, res) => {
 	const { sid } = req.params;
-	const response = await Banner.findByIdAndDelete(sid);
+	const response = await Sale.findByIdAndDelete(sid);
 	return res.json({
 		success: response ? true : false,
 		mes: response ? "Đã xóa sale thành công" : "Không thể xóa sale",

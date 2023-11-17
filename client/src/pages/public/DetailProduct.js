@@ -21,7 +21,7 @@ import clsx from "clsx";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import withBaseComponent from "hocs/withBaseComponent";
-import { apiAddToCart } from "apis";
+import { apiAddToCart, apiGetSales } from "apis";
 import { getCurrent } from "store/user/asyncActions";
 import { toast } from "react-toastify";
 import path from "utils/path";
@@ -53,6 +53,13 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 		color: "",
 		thumb: "",
 	});
+	const [sales, setSales] = useState(null);
+	const fetchProductSales = async () => {
+		const response = await apiGetSales();
+		if (response.success) {
+			setSales(response.sales[0]);
+		}
+	};
 
 	useEffect(() => {
 		if (data) {
@@ -124,7 +131,10 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 			pid,
 			color: currentProduct.color || product?.color,
 			quantity,
-			price: currentProduct.price || product?.price,
+			price: isProductInCategories
+				? currentProduct?.price - (currentProduct?.price * Number(sales?.discount)) / 100 ||
+				  product?.price - (product?.price * Number(sales?.discount)) / 100
+				: currentProduct.price || product?.price,
 			thumbnail: currentProduct.thumb || product?.thumb,
 			title: currentProduct.title || product?.title,
 		});
@@ -175,6 +185,12 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 		e.stopPropagation();
 		setCurrentImage(el);
 	};
+
+	const isProductInCategories = product?._id === sales?.products[0]._id;
+
+	useEffect(() => {
+		fetchProductSales();
+	}, []);
 	return (
 		<div className="w-full" ref={titleRef}>
 			{!isQuickView && (
@@ -248,9 +264,38 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 				</div>
 				<div className={clsx("md:w-2/5 flex flex-col gap-4 pl-[45px] pr-6", isQuickView && "w-1/2")}>
 					<div className="flex items-center justify-between">
-						<h3 className="text-[30px] font-semibold">{`${formatMoney(
-							formatPrice(currentProduct.price || product?.price)
-						)} VND`}</h3>
+						{isProductInCategories ? (
+							<>
+								<h3 className="text-[22px] font-semibold line-through ">{`${formatMoney(
+									formatPrice(currentProduct.price || product?.price)
+								)} VND`}</h3>
+								{variant ? (
+									<h3 className="text-[22px] font-semibold text-red-500">{`${formatMoney(
+										formatPrice(
+											product?.varriants?.map((el) =>
+												isProductInCategories ? el?.price - (el?.price * Number(sales?.discount)) / 100 : el?.price
+											)
+										)
+									)} VND`}</h3>
+								) : (
+									<h3 className="text-[22px] font-semibold text-red-500">{`${formatMoney(
+										formatPrice(
+											isProductInCategories
+												? product?.price - (product?.price * Number(sales?.discount)) / 100
+												: currentProduct.price || product?.price
+										)
+									)} VND`}</h3>
+								)}
+							</>
+						) : (
+							<h3 className="text-[30px] font-semibold">{`${formatMoney(
+								formatPrice(
+									isProductInCategories
+										? product?.price - (product?.price * Number(sales?.discount)) / 100
+										: currentProduct.price || product?.price
+								)
+							)} VND`}</h3>
+						)}
 						<div>
 							<span className="text-gray-500">Kho:</span>
 							<span className="text-[16px] font-medium px-1">{product?.quantity}</span>
@@ -297,7 +342,13 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 									<img src={product?.thumb} alt="thumb" className="w-8 h-8 object-cover" />
 									<span className="flex flex-col">
 										<span>{product?.color}</span>
-										<span className="text-sm">{`${formatMoney(formatPrice(product?.price))} VND`}</span>
+										<span className="text-sm">{`${formatMoney(
+											formatPrice(
+												isProductInCategories
+													? product?.price - (product?.price * Number(sales?.discount)) / 100
+													: product?.price
+											)
+										)} VND`}</span>
 									</span>
 								</div>
 								{product?.varriants?.map((el) => (
@@ -314,7 +365,11 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 										<img src={el?.thumb} alt="thumb" className="w-8 h-8 object-cover" />
 										<span className="flex flex-col">
 											<span>{el?.color}</span>
-											<span className="text-sm">{`${formatMoney(formatPrice(el?.price))} VND`}</span>
+											<span className="text-sm">{`${formatMoney(
+												formatPrice(
+													isProductInCategories ? el?.price - (el?.price * Number(sales?.discount)) / 100 : el?.price
+												)
+											)} VND`}</span>
 										</span>
 									</div>
 								))}
