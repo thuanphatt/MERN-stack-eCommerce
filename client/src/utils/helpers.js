@@ -139,14 +139,17 @@ export const calculateRevunue = (orders, timeFor) => {
 		const currentMonth = new Date().getMonth() + 1;
 		// Tạo mảng để lưu trữ tổng doanh thu cho từng tháng
 		const revenueMonth = Array(12).fill(0);
-		orders?.forEach((transaction) => {
-			const transactionDate = new Date(transaction.createdAt);
-			const transactionMonth = transactionDate?.getMonth() + 1; // Ghi chú: Tháng trong JavaScript bắt đầu từ 0, nên cần +1.
-			// Kiểm tra nếu giao dịch thuộc về tháng hiện tại hoặc trước đó
-			if (transactionMonth <= currentMonth) {
-				revenueMonth[transactionMonth - 1] += transaction.total; // Trừ 1 vì tháng bắt đầu từ 1.
-			}
-		});
+
+		orders
+			?.filter((transaction) => transaction.status === "Thành công")
+			?.forEach((transaction) => {
+				const transactionDate = new Date(transaction.createdAt);
+				const transactionMonth = transactionDate?.getMonth() + 1; // Ghi chú: Tháng trong JavaScript bắt đầu từ 0, nên cần +1.
+				// Kiểm tra nếu giao dịch thuộc về tháng hiện tại hoặc trước đó
+				if (transactionMonth <= currentMonth) {
+					revenueMonth[transactionMonth - 1] += transaction.total; // Trừ 1 vì tháng bắt đầu từ 1.
+				}
+			});
 		const monthOfRevenueMonth = [];
 		for (let month = 1; month <= 12; month++) {
 			monthOfRevenueMonth.push(`${month}/2023`);
@@ -183,6 +186,10 @@ export const getIdYoutube = (url) => {
 export const calculateTotalRevenue = (transactions) => {
 	const orderTotal = transactions?.filter((el) => el.status === "Thành công");
 	return formatMoney(formatPrice(orderTotal?.reduce((total, transaction) => total + transaction.total, 0)));
+};
+export const calculateTotalRevenueNumber = (transactions) => {
+	const orderTotal = transactions?.filter((el) => el.status === "Thành công");
+	return orderTotal?.reduce((total, transaction) => total + transaction.total, 0);
 };
 
 export const getTopOrderUser = (orders, type) => {
@@ -239,5 +246,12 @@ export const formatExportData = (data, type) => {
 				};
 			});
 	}
+
 	return dataTable;
+};
+
+export const getRevenuePredict = (obj) => {
+	if (typeof obj !== "undefined") {
+		return Object?.values(obj);
+	}
 };

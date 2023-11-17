@@ -20,5 +20,7 @@ export { default as CreateShip } from "./CreateShip";
 export { default as CreateBlog } from "./CreateBlog";
 export { default as CreateService } from "./CreateService";
 export { default as CreateBanner } from "./CreateBanner";
+export { default as CreateRevenuePredict } from "./CreateRevenuePredict";
 
 export { default as RevenueStatistics } from "./RevenueStatistics";
+export { default as RevenueReport } from "./RevenueReport";

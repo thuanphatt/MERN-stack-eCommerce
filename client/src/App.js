@@ -26,6 +26,7 @@ import {
 	CreateBlog,
 	CreateCategory,
 	CreateProduct,
+	CreateRevenuePredict,
 	CreateService,
 	CreateShip,
 	Dashboard,
@@ -36,6 +37,7 @@ import {
 	ManageSerice,
 	ManageShipment,
 	ManageUser,
+	RevenueReport,
 	RevenueStatistics,
 } from "pages/admin";
 import { MemberLayout, Personal, BuyHistory, Checkout, MyCart, ChangePassword, ViewedProducts } from "pages/member";
@@ -112,11 +114,13 @@ function App() {
 					<Route path={path.CREATE_SERVICE} element={<CreateService />}></Route>
 					<Route path={path.CREATE_BANNER} element={<CreateBanner />}></Route>
 					<Route path={path.CREATE_PRODUCT} element={<CreateProduct />}></Route>
-					<Route path={path.REVENUE_STATISTICS} element={<RevenueStatistics />}></Route>
 					<Route path={path.CREATE_CATEGORY} element={<CreateCategory />}></Route>
 					<Route path={path.CREATE_BLOGCATEGORY} element={<CreateBlogCategory />}></Route>
 					<Route path={path.CREATE_SHIP} element={<CreateShip />}></Route>
 					<Route path={path.CREATE_COUPON} element={<CreateCoupon />}></Route>
+					<Route path={path.CREATE_REVENUEPREDICT} element={<CreateRevenuePredict />}></Route>
+					<Route path={path.REVENUE_STATISTICS} element={<RevenueStatistics />}></Route>
+					<Route path={path.REVENUE_REPORT} element={<RevenueReport />}></Route>
 				</Route>
 				<Route path={path.MEMBER} element={<MemberLayout />}>
 					<Route path={path.PERSONAL} element={<Personal />}></Route>

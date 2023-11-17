@@ -58,7 +58,7 @@ const ManageCategory = () => {
 			<table className="table-auto mb-6 text-center text-sm w-main mx-auto my-6">
 				<thead className="font-bold bg-main text-white">
 					<tr className="text-center">
-						<th className="py-3 px-1 ">#</th>
+						<th className="py-3 px-1 ">STT</th>
 						<th className="py-3 px-1 ">Danh mục</th>
 						<th className="py-3 px-1 ">Thương hiệu</th>
 						<th className="py-3 px-1 ">Ảnh</th>

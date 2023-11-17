@@ -40,7 +40,9 @@ const path = {
 	CREATE_SHIP: "create-ship",
 	CREATE_BLOG: "create-blog",
 	CREATE_COUPON: "create-coupon",
+	CREATE_REVENUEPREDICT: "create-revenue-predict",
 	REVENUE_STATISTICS: "revenue-statistics",
+	REVENUE_REPORT: "revenue-report",
 	//Member
 	MEMBER: "member",
 	PERSONAL: "personal",

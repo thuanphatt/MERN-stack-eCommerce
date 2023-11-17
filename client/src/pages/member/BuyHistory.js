@@ -117,7 +117,7 @@ const BuyHistory = ({ navigate, location, dispatch }) => {
 			<table className="table-auto mb-6 text-center text-sm my-8 w-main mx-auto">
 				<thead className="font-bold bg-main text-white">
 					<tr className="">
-						<th className="py-4 px-2">#</th>
+						<th className="py-4 px-2">STT</th>
 						<th className="py-4 px-2">Sản phẩm</th>
 						<th className="py-4 px-2">Trạng thái</th>
 						<th className="py-4 px-2">Tổng cộng</th>

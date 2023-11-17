@@ -9,3 +9,4 @@ export * from "./blogcategories";
 export * from "./service";
 export * from "./banner";
 export * from "./sale";
+export * from "./revenuePredict";

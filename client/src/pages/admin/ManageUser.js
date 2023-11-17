@@ -168,7 +168,7 @@ const ManageUser = ({ navigate, location, dispatch }) => {
 					<table className="table-auto mb-6 text-left w-full">
 						<thead className="font-bold bg-main text-sm text-white text-center">
 							<tr>
-								<th className="px-4 py-2">#</th>
+								<th className="px-4 py-2">STT</th>
 								<th className="px-4 py-2">Email</th>
 								<th className="px-4 py-2">Họ</th>
 								<th className="px-4 py-2">Tên</th>

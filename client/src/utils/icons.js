@@ -5,6 +5,7 @@ import {
 	BsFillCartCheckFill,
 	BsCalendar2Event,
 } from "react-icons/bs";
+import { TbReportAnalytics } from "react-icons/tb";
 import { GrGroup } from "react-icons/gr";
 import { IoMdMail, IoIosArrowForward, IoIosInformationCircleOutline } from "react-icons/io";
 import { SiSimpleanalytics } from "react-icons/si";
@@ -31,7 +32,14 @@ import {
 	BiSolidCoupon,
 	BiCategory,
 } from "react-icons/bi";
-import { MdLocalShipping, MdGroups2, MdManageSearch, MdOutlinePassword, MdOutlineDashboard } from "react-icons/md";
+import {
+	MdLocalShipping,
+	MdGroups2,
+	MdManageSearch,
+	MdOutlinePassword,
+	MdOutlineDashboard,
+	MdOutlineReport,
+} from "react-icons/md";
 import { RiBillFill, RiArrowGoBackFill, RiCustomerService2Fill } from "react-icons/ri";
 import { FaTty } from "react-icons/fa6";
 import {
@@ -99,6 +107,8 @@ const icons = {
 	IoNewspaperOutline,
 	RiCoupon3Line,
 	IoBagCheck,
+	MdOutlineReport,
 	BsCalendar2Event,
+	TbReportAnalytics,
 };
 export default icons;

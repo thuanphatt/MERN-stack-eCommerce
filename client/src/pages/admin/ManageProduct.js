@@ -151,7 +151,7 @@ const ManageProduct = ({ dispatch }) => {
 			<table className="table-auto mb-6 text-center text-sm w-main mx-auto">
 				<thead className="font-bold bg-main text-white">
 					<tr className="text-center">
-						<th className="py-3 px-1 ">#</th>
+						<th className="py-3 px-1 ">STT</th>
 						<th className="py-3 px-1 ">Hình ảnh</th>
 						<th className="py-3 px-1 ">Tên</th>
 						<th className="py-3 px-1 ">Thương hiệu</th>

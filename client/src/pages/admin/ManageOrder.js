@@ -180,7 +180,7 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 			<table className="table-auto mb-6 text-center text-sm mx-auto w-main">
 				<thead className="font-bold bg-main text-white">
 					<tr className="text-center">
-						<th className="py-4 px-2">#</th>
+						<th className="py-4 px-2">STT</th>
 
 						<th className="py-4 px-2">Người đặt</th>
 						<th className="py-4 px-2">Sản phẩm</th>

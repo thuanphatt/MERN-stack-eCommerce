@@ -305,7 +305,11 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 						{renderStarFromNumber(product?.totalRatings)?.map((el, index) => (
 							<span key={index}>{el}</span>
 						))}
-						<div className="border-l-2 ml-1">
+						<div className="border-l-2 ml-2">
+							<span className="text-[16px] font-medium px-1">{product?.ratings?.length}</span>
+							<span className="text-gray-500">Đánh giá</span>
+						</div>
+						<div className="border-l-2 ml-2">
 							<span className="text-[16px] font-medium px-1">{product?.sold}</span>
 							<span className="text-gray-500">Đã bán</span>
 						</div>

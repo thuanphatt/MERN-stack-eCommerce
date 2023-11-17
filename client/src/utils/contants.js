@@ -24,6 +24,7 @@ const {
 	MdOutlinePassword,
 	AiOutlineEye,
 	BsCalendar2Event,
+	TbReportAnalytics,
 } = icons;
 export const navigation = [
 	{
@@ -285,10 +286,22 @@ export const adminSidebar = [
 
 	{
 		id: 8,
-		type: "SINGLE",
-		text: "Thống kê doanh thu",
+		type: "PARENT",
+		text: "Thống kê và báo cáo",
 		path: `/${path.ADMIN}/${path.REVENUE_STATISTICS}`,
 		icon: <IoBarChartOutline size={20} />,
+		submenu: [
+			{
+				text: "Thống kê doanh thu",
+				path: `/${path.ADMIN}/${path.REVENUE_STATISTICS}`,
+				icon: <IoBarChartOutline size={20} />,
+			},
+			{
+				text: "Báo cáo doanh thu",
+				path: `/${path.ADMIN}/${path.REVENUE_REPORT}`,
+				icon: <TbReportAnalytics size={20} />,
+			},
+		],
 	},
 	{
 		id: 9,
