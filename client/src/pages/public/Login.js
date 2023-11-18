@@ -3,8 +3,9 @@ import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
-
+import logo from "assets/logo.png";
 import { InputField, Button, Loading } from "components";
+import img from "assets/login.png";
 import { apiRegister, apiLogin, apiForgotPassword, apiFinalRegister } from "apis/user";
 import path from "utils/path";
 import { login } from "store/user/userSlice";
@@ -99,7 +100,7 @@ const Login = () => {
 		setToken("");
 	};
 	return (
-		<div className="md:w-screen w-full h-screen relative">
+		<div className="md:w-screen w-full h-screen relative grid md:grid-cols-10">
 			{isVerifiedEmail && (
 				<div className="absolute right-0 left-0 top-0 bottom-0 bg-overlay z-50 flex flex-col items-center justify-center">
 					<div className=" bg-white md:w-[1000px] w-full rounded-md p-6">
@@ -142,37 +143,50 @@ const Login = () => {
 					</div>
 				</div>
 			)}
-			<img
-				src="https://vir.com.vn/stores/news_dataimages/hung/122019/29/17/p24-digital-transformation-key-driver-for-agriculture.jpg"
-				alt=""
-				className="w-full h-full object-cover"
-			></img>
-			<div className="absolute top-1/2 bottom-1/2 left-1/2 right-1/2 flex items-center justify-center">
-				<div className="p-8 bg-white rounded-md md:min-w-[730px] min-w-[400px] flex flex-col items-center justify-center">
-					<h1 className="text-[28px] font-semibold text-main mb-8">{isRegister ? "Đăng ký" : "Đăng nhập"}</h1>
+
+			<div className="col-span-6 md:flex items-center justify-center hidden">
+				<img src={img} alt="anh login" className="w-full h-full object-contain" />
+			</div>
+			<div className="md:col-span-4 w-full flex items-center justify-center bg-[#F3EEEA]">
+				<div className="p-8 bg-white rounded-md md:min-w-[430px] min-w-[400px] flex flex-col items-center justify-center relative md:max-h-[665px] md:mx-0 mx-4">
+					<div className="flex flex-col items-center gap-2">
+						<Link to={`/${path.HOME}`} className="flex items-center justify-center">
+							<img src={logo} alt="logo" className="w-[100px] h-[80px] object-contain"></img>
+						</Link>
+						<span className="font-bold text-2xl">Xin chào</span>
+						<span className="text-sm text-gray-500">{`Hãy ${
+							isRegister ? "đăng ký" : "đăng nhập"
+						} bằng email của bạn`}</span>
+					</div>
+					<h1 className="text-[28px] font-semibold text-main my-8">{isRegister ? "Đăng ký" : "Đăng nhập"}</h1>
 					{isRegister && (
-						<div className="flex items-center gap-2 justify-center relative">
-							<InputField
-								value={payload.firstName}
-								setValue={setPayload}
-								nameKey="firstName"
-								invalidField={invalidField}
-								setInvalidField={setInvalidField}
-							/>
-							<InputField
-								value={payload.lastName}
-								setValue={setPayload}
-								nameKey="lastName"
-								invalidField={invalidField}
-								setInvalidField={setInvalidField}
-							/>
-							<InputField
-								value={payload.mobile}
-								setValue={setPayload}
-								nameKey="mobile"
-								invalidField={invalidField}
-								setInvalidField={setInvalidField}
-							/>
+						<div className="flex items-center justify-center relative flex-col">
+							<div className="flex items-center gap-2">
+								<InputField
+									value={payload.firstName}
+									setValue={setPayload}
+									nameKey="firstName"
+									invalidField={invalidField}
+									setInvalidField={setInvalidField}
+								/>
+								<InputField
+									value={payload.lastName}
+									setValue={setPayload}
+									nameKey="lastName"
+									invalidField={invalidField}
+									setInvalidField={setInvalidField}
+								/>
+							</div>
+							<div className="w-full">
+								<InputField
+									value={payload.mobile}
+									setValue={setPayload}
+									nameKey="mobile"
+									fullWidth
+									invalidField={invalidField}
+									setInvalidField={setInvalidField}
+								/>
+							</div>
 						</div>
 					)}
 					<InputField
@@ -194,7 +208,7 @@ const Login = () => {
 					/>
 					{payload.password && isRegister && (
 						<span
-							className="absolute right-[-330px] top-[34px] cursor-pointer p-2"
+							className="absolute right-[36px] bottom-[150px] cursor-pointer p-2"
 							onClick={() => {
 								setIsShow(!isShow);
 							}}
@@ -204,7 +218,7 @@ const Login = () => {
 					)}
 					{payload.password && !isRegister && (
 						<span
-							className="absolute right-[-330px] top-[-2px] cursor-pointer p-2"
+							className="absolute right-[36px] bottom-[150px] cursor-pointer p-2"
 							onClick={() => {
 								setIsShow(!isShow);
 							}}
@@ -218,31 +232,28 @@ const Login = () => {
 					<div className="flex items-center justify-between my-2 w-full text-sm">
 						{!isRegister && (
 							<span
-								className="text-blue-500 hover:underline cursor-pointer"
+								className="text-black opacity-50 hover:underline cursor-pointer"
 								onClick={() => {
 									setIsForgotPassword(true);
 								}}
 							>
-								Quên mật khẩu
+								Quên mật khẩu?
 							</span>
 						)}
 						{!isRegister && (
-							<span className="text-blue-500 hover:underline cursor-pointer" onClick={() => setIsRegister(true)}>
+							<span className="text-black hover:underline cursor-pointer" onClick={() => setIsRegister(true)}>
 								Tạo tài khoản
 							</span>
 						)}
 						{isRegister && (
 							<span
-								className="text-blue-500 hover:underline cursor-pointer w-full text-center"
+								className="text-black hover:underline cursor-pointer w-full text-center"
 								onClick={() => setIsRegister(false)}
 							>
 								Đăng nhập
 							</span>
 						)}
 					</div>
-					<Link to={`/${path.HOME}`} className="text-blue-500 hover:underline cursor-pointer text-sm">
-						Trang chủ?
-					</Link>
 				</div>
 			</div>
 		</div>

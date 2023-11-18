@@ -18,6 +18,7 @@ const DailyDeal = ({ dispatch }) => {
 	const { dealDaily } = useSelector((state) => state.products);
 	const [hour, setHour] = useState(0);
 	const [minute, setMinute] = useState(0);
+	const [isGetEvent, setIsGetEvent] = useState(false);
 	const [second, setSecond] = useState(0);
 	const [sales, setSales] = useState(null);
 	const [expireTime, setExpireTime] = useState(false);
@@ -39,10 +40,11 @@ const DailyDeal = ({ dispatch }) => {
 		}
 	};
 	const fetchDealDaily = async () => {
+		console.log("logged");
 		const response = await apiGetSales();
 		if (response.success) {
 			const products = response.sales[0];
-			dispatch(getDealDaily({ data: products.products[0], time: Date.now() + 24 * 60 * 60 * 1000 }));
+			dispatch(getDealDaily({ data: products?.products[0], time: Date.now() + 24 * 60 * 60 * 1000 }));
 			const today = `${moment().format("MM/DD/YYYY")} 5:00:00`;
 			const seconds = new Date(today).getTime() - new Date().getTime() + 24 * 3600 * 1000; // miliseconds = 5h (today) - now time + ms of 1 day
 			const number = secondsToHms(seconds);
@@ -55,8 +57,8 @@ const DailyDeal = ({ dispatch }) => {
 	};
 
 	useEffect(() => {
+		const timeRemaining = dealDaily?.time - Date.now();
 		if (dealDaily?.time) {
-			const timeRemaining = dealDaily?.time - Date.now();
 			const number = secondsToHms(timeRemaining);
 			setHour(number.h);
 			setMinute(number.m);
@@ -88,16 +90,21 @@ const DailyDeal = ({ dispatch }) => {
 				}
 			}
 		}, 1000);
-
-		if (second === 0 && minute === 0 && hour === 0 && expireTime) {
-			deleteSale(dealDaily?.data?._id);
-			fetchDealDaily();
+		if (expireTime) {
+			// Nếu hết thời gian, thực hiện xóa và gọi lại fetchDealDaily
+			deleteSale(sales?._id);
+			setIsGetEvent(true);
 		}
-
 		return () => {
 			clearInterval(idInterval);
 		};
 	}, [second, minute, hour, expireTime]);
+	useEffect(() => {
+		if (sales) {
+			fetchDealDaily();
+		}
+	}, [isGetEvent]);
+
 	return (
 		<div className="w-full border flex-auto p-5 mt-[5px] hidden md:block">
 			{dealDaily?.data ? (

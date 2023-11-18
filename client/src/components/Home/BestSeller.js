@@ -38,7 +38,7 @@ const BestSeller = ({ navigate, dispatch }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [activedTab]);
 	return (
-		<div className="mt-[48px] w-full px-4 md:px-0">
+		<div className="w-full px-4 md:px-0">
 			<div className="flex ml-[-32px]">
 				{tabs.map((el) => (
 					<span

@@ -25,7 +25,7 @@ const Banner = () => {
 			<Slider {...settings}>
 				{banners?.map((el, index) => (
 					<div key={index}>
-						<img src={el.image} alt="img" className="object-cover md:min-h-[390px] w-full min-h-[200px] px-4 md:px-0" />
+						<img src={el.image} alt="img" className="object-cover md:min-h-[415px] w-full min-h-[200px] px-4 md:px-0" />
 					</div>
 				))}
 			</Slider>
