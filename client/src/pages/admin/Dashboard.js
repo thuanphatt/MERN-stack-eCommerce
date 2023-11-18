@@ -121,12 +121,12 @@ const Dashboard = () => {
 
 			<div className="flex items-end w-full mt-4 justify-center md:flex-row flex-col">
 				<div className="flex-1 w-full flex flex-col items-center gap-4">
-					<div className="md:h-[400px] w-full flex justify-center items-center">
+					<div className="md:h-[400px] w-full flex justify-center items-center md:mt-0 mt-6">
 						<DoughnutChart dataOrders={countArray} />
 					</div>
 				</div>
 				<div className="flex-1 w-full flex flex-col items-end gap-4">
-					<div className="md:h-[450px] w-full flex justify-center items-end">
+					<div className="md:h-[450px] w-full flex justify-center items-end md:mt-0 mt-6">
 						<HorizontalChart
 							nameProduct={nameProduct}
 							soldProduct={soldProductData}
@@ -137,9 +137,9 @@ const Dashboard = () => {
 					</div>
 				</div>
 			</div>
-			<div className="flex items-center w-full mt-[100px] justify-center md:flex-row flex-col">
+			<div className="flex items-center w-full md:mt-[100px] mt-6 justify-center md:flex-row flex-col">
 				<div className="flex-1 w-full flex flex-col items-center gap-4">
-					<div className="h-[450px] w-full flex justify-center items-center">
+					<div className="md:h-[450px] w-full flex justify-center items-center">
 						<VerticalBarChart
 							nameProduct={getTopOrderUser(orders, "name")}
 							soldProduct={getTopOrderUser(orders, "total")}
@@ -149,8 +149,8 @@ const Dashboard = () => {
 						/>
 					</div>
 				</div>
-				<div className="flex-1 w-full flex flex-col items-center gap-4">
-					<div className="h-[450px] w-full flex justify-center items-center">
+				<div className="flex-1 w-full flex flex-col items-center gap-4 md:mt-0 mt-6">
+					<div className="md:h-[450px] w-full flex justify-center items-center">
 						<HorizontalChart
 							nameProduct={nameProductRating}
 							soldProduct={productRatingData}
@@ -161,9 +161,9 @@ const Dashboard = () => {
 					</div>
 				</div>
 			</div>
-			<div className="flex items-center w-full mt-[100px] justify-center md:flex-row flex-col">
+			<div className="flex items-center w-full md:mt-[100px] mt-6 justify-center md:flex-row flex-col">
 				<div className="flex-1 w-full flex flex-col items-center gap-4">
-					<div className="h-[450px] w-full flex justify-center items-center">
+					<div className="md:h-[450px] w-full flex justify-center items-center">
 						<HorizontalChart
 							nameProduct={nameProductLessRating}
 							soldProduct={productLessRatingData}
@@ -174,7 +174,7 @@ const Dashboard = () => {
 					</div>
 				</div>
 				<div className="flex-1 w-full flex flex-col items-center gap-4">
-					<div className="h-[450px] w-full flex justify-center items-center">
+					<div className="md:h-[450px] w-full flex justify-center items-center md:mt-0 mt-6">
 						<HorizontalChart
 							nameProduct={nameNoSoldProduct}
 							soldProduct={noSoldProductData}
@@ -185,6 +185,7 @@ const Dashboard = () => {
 					</div>
 				</div>
 			</div>
+			<div className="md:hidden block h-[100px]"></div>
 		</div>
 	);
 };
