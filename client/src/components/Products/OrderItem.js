@@ -27,8 +27,8 @@ const OrderItem = ({ color, _quantity = 1, price, thumb, title, pid }) => {
 	}, [quantity]);
 	// set quantity
 	return (
-		<div className="grid grid-cols-10 md:w-main w-full mx-auto border-b pl-10 py-4" key={pid}>
-			<span className="w-full text-center col-span-6 flex items-center">
+		<div className="grid md:grid-cols-10 grid-cols-4 md:w-main w-full mx-auto border-b md:pl-10 py-4" key={pid}>
+			<span className="w-full text-center md:col-span-6 col-span-2 flex items-center md:flex-row flex-col">
 				<img src={thumb} alt="Ảnh sản phẩm" className="md:w-[150px] md:h-[150px] w-[50px] h-[50px] object-contain" />
 				<div className="flex flex-col gap-2 px-4 py-2">
 					<span className="font-medium text-sm">{title}</span>
@@ -44,9 +44,11 @@ const OrderItem = ({ color, _quantity = 1, price, thumb, title, pid }) => {
 					/>
 				</div>
 			</span>
-			<span className="w-full text-center col-span-3">
+			<span className="w-full md:text-center md:col-span-3 col-span-1">
 				<div className="flex items-center h-full">
-					<h2 className="text-center w-main font-bold">{`${formatMoney(formatPrice(price * quantity))} VND`}</h2>
+					<h2 className="text-center md:w-main w-full font-bold">{`${formatMoney(
+						formatPrice(price * quantity)
+					)} VND`}</h2>
 				</div>
 			</span>
 		</div>

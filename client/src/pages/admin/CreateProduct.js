@@ -180,7 +180,17 @@ const CreateProduct = () => {
 							register={register}
 							errors={errors}
 							id="brand"
-							style={clsx("flex-1")}
+							style={clsx("flex-1 md:block hidden")}
+							options={categories
+								?.find((el) => el._id === watch("category"))
+								?.brand?.map((item) => ({ code: item, value: item }))}
+						/>
+						<Select
+							label="Thương hiệu"
+							register={register}
+							errors={errors}
+							id="brand"
+							style={clsx("flex-1 md:hidden block")}
 							options={categories
 								?.find((el) => el._id === watch("category"))
 								?.brand?.map((item) => ({ code: item, value: item }))}
@@ -263,6 +273,7 @@ const CreateProduct = () => {
 						</Button>
 					</div>
 				</form>
+				<div className="md:hidden block h-[50px]"></div>
 			</div>
 		</div>
 	);

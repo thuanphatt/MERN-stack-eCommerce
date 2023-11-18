@@ -12,6 +12,7 @@ export { default as Button } from "./Buttons/Button";
 export { default as Sidebar } from "./Sidebar/Sidebar";
 export { default as AdminSidebar } from "./Sidebar/AdminSidebar";
 export { default as MemberSidebar } from "./Sidebar/MemberSidebar";
+export { default as AdminSidebarRepo } from "./Sidebar/AdminSidebarRepo";
 
 export { default as Header } from "./Headers/Header";
 export { default as TopHeader } from "./Headers/TopHeader";

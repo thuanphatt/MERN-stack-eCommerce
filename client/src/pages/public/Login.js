@@ -99,14 +99,14 @@ const Login = () => {
 		setToken("");
 	};
 	return (
-		<div className="w-screen h-screen relative">
+		<div className="md:w-screen w-full h-screen relative">
 			{isVerifiedEmail && (
 				<div className="absolute right-0 left-0 top-0 bottom-0 bg-overlay z-50 flex flex-col items-center justify-center">
-					<div className=" bg-white w-[1000px] rounded-md p-6">
+					<div className=" bg-white md:w-[1000px] w-full rounded-md p-6">
 						<h4>Chúng tôi đã 1 đoạn mã code đến email của bạn. Hãy kiểm tra mail và điền mã code vào bên dưới:</h4>
 						<input
 							type="text"
-							className="w-[800px] border py-2 outline-none placeholder:text-sm rounded-md mr-2 pl-2"
+							className="md:w-[800px] border py-2 outline-none placeholder:text-sm rounded-md mr-2 pl-2"
 							placeholder="Nhập mã code của bạn tại đây ..."
 							value={token}
 							onChange={(e) => setToken(e.target.value)}
@@ -122,13 +122,13 @@ const Login = () => {
 						<input
 							type="text"
 							name="email"
-							className="w-[800px] border-b pb-2 outline-none placeholder:text-sm"
+							className="md:w-[800px] w-full border-b md:pb-2 mb-4 outline-none placeholder:text-sm"
 							placeholder="VD : email@gmail.com"
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
 						></input>
 					</div>
-					<div className="flex items-center justify-end w-[800px] gap-4">
+					<div className="flex items-center justify-end md:w-[800px] gap-4">
 						<Button handleOnClick={handleForgotPassword}>Gửi</Button>
 						<Button
 							handleOnClick={() => {
@@ -148,7 +148,7 @@ const Login = () => {
 				className="w-full h-full object-cover"
 			></img>
 			<div className="absolute top-1/2 bottom-1/2 left-1/2 right-1/2 flex items-center justify-center">
-				<div className="p-8 bg-white rounded-md min-w-[730px] flex flex-col items-center justify-center">
+				<div className="p-8 bg-white rounded-md md:min-w-[730px] min-w-[400px] flex flex-col items-center justify-center">
 					<h1 className="text-[28px] font-semibold text-main mb-8">{isRegister ? "Đăng ký" : "Đăng nhập"}</h1>
 					{isRegister && (
 						<div className="flex items-center gap-2 justify-center relative">

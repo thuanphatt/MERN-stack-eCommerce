@@ -46,7 +46,7 @@ const TopHeader = ({ dispatch }) => {
 		<div className="md:h-[38px] h-full w-full bg-main items-center justify-center flex py-2">
 			{isShowMenuRepo && (
 				<div
-					className="bg-overlay z-50 absolute inset-0 flex justify-start h-full w-full"
+					className="bg-overlay z-50 absolute inset-0 flex justify-start h-full w-full md:hidden"
 					onClick={() => {
 						dispatch(showMenuRepo());
 					}}

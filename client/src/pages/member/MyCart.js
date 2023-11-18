@@ -229,10 +229,10 @@ const MyCart = ({ dispatch, navigate, location }) => {
 			{isSuccess && <Congratulation />}
 			{currentCart.length > 0 ? (
 				<div className="flex flex-col border mt-8 md:w-main w-full mx-auto py-8">
-					<div className="grid grid-cols-10 md:w-main w-full mx-auto font-bold bg-[#86A789] py-2 text-white">
-						<span className="w-full col-span-6 pl-4">Sản phẩm</span>
+					<div className="grid md:grid-cols-10 grid-cols-4 md:w-main w-full mx-auto font-bold bg-[#86A789] py-2 text-white">
+						<span className="w-full md:col-span-6 col-span-2 pl-4">Sản phẩm</span>
 						<span className="w-full text-center col-span-1">Số lượng</span>
-						<span className="w-full text-center col-span-3">Giá</span>
+						<span className="w-full text-center md:col-span-3 col-span-1">Giá</span>
 					</div>
 					{currentCart?.map((el) => (
 						<OrderItem
@@ -253,7 +253,7 @@ const MyCart = ({ dispatch, navigate, location }) => {
 								register={register}
 								errors={errors}
 								id="typePayment"
-								style={clsx("w-[20%]")}
+								style={clsx("md:w-[20%] w-full")}
 								validate={{ required: "Không được để trống trường này" }}
 								options={typePayment?.map((el) => ({
 									code: el.code,
@@ -261,7 +261,7 @@ const MyCart = ({ dispatch, navigate, location }) => {
 								}))}
 							/>
 							{activePayment && watch("typePayment") === "1" && (
-								<div className="flex flex-col gap-1 mt-4 w-[30%]">
+								<div className="flex flex-col gap-1 mt-4 md:w-[30%] w-full">
 									<span className="text-sm font-medium">{`Họ và tên : ${current.firstName} ${current.lastName}`}</span>
 									<span className="text-sm font-medium">{`Số điện thoại : ${current.mobile}`}</span>
 									{current?.address.length > 0 && (

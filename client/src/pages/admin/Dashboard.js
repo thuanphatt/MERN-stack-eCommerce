@@ -85,11 +85,10 @@ const Dashboard = () => {
 		count: statusCount[status],
 	}));
 	const countArray = resultArray.map((item) => item.count);
-	console.log(noSoldProductData);
 	return (
 		<div className="w-full relative px-4 mx-auto">
 			<header className="text-3xl font-bold py-4 border-b border-main">Dashboard</header>
-			<div className="flex items-center gap-2 mt-4">
+			<div className="flex md:items-center gap-2 mt-4 md:flex-row flex-col">
 				<div className="flex-1 stat-box border rounded-md shadow-md p-4 text-center bg-gray-100">
 					<span className="font-bold text-lg">{users?.length}</span>
 					<div className="flex items-center gap-2 justify-center">
@@ -120,14 +119,14 @@ const Dashboard = () => {
 				</div>
 			</div>
 
-			<div className="flex items-end w-full mt-4 justify-center">
+			<div className="flex items-end w-full mt-4 justify-center md:flex-row flex-col">
 				<div className="flex-1 w-full flex flex-col items-center gap-4">
-					<div className="h-[400px] w-full flex justify-center items-center">
+					<div className="md:h-[400px] w-full flex justify-center items-center">
 						<DoughnutChart dataOrders={countArray} />
 					</div>
 				</div>
 				<div className="flex-1 w-full flex flex-col items-end gap-4">
-					<div className="h-[450px] w-full flex justify-center items-end">
+					<div className="md:h-[450px] w-full flex justify-center items-end">
 						<HorizontalChart
 							nameProduct={nameProduct}
 							soldProduct={soldProductData}
@@ -138,7 +137,7 @@ const Dashboard = () => {
 					</div>
 				</div>
 			</div>
-			<div className="flex items-center w-full mt-[100px] justify-center">
+			<div className="flex items-center w-full mt-[100px] justify-center md:flex-row flex-col">
 				<div className="flex-1 w-full flex flex-col items-center gap-4">
 					<div className="h-[450px] w-full flex justify-center items-center">
 						<VerticalBarChart
@@ -162,7 +161,7 @@ const Dashboard = () => {
 					</div>
 				</div>
 			</div>
-			<div className="flex items-center w-full mt-[100px] justify-center">
+			<div className="flex items-center w-full mt-[100px] justify-center md:flex-row flex-col">
 				<div className="flex-1 w-full flex flex-col items-center gap-4">
 					<div className="h-[450px] w-full flex justify-center items-center">
 						<HorizontalChart

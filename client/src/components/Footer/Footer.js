@@ -86,6 +86,7 @@ const Footer = () => {
 					<div className="flex-1 flex flex-col gap-2">
 						<h2 className="mb-[20px] md:text-[15px] text-[18px] font-medium border-main border-l-4 pl-4">#THPHAT</h2>
 					</div>
+					<div className="md:hidden block h-[60px]"></div>
 				</div>
 			</div>
 		</div>

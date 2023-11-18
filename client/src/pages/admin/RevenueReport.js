@@ -122,6 +122,7 @@ const RevenueReport = ({ navigate }) => {
 						} VND`}</span>
 					</span>
 				</div>
+				<div className="md:hidden block h-[100px]"></div>
 			</div>
 		</div>
 	);
