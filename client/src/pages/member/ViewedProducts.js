@@ -30,17 +30,31 @@ const ViewedProducts = ({ dispatch }) => {
 				)}
 				{currentViewedProducts &&
 					currentViewedProducts?.map((el) => (
-						<div key={el._id} className="flex border-b border-[#ccc] pb-8 items-center justify-between">
-							<div className="flex gap-4 items-center">
-								<img src={el.thumbnail} alt="Ảnh sản phẩm" className="w-[150px] h-[150px] object-contain rounded" />
-								<div className="flex flex-col gap-1">
-									<span className="font-medium text-lg text-black">{el.title}</span>
-									<span className="text-base font-medium">{el.color}</span>
-									<span className="text-base font-medium">{`${formatMoney(formatPrice(el.price))} VND`}</span>
+						<div
+							className="grid md:grid-cols-10 grid-cols-4 md:w-main w-full mx-auto border-b md:pl-10 py-4"
+							key={el._id}
+						>
+							<span className="w-full text-center md:col-span-5 col-span-2 flex items-center md:flex-row flex-col">
+								<img
+									src={el.thumbnail}
+									alt="Ảnh sản phẩm"
+									className="md:w-[200px] md:h-[200px] w-[50px] h-[50px] object-contain"
+								/>
+								<div className="flex flex-col gap-2 px-4 py-2">
+									<span className="font-medium text-sm">{el.title}</span>
+									<span className="text-sm">{el.color}</span>
 								</div>
-							</div>
+							</span>
+
+							<span className="w-full md:text-center md:col-span-3 col-span-1">
+								<div className="flex items-center h-full">
+									<h2 className="text-center md:w-main w-full font-bold">{`${formatMoney(
+										formatPrice(el.price)
+									)} VND`}</h2>
+								</div>
+							</span>
 							<span
-								className="p-2 rounded-full hover:text-red-500 cursor-pointer"
+								className="p-2 rounded-full hover:text-red-500 cursor-pointer w-full md:text-center md:col-span-2 col-span-1 flex items-center justify-center"
 								onClick={() => {
 									removeViewedItem(el.product, el.color);
 								}}

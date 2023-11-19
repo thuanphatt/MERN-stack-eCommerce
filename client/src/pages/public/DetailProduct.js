@@ -123,6 +123,10 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 				}
 			});
 		}
+		if (product?.quantity === 0) {
+			toast.warn("Sản phẩm đã hết!");
+			return;
+		}
 		if (quantity > product?.quantity) {
 			toast.warn("Số lượng đã vượt quá giới hạn");
 			return;

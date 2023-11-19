@@ -46,45 +46,55 @@ const BestSeller = ({ navigate, dispatch }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [activedTab]);
 	return (
-		<div className="w-full px-4 md:px-0">
-			<div className="flex ml-[-32px]">
-				{tabs.map((el) => (
-					<span
-						className={`font-semibold text-xl border-r px-8 cursor-pointer uppercase text-gray-500 ${
-							activedTab === el.id ? "text-gray-950" : ""
-						}`}
-						key={el.id}
-						onClick={() => setActivedTab(el.id)}
+		products && (
+			<div className="w-full px-4 md:px-0">
+				<div className="flex ml-[-32px]">
+					{tabs.map((el) => (
+						<span
+							className={`font-semibold text-xl border-r px-8 cursor-pointer uppercase text-gray-500 ${
+								activedTab === el.id ? "text-gray-950" : ""
+							}`}
+							key={el.id}
+							onClick={() => setActivedTab(el.id)}
+						>
+							{el.name}
+						</span>
+					))}
+				</div>
+				<div className="w-full border-b-2 border-main mt-3"></div>
+				<div className="mt-2 pt-3 w-full">
+					<CustomerSlider products={products} activedTab={activedTab} />
+				</div>
+				<div className="flex gap-4 mt-5 w-full">
+					<div
+						className="cursor-pointer flex-1 hover:opacity-80"
+						onClick={() => {
+							productBanner &&
+								navigate(`/${productBanner[1]?.category}/${productBanner[1]?._id}/${productBanner[1]?.title}`);
+						}}
 					>
-						{el.name}
-					</span>
-				))}
-			</div>
-			<div className="w-full border-b-2 border-main mt-3"></div>
-			<div className="mt-2 pt-3 w-full">
-				<CustomerSlider products={products} activedTab={activedTab} />
-			</div>
-			<div className="flex gap-4 mt-5 w-full">
-				<div
-					className="cursor-pointer flex-1 hover:opacity-80"
-					onClick={() => {
-						productBanner &&
-							navigate(`/${productBanner[1]?.category}/${productBanner[1]?._id}/${productBanner[1]?.title}`);
-					}}
-				>
-					<img src={contents?.bannerSub[0]} alt="banner1" className="object-contain"></img>
-				</div>
-				<div
-					className="cursor-pointer flex-1 hover:opacity-80"
-					onClick={() => {
-						productBanner &&
-							navigate(`/${productBanner[0]?.category}/${productBanner[0]?._id}/${productBanner[0]?.title}`);
-					}}
-				>
-					<img src={contents?.bannerSub[1]} alt="banner2" className="object-contain"></img>
+						<img
+							src={productBanner && contents?.bannerSub[0]}
+							alt={productBanner && contents?.bannerSub[0]}
+							className="object-contain"
+						></img>
+					</div>
+					<div
+						className="cursor-pointer flex-1 hover:opacity-80"
+						onClick={() => {
+							productBanner &&
+								navigate(`/${productBanner[0]?.category}/${productBanner[0]?._id}/${productBanner[0]?.title}`);
+						}}
+					>
+						<img
+							src={productBanner && contents?.bannerSub[1]}
+							alt={productBanner && contents?.bannerSub[1]}
+							className="object-contain"
+						></img>
+					</div>
 				</div>
 			</div>
-		</div>
+		)
 	);
 };
 

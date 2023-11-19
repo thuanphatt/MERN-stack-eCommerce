@@ -42,7 +42,7 @@ const RevenueStatistics = ({ navigate }) => {
 							dataRevenue={calculateRevunue(orders, "week").revenueWeek}
 							labels={calculateRevunue(orders, "week").dayOfRevenueWeek}
 							label="Doanh thu (VND)"
-							title="Biểu đồ thống kế doanh thu theo tuần"
+							title="Biểu đồ thống kế doanh thu tuần gần đây nhất"
 							backgroundColor="rgba(255, 99, 132, 0.5)"
 						/>
 					</div>

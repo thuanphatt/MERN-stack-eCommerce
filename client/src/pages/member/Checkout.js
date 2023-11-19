@@ -9,7 +9,8 @@ import clsx from "clsx";
 import Congratulation from "components/Common/Congratulation";
 import withBaseComponent from "hocs/withBaseComponent";
 import { getCurrent } from "store/user/asyncActions";
-import { apiGetCoupons, apiGetShipments } from "apis";
+import { apiGetBuyHistory, apiGetCoupons, apiGetShipments } from "apis";
+import { toast } from "react-toastify";
 const Checkout = ({ dispatch }) => {
 	const { currentCart, current } = useSelector((state) => state.user);
 	const {
@@ -20,23 +21,29 @@ const Checkout = ({ dispatch }) => {
 	const [isSuccess, setIsSuccess] = useState(false);
 	const [shipment, setShipment] = useState(null);
 	const [coupons, setCoupons] = useState(null);
-
+	const [orders, setOrders] = useState(null);
 	const fetchCoupons = async () => {
 		const response = await apiGetCoupons();
 		if (response.success) setCoupons(response.coupons);
+	};
+	const fetchOrders = async () => {
+		const response = await apiGetBuyHistory();
+		if (response.success) setOrders(response.order);
 	};
 	const fetchShipment = async () => {
 		const response = await apiGetShipments();
 		if (response.success) setShipment(response.shipment);
 	};
 	const discountCode = watch("discountCode");
+	const couponOrderArr = orders?.map((el) => el?.coupon);
+	const isUsed = couponOrderArr?.includes(discountCode);
 	const conpouArr = coupons?.map((el) => el);
-	const discountPercent = conpouArr?.find((el) => el._id === discountCode)?.discount;
+	const discountPrice = conpouArr?.find((el) => el._id === discountCode)?.discount;
 	const isDiscount = conpouArr?.some((el) => el._id === discountCode);
 	const cost = Number(shipment?.map((el) => el.cost));
 	const freeship = Number(shipment?.map((el) => el.freeship));
 	const sumProductPrice = currentCart?.reduce((sum, el) => +el.price * el.quantity + sum, 0);
-	const total = isDiscount ? sumProductPrice - sumProductPrice * (discountPercent / 100) : sumProductPrice;
+	const total = isDiscount && !isUsed ? sumProductPrice - discountPrice : sumProductPrice;
 	const finalPrice = total > freeship ? total : total + cost;
 
 	useEffect(() => {
@@ -47,7 +54,16 @@ const Checkout = ({ dispatch }) => {
 	useEffect(() => {
 		fetchShipment();
 		fetchCoupons();
+		fetchOrders();
 	}, []);
+	useEffect(() => {
+		if (isUsed && discountCode) {
+			toast.warning("Mã giảm giá đã được sử dụng!");
+		}
+		if (!isUsed && isDiscount) {
+			toast.success("Áp dụng mã giảm giá thành công");
+		}
+	}, [isUsed, isDiscount]);
 	return (
 		<div className="grid grid-cols-10 gap-6 p-8 h-full max-h-screen overflow-y-auto">
 			<div className="col-span-4 w-full flex items-center justify-center">
@@ -89,13 +105,19 @@ const Checkout = ({ dispatch }) => {
 							placeholder="Nhập mã giảm giá của bạn"
 							style={clsx("text-sm")}
 						/>
+						{isDiscount && !isUsed && (
+							<div className="flex items-center justify-between gap-4 my-4">
+								<strong>Mã giảm giá:</strong>
+								<h2>{`${formatMoney(formatPrice(!isUsed ? discountPrice : 0))} VND`}</h2>
+							</div>
+						)}
 						<div className="flex items-center justify-between gap-4 my-4">
 							<strong>Phí vận chuyển:</strong>
 							<h2>{`${formatMoney(formatPrice(total > freeship ? 0 : cost))} VND`}</h2>
 						</div>
 						<div className="flex items-center justify-between gap-4">
 							<strong>Tổng cộng:</strong>
-							<h2>{`${formatMoney(formatPrice(finalPrice))} VND`}</h2>
+							<h2>{`${formatMoney(formatPrice(finalPrice < 0 ? 0 : finalPrice))} VND`}</h2>
 						</div>
 					</div>
 					<div className="flex-1 flex flex-col gap-4">

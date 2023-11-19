@@ -222,6 +222,11 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 					{isProductInCategories && (
 						<span className="absolute top-[-380%] left-[-15px] font-semibold text-white w-[96px] h-[35px] bg-red-500 p-2 flex items-center justify-center">{`GIẢM ${sales?.discount}%`}</span>
 					)}
+					{productData?.quantity === 0 && (
+						<span className="absolute top-[-180%] right-[62px] font-semibold text-white w-[130px] h-[35px] bg-red-500 p-2 flex items-center justify-center">
+							Đã hết
+						</span>
+					)}
 				</div>
 			</div>
 		</div>

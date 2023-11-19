@@ -110,11 +110,9 @@ const Products = ({ dispatch }) => {
 					className="my-masonry-grid flex flex-wrap md:mx-[-10px]"
 					columnClassName="my-masonry-grid_column"
 				>
-					{productCategories?.products
-						?.filter((product) => +product.quantity > 0)
-						.map((el) => (
-							<Product key={el._id} pid={el._id} productData={el} normal={true} />
-						))}
+					{productCategories?.products.map((el) => (
+						<Product key={el._id} pid={el._id} productData={el} normal={true} />
+					))}
 				</Masonry>
 			</div>
 			{productCategories && (

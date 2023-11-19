@@ -40,7 +40,6 @@ const DailyDeal = ({ dispatch }) => {
 		}
 	};
 	const fetchDealDaily = async () => {
-		console.log("logged");
 		const response = await apiGetSales();
 		if (response.success) {
 			const products = response.sales[0];

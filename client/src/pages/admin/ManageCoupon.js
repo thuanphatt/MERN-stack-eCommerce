@@ -66,6 +66,7 @@ const ManageCoupon = ({ dispatch }) => {
 						<th className="py-4 px-2 ">Tên</th>
 						<th className="py-4 px-2 ">Giá giảm</th>
 						<th className="py-4 px-2 ">Có hiệu lực đến</th>
+						<th className="py-4 px-2 ">Trạng thái</th>
 						<th className="py-4 px-2 ">Ngày tạo</th>
 						<th className="py-4 px-2 ">Hành động</th>
 					</tr>
@@ -77,6 +78,7 @@ const ManageCoupon = ({ dispatch }) => {
 							<td className="py-4 px-2 ">{el.name}</td>
 							<td className="py-4 px-2">{el.discount}</td>
 							<td className="py-4 px-2 ">{moment(el.expiry)?.format("DD/MM/YYYY")}</td>
+							<td className="py-4 px-2 ">{moment(el?.expiry).isAfter(moment()) ? "Còn thời hạn" : "Đã hết hạn"}</td>
 							<td className="py-4 px-2">{moment(el.createdAt)?.fromNow()}</td>
 							<td className="py-4 px-2">
 								<div className="flex items-center gap-4 justify-center">
