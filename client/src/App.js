@@ -25,6 +25,7 @@ import {
 	AdminLayout,
 	CreateBlog,
 	CreateCategory,
+	CreateContent,
 	CreateProduct,
 	CreateRevenuePredict,
 	CreateService,
@@ -32,6 +33,7 @@ import {
 	Dashboard,
 	ManageBlog,
 	ManageCategory,
+	ManageContent,
 	ManageOrder,
 	ManageProduct,
 	ManageSerice,
@@ -46,8 +48,6 @@ import CreateCoupon from "pages/admin/CreateCoupon";
 import ManageCoupon from "pages/admin/ManageCoupon";
 import ManageBlogCategory from "pages/admin/ManageBlogCategory";
 import CreateBlogCategory from "pages/admin/CreateBlogCategory";
-import ManageBanner from "pages/admin/ManageBanner";
-import CreateBanner from "pages/admin/CreateBanner";
 import ManageSale from "pages/admin/ManageSale";
 import CreateSale from "pages/admin/CreateSale";
 function App() {
@@ -105,14 +105,14 @@ function App() {
 					<Route path={path.MANAGE_BLOGCATEGORY} element={<ManageBlogCategory />}></Route>
 					<Route path={path.MANAGE_BLOG} element={<ManageBlog />}></Route>
 					<Route path={path.MANAGE_SHIP} element={<ManageShipment />}></Route>
-					<Route path={path.MANAGE_BANNER} element={<ManageBanner />}></Route>
+					<Route path={path.MANAGE_CONTENT} element={<ManageContent />}></Route>
 					<Route path={path.MANAGE_SERVICE} element={<ManageSerice />}></Route>
 					<Route path={path.MANAGE_COUPON} element={<ManageCoupon />}></Route>
 					<Route path={path.MANAGE_SALE} element={<ManageSale />}></Route>
 					<Route path={path.CREATE_BLOG} element={<CreateBlog />}></Route>
 					<Route path={path.CREATE_SALE} element={<CreateSale />}></Route>
 					<Route path={path.CREATE_SERVICE} element={<CreateService />}></Route>
-					<Route path={path.CREATE_BANNER} element={<CreateBanner />}></Route>
+					<Route path={path.CREATE_CONTENT} element={<CreateContent />}></Route>
 					<Route path={path.CREATE_PRODUCT} element={<CreateProduct />}></Route>
 					<Route path={path.CREATE_CATEGORY} element={<CreateCategory />}></Route>
 					<Route path={path.CREATE_BLOGCATEGORY} element={<CreateBlogCategory />}></Route>

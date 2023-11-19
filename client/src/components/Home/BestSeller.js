@@ -4,6 +4,7 @@ import { CustomerSlider } from "components";
 import { getNewProducts } from "store/products/asyncActions";
 import { useSelector } from "react-redux";
 import withBaseComponent from "hocs/withBaseComponent";
+import { apiGetContents } from "apis";
 const tabs = [
 	{ id: 1, name: "Bán chạy" },
 	{ id: 2, name: "Mới nhất" },
@@ -14,7 +15,7 @@ const BestSeller = ({ navigate, dispatch }) => {
 	const [products, setProducts] = useState(null);
 	const [productBanner, setProductBanner] = useState(null);
 	const { newProducts } = useSelector((state) => state.products);
-
+	const [contents, setContents] = useState(null);
 	const fetchProducts = async () => {
 		const response = await apiGetProducts({ sort: "-sold" });
 		if (response?.success) {
@@ -27,6 +28,13 @@ const BestSeller = ({ navigate, dispatch }) => {
 			);
 		}
 	};
+	const fetchBanners = async () => {
+		const response = await apiGetContents();
+		if (response.success) setContents(response.contents[0]);
+	};
+	useEffect(() => {
+		fetchBanners();
+	}, []);
 	useEffect(() => {
 		fetchProducts();
 		dispatch(getNewProducts());
@@ -64,11 +72,7 @@ const BestSeller = ({ navigate, dispatch }) => {
 							navigate(`/${productBanner[1]?.category}/${productBanner[1]?._id}/${productBanner[1]?.title}`);
 					}}
 				>
-					<img
-						src="https://globalcheck.com.vn/apt-upload/image/cache/data/banner/banner-trang-chu/banner-website-may-bay-nong-nghiep-g300pro-2709-2025x950resize_and_crop.png"
-						alt="banner1"
-						className="object-contain"
-					></img>
+					<img src={contents?.bannerSub[0]} alt="banner1" className="object-contain"></img>
 				</div>
 				<div
 					className="cursor-pointer flex-1 hover:opacity-80"
@@ -77,11 +81,7 @@ const BestSeller = ({ navigate, dispatch }) => {
 							navigate(`/${productBanner[0]?.category}/${productBanner[0]?._id}/${productBanner[0]?.title}`);
 					}}
 				>
-					<img
-						src="https://globalcheck.com.vn/apt-upload/image/cache/data/banner/banner-trang-chu/banner-website-thiet-bi-dan-duong-nx510-2709-2025x950resize_and_crop.png"
-						alt="banner2"
-						className="object-contain"
-					></img>
+					<img src={contents?.bannerSub[1]} alt="banner2" className="object-contain"></img>
 				</div>
 			</div>
 		</div>

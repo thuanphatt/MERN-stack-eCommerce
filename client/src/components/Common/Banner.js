@@ -1,9 +1,13 @@
-import { apiGetBanners } from "apis";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { apiGetContents } from "apis";
 import React, { memo, useEffect, useState } from "react";
 import Slider from "react-slick";
+import { showModal } from "store/app/appSlice";
+import Loading from "./Loading";
+import { useDispatch } from "react-redux";
 
 const Banner = () => {
-	const [banners, setBanners] = useState(null);
+	const [contents, setContents] = useState(null);
 	const settings = {
 		dots: true,
 		infinite: true,
@@ -13,9 +17,12 @@ const Banner = () => {
 		autoplay: true,
 		arrows: false,
 	};
+	const dispatch = useDispatch();
 	const fetchBanners = async () => {
-		const response = await apiGetBanners();
-		if (response.success) setBanners(response.banners);
+		dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
+		const response = await apiGetContents();
+		dispatch(showModal({ isShowModal: false, modalChildren: null }));
+		if (response.success) setContents(response.contents[0]);
 	};
 	useEffect(() => {
 		fetchBanners();
@@ -23,9 +30,9 @@ const Banner = () => {
 	return (
 		<div className="w-full">
 			<Slider {...settings}>
-				{banners?.map((el, index) => (
+				{contents?.banners?.map((el, index) => (
 					<div key={index}>
-						<img src={el.image} alt="img" className="object-cover md:min-h-[415px] w-full min-h-[200px] px-4 md:px-0" />
+						<img src={el} alt="img" className="object-cover md:min-h-[415px] w-full min-h-[200px] px-4 md:px-0" />
 					</div>
 				))}
 			</Slider>

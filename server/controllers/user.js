@@ -75,10 +75,10 @@ const login = asyncHandler(async (req, res) => {
 
 		// save refresh token in database
 		await User.findByIdAndUpdate(response._id, { refreshToken: newRefreshToken }, { new: true });
+
 		// save refresh token in cookie
 		res.cookie("refreshToken", newRefreshToken, {
 			httpOnly: true,
-
 			maxAge: 7 * 24 * 60 * 60 * 1000,
 		});
 		return res.status(200).json({

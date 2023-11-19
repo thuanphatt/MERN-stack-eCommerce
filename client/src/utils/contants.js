@@ -366,14 +366,14 @@ export const adminSidebar = [
 	{
 		id: 13,
 		type: "PARENT",
-		text: "Quản lý banner",
+		text: "Quản lý nội dung",
 
 		icon: <BiCategory size={20} />,
 		submenu: [
-			{ text: "Tạo banner", path: `/${path.ADMIN}/${path.CREATE_BANNER}`, icon: <IoCreateOutline size={20} /> },
+			{ text: "Tạo nội dung", path: `/${path.ADMIN}/${path.CREATE_CONTENT}`, icon: <IoCreateOutline size={20} /> },
 			{
-				text: "Quản lý banner",
-				path: `/${path.ADMIN}/${path.MANAGE_BANNER}`,
+				text: "Quản lý nội dung",
+				path: `/${path.ADMIN}/${path.MANAGE_CONTENT}`,
 				icon: <BiCategory size={20} />,
 			},
 		],

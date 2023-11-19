@@ -54,7 +54,7 @@ const Services = ({ navigate }) => {
 					))}
 				</div>
 				<h2 className="text-xl font-bold">DANH MỤC LINH PHỤ KIỆN THUỘC PHẠM VI BẢO HÀNH</h2>
-				<div className="my-4 border">
+				<div className="my-4 border border-black border-r-0">
 					<img src={baohanh} alt="bao hanh" className="w-full h-auto object-contain" />
 				</div>
 				<span className="font-semibold text-base">Chú ý</span>

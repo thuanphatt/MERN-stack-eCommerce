@@ -7,6 +7,6 @@ export * from "./coupon";
 export * from "./blog";
 export * from "./blogcategories";
 export * from "./service";
-export * from "./banner";
+export * from "./content";
 export * from "./sale";
 export * from "./revenuePredict";
