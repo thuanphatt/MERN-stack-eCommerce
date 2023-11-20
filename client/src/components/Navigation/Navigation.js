@@ -53,7 +53,7 @@ const Navigation = () => {
 						{products?.map((el) => (
 							<div
 								key={el._id}
-								className="flex p-4 border-b cursor-pointer hover:bg-gray-200"
+								className="flex p-4 border-b cursor-pointer hover:bg-gray-200 relative"
 								onClick={(e) => {
 									e.stopPropagation();
 									navigate(`/${el?.category[0]}/${el?._id}/${el?.title}`);
@@ -66,6 +66,11 @@ const Navigation = () => {
 									<span className="text-sm">{el.color}</span>
 									<span className="text-sm">{`${formatMoney(formatPrice(el.price))} VND`}</span>
 								</div>
+								{el.quantity <= 0 && (
+									<span className="absolute top-[34%] right-[72%] font-semibold text-white md:w-[64px] h-[25px] bg-red-500 p-2 flex items-center justify-center text-sm rotate-[-45deg]">
+										Đã hết
+									</span>
+								)}
 							</div>
 						))}
 					</div>

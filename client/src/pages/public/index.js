@@ -12,3 +12,4 @@ export { default as DetailBlog } from "./DetailBlog";
 export { default as Trainning } from "./Trainning";
 export { default as DetailService } from "./DetailService";
 export { default as NoPage } from "./NoPage";
+export { default as Checkout } from "./Checkout";

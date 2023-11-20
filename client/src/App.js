@@ -16,6 +16,7 @@ import {
 	DetailService,
 	Contact,
 	NoPage,
+	Checkout,
 } from "./pages/public";
 import { Route, Routes } from "react-router-dom";
 import path from "./utils/path";
@@ -43,7 +44,7 @@ import {
 	RevenueReport,
 	RevenueStatistics,
 } from "pages/admin";
-import { MemberLayout, Personal, BuyHistory, Checkout, MyCart, ChangePassword, ViewedProducts } from "pages/member";
+import { MemberLayout, Personal, BuyHistory, ChangePassword, ViewedProducts, CheckoutPayPal } from "pages/member";
 import { showCart, showWishList } from "store/app/appSlice";
 import CreateCoupon from "pages/admin/CreateCoupon";
 import ManageCoupon from "pages/admin/ManageCoupon";
@@ -83,11 +84,11 @@ function App() {
 
 			{isShowModal && <Modal>{modalChildren}</Modal>}
 			<Routes>
-				<Route path={path.ALL} element={<NoPage />}></Route>
-				<Route path={path.CHECKOUT} element={<Checkout />}></Route>
+				<Route path={path.CHECKOUT_PAYPAL} element={<CheckoutPayPal />}></Route>
 				<Route path={path.PUBLIC_LAYOUT} element={<PublicLayout />}>
 					<Route path={path.HOME} element={<Home />}></Route>
 					<Route path={path.BLOGS} element={<Blogs />}></Route>
+					<Route path={path.CHECKOUT} element={<Checkout />}></Route>
 					<Route path={path.DETAIL_PRODUCT__CATEGORY__PID__TITLE} element={<DetailProduct />}></Route>
 					<Route path={path.DETAIL_BLOG__CATEGORY__BID__TITLE} element={<DetailBlog />}></Route>
 					<Route path={path.DETAIL_SERVICE__SID__TITLE} element={<DetailService />}></Route>
@@ -96,7 +97,6 @@ function App() {
 					<Route path={path.TRAINNING} element={<Trainning />}></Route>
 					<Route path={path.PRODUCTS} element={<Products />}></Route>
 					<Route path={path.RESET_PASSWORD} element={<ResetPassword />}></Route>
-					<Route path={path.ALL} element={<Home />}></Route>
 				</Route>
 				<Route path={path.ADMIN} element={<AdminLayout />}>
 					<Route path={path.DASHBOARD} element={<Dashboard />}></Route>
@@ -126,7 +126,6 @@ function App() {
 				</Route>
 				<Route path={path.MEMBER} element={<MemberLayout />}>
 					<Route path={path.PERSONAL} element={<Personal />}></Route>
-					<Route path={path.MYCART} element={<MyCart />}></Route>
 					<Route path={path.BUY_HISTORY} element={<BuyHistory />}></Route>
 					<Route path={path.WISHLIST} element={<WishList />}></Route>
 					<Route path={path.CHANGE_PASSWORD} element={<ChangePassword />}></Route>
@@ -134,6 +133,7 @@ function App() {
 				</Route>
 				<Route path={path.REGISTER_FINAL} element={<FinalRegister />}></Route>
 				<Route path={path.LOGIN} element={<Login />}></Route>
+				<Route path={path.ALL} element={<NoPage />}></Route>
 			</Routes>
 			<ToastContainer
 				position="top-right"

@@ -30,11 +30,14 @@ const BuyHistory = ({ navigate, location, dispatch }) => {
 	const [update, setUpdate] = useState(false);
 	const [isFilterDate, setIsFilterDate] = useState(false);
 	const fetchOrder = async (params) => {
+		dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 		const response = await apiGetBuyHistory({
 			...params,
 			limit: +process.env.REACT_APP_LIMIT,
 			sort: isFilterDate ? "-createdAt" : "createdAt",
 		});
+		dispatch(showModal({ isShowModal: false, modalChildren: null }));
+
 		if (response.success) {
 			setOrder(response.order);
 			setCounts(response.counts);
@@ -85,9 +88,7 @@ const BuyHistory = ({ navigate, location, dispatch }) => {
 			if (result.isConfirmed) {
 				dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 				const response = await apiUpdateStatus(oid, { status: "Đã nhận hàng" });
-
 				dispatch(showModal({ isShowModal: false, modalChildren: null }));
-
 				if (response.success) {
 					render();
 					toast.success(response.mes);
@@ -117,7 +118,7 @@ const BuyHistory = ({ navigate, location, dispatch }) => {
 	}, [params, isFilterDate, update]);
 	return (
 		<div className="w-full relative px-4 ">
-			<header className="text-3xl font-semibold py-4 border-b border-main">Lịch sử mua hàng</header>
+			<header className="text-3xl font-semibold py-4 border-b border-main">Đơn hàng</header>
 			<div className="flex justify-end items-center pt-6 pr-3">
 				<form className="w-[45%] grid grid-cols-2 gap-2">
 					<div className="col-span-1">

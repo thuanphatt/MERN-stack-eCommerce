@@ -98,7 +98,6 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 	};
 
 	const handleUpdateStatus = async (oid, newStatus) => {
-		if (newStatus === "Đang xử lý") return toast.warning("Không thể thay đổi sang trạng thái này");
 		dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 		const response = await apiUpdateStatus(oid, { status: newStatus });
 		dispatch(showModal({ isShowModal: false, modalChildren: null }));
@@ -231,16 +230,30 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 											handleUpdateStatus(el._id, newStatus);
 										}}
 									>
-										<option value="Đang xử lý" className="text-sm w-full">
-											Đang xử lý
-										</option>
-										<option value="Đang giao" className="text-sm w-full">
-											Đang giao
-										</option>
-
-										<option value="Thành công" className="text-sm w-full">
-											Thành công
-										</option>
+										{el.status === "Đang giao" ? (
+											<>
+												<>
+													<option value="Đang giao" className="text-sm w-full">
+														Đang giao
+													</option>
+													<option value="Thành công" className="text-sm w-full">
+														Thành công
+													</option>
+												</>
+											</>
+										) : (
+											<>
+												<option value="Đang xử lý" className="text-sm w-full">
+													Đang xử lý
+												</option>
+												<option value="Đang giao" className="text-sm w-full">
+													Đang giao
+												</option>
+												<option value="Thành công" className="text-sm w-full">
+													Thành công
+												</option>
+											</>
+										)}
 									</select>
 								</td>
 							) : (
@@ -251,7 +264,7 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 							<td className="py-4 px-2">{moment(el.createdAt)?.fromNow()}</td>
 							<td className="py-4 px-2">
 								<div className="flex items-center gap-3 justify-center">
-									{el?.status !== "Thành công" ? (
+									{el?.status !== "Thành công" && el?.status !== "Đã hủy" ? (
 										<div>
 											{editOrder?._id === el._id ? (
 												<span

@@ -70,27 +70,29 @@ const Cart = ({ dispatch, navigate }) => {
 					))}
 			</section>
 
-			<div className="row-span-2 h-full flex flex-col justify-between gap-4">
-				<div className="flex items-center gap-2 justify-between pt-4 border-t border-gray-500">
-					<span>Tổng cộng:</span>
-					<span>{`${formatMoney(
-						formatPrice(currentCart.reduce((sum, el) => sum + Number(el.price) * el.quantity, 0))
-					)} VND`}</span>
+			{currentCart.length > 0 && (
+				<div className="row-span-2 h-full flex flex-col justify-between gap-4">
+					<div className="flex items-center gap-2 justify-between pt-4 border-t border-gray-500">
+						<span>Tổng cộng:</span>
+						<span>{`${formatMoney(
+							formatPrice(currentCart.reduce((sum, el) => sum + Number(el.price) * el.quantity, 0))
+						)} VND`}</span>
+					</div>
+					<span className="text-[12px] text-gray-500 font-normal text-center">
+						Phí vận chuyển và giảm giá được tính khi thanh toán.
+					</span>
+					<Button
+						fullwidth
+						style={clsx("rounded-md py-3 bg-main")}
+						handleOnClick={() => {
+							dispatch(showCart());
+							navigate(`/${path.CHECKOUT}`);
+						}}
+					>
+						Tiến hành thanh toán
+					</Button>
 				</div>
-				<span className="text-[12px] text-gray-500 font-light text-center">
-					Vận chuyển, thuế và giảm giá được tính khi thanh toán.
-				</span>
-				<Button
-					fullwidth
-					style={clsx("rounded-md py-3 bg-main")}
-					handleOnClick={() => {
-						dispatch(showCart());
-						navigate(`/${path.MEMBER}/${path.MYCART}`);
-					}}
-				>
-					Giỏ hàng
-				</Button>
-			</div>
+			)}
 		</div>
 	);
 };

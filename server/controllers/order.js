@@ -156,24 +156,8 @@ const updateStatus = asyncHandler(async (req, res) => {
 		});
 	}
 	if (status === "Đã nhận hàng") {
+		await Order.findByIdAndUpdate(oid, { status: "Thành công" });
 		const orderCurrent = await Order.findById(oid);
-		const idProductArr = orderCurrent.products.map((el) => el._id);
-		for (const productId of idProductArr) {
-			const productInOrder = orderCurrent.products.find((product) => product._id === productId);
-			if (productInOrder) {
-				const product = await Product.findOne({ _id: productInOrder.product._id });
-				if (product) {
-					const quantityProductOrder = productInOrder.quantity;
-					await Product.findOneAndUpdate(
-						{ _id: productInOrder.product._id },
-						{
-							$set: { quantity: product.quantity - quantityProductOrder },
-							$inc: { sold: quantityProductOrder },
-						}
-					);
-				}
-			}
-		}
 		const productsHTML = orderCurrent.products.map(
 			(product) =>
 				`<li>
@@ -186,7 +170,7 @@ const updateStatus = asyncHandler(async (req, res) => {
 		);
 
 		const customerInfoHTML = `
-			<h2>Thông tin khách hàng</h2>
+			<h2>Thông tin người nhận</h2>
 			<p>Họ và tên: ${orderCurrent.orderBy.firstName} ${orderCurrent.orderBy.lastName}</p>
 			<p>Email: ${orderCurrent.orderBy.email}</p>
 			<p>Địa chỉ: ${orderCurrent.orderBy.address.join(", ")}</p>
@@ -197,12 +181,8 @@ const updateStatus = asyncHandler(async (req, res) => {
 
 		const orderDetailsHTML = `
 			<h1 class="text-3xl font-bold tracking-tight">
-				  <span>Đơn hàng đã được giao đến bạn thành công</span>
+			<span>Chi tiết đơn hàng</span>
 			</h1>
-			<h3 class="text-xl font-bold tracking-tight">
-			<span>Chi tiết đơn hàng </span>
-			</h3>
-
 			${statusHTML}
 			${paymentMethodHTML}
 			<ul>${productsHTML.join("")}</ul>
@@ -211,9 +191,9 @@ const updateStatus = asyncHandler(async (req, res) => {
 		  `;
 		const html = orderDetailsHTML;
 		await sendMail({
-			email: orderCurrent.orderBy.email,
+			email: process.env.EMAIL_NAME,
 			html,
-			subject: "Đơn hàng đã được giao thành công!",
+			subject: `Đơn hàng #${orderCurrent?._id} đã được giao thành công ✅`,
 		});
 	}
 	res.json({

@@ -31,7 +31,7 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 	const handleClickOptions = async (e, name) => {
 		e.stopPropagation();
 		if (name === "CART") {
-			if (productData?.quantity === 0) {
+			if (productData?.quantity <= 0) {
 				return toast.warning("Sản phẩm đã tạm hết hàng");
 			}
 			if (!current) {
@@ -127,7 +127,7 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 		<div className="w-full text-base md:px-1">
 			<div
 				onClick={(e) => {
-					navigate(`/${productData?.category[0]}/${productData?._id}/${productData?.title}`);
+					navigate(`/products/${productData?.category[0]}/${productData?._id}/${productData?.title}`);
 					handleClickProduct(e);
 				}}
 				className="w-full border p-[15px] flex flex-col items-center cursor-pointer"
@@ -225,8 +225,8 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 					{isProductInCategories && (
 						<span className="absolute top-[-380%] left-[-15px] font-semibold text-white w-[96px] h-[35px] bg-red-500 p-2 flex items-center justify-center">{`GIẢM ${sales?.discount}%`}</span>
 					)}
-					{productData?.quantity === 0 && (
-						<span className="absolute top-[-180%] right-[62px] font-semibold text-white w-[130px] h-[35px] bg-red-500 p-2 flex items-center justify-center">
+					{productData?.quantity <= 0 && (
+						<span className="absolute top-[-216%] right-[18px] font-semibold text-white md:w-[230px] h-[35px] bg-red-500 p-2 flex items-center justify-center rotate-[-45deg]">
 							Đã hết
 						</span>
 					)}

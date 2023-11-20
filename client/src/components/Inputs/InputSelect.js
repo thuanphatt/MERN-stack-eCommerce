@@ -7,7 +7,7 @@ const InputSelect = ({ value, changeValue, options }) => {
 			onChange={(e) => {
 				changeValue(e.target.value);
 			}}
-			className="text-[12px] text-gray-500 p-3 px-5 outline"
+			className="text-[12px] text-gray-500 p-3 px-5 outline outline-1"
 		>
 			<option value="">Ngẫu nhiên</option>
 			{options?.map((el) => (

@@ -15,8 +15,7 @@ const {
 	IoCreateOutline,
 	IoBagCheck,
 	BiCategory,
-	AiOutlineHistory,
-	IoCartOutline,
+	CiBoxList,
 	IoBarChartOutline,
 	LiaShippingFastSolid,
 	IoNewspaperOutline,
@@ -394,13 +393,7 @@ export const memberSidebar = [
 		path: `/${path.MEMBER}/${path.PERSONAL}`,
 		icon: <IoIosInformationCircleOutline size={20} />,
 	},
-	{
-		id: 3,
-		type: "SINGLE",
-		text: "Giỏ hàng của tôi",
-		path: `/${path.MEMBER}/${path.MYCART}`,
-		icon: <IoCartOutline size={20} />,
-	},
+
 	{
 		id: 4,
 		type: "SINGLE",
@@ -411,9 +404,9 @@ export const memberSidebar = [
 	{
 		id: 5,
 		type: "SINGLE",
-		text: "Lịch sử mua hàng",
+		text: "Đơn hàng",
 		path: `/${path.MEMBER}/${path.BUY_HISTORY}`,
-		icon: <AiOutlineHistory size={20} />,
+		icon: <CiBoxList size={20} />,
 	},
 	{
 		id: 6,
@@ -515,6 +508,10 @@ export const statusOrdersLabel = [
 	{
 		label: "Đang giao",
 		value: "Đang giao",
+	},
+	{
+		label: "Đã nhận hàng",
+		value: "Đã nhận hàng",
 	},
 	{
 		label: "Thành công",

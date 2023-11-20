@@ -10,7 +10,7 @@ import { getCurrent } from "store/user/asyncActions";
 import { typePayment } from "utils/contants";
 import { formatMoney, formatPrice } from "utils/helpers";
 import { apiCreateOrder, apiGetBuyHistory, apiGetCoupons, apiGetShipments, apiUpdateCurrent } from "apis";
-import { Button, InputForm, Loading, OrderItem, Select } from "components";
+import { Breakcrumb, Button, InputForm, Loading, OrderItem, Select } from "components";
 import Congratulation from "components/Common/Congratulation";
 import withBaseComponent from "hocs/withBaseComponent";
 import path from "utils/path";
@@ -18,7 +18,7 @@ import { apiCreateVnpay, apiReturnVnpay } from "apis/vnpay";
 import { toast } from "react-toastify";
 import { showModal } from "store/app/appSlice";
 
-const MyCart = ({ dispatch, navigate, location }) => {
+const Checkout = ({ dispatch, navigate, location }) => {
 	const {
 		register,
 		formState: { errors },
@@ -120,7 +120,7 @@ const MyCart = ({ dispatch, navigate, location }) => {
 				}
 			});
 		} else {
-			navigate(`/${path.CHECKOUT}`);
+			navigate(`/${path.CHECKOUT_PAYPAL}`);
 		}
 	};
 	const handleSubmitVNPay = async () => {
@@ -225,10 +225,15 @@ const MyCart = ({ dispatch, navigate, location }) => {
 	}, [isUsed, isDiscount]);
 	return (
 		<div className="flex flex-col justify-start w-full px-4">
-			<header className="text-3xl font-semibold py-4 border-b border-main">Giỏ hàng của tôi</header>
+			<div className="h-[81px] bg-gray-100 flex md:justify-center md:items-center md:px-0 px-4 md:flex-row flex-col md:pt-0 pt-4">
+				<div className="md:w-main w-full">
+					<h3 className="uppercase font-semibold mb-1 truncate md:max-w-full max-w-[400px]">Thanh toán</h3>
+					<Breakcrumb category="Thanh toán" />
+				</div>
+			</div>
 			{isSuccess && <Congratulation />}
 			{currentCart.length > 0 ? (
-				<div className="flex flex-col border mt-8 md:w-main w-full mx-auto py-8">
+				<div className="flex flex-col border my-8 md:w-main w-full mx-auto py-8">
 					<div className="grid md:grid-cols-10 grid-cols-4 md:w-main w-full mx-auto font-bold bg-[#86A789] py-2 text-white">
 						<span className="w-full md:col-span-6 col-span-2 pl-4">Sản phẩm</span>
 						<span className="w-full text-center col-span-1">Số lượng</span>
@@ -331,4 +336,4 @@ const MyCart = ({ dispatch, navigate, location }) => {
 	);
 };
 
-export default withBaseComponent(memo(MyCart));
+export default withBaseComponent(memo(Checkout));

@@ -10,6 +10,7 @@ import { GrGroup } from "react-icons/gr";
 import { IoMdMail, IoIosArrowForward, IoIosInformationCircleOutline } from "react-icons/io";
 import { SiSimpleanalytics } from "react-icons/si";
 import { RiCoupon3Line } from "react-icons/ri";
+import { CiBoxList } from "react-icons/ci";
 import {
 	IoMenu,
 	IoHomeOutline,
@@ -110,5 +111,6 @@ const icons = {
 	MdOutlineReport,
 	BsCalendar2Event,
 	TbReportAnalytics,
+	CiBoxList,
 };
 export default icons;

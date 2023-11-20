@@ -67,12 +67,11 @@ const Products = ({ dispatch }) => {
 	useEffect(() => {
 		if (sort) {
 			navigate({
-				pathname: `/${category}`,
+				pathname: `/products/${category}`,
 				search: createSearchParams({ sort }).toString(),
 			});
 		}
 	}, [sort, params]);
-
 	return (
 		<div className="w-full">
 			<div className="h-[81px] bg-gray-100 flex md:justify-center md:items-center md:px-0 px-4 md:flex-row flex-col md:pt-0 pt-4">
@@ -105,15 +104,19 @@ const Products = ({ dispatch }) => {
 				</div>
 			</div>
 			<div className="md:w-main m-auto mt-8 w-full md:px-0 px-4">
-				<Masonry
-					breakpointCols={breakpointColumnsObj}
-					className="my-masonry-grid flex flex-wrap md:mx-[-10px]"
-					columnClassName="my-masonry-grid_column"
-				>
-					{productCategories?.products.map((el) => (
-						<Product key={el._id} pid={el._id} productData={el} normal={true} />
-					))}
-				</Masonry>
+				{productCategories?.counts === 0 ? (
+					<h2 className="font-semibold text-xl text-center w-full md:my-[200px]">Không có sản phẩm phù hợp</h2>
+				) : (
+					<Masonry
+						breakpointCols={breakpointColumnsObj}
+						className="my-masonry-grid flex flex-wrap md:mx-[-10px]"
+						columnClassName="my-masonry-grid_column"
+					>
+						{productCategories?.products.map((el) => (
+							<Product key={el._id} pid={el._id} productData={el} normal={true} />
+						))}
+					</Masonry>
+				)}
 			</div>
 			{productCategories && (
 				<div className="md:w-main m-auto my-4 flex justify-end w-full md:px-0 px-4">

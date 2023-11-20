@@ -8,7 +8,7 @@ const Sidebar = () => {
 		<div className="md:flex flex-col border mb-3 font-medium hidden">
 			{categories?.map((el) => (
 				<NavLink
-					to={el.title}
+					to={`/products/${el.title}`}
 					key={createSlug(el.title)}
 					className={({ isActive }) =>
 						isActive

@@ -47,7 +47,7 @@ const SearchItem = ({ name, activeClick, changeActiveFilter, type = "checkbox" }
 		}
 
 		navigate({
-			pathname: `/${category}`,
+			pathname: `/products/${category}`,
 			search: createSearchParams(queries).toString(),
 		});
 	}, [selected]);
@@ -64,7 +64,7 @@ const SearchItem = ({ name, activeClick, changeActiveFilter, type = "checkbox" }
 		}
 
 		navigate({
-			pathname: `/${category}`,
+			pathname: `/products/${category}`,
 			search: createSearchParams(queries).toString(),
 		});
 	}, [selectedBrand]);
@@ -72,13 +72,8 @@ const SearchItem = ({ name, activeClick, changeActiveFilter, type = "checkbox" }
 	useEffect(() => {
 		if (type === "input") fetchBestPriceProduct();
 	}, [type]);
-	// useEffect(() => {
-	// 	if (price.to && price.from && price.from > price.to) {
-	// 		alert("Giá điều chỉnh chưa hợp lý, nên xem lại giá!");
-	// 	}
-	// }, [price]);
-	const debouncePriceFrom = useDebounce(price.from, 500);
-	const debouncePriceTo = useDebounce(price.to, 500);
+	const debouncePriceFrom = useDebounce(price.from, 800);
+	const debouncePriceTo = useDebounce(price.to, 800);
 	useEffect(() => {
 		let param = [];
 		for (let i of params.entries()) param.push(i);
@@ -90,7 +85,7 @@ const SearchItem = ({ name, activeClick, changeActiveFilter, type = "checkbox" }
 		else delete queries.to;
 		queries.page = 1;
 		navigate({
-			pathname: `/${category}`,
+			pathname: `/products/${category}`,
 			search: createSearchParams(queries).toString(),
 		});
 	}, [debouncePriceFrom, debouncePriceTo]);
