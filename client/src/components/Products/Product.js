@@ -31,6 +31,9 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 	const handleClickOptions = async (e, name) => {
 		e.stopPropagation();
 		if (name === "CART") {
+			if (productData?.quantity === 0) {
+				return toast.warning("Sản phẩm đã tạm hết hàng");
+			}
 			if (!current) {
 				Swal.fire({
 					title: "Opps!",

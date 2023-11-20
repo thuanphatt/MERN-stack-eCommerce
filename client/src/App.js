@@ -15,6 +15,7 @@ import {
 	Trainning,
 	DetailService,
 	Contact,
+	NoPage,
 } from "./pages/public";
 import { Route, Routes } from "react-router-dom";
 import path from "./utils/path";
@@ -82,6 +83,7 @@ function App() {
 
 			{isShowModal && <Modal>{modalChildren}</Modal>}
 			<Routes>
+				<Route path={path.ALL} element={<NoPage />}></Route>
 				<Route path={path.CHECKOUT} element={<Checkout />}></Route>
 				<Route path={path.PUBLIC_LAYOUT} element={<PublicLayout />}>
 					<Route path={path.HOME} element={<Home />}></Route>

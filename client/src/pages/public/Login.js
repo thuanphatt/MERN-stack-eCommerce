@@ -104,42 +104,54 @@ const Login = () => {
 			{isVerifiedEmail && (
 				<div className="absolute right-0 left-0 top-0 bottom-0 bg-overlay z-50 flex flex-col items-center justify-center">
 					<div className=" bg-white md:w-[1000px] w-full rounded-md p-6">
-						<h4>Chúng tôi đã 1 đoạn mã code đến email của bạn. Hãy kiểm tra mail và điền mã code vào bên dưới:</h4>
+						<h4>
+							Chúng tôi đã 1 đoạn mã kích hoạt đến email của bạn. Hãy kiểm tra mail và điền mã kích hoạt vào bên dưới:
+						</h4>
 						<input
 							type="text"
 							className="md:w-[800px] border py-2 outline-none placeholder:text-sm rounded-md mr-2 pl-2"
-							placeholder="Nhập mã code của bạn tại đây ..."
+							placeholder="Nhập mã kích hoạt của bạn tại đây ..."
 							value={token}
 							onChange={(e) => setToken(e.target.value)}
 						></input>
-						<Button handleOnClick={handleFinalRegister}>Gửi</Button>
+						<Button handleOnClick={handleFinalRegister}>Đăng ký</Button>
 					</div>
 				</div>
 			)}
 			{isForgotPassword && (
 				<div className="absolute right-0 left-0 top-0 bottom-0 bg-white z-50 flex flex-col items-center py-8 animate-slide-right">
-					<div className="flex flex-col gap-4">
-						<label htmlFor="email">Nhập email của bạn:</label>
-						<input
-							type="text"
-							name="email"
-							className="md:w-[800px] w-full border-b md:pb-2 mb-4 outline-none placeholder:text-sm"
-							placeholder="VD : email@gmail.com"
-							value={email}
-							onChange={(e) => setEmail(e.target.value)}
-						></input>
-					</div>
-					<div className="flex items-center justify-end md:w-[800px] gap-4">
-						<Button handleOnClick={handleForgotPassword}>Gửi</Button>
-						<Button
-							handleOnClick={() => {
-								setIsForgotPassword(false);
-							}}
-							// eslint-disable-next-line react/style-prop-object
-							style="px-4 py-2 rounded-md text-white bg-red-500 font-semibold my-2"
-						>
-							Quay lại
-						</Button>
+					<div className="flex items-center flex-col justify-center bg-[#F3EEEA] rounded-lg py-6 my-auto">
+						<div className="flex items-center justify-center">
+							<img
+								src="https://cdni.iconscout.com/illustration/premium/thumb/forgot-password-mobile-8044866-6430775.png?f=webp"
+								alt="forgot-password"
+								className="w-[70%] h-auto object-contain"
+							/>
+						</div>
+						<div className="flex flex-col gap-2">
+							<h2 className="font-bold text-2xl text-main mb-4">Quên mật khẩu</h2>
+							<label htmlFor="email">Nhập email của bạn:</label>
+							<input
+								type="text"
+								name="email"
+								className="w-full border-b md:p-2 my-2 outline-none placeholder:text-sm"
+								placeholder="VD : email@gmail.com"
+								value={email}
+								onChange={(e) => setEmail(e.target.value)}
+							></input>
+							<div className="flex items-center justify-between">
+								<Button
+									handleOnClick={() => {
+										setIsForgotPassword(false);
+									}}
+									// eslint-disable-next-line react/style-prop-object
+									style="px-4 py-2 rounded-md text-white bg-red-500 font-semibold my-2"
+								>
+									Quay lại
+								</Button>
+								<Button handleOnClick={handleForgotPassword}>Gửi</Button>
+							</div>
+						</div>
 					</div>
 				</div>
 			)}
@@ -208,7 +220,7 @@ const Login = () => {
 					/>
 					{payload.password && isRegister && (
 						<span
-							className="absolute right-[36px] bottom-[150px] cursor-pointer p-2"
+							className="absolute right-[36px] bottom-[129px] cursor-pointer p-2"
 							onClick={() => {
 								setIsShow(!isShow);
 							}}

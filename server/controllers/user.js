@@ -28,7 +28,7 @@ const register = asyncHandler(async (req, res) => {
 			mobile,
 		});
 		if (newUser) {
-			const html = `<h2>Mã đăng ký: </h2></br><blockquote>${token}</blockquote>`;
+			const html = `<h2>Mã kích hoạt của bạn: </h2></br><blockquote>${token}</blockquote>`;
 			await sendMail({ email, html, subject: "Hoàn tất đăng ký" });
 		}
 		setTimeout(async () => {
@@ -87,7 +87,7 @@ const login = asyncHandler(async (req, res) => {
 			userData,
 		});
 	} else {
-		throw new Error("Invalid credentials");
+		throw new Error("Thông tin không hợp lệ");
 	}
 });
 
@@ -153,7 +153,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
 	const { email } = req.body;
 	if (!email) throw new Error("Email không tồn tại");
 	const user = await User.findOne({ email });
-	if (!user) throw new Error("Người dùng không tồn tại");
+	if (!user) throw new Error("Email người dùng không tồn tại");
 	const resetToken = user.createPasswordChangedToken();
 	await user.save();
 

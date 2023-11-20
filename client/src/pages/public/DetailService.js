@@ -22,18 +22,20 @@ const DetailService = ({ navigate }) => {
 	const [detailService, setDetailService] = useState(null);
 	const [quantityProduct, setQuantityProduct] = useState(1);
 
-	const pricePredict = watch("pricePredict");
 	const [totalProduct, setTotalProduct] = useState(1);
 	const fetcSerivce = async (sid) => {
 		const response = await apiGetService(sid);
 		if (response.success) setDetailService(response.service);
 	};
 	const queryDebounceQuantity = useDebounce(watch("quanlity"), 800);
-	const queryDebouncePrice = useDebounce(pricePredict, 800);
 	useEffect(() => {
 		fetcSerivce(param.sid);
 	}, [param.sid]);
 	useEffect(() => {
+		if (watch("quanlity") > 100) {
+			toast.warning("Sản phảm hiện tại không đủ để đáp ứng nhu cầu!");
+			return;
+		}
 		if (watch("quanlity") <= 4 && watch("quanlity")) {
 			toast.warning("Số ha không hợp lệ (không được nhỏ hơn 4)");
 			return;
@@ -44,10 +46,7 @@ const DetailService = ({ navigate }) => {
 	useEffect(() => {
 		setTotalProduct(detailService?.products.reduce((sum, el) => sum + el.price * +Math.round(quantityProduct), 0));
 	}, [queryDebounceQuantity, totalProduct]);
-	useEffect(() => {
-		if (detailService && pricePredict) {
-		}
-	}, [queryDebouncePrice]);
+
 	return (
 		<div className="w-full ">
 			<div className="h-[81px] bg-gray-100 flex justify-center items-center">

@@ -46,6 +46,7 @@ const ChangePassword = ({ dispatch }) => {
 						validate={{
 							required: "Không được bỏ trống trường này",
 						}}
+						placeholder="Nhập mật khẩu hiện tại"
 					/>
 					<InputForm
 						type="password"
@@ -56,6 +57,7 @@ const ChangePassword = ({ dispatch }) => {
 						validate={{
 							required: "Không được bỏ trống trường này",
 						}}
+						placeholder="Nhập mật khẩu mới"
 					/>
 					<InputForm
 						type="password"
@@ -66,6 +68,7 @@ const ChangePassword = ({ dispatch }) => {
 						validate={{
 							required: "Không được bỏ trống trường này",
 						}}
+						placeholder="Nhập xác nhận mật khẩu mới"
 					/>
 					<div className="my-6">
 						<Button type="submit">Thay đổi</Button>
