@@ -23,6 +23,7 @@ import { CiCircleCheck, CiExport } from "react-icons/ci";
 import { IoReceiptOutline } from "react-icons/io5";
 import { MdOutlineLocalShipping } from "react-icons/md";
 import { LiaTimesCircle, LiaTruckLoadingSolid } from "react-icons/lia";
+import clsx from "clsx";
 const ManagerOrder = ({ location, navigate, dispatch }) => {
 	const [orders, setOrders] = useState([]);
 	const {
@@ -221,7 +222,6 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 				<thead className="font-bold bg-main text-white">
 					<tr className="text-center">
 						<th className="py-4 px-2">STT</th>
-
 						<th className="py-4 px-2">Người đặt</th>
 						<th className="py-4 px-2">Sản phẩm</th>
 						<th className="py-4 px-2">Phương thức TT</th>
@@ -289,15 +289,20 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 												<option value="Đang giao" className="text-sm w-full">
 													Đang giao
 												</option>
-												<option value="Thành công" className="text-sm w-full">
-													Thành công
-												</option>
 											</>
 										)}
 									</select>
 								</td>
 							) : (
-								<td className="py-4 px-2 truncate max-w-[150px]">{el.status}</td>
+								<td
+									className={clsx(
+										"py-4 px-2 truncate max-w-[150px]",
+										el.status === "Thành công" && "text-green-600",
+										el.status === "Đã hủy" && "text-red-600"
+									)}
+								>
+									{el.status}
+								</td>
 							)}
 
 							<td className="py-4 px-2">{`${formatMoney(formatPrice(el?.total))} VND`}</td>

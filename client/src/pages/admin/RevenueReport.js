@@ -112,7 +112,7 @@ const RevenueReport = ({ navigate }) => {
 					<div className="pl-6">
 						<span className="font-medium">Tỷ lệ:</span>
 						<span className=" font-medium text-red-500">
-							{resultArray && ` ${compare > 0 ? "Thấp" : "Tăng"} ${100 - Math.round(percentRevenue)} %`}
+							{resultArray && ` ${compare > 0 ? "Thấp" : "Tăng"} ${(100 - percentRevenue.toFixed(2)).toFixed(2)} %`}
 						</span>
 					</div>
 					<span className="pl-6">

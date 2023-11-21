@@ -73,7 +73,7 @@ const createNewOrder = asyncHandler(async (req, res) => {
 			await sendMail({
 				email: data.orderBy.email,
 				html,
-				subject: "Chúc mừng, bạn đã đặt hàng thành công vui lòng kiểm tra đơn hàng!",
+				subject: "Chúc mừng, bạn đã đặt hàng thành công vui lòng kiểm tra đơn hàng ✅",
 			});
 		}
 		res.json({
@@ -156,8 +156,7 @@ const updateStatus = asyncHandler(async (req, res) => {
 			subject: "Đơn hàng đang trên đường giao đến bạn!",
 		});
 	}
-	if (status === "Đã nhận hàng") {
-		await Order.findByIdAndUpdate(oid, { status: "Thành công" });
+	if (status === "Thành công") {
 		const orderCurrent = await Order.findById(oid);
 		const productsHTML = orderCurrent.products.map(
 			(product) =>

@@ -510,10 +510,6 @@ export const statusOrdersLabel = [
 		value: "Đang giao",
 	},
 	{
-		label: "Đã nhận hàng",
-		value: "Đã nhận hàng",
-	},
-	{
 		label: "Thành công",
 		value: "Thành công",
 	},

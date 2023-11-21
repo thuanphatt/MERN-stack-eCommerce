@@ -87,7 +87,7 @@ const Orders = ({ navigate, location, dispatch }) => {
 		}).then(async (result) => {
 			if (result.isConfirmed) {
 				dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
-				const response = await apiUpdateStatus(oid, { status: "Đã nhận hàng" });
+				const response = await apiUpdateStatus(oid, { status: "Thành công" });
 				dispatch(showModal({ isShowModal: false, modalChildren: null }));
 				if (response.success) {
 					render();
@@ -175,7 +175,16 @@ const Orders = ({ navigate, location, dispatch }) => {
 								</ul>
 							</td>
 							<td className="py-4 px-2">{el?.paymentMethod}</td>
-							<td className="py-4 px-2 truncate max-w-[150px]">{el?.status}</td>
+
+							<td
+								className={clsx(
+									"py-4 px-2 truncate max-w-[150px]",
+									el.status === "Thành công" && "text-green-600",
+									el.status === "Đã hủy" && "text-red-600"
+								)}
+							>
+								{el?.status}
+							</td>
 							<td className="py-4 px-2">{`${formatMoney(formatPrice(el?.total))} VND`}</td>
 							<td className="py-4 px-2">{moment(el?.createdAt)?.fromNow()}</td>
 							<td className="py-4 px-2">
@@ -189,7 +198,7 @@ const Orders = ({ navigate, location, dispatch }) => {
 										Hủy đơn
 									</Button>
 								)}
-								{el.status === "Đang giao" && el.paymentMethod === "COD" && (
+								{el.status === "Đang giao" && (
 									<Button
 										handleOnClick={() => {
 											handleReceivedOrder(el._id);
