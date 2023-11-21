@@ -1,22 +1,41 @@
 import React, { memo } from "react";
 import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from "chart.js";
 import { Radar } from "react-chartjs-2";
-ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
-const RadarChart = ({ nameProduct, soldProduct }) => {
+ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
+const RadarChart = ({ dataRevenue, labels, label, title, backgroundColor, borderColor = "rgb(255, 99, 132)" }) => {
+	const options = {
+		responsive: true,
+		plugins: {
+			legend: {
+				position: "top",
+			},
+			title: {
+				display: true,
+				text: title,
+				position: "bottom",
+				font: {
+					size: 18,
+					weight: "bold",
+					lineHeight: 1.2,
+				},
+			},
+		},
+	};
+
 	const data = {
-		labels: nameProduct,
+		labels,
 		datasets: [
 			{
-				label: "# Số lượng",
-				data: soldProduct,
-				backgroundColor: "rgba(255, 99, 132, 0.2)",
-				borderColor: "rgba(255, 99, 132, 1)",
-				borderWidth: 1,
+				fill: true,
+				label,
+				data: dataRevenue,
+				borderColor,
+				backgroundColor,
 			},
 		],
 	};
-	return <Radar data={data} />;
+	return <Radar options={options} data={data} />;
 };
 
 export default memo(RadarChart);

@@ -206,7 +206,7 @@ export const getTopOrderUser = (orders, type) => {
 
 	const top5Orders = orderTotals?.sort((a, b) => b.total - a.total).slice(0, 5);
 
-	if (type === "total") return top5Orders?.map((el) => el.total);
+	if (type === "total") return top5Orders?.map((el) => formatPrice(el.total));
 	if (type === "name") return top5Orders?.map((el) => el?.name);
 };
 

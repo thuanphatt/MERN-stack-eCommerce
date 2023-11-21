@@ -74,7 +74,7 @@ const ManageSerice = ({ dispatch }) => {
 
 						<th className="py-4 px-2 ">Loại dịch vụ</th>
 						<th className="py-4 px-2 ">Các sản phẩm</th>
-						<th className="py-4 px-2 ">Tổng phí</th>
+						<th className="py-4 px-2 min-w-[120px]">Giá tham khảo</th>
 						<th className="py-4 px-2 ">Thời gian</th>
 						<th className="py-4 px-2 ">Hành động</th>
 					</tr>
@@ -92,10 +92,8 @@ const ManageSerice = ({ dispatch }) => {
 									</ul>
 								))}
 							</td>
-							<td className="py-4 px-2">
-								{`${formatMoney(
-									formatPrice(el.products?.reduce((sum, product) => product.price + sum + el.price, 0))
-								)} VND`}
+							<td className="py-4 px-2 ">
+								{`${formatMoney(formatPrice(el.products?.reduce((sum, product) => sum + product.price, 0)))} VND`}
 							</td>
 							<td className="py-4 px-2">{moment(el.createdAt)?.fromNow()}</td>
 							<td className="py-4 px-2">

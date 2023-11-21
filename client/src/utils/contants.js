@@ -117,21 +117,7 @@ export const productInfoTabs = [
 	},
 ];
 export const colors = ["đen", "xanh", "trắng", "cam", "xám", "đỏ", "vàng"];
-export const brands = [
-	"g",
-	"GY",
-	"RG",
-	"XAG",
-	"NX",
-	"30S",
-	"GC",
-	"IFC",
-	"Azud",
-	"ARKA",
-	"Greentech",
-	"LZ1E",
-	"Rainbird",
-];
+export const brands = ["G", "GY", "RG", "XAG", "NX", "30S", "GC", "Azud", "Greentech", "LZ1E", "Rainbird", "YSI"];
 export const sorts = [
 	{
 		id: 0,
@@ -562,7 +548,7 @@ export const cateLabel = [
 		value: "HỆ THỐNG TƯỚI TỰ ĐỘNG",
 	},
 	{
-		label: "HỆ THỐNG NUÔI TRỒNG THỦY SẢN 4.0",
-		value: "HỆ THỐNG NUÔI TRỒNG THỦY SẢN 4.0",
+		label: "HỆ THỐNG XỬ LÝ NƯỚC THẢI NÔNG NGHIỆP THÔNG MINH 4.0",
+		value: "HỆ THỐNG XỬ LÝ NƯỚC THẢI NÔNG NGHIỆP THÔNG MINH 4.0",
 	},
 ];

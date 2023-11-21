@@ -185,16 +185,6 @@ const CreateProduct = () => {
 								?.find((el) => el._id === watch("category"))
 								?.brand?.map((item) => ({ code: item, value: item }))}
 						/>
-						<Select
-							label="Thương hiệu"
-							register={register}
-							errors={errors}
-							id="brand"
-							style={clsx("flex-1 md:hidden block")}
-							options={categories
-								?.find((el) => el._id === watch("category"))
-								?.brand?.map((item) => ({ code: item, value: item }))}
-						/>
 					</div>
 					<div className="w-full my-6">
 						<InputForm
@@ -259,10 +249,10 @@ const CreateProduct = () => {
 						)}
 					</div>
 					{preview.images && (
-						<div className="my-4 flex flex-wrap gap-2">
+						<div className="my-4 flex flex-wrap gap-2 ">
 							{preview.images?.map((el) => (
 								<div className="relative w-fit" key={el.name}>
-									<img src={el.path} alt="thumbnail" className="w-[200px] object-contain" />
+									<img src={el.path} alt="thumbnail" className="w-[200px] md:max-h-[200px] object-contain" />
 								</div>
 							))}
 						</div>

@@ -3,12 +3,12 @@ const Product = require("../models/product");
 const asyncHandler = require("express-async-handler");
 
 const createNewService = asyncHandler(async (req, res) => {
-	const { name, description, type, products, price } = req.body;
+	const { name, description, type, products } = req.body;
 	const _products = req.body.products.split(",");
 
 	const image = req?.files?.image[0]?.path;
 	if (req.body.image) req.body.image = image;
-	if (!(name && description && type && price && products)) {
+	if (!(name && description && type && products)) {
 		return res.status(400).json({ success: false, mes: "Thông tin đầu vào bị thiếu" });
 	}
 
@@ -20,7 +20,7 @@ const createNewService = asyncHandler(async (req, res) => {
 	}
 
 	// Tạo dịch vụ với danh sách sản phẩm tương ứng
-	const newService = await Service.create({ name, description, image, type, price, products: productList });
+	const newService = await Service.create({ name, description, image, type, products: productList });
 
 	return res.status(200).json({
 		success: true,

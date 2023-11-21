@@ -161,7 +161,7 @@ const ManageUser = ({ navigate, location, dispatch }) => {
 
 				<form onSubmit={handleSubmit(handleUpdate)}>
 					{editElement && (
-						<div className="absolute bottom-[76%]">
+						<div className="absolute bottom-[80.2%] left-[12%]">
 							<Button type="submit">Cập nhật</Button>
 						</div>
 					)}
@@ -279,13 +279,13 @@ const ManageUser = ({ navigate, location, dispatch }) => {
 													options={blockStatus}
 												/>
 											) : (
-												<span className={el.isBlocked ? "text-red-500" : "text-green-500"}>
+												<span className={el.isBlocked ? "text-red-600" : "text-green-600"}>
 													{el.isBlocked ? "Bị khóa" : "Hoạt động"}
 												</span>
 											)}
 										</td>
 
-										<td className="py-2 px-4 flex items-center pt-3 justify-center">
+										<td className="py-2 px-4 flex items-center pt-5 justify-center">
 											{editElement?._id === el._id ? (
 												<span
 													className="px-2 hover:underline cursor-pointer"

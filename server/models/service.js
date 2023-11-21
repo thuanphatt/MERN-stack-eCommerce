@@ -20,10 +20,6 @@ var serviceSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		price: {
-			type: Number,
-			required: true,
-		},
 		products: {
 			type: Array,
 			required: true,

@@ -55,7 +55,7 @@ const Header = ({ dispatch, navigate }) => {
 										className="flex p-4 border-b cursor-pointer hover:bg-gray-200"
 										onClick={(e) => {
 											e.stopPropagation();
-											navigate(`/${el?.category[0]}/${el?._id}/${el?.title}`);
+											navigate(`/products/${el?.category[0]}/${el?._id}/${el?.title}`);
 											queries.q = "";
 										}}
 									>

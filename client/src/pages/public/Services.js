@@ -32,7 +32,7 @@ const Services = ({ navigate }) => {
 				</div>
 			</div>
 			<div className="md:w-main w-full mx-auto md:px-0 px-4">
-				<h2 className="text-xl font-bold mt-4">GỢI Ý SẢN PHẨM THEO CÁC GIẢI PHÁP NÔNG NGHIỆP 4.0</h2>
+				<h2 className="text-xl font-bold mt-4"> CÁC DỊCH VỤ GIẢI PHÁP NÔNG NGHIỆP 4.0</h2>
 				<div class="flex md:flex-row flex-col gap-4 md:justify-between md:items-center">
 					{services?.map((el, index) => (
 						<div class="w-full md:w-1/2 flex-1 border shadow-md p-4 my-4 rounded-sm min-h-[350px]" key={index}>

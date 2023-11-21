@@ -200,16 +200,6 @@ const ratings = asyncHandler(async (req, res) => {
 		});
 	}
 });
-const uploadImagesProduct = asyncHandler(async (req, res) => {
-	const { pid } = req.params;
-	const imagesPath = req.files.map((el) => el.path);
-	if (!req.files) throw new Error("Thông tin đầu vào bị thiếu");
-	const response = await Product.findByIdAndUpdate(pid, { $push: { images: { $each: imagesPath } } }, { new: true });
-	return res.status(200).json({
-		success: response ? true : false,
-		updatedProduct: response ? response : "Cannot upload images product",
-	});
-});
 const addVarriant = asyncHandler(async (req, res) => {
 	const { pid } = req.params;
 	const { title, price, color } = req.body;
@@ -234,6 +224,5 @@ module.exports = {
 	updateProduct,
 	deleteProduct,
 	ratings,
-	uploadImagesProduct,
 	addVarriant,
 };

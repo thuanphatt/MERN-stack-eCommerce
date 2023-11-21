@@ -229,7 +229,7 @@ const ManageProduct = ({ dispatch }) => {
 					))}
 				</tbody>
 			</table>
-			<div className="flex justify-end my-6 px-4 mx-6">
+			<div className="flex justify-end mb-6 px-4 mx-6">
 				<Pagination totalCount={counts} />
 			</div>
 		</div>

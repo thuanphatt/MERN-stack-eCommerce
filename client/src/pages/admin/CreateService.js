@@ -104,19 +104,6 @@ const CreateService = ({ dispatch }) => {
 					/>
 
 					<div className="w-full my-6">
-						<InputForm
-							label="Phí của dịch vụ"
-							register={register}
-							errors={errors}
-							id="price"
-							validate={{
-								required: "Không được bỏ trống trường này",
-							}}
-							fullWidth
-							placeholder="Nhập tên phí của dịch vụ"
-						/>
-					</div>
-					<div className="w-full my-6">
 						<Select
 							label="Loại dịch vụ"
 							register={register}

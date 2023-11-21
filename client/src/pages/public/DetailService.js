@@ -42,7 +42,6 @@ const DetailService = ({ navigate }) => {
 		}
 		setQuantityProduct(watch("quanlity") / 10);
 	}, [queryDebounceQuantity]);
-
 	useEffect(() => {
 		setTotalProduct(detailService?.products.reduce((sum, el) => sum + el.price * +Math.round(quantityProduct), 0));
 	}, [queryDebounceQuantity, totalProduct]);
@@ -76,7 +75,7 @@ const DetailService = ({ navigate }) => {
 						<div className="w-full">
 							<InputForm
 								type="number"
-								label="Nhập ha đất"
+								label="Nhập diện tích"
 								register={register}
 								errors={errors}
 								id="quanlity"
@@ -86,19 +85,6 @@ const DetailService = ({ navigate }) => {
 								placeholder="VD: 10 || 20 (ha)"
 							/>
 						</div>
-						{/* <div className="flex-1 w-full">
-							<InputForm
-								type="number"
-								label="Nhập chi phí"
-								register={register}
-								errors={errors}
-								id="pricePredict"
-								validate={{
-									required: "Không được bỏ trống trường này",
-								}}
-								placeholder="VD: 200000 || 250000 (VND)"
-							/>
-						</div> */}
 					</form>
 					{quantityProduct ? (
 						<>
@@ -107,7 +93,7 @@ const DetailService = ({ navigate }) => {
 									key={el._id}
 									className="border-b py-4 flex gap-4 items-center hover:bg-gray-300 cursor-pointer"
 									onClick={() => {
-										navigate(`/${el?.category[0]}/${el?._id}/${el?.title}`);
+										navigate(`/products/${el?.category[0]}/${el?._id}/${el?.title}`);
 									}}
 								>
 									<div>
@@ -128,10 +114,10 @@ const DetailService = ({ navigate }) => {
 
 							<div className="text-right mt-8 flex flex-col gap-2">
 								<h3 className="text-xl font-semibold">{`Phí dịch vụ: ${formatMoney(
-									formatPrice(detailService?.price)
+									formatPrice((totalProduct * 2) / 100)
 								)} VND`}</h3>
 								<h3 className="text-xl font-semibold">{`Giá tham khảo: ${formatMoney(
-									formatPrice(totalProduct + detailService?.price)
+									formatPrice(totalProduct + (totalProduct * 2) / 100)
 								)} VND`}</h3>
 								<span className="text-lg font-semibold">Liên hệ : 093232323</span>
 							</div>

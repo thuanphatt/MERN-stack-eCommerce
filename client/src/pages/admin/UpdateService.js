@@ -26,12 +26,12 @@ const UpdateService = ({ editService, setEditService, render, dispatch, services
 		reset({
 			name: editService?.name || "",
 			type: editService?.type || "",
-			price: editService?.price || "",
+
 			description: editService?.description || "",
 			products: editService?.products || "",
 			totalPrice: services
 				.filter((el) => el._id === editService._id)[0]
-				.products?.reduce((sum, product) => product.price + sum + editService?.price, 0),
+				.products?.reduce((sum, product) => product.price + sum, 0),
 		});
 		setPayload({
 			description:
@@ -67,7 +67,7 @@ const UpdateService = ({ editService, setEditService, render, dispatch, services
 		<div className="w-full flex flex-col gap-4 relative bg-gray-100 h-full">
 			<div className="flex items-center justify-betweend p-4 border-b w-full">
 				<h1 className="text-3xl font-bold tracking-tight">
-					<span>Cập nhật tin tức</span>
+					<span>Cập nhật dịch vụ</span>
 				</h1>
 				<span
 					className="ml-auto cursor-pointer hover:underline"
@@ -99,19 +99,6 @@ const UpdateService = ({ editService, setEditService, render, dispatch, services
 						invalidFields={invalidFields}
 						setInvalidFields={setInvalidFields}
 					/>
-					<div className="w-full my-6">
-						<InputForm
-							label="Phí của dịch vụ"
-							register={register}
-							errors={errors}
-							id="price"
-							validate={{
-								required: "Không được bỏ trống trường này",
-							}}
-							fullWidth
-							placeholder="Nhập tên phí của dịch vụ"
-						/>
-					</div>
 					<div className="w-full my-6">
 						<Select
 							label="Loại dịch vụ"
@@ -160,7 +147,7 @@ const UpdateService = ({ editService, setEditService, render, dispatch, services
 
 					<div className="my-6">
 						<Button fullwidth type="submit">
-							Cập nhật tin tức
+							Cập nhật
 						</Button>
 					</div>
 				</form>

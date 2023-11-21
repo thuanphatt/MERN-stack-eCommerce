@@ -8,12 +8,13 @@ import moment from "moment";
 import React, { memo, useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiFillFilter } from "react-icons/ai";
+import { MdOutlineAttachMoney } from "react-icons/md";
 import { createSearchParams, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { showModal } from "store/app/appSlice";
 import Swal from "sweetalert2";
 import { statusOrdersLabel } from "utils/contants";
-import { formatMoney, formatPrice } from "utils/helpers";
+import { calculateTotalRevenue, formatMoney, formatPrice } from "utils/helpers";
 import path from "utils/path";
 
 const Orders = ({ navigate, location, dispatch }) => {
@@ -25,6 +26,7 @@ const Orders = ({ navigate, location, dispatch }) => {
 	const q = watch("q");
 	const status = watch("status");
 	const [order, setOrder] = useState(null);
+	const [orderNoLimit, setOrderNoLimit] = useState(null);
 	const [counts, setCounts] = useState(0);
 	const [params] = useSearchParams();
 	const [update, setUpdate] = useState(false);
@@ -41,6 +43,12 @@ const Orders = ({ navigate, location, dispatch }) => {
 		if (response.success) {
 			setOrder(response.order);
 			setCounts(response.counts);
+		}
+	};
+	const fetchOrderNoLimit = async () => {
+		const response = await apiGetBuyHistory();
+		if (response.success) {
+			setOrderNoLimit(response.order);
 		}
 	};
 	const render = useCallback(() => {
@@ -115,10 +123,20 @@ const Orders = ({ navigate, location, dispatch }) => {
 	useEffect(() => {
 		const searchParams = Object.fromEntries([...params]);
 		fetchOrder(searchParams);
+		fetchOrderNoLimit();
 	}, [params, isFilterDate, update]);
 	return (
 		<div className="w-full relative px-4 ">
 			<header className="text-3xl font-semibold py-4 border-b border-main">Đơn hàng</header>
+			<div className="flex md:items-center gap-2 mt-4 md:flex-row flex-col px-4 md:w-1/2">
+				<div className="flex-1 stat-box border rounded-md shadow-md p-4 text-center bg-gray-100 ">
+					<div className="flex items-center gap-2 justify-center">
+						<MdOutlineAttachMoney size={20} />
+						<h2 className="text-lg font-medium">Số tiền đã mua</h2>
+					</div>
+					<span className="font-bold text-lg">{`${calculateTotalRevenue(orderNoLimit)} VND`}</span>
+				</div>
+			</div>
 			<div className="flex justify-end items-center pt-6 pr-3">
 				<form className="w-[45%] grid grid-cols-2 gap-2">
 					<div className="col-span-1">
