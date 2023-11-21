@@ -6,7 +6,7 @@ import { createSearchParams, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 
-import { apiDeleteOrder, apiDetailOrder, apiGetOrders, apiUpdateStatus } from "apis";
+import { apiDeleteOrder, apiDetailOrder, apiGetOrders, apiGetOrdersNolimit, apiUpdateStatus } from "apis";
 import { CustomSelect, InputForm, Loading, Pagination } from "components";
 import { formatExportData, formatMoney, formatPrice } from "utils/helpers";
 import { useForm } from "react-hook-form";
@@ -19,8 +19,10 @@ import path from "utils/path";
 import { statusOrdersLabel } from "utils/contants";
 import { showModal } from "store/app/appSlice";
 import { CSVLink } from "react-csv";
-import { CiExport } from "react-icons/ci";
-
+import { CiCircleCheck, CiExport } from "react-icons/ci";
+import { IoReceiptOutline } from "react-icons/io5";
+import { MdOutlineLocalShipping } from "react-icons/md";
+import { LiaTimesCircle, LiaTruckLoadingSolid } from "react-icons/lia";
 const ManagerOrder = ({ location, navigate, dispatch }) => {
 	const [orders, setOrders] = useState([]);
 	const {
@@ -53,7 +55,7 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 	};
 	const fetchOrdersNoLimit = async () => {
 		dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
-		const response = await apiGetOrders();
+		const response = await apiGetOrdersNolimit();
 		dispatch(showModal({ isShowModal: false, modalChildren: null }));
 
 		if (response.success) {
@@ -142,6 +144,44 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 				<h1 className="text-3xl font-bold tracking-tight ">
 					<span>Quản lý đơn hàng</span>
 				</h1>
+			</div>
+			<div className="flex md:items-center gap-2 mt-4 md:flex-row flex-col px-5">
+				<div className="flex-1 stat-box border rounded-md shadow-md p-4 text-center bg-gray-100">
+					<span className="font-bold text-lg">{orderNoLimit?.map((el) => el).length}</span>
+					<div className="flex items-center gap-2 justify-center">
+						<IoReceiptOutline size={18} />
+						<h2 className="text-lg font-medium">Đơn hàng</h2>
+					</div>
+				</div>
+				<div className="flex-1 stat-box border rounded-md shadow-md p-4 text-center bg-red-400 text-white">
+					<span className="font-bold text-lg">{orderNoLimit?.filter((el) => el.status === "Đã hủy").length}</span>
+					<div className="flex items-center gap-2 justify-center">
+						<LiaTimesCircle size={18} />
+						<h2 className="text-lg font-medium">Đã hủy</h2>
+					</div>
+				</div>
+				<div className="flex-1 stat-box border rounded-md shadow-md p-4 text-center bg-yellow-500 text-white">
+					<span className="font-bold text-lg">{orderNoLimit?.filter((el) => el.status === "Đang xử lý").length}</span>
+					<div className="flex items-center gap-2 justify-center">
+						<LiaTruckLoadingSolid size={18} />
+						<h2 className="text-lg font-medium">Đang xử lý</h2>
+					</div>
+				</div>
+				<div className="flex-1 stat-box border rounded-md shadow-md p-4 text-center bg-blue-400 text-white">
+					<span className="font-bold text-lg">{orderNoLimit?.filter((el) => el.status === "Đang giao").length}</span>
+					<div className="flex items-center gap-2 justify-center">
+						<MdOutlineLocalShipping size={18} />
+						<h2 className="text-lg font-medium">Đang giao</h2>
+					</div>
+				</div>
+
+				<div className="flex-1 stat-box border rounded-md shadow-md p-4 text-center bg-green-500 text-white">
+					<span className="font-bold text-lg">{orderNoLimit?.filter((el) => el.status === "Thành công").length}</span>
+					<div className="flex items-center gap-2 justify-center">
+						<CiCircleCheck size={18} />
+						<h2 className="text-lg font-medium">Thành công</h2>
+					</div>
+				</div>
 			</div>
 			<div className="flex justify-between items-center px-5">
 				<CSVLink

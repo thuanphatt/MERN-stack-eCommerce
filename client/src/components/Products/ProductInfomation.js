@@ -23,7 +23,7 @@ const ProductInfomation = ({ totalRatings, ratings, nameProduct, pid, rerender, 
 		const response = await apiRatings({ star: score, comment, pid: pid, updatedAt: Date.now() });
 		if (response.success) {
 			toast.success("Đánh giá sản phẩm thành công");
-		} else toast.error(response.error);
+		} else toast.info(response.mes);
 		dispatch(
 			showModal({
 				isShowModal: false,

@@ -4,7 +4,7 @@ import { Doughnut } from "react-chartjs-2";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const DoughnutChart = ({ dataOrders }) => {
+const DoughnutChart = ({ dataOrders, dataLabels }) => {
 	const options = {
 		responsive: true,
 		plugins: {
@@ -24,7 +24,7 @@ const DoughnutChart = ({ dataOrders }) => {
 		},
 	};
 	const data = {
-		labels: ["Thành công", "Đã hủy", "Đang giao", "Đang xử lý", "Đã nhận hàng"],
+		labels: dataLabels,
 		datasets: [
 			{
 				label: "# Số lượng",

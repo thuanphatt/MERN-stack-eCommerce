@@ -196,7 +196,7 @@ const ratings = asyncHandler(async (req, res) => {
 	} else {
 		return res.status(500).json({
 			success: false,
-			error: "Không thể đánh giá sản phẩm",
+			mes: "Vui lòng mua hàng trước khi đánh giá!",
 		});
 	}
 });

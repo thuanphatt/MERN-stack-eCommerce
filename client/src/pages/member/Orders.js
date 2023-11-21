@@ -16,7 +16,7 @@ import { statusOrdersLabel } from "utils/contants";
 import { formatMoney, formatPrice } from "utils/helpers";
 import path from "utils/path";
 
-const BuyHistory = ({ navigate, location, dispatch }) => {
+const Orders = ({ navigate, location, dispatch }) => {
 	const {
 		register,
 		watch,
@@ -54,7 +54,7 @@ const BuyHistory = ({ navigate, location, dispatch }) => {
 	};
 	const handleCancelOrder = async (oid) => {
 		Swal.fire({
-			title: "Bạn có chắc chắn không ?",
+			title: "Bạn có chắc chắn muốn hủy đơn hàng này không ?",
 			text: "Sau khi bạn hủy đơn hàng này sẽ không thể khôi phục lại",
 			cancelButtonText: "Không",
 			confirmButtonText: "Có",
@@ -130,7 +130,7 @@ const BuyHistory = ({ navigate, location, dispatch }) => {
 							value={status}
 							onChange={(val) => {
 								if (!val) {
-									navigate(`/${path.MEMBER}/${path.BUY_HISTORY}`);
+									navigate(`/${path.MEMBER}/${path.ORDERS}`);
 								}
 								val && handleSearchStatus(val);
 							}}
@@ -144,6 +144,7 @@ const BuyHistory = ({ navigate, location, dispatch }) => {
 					<tr className="">
 						<th className="py-4 px-2">STT</th>
 						<th className="py-4 px-2">Sản phẩm</th>
+						<th className="py-4 px-2">Phương thức TT</th>
 						<th className="py-4 px-2">Trạng thái</th>
 						<th className="py-4 px-2">Tổng cộng</th>
 						<th className="py-4 px-2 border-gray-800 flex items-center gap-1 justify-center">
@@ -169,10 +170,11 @@ const BuyHistory = ({ navigate, location, dispatch }) => {
 							<td className="py-4 px-2 max-h-[50px] overflow-y-auto">
 								<ul className="flex items-center gap-2 justify-center p-2 h-full flex-col">
 									{el.products.map((item) => (
-										<li className="text-sm" key={item._id}>{`${item.title} - ${item.color}`}</li>
+										<li className="text-sm" key={item._id}>{`${item.title} x ${item.quantity} cái - ${item.color}`}</li>
 									))}
 								</ul>
 							</td>
+							<td className="py-4 px-2">{el?.paymentMethod}</td>
 							<td className="py-4 px-2 truncate max-w-[150px]">{el?.status}</td>
 							<td className="py-4 px-2">{`${formatMoney(formatPrice(el?.total))} VND`}</td>
 							<td className="py-4 px-2">{moment(el?.createdAt)?.fromNow()}</td>
@@ -209,4 +211,4 @@ const BuyHistory = ({ navigate, location, dispatch }) => {
 	);
 };
 
-export default withBaseComponent(memo(BuyHistory));
+export default withBaseComponent(memo(Orders));

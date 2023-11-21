@@ -94,7 +94,7 @@ const TopHeader = ({ dispatch }) => {
 								<Link to={`/${path.MEMBER}/${path.MYCART}`} className="p-2 hover:bg-gray-200 border border-b-0">
 									Giỏ hàng của tôi
 								</Link>
-								<Link to={`/${path.MEMBER}/${path.BUY_HISTORY}`} className="p-2 hover:bg-gray-200 border border-b-0">
+								<Link to={`/${path.MEMBER}/${path.ORDERS}`} className="p-2 hover:bg-gray-200 border border-b-0">
 									Đơn hàng
 								</Link>
 								<Link

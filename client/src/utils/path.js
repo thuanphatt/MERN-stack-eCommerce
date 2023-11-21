@@ -47,7 +47,7 @@ const path = {
 	//Member
 	MEMBER: "member",
 	PERSONAL: "personal",
-	BUY_HISTORY: "buy-history",
+	ORDERS: "orders",
 	MYCART: "my-cart",
 	WISHLIST: "wishlist",
 	VIEWED_PRODUCTS: "viewed-products",

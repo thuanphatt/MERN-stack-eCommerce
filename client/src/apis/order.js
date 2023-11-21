@@ -18,6 +18,11 @@ export const apiGetOrders = (params) =>
 		method: "get",
 		params,
 	});
+export const apiGetOrdersNolimit = () =>
+	axios({
+		url: "/order/admin",
+		method: "get",
+	});
 export const apiDeleteOrder = (oid) =>
 	axios({
 		url: "/order/" + oid,

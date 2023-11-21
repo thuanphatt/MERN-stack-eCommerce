@@ -4,6 +4,7 @@ const Product = require("../models/product");
 const Coupon = require("../models/coupon");
 const asyncHandler = require("express-async-handler");
 const sendMail = require("../utils/sendMail");
+const { formatMoney } = require("../utils/formatMoney");
 
 const createNewOrder = asyncHandler(async (req, res) => {
 	const { _id } = req.user;
@@ -41,7 +42,7 @@ const createNewOrder = asyncHandler(async (req, res) => {
 					<h2>${product.title}</h2>
 					<p>Số lượng: ${product.quantity}</p>
 					<p>Màu: ${product.color}</p>
-					<p>Giá: ${product.price}VND</p>
+					<p>Giá: ${formatMoney(product.price)} VND</p>
 					<img src="${product.thumbnail}" alt="${product.title}" style="max-width: 200px; height: auto;" />
 				  </li>`
 			);
@@ -52,13 +53,13 @@ const createNewOrder = asyncHandler(async (req, res) => {
 				<p>Email: ${data.orderBy.email}</p>
 				<p>Địa chỉ: ${data.orderBy.address.join(", ")}</p>
 			  `;
-			const totalHTML = `<h2>Tổng tiền: ${data.total}VND</h2>`;
+			const totalHTML = `<h2>Tổng tiền: ${formatMoney(data.total)} VND</h2>`;
 			const statusHTML = `<h2>Trạng thái: ${data.status}</h2>`;
 			const paymentMethodHTML = `<h2>Hình thức thanh toán: ${data.paymentMethod}</h2>`;
 
 			const orderDetailsHTML = `
 				<h1 class="text-3xl font-bold tracking-tight">
-				  <span>Chi tiết đơn hàng </span>
+				 Chi tiết đơn hàng
 				 
 				</h1>
 				${statusHTML}
@@ -119,7 +120,7 @@ const updateStatus = asyncHandler(async (req, res) => {
 				<h2>${product.title}</h2>
 				<p>Số lượng: ${product.quantity}</p>
 				<p>Màu: ${product.color}</p>
-				<p>Giá: ${product.price}</p>
+				<p>Giá: ${formatMoney(product.price)} VND</p>
 				<img src="${product.thumbnail}" alt="${product.title}" style="max-width: 200px; height: auto;" />
 			  </li>`
 		);
@@ -130,7 +131,7 @@ const updateStatus = asyncHandler(async (req, res) => {
 			<p>Email: ${orderCurrent.orderBy.email}</p>
 			<p>Địa chỉ: ${orderCurrent.orderBy.address.join(", ")}</p>
 		  `;
-		const totalHTML = `<h2>Tổng tiền: ${orderCurrent.total}</h2>`;
+		const totalHTML = `<h2>Tổng tiền: ${formatMoney(orderCurrent.total)} VND</h2>`;
 		const statusHTML = `<h2>Trạng thái: ${orderCurrent.status}</h2>`;
 		const paymentMethodHTML = `<h2>Hình thức thanh toán: ${orderCurrent.paymentMethod}</h2>`;
 
@@ -138,9 +139,9 @@ const updateStatus = asyncHandler(async (req, res) => {
 			<h1 class="text-3xl font-bold tracking-tight">
 				  <span>Đơn hàng đang trên đường được giao đến bạn </span>	
 			</h1>
-			<h3 class="text-xl font-bold tracking-tight">
-			<span>Chi tiết đơn hàng </span>
-			</h3>
+			<h1 class="text-3xl font-bold tracking-tight">
+				 Chi tiết đơn hàng
+				</h1>
 			
 			${statusHTML}
 			${paymentMethodHTML}
@@ -164,7 +165,7 @@ const updateStatus = asyncHandler(async (req, res) => {
 				<h2>${product.title}</h2>
 				<p>Số lượng: ${product.quantity}</p>
 				<p>Màu: ${product.color}</p>
-				<p>Giá: ${product.price}</p>
+				<p>Giá: ${formatMoney(product.price)} VND</p>
 				<img src="${product.thumbnail}" alt="${product.title}" style="max-width: 200px; height: auto;" />
 			  </li>`
 		);
@@ -175,13 +176,13 @@ const updateStatus = asyncHandler(async (req, res) => {
 			<p>Email: ${orderCurrent.orderBy.email}</p>
 			<p>Địa chỉ: ${orderCurrent.orderBy.address.join(", ")}</p>
 		  `;
-		const totalHTML = `<h2>Tổng tiền: ${orderCurrent.total}</h2>`;
+		const totalHTML = `<h2>Tổng tiền: ${formatMoney(orderCurrent.total)} VND</h2>`;
 		const statusHTML = `<h2>Trạng thái: ${orderCurrent.status}</h2>`;
 		const paymentMethodHTML = `<h2>Hình thức thanh toán: ${orderCurrent.paymentMethod}</h2>`;
 
 		const orderDetailsHTML = `
 			<h1 class="text-3xl font-bold tracking-tight">
-			<span>Chi tiết đơn hàng</span>
+			Chi tiết đơn hàng
 			</h1>
 			${statusHTML}
 			${paymentMethodHTML}

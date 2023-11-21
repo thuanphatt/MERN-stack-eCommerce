@@ -11,6 +11,7 @@ import { IoMdMail, IoIosArrowForward, IoIosInformationCircleOutline } from "reac
 import { SiSimpleanalytics } from "react-icons/si";
 import { RiCoupon3Line } from "react-icons/ri";
 import { CiBoxList } from "react-icons/ci";
+import { TfiReceipt } from "react-icons/tfi";
 import {
 	IoMenu,
 	IoHomeOutline,
@@ -40,6 +41,7 @@ import {
 	MdOutlinePassword,
 	MdOutlineDashboard,
 	MdOutlineReport,
+	MdOutlineLockReset,
 } from "react-icons/md";
 import { RiBillFill, RiArrowGoBackFill, RiCustomerService2Fill } from "react-icons/ri";
 import { FaTty } from "react-icons/fa6";
@@ -112,5 +114,7 @@ const icons = {
 	BsCalendar2Event,
 	TbReportAnalytics,
 	CiBoxList,
+	TfiReceipt,
+	MdOutlineLockReset,
 };
 export default icons;

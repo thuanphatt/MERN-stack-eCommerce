@@ -85,6 +85,8 @@ const Dashboard = () => {
 		count: statusCount[status],
 	}));
 	const countArray = resultArray.map((item) => item.count);
+	const labelsArray = resultArray.map((item) => item.status);
+
 	return (
 		<div className="w-full relative px-4 mx-auto">
 			<header className="text-3xl font-bold py-4 border-b border-main">Dashboard</header>
@@ -122,7 +124,7 @@ const Dashboard = () => {
 			<div className="flex items-end w-full mt-4 justify-center md:flex-row flex-col">
 				<div className="flex-1 w-full flex flex-col items-center gap-4">
 					<div className="md:h-[400px] w-full flex justify-center items-center md:mt-0 mt-6">
-						<DoughnutChart dataOrders={countArray} />
+						<DoughnutChart dataOrders={countArray} dataLabels={labelsArray} />
 					</div>
 				</div>
 				<div className="flex-1 w-full flex flex-col items-end gap-4">

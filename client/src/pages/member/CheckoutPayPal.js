@@ -66,20 +66,20 @@ const Checkout = ({ dispatch }) => {
 	}, [isUsed, isDiscount]);
 	return (
 		<div className="grid grid-cols-10 gap-6 p-8 h-full max-h-screen overflow-y-auto">
-			<div className="col-span-4 w-full flex items-center justify-center">
-				<img src={paymentImg} alt="paymentImg" className="h-[70%] object-cover" />
+			<div className="col-span-4 w-full h-screen flex items-center flex-col justify-center">
+				<img src={paymentImg} alt="paymentImg" className="h-[70%] object-contain" />
 			</div>
 			{isSuccess && <Congratulation />}
 			<div className="col-span-6 w-full flex flex-col gap-6 justify-center">
-				<h2 className="font-bold text-2xl mb-6">Thanh toán qua Paypal</h2>
+				<h2 className="font-bold text-2xl mb-6 uppercase">Thanh toán qua Paypal</h2>
 				<div className="flex w-full gap-6">
 					<div className="flex-1">
 						<table className="table-auto w-full mb-4">
 							<thead>
 								<tr className="border bg-gray-300 ">
 									<th className="text-left p-2">Sản phẩm</th>
-									<th className="text-center p-2">Số lượng</th>
-									<th className="text-right p-2">Giá</th>
+									<th className="text-center p-2 md:min-w-[100px]">Số lượng</th>
+									<th className="text-right p-2 md:min-w-[140px]">Giá</th>
 								</tr>
 							</thead>
 							<tbody>

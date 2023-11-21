@@ -30,7 +30,6 @@ export { default as InfoNews } from "./Home/InfoNews";
 export { default as DiscountCode } from "./Home/DiscountCode";
 
 export { default as ProductExtraInfoItem } from "./Products/ProductExtraInfoItem";
-export { default as ProductRating } from "./Products/ProductRating";
 export { default as ProductInfomation } from "./Products/ProductInfomation";
 export { default as Product } from "./Products/Product";
 export { default as ProductCard } from "./Products/ProductCard";
