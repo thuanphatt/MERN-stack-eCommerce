@@ -53,6 +53,10 @@ const createNewOrder = asyncHandler(async (req, res) => {
 				<p>Email: ${data.orderBy.email}</p>
 				<p>Địa chỉ: ${data.orderBy.address.join(", ")}</p>
 			  `;
+
+			const coupon = await Coupon.findById(data.coupon);
+			const couponHTML = `<h3>Mã giảm giá: ${formatMoney(coupon?.discount)} VND</h3>`;
+
 			const totalHTML = `<h2>Tổng tiền: ${formatMoney(data.total)} VND</h2>`;
 			const statusHTML = `<h2>Trạng thái: ${data.status}</h2>`;
 			const paymentMethodHTML = `<h2>Hình thức thanh toán: ${data.paymentMethod}</h2>`;
@@ -66,6 +70,7 @@ const createNewOrder = asyncHandler(async (req, res) => {
 				${paymentMethodHTML}
 				<ul>${productsHTML.join("")}</ul>
 				${customerInfoHTML}
+				${couponHTML && couponHTML}
 				${totalHTML}
 			  `;
 			const html = orderDetailsHTML;
@@ -131,6 +136,8 @@ const updateStatus = asyncHandler(async (req, res) => {
 			<p>Email: ${orderCurrent.orderBy.email}</p>
 			<p>Địa chỉ: ${orderCurrent.orderBy.address.join(", ")}</p>
 		  `;
+		const coupon = await Coupon.findById(orderCurrent.coupon);
+		const couponHTML = `<h2>Mã giảm giá: ${formatMoney(coupon?.discount)} VND</h2>`;
 		const totalHTML = `<h2>Tổng tiền: ${formatMoney(orderCurrent.total)} VND</h2>`;
 		const statusHTML = `<h2>Trạng thái: ${orderCurrent.status}</h2>`;
 		const paymentMethodHTML = `<h2>Hình thức thanh toán: ${orderCurrent.paymentMethod}</h2>`;
@@ -147,6 +154,7 @@ const updateStatus = asyncHandler(async (req, res) => {
 			${paymentMethodHTML}
 			<ul>${productsHTML.join("")}</ul>
 			${customerInfoHTML}
+			${couponHTML && couponHTML}
 			${totalHTML}
 		  `;
 		const html = orderDetailsHTML;
@@ -175,6 +183,8 @@ const updateStatus = asyncHandler(async (req, res) => {
 			<p>Email: ${orderCurrent.orderBy.email}</p>
 			<p>Địa chỉ: ${orderCurrent.orderBy.address.join(", ")}</p>
 		  `;
+		const coupon = await Coupon.findById(orderCurrent.coupon);
+		const couponHTML = `<h2>Mã giảm giá: ${formatMoney(coupon?.discount)} VND</h2>`;
 		const totalHTML = `<h2>Tổng tiền: ${formatMoney(orderCurrent.total)} VND</h2>`;
 		const statusHTML = `<h2>Trạng thái: ${orderCurrent.status}</h2>`;
 		const paymentMethodHTML = `<h2>Hình thức thanh toán: ${orderCurrent.paymentMethod}</h2>`;
@@ -187,6 +197,7 @@ const updateStatus = asyncHandler(async (req, res) => {
 			${paymentMethodHTML}
 			<ul>${productsHTML.join("")}</ul>
 			${customerInfoHTML}
+			${couponHTML && couponHTML}
 			${totalHTML}
 		  `;
 		const html = orderDetailsHTML;
@@ -198,7 +209,7 @@ const updateStatus = asyncHandler(async (req, res) => {
 	}
 	res.json({
 		success: response ? true : false,
-		mes: response ? "Cập nhật trạng thái thành công" : "Đã có lỗi xảy ra",
+		mes: response ? "Cập nhật trạng thái đơn hàng thành công" : "Đã có lỗi xảy ra",
 	});
 });
 const getUserOrder = asyncHandler(async (req, res) => {
@@ -313,7 +324,7 @@ const deleteOrder = asyncHandler(async (req, res) => {
 	const response = await Order.findByIdAndDelete(oid);
 	return res.status(200).json({
 		success: response ? true : false,
-		mes: response ? "Đã xóa thành công" : "Đã có lỗi xảy ra",
+		mes: response ? "Đã xóa đơn hàng thành công" : "Đã có lỗi xảy ra",
 	});
 });
 const getDetailOrder = asyncHandler(async (req, res) => {

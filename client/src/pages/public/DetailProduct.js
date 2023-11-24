@@ -124,11 +124,11 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 			});
 		}
 		if (product?.quantity === 0) {
-			toast.warn("Sản phẩm đã hết!");
+			toast.warn("Sản phẩm tạm thời đã hết hàng!");
 			return;
 		}
 		if (quantity > product?.quantity) {
-			toast.warn("Số lượng đã vượt quá giới hạn");
+			toast.warn("Số lượng đã vượt quá giới hạn của kho hiện tại");
 			return;
 		}
 		const response = await apiAddToCart({

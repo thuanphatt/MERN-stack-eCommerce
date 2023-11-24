@@ -31,7 +31,7 @@ const createPaymentVNP = async (req, res, next) => {
 		const tmnCode = process.env.VNP_TMN_CODE;
 		const secretKey = process.env.VNP_HASH_SECRET;
 		const vnpUrl = process.env.VNP_API_URL;
-		let returnUrl = "http://localhost:3000/member/my-cart";
+		let returnUrl = "http://localhost:3000/checkout";
 		let amount = req.body.amount;
 		let locale = req.body.language || "vn";
 

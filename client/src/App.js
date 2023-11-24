@@ -84,11 +84,12 @@ function App() {
 
 			{isShowModal && <Modal>{modalChildren}</Modal>}
 			<Routes>
+				<Route path={path.ALL} element={<NoPage />}></Route>
 				<Route path={path.CHECKOUT_PAYPAL} element={<CheckoutPayPal />}></Route>
 				<Route path={path.PUBLIC_LAYOUT} element={<PublicLayout />}>
+					<Route path={path.CHECKOUT} element={<Checkout />}></Route>
 					<Route path={path.HOME} element={<Home />}></Route>
 					<Route path={path.BLOGS} element={<Blogs />}></Route>
-					<Route path={path.CHECKOUT} element={<Checkout />}></Route>
 					<Route path={path.DETAIL_PRODUCT__CATEGORY__PID__TITLE} element={<DetailProduct />}></Route>
 					<Route path={path.DETAIL_BLOG__CATEGORY__BID__TITLE} element={<DetailBlog />}></Route>
 					<Route path={path.DETAIL_SERVICE__SID__TITLE} element={<DetailService />}></Route>
@@ -133,7 +134,6 @@ function App() {
 				</Route>
 				<Route path={path.REGISTER_FINAL} element={<FinalRegister />}></Route>
 				<Route path={path.LOGIN} element={<Login />}></Route>
-				<Route path={path.ALL} element={<NoPage />}></Route>
 			</Routes>
 			<ToastContainer
 				position="top-right"

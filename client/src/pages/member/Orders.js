@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { apiGetBuyHistory, apiUpdateStatus } from "apis";
+import { apiDetailOrder, apiGetBuyHistory, apiUpdateStatus } from "apis";
 import clsx from "clsx";
 import { Button, CustomSelect, InputForm, Loading, Pagination } from "components";
 import withBaseComponent from "hocs/withBaseComponent";
@@ -9,6 +9,7 @@ import React, { memo, useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiFillFilter } from "react-icons/ai";
 import { MdOutlineAttachMoney } from "react-icons/md";
+
 import { createSearchParams, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { showModal } from "store/app/appSlice";
@@ -16,6 +17,7 @@ import Swal from "sweetalert2";
 import { statusOrdersLabel } from "utils/contants";
 import { calculateTotalRevenue, formatMoney, formatPrice } from "utils/helpers";
 import path from "utils/path";
+import DetailOrderMember from "./DetailOrderMember";
 
 const Orders = ({ navigate, location, dispatch }) => {
 	const {
@@ -29,6 +31,7 @@ const Orders = ({ navigate, location, dispatch }) => {
 	const [orderNoLimit, setOrderNoLimit] = useState(null);
 	const [counts, setCounts] = useState(0);
 	const [params] = useSearchParams();
+	const [detailOrder, setDetailOrder] = useState(null);
 	const [update, setUpdate] = useState(false);
 	const [isFilterDate, setIsFilterDate] = useState(false);
 	const fetchOrder = async (params) => {
@@ -49,6 +52,18 @@ const Orders = ({ navigate, location, dispatch }) => {
 		const response = await apiGetBuyHistory();
 		if (response.success) {
 			setOrderNoLimit(response.order);
+		}
+	};
+	const handleDetailOrder = async (oid) => {
+		dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
+		const response = await apiDetailOrder(oid);
+		dispatch(showModal({ isShowModal: false, modalChildren: null }));
+		if (response.success) {
+			setDetailOrder(response.mes);
+			window.scrollTo({
+				top: 0,
+				behavior: "smooth",
+			});
 		}
 	};
 	const render = useCallback(() => {
@@ -127,6 +142,7 @@ const Orders = ({ navigate, location, dispatch }) => {
 	}, [params, isFilterDate, update]);
 	return (
 		<div className="w-full relative px-4 ">
+			{detailOrder && <DetailOrderMember detailOrder={detailOrder} setDetailOrder={setDetailOrder} />}
 			<header className="text-3xl font-semibold py-4 border-b border-main">Đơn hàng</header>
 			<div className="flex md:items-center gap-2 mt-4 md:flex-row flex-col px-4 md:w-1/2">
 				<div className="flex-1 stat-box border rounded-md shadow-md p-4 text-center bg-gray-100 ">
@@ -185,10 +201,18 @@ const Orders = ({ navigate, location, dispatch }) => {
 							<td className="py-4 px-2 ">
 								{(+params.get("page") > 1 ? +params.get("page") - 1 : 0) * process.env.REACT_APP_LIMIT + index + 1}
 							</td>
-							<td className="py-4 px-2 max-h-[50px] overflow-y-auto">
+							<td
+								className="py-4 px-2 max-h-[50px] overflow-y-auto"
+								onClick={() => {
+									handleDetailOrder(el._id);
+								}}
+							>
 								<ul className="flex items-center gap-2 justify-center p-2 h-full flex-col">
 									{el.products.map((item) => (
-										<li className="text-sm" key={item._id}>{`${item.title} x ${item.quantity} cái - ${item.color}`}</li>
+										<li
+											className="text-sm truncate md:max-w-[550px] hover:text-main cursor-pointer"
+											key={item._id}
+										>{`${item.title} x ${item.quantity} cái - ${item.color}`}</li>
 									))}
 								</ul>
 							</td>

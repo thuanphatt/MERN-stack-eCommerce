@@ -63,6 +63,10 @@ const Blogs = ({ navigate }) => {
 							time={blog.createdAt}
 							handleOnClick={() => {
 								navigate(`/blogs/${blog?._id}/${blog?.title}`);
+								window.scrollTo({
+									top: 0,
+									behavior: "smooth",
+								});
 							}}
 						/>
 					))}
@@ -75,6 +79,10 @@ const Blogs = ({ navigate }) => {
 							key={index}
 							onClick={() => {
 								navigate(`/blogs/${blog?._id}/${blog?.title}`);
+								window.scrollTo({
+									top: 0,
+									behavior: "smooth",
+								});
 							}}
 						>
 							<img src={blog.image} alt={blog.title} className="w-full h-40 object-cover object-center" />

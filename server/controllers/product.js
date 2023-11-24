@@ -182,12 +182,17 @@ const ratings = asyncHandler(async (req, res) => {
 			});
 		}
 		// sum total rating
-		const updatedProduct = await Product.findById(pid);
-		const ratingCount = updatedProduct.ratings.length;
-		const sumRatings = updatedProduct.ratings.reduce((sum, el) => sum + +el.star, 0);
+		const _updatedProduct = await Product.findById(pid);
+		const ratings = _updatedProduct.ratings;
 
-		updatedProduct.totalRatings = Math.round((sumRatings * 10) / ratingCount) / 10;
+		const ratingCount = ratings.length;
+		const sumRatings = ratings.reduce((sum, el) => sum + +el.star, 0);
 
+		const averageRating = ratingCount > 0 ? sumRatings / ratingCount : 0;
+
+		const updatedProduct = await Product.findByIdAndUpdate(pid, {
+			totalRatings: parseFloat(averageRating.toFixed(1)),
+		});
 		await updatedProduct.save();
 		return res.status(200).json({
 			success: true,

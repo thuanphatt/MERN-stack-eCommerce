@@ -90,7 +90,6 @@ const DailyDeal = ({ dispatch }) => {
 			}
 		}, 1000);
 		if (expireTime) {
-			// Nếu hết thời gian, thực hiện xóa và gọi lại fetchDealDaily
 			deleteSale(sales?._id);
 			setIsGetEvent(true);
 		}
@@ -118,7 +117,7 @@ const DailyDeal = ({ dispatch }) => {
 					<div
 						className="w-full flex flex-col items-center pt-3 gap-2 cursor-pointer"
 						onClick={() => {
-							navigate(`/${dealDaily?.data?.category[0]}/${dealDaily?.data?._id}/${dealDaily?.data?.title}`);
+							navigate(`/products/${dealDaily?.data?.category[0]}/${dealDaily?.data?._id}/${dealDaily?.data?.title}`);
 						}}
 					>
 						<img

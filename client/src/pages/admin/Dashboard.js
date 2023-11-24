@@ -36,10 +36,10 @@ const Dashboard = () => {
 		}
 	};
 	const fetchTopProductNoSold = async () => {
-		const response = await apiGetProducts({ sort: "sold" });
+		const response = await apiGetProducts({ sort: "sold", limit: 100 });
 		if (response.success) {
-			setNoSoldProductData(response.products?.filter((product) => product.sold >= 0)?.map((el) => el.sold));
-			setNameNoSoldProduct(response.products?.filter((product) => product.sold >= 0)?.map((el) => el.title));
+			setNoSoldProductData(response.products?.filter((product) => product.sold > 0)?.map((el) => el.sold));
+			setNameNoSoldProduct(response.products?.filter((product) => product.sold > 0)?.map((el) => el.title));
 		}
 	};
 	const fetchTopProductRating = async () => {
@@ -50,13 +50,12 @@ const Dashboard = () => {
 		}
 	};
 	const fetchTopProductLessRating = async () => {
-		const response = await apiGetProducts({ sort: "totalRatings" });
+		const response = await apiGetProducts({ sort: "totalRatings", limit: 100 });
+
 		if (response.success) {
-			setNameProductLessRating(
-				response.products?.filter((product) => product.totalRatings >= 0)?.map((el) => el.title)
-			);
+			setNameProductLessRating(response.products?.filter((product) => product.totalRatings > 0)?.map((el) => el.title));
 			setProductLessRatingData(
-				response.products?.filter((product) => product.totalRatings >= 0)?.map((el) => el.totalRatings)
+				response.products?.filter((product) => product.totalRatings > 0)?.map((el) => el.totalRatings)
 			);
 		}
 	};
@@ -88,7 +87,6 @@ const Dashboard = () => {
 	}));
 	const countArray = resultArray.map((item) => item.count);
 	const labelsArray = resultArray.map((item) => item.status);
-	console.log(nameProductLessRating);
 	return (
 		<div className="w-full relative px-4 mx-auto">
 			<header className="text-3xl font-bold py-4 border-b border-main">Dashboard</header>

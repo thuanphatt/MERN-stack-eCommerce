@@ -30,7 +30,7 @@ const FeatureProduct = () => {
 						totalRatings={el.totalRatings}
 						price={el.price}
 						handleonClick={() => {
-							navigate(`/${el?.category[0]}/${el?._id}/${el?.title}`);
+							navigate(`/products/${el?.category[0]}/${el?._id}/${el?.title}`);
 						}}
 					/>
 				))}

@@ -70,7 +70,7 @@ const BestSeller = ({ navigate, dispatch }) => {
 						className="cursor-pointer flex-1 hover:opacity-80"
 						onClick={() => {
 							productBanner &&
-								navigate(`/${productBanner[1]?.category}/${productBanner[1]?._id}/${productBanner[1]?.title}`);
+								navigate(`/products/${productBanner[1]?.category}/${productBanner[1]?._id}/${productBanner[1]?.title}`);
 						}}
 					>
 						<img
@@ -83,7 +83,7 @@ const BestSeller = ({ navigate, dispatch }) => {
 						className="cursor-pointer flex-1 hover:opacity-80"
 						onClick={() => {
 							productBanner &&
-								navigate(`/${productBanner[0]?.category}/${productBanner[0]?._id}/${productBanner[0]?.title}`);
+								navigate(`/products/${productBanner[0]?.category}/${productBanner[0]?._id}/${productBanner[0]?.title}`);
 						}}
 					>
 						<img

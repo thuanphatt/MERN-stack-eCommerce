@@ -1,6 +1,5 @@
 import moment from "moment";
-import icons from "./icons";
-const { AiFillStar, AiOutlineStar } = icons;
+import { FaRegStar, FaStar, FaStarHalfAlt } from "react-icons/fa";
 export const createSlug = (string) =>
 	string
 		.toLowerCase()
@@ -11,12 +10,26 @@ export const createSlug = (string) =>
 export const formatMoney = (number) => Number(number?.toFixed(1)).toLocaleString();
 export const renderStarFromNumber = (number, size) => {
 	if (!Number(number)) return;
+
 	const stars = [];
-	// 4 => [1,1,1,1,0]
-	// 2 => [1,1,0,0,0]
-	number = Math.round(number);
-	for (let i = 0; i < number; i++) stars.push(<AiFillStar color="orange" size={size || 16} />);
-	for (let i = 5; i > number; i--) stars.push(<AiOutlineStar color="orange" size={size || 16} />);
+	const integerPart = Math.floor(number);
+	const decimalPart = number - integerPart;
+
+	for (let i = 0; i < integerPart; i++) {
+		stars.push(<FaStar key={i} color="orange" size={size || 16} />);
+	}
+
+	if (decimalPart > 0 && decimalPart < 1) {
+		const halfStarCount = Math.round(decimalPart * 2); // Số lượng nửa sao cần hiển thị
+		for (let i = 0; i < halfStarCount; i++) {
+			stars.push(<FaStarHalfAlt key={`half-${i}`} color="orange" size={size || 16} />);
+		}
+	}
+
+	for (let i = stars.length; i < 5; i++) {
+		stars.push(<FaRegStar key={`outline-${i}`} color="orange" size={size || 16} />);
+	}
+
 	return stars;
 };
 export function secondsToHms(d) {

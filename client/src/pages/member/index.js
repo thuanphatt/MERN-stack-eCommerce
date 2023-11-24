@@ -4,3 +4,4 @@ export { default as Orders } from "./Orders";
 export { default as CheckoutPayPal } from "./CheckoutPayPal";
 export { default as ChangePassword } from "./ChangePassword";
 export { default as ViewedProducts } from "./ViewedProducts";
+export { default as DetailOrderMember } from "./DetailOrderMember";

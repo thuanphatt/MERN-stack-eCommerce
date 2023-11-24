@@ -6,8 +6,6 @@ const makeToken = require("uniqid");
 const { generateAccessToken, generateRefreshToken } = require("../middlewares/jwt");
 const sendMail = require("../utils/sendMail");
 
-const { usersFakeData } = require("../utils/contants");
-
 const register = asyncHandler(async (req, res) => {
 	const { email, password, firstName, lastName, mobile } = req.body;
 	if (!email || !password || !firstName || !lastName || !mobile)
@@ -87,7 +85,7 @@ const login = asyncHandler(async (req, res) => {
 			userData,
 		});
 	} else {
-		throw new Error("Thông tin không hợp lệ");
+		throw new Error("Email hoặc mật khẩu của bạn không đúng, vui lòng kiểm tra lại");
 	}
 });
 
@@ -288,7 +286,7 @@ const updateUser = asyncHandler(async (req, res) => {
 	}).select("-password -role -refreshToken");
 	return res.status(200).json({
 		success: response ? true : false,
-		mes: response ? "Cập nhật thành công" : "Đã có lỗi xảy ra",
+		mes: response ? "Cập nhật thông tin thành công" : "Đã có lỗi xảy ra",
 	});
 });
 const updateUserByAdmin = asyncHandler(async (req, res) => {
@@ -500,13 +498,6 @@ const addToViewedProducts = asyncHandler(async (req, res) => {
 		});
 	}
 });
-const createUsers = asyncHandler(async (req, res) => {
-	const response = await User.create(usersFakeData);
-	return res.status(200).json({
-		success: response ? true : false,
-		users: response ? response : "Đã có lỗi xảy ra",
-	});
-});
 
 module.exports = {
 	register,
@@ -523,7 +514,6 @@ module.exports = {
 	updateUserAddress,
 	addToCart,
 	registerFinal,
-	createUsers,
 	removeProductInCart,
 	addToWishList,
 	removeProductInWishList,

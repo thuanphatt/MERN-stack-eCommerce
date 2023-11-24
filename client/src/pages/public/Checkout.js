@@ -45,7 +45,7 @@ const Checkout = ({ dispatch, navigate, location }) => {
 		if (response.success) setOrders(response.order);
 	};
 	const discountCode = watch("discountCode");
-	const couponOrderArr = orders?.map((el) => el?.coupon);
+	const couponOrderArr = orders?.filter((order) => order.status === "Thành công").map((el) => el?.coupon);
 	const isUsed = couponOrderArr?.includes(discountCode);
 	const conpouArr = coupons?.map((el) => el);
 	const discountPrice = conpouArr?.find((el) => el._id === discountCode)?.discount;
@@ -146,7 +146,6 @@ const Checkout = ({ dispatch, navigate, location }) => {
 			});
 		} else {
 			dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
-
 			const response = await apiCreateVnpay({ amount: finalPrice });
 			dispatch(showModal({ isShowModal: false, modalChildren: null }));
 			if (response.success) {

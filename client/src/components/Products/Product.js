@@ -201,7 +201,7 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 				</div>
 				<div className="flex flex-col gap-1 mt-[15px] items-start w-full relative">
 					<div className="flex items-center justify-between w-full">
-						<span className="flex h-4">
+						<span className="flex h-4 items-center">
 							{renderStarFromNumber(productData?.totalRatings)?.map((el, index) => (
 								<span key={index}>{el}</span>
 							))}

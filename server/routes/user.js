@@ -3,7 +3,6 @@ const ctrls = require("../controllers/user");
 const fileUploader = require("../config/cloudinary.config");
 const { verifyAccessToken, isAdmin } = require("../middlewares/verifyToken");
 router.post("/register", ctrls.register);
-router.post("/mockData", ctrls.createUsers);
 router.put("/registerfinal/:token", ctrls.registerFinal);
 router.post("/login", ctrls.login);
 router.post("/refreshtoken", ctrls.refreshAccessToken);

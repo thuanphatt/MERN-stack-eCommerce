@@ -32,10 +32,13 @@ const HotCollections = () => {
 												onClick={(e) => {
 													e.stopPropagation();
 													navigate({
-														pathname: `${el.title}`,
+														pathname: `/products/${el.title}`,
 														search: createSearchParams({ brand: item }).toString(),
 													});
-													window.scrollTo({ top: 0, behavior: "smooth" });
+													window.scrollTo({
+														top: 0,
+														behavior: "smooth",
+													});
 												}}
 											>
 												<IoIosArrowForward size={14} />
