@@ -7,7 +7,7 @@ import { createSearchParams, useLocation, useNavigate, useSearchParams } from "r
 import { apiGetProducts, apiDeleteProduct } from "apis/product";
 import { Pagination, CustomizeVariants } from "components";
 import UpdateProduct from "./UpdateProduct";
-import { formatPrice, formatMoney } from "utils/helpers";
+import { formatPrice, formatMoney, convertArrFilter } from "utils/helpers";
 import useDebounce from "hooks/useDebounce";
 import { AiFillDelete, AiFillEdit, AiFillFilter } from "react-icons/ai";
 import { toast } from "react-toastify";
@@ -24,10 +24,13 @@ const ManageProduct = ({ dispatch }) => {
 		formState: { errors },
 	} = useForm();
 	const category = watch("category");
+	const color = watch("color");
+	const brand = watch("brand");
 	const navigate = useNavigate();
 	const location = useLocation();
 	const [params] = useSearchParams();
 	const [products, setProducts] = useState(null);
+	const [productsNolimit, setProductsNolimit] = useState(null);
 	const [counts, setCounts] = useState(0);
 	const [editProduct, setEditProduct] = useState(null);
 	const [update, setUpdate] = useState(false);
@@ -46,6 +49,12 @@ const ManageProduct = ({ dispatch }) => {
 		if (response.success) {
 			setProducts(response.products);
 			setCounts(response.counts);
+		}
+	};
+	const fetchProductsNolimit = async () => {
+		const response = await apiGetProducts({ limit: 50 });
+		if (response.success) {
+			setProductsNolimit(response.products);
 		}
 	};
 	const render = useCallback(() => {
@@ -81,6 +90,18 @@ const ManageProduct = ({ dispatch }) => {
 			search: createSearchParams({ category: value }).toString(),
 		});
 	};
+	const handleSearchBrand = ({ value }) => {
+		navigate({
+			pathname: location?.pathname,
+			search: createSearchParams({ brand: value }).toString(),
+		});
+	};
+	const handleSearchColor = ({ value }) => {
+		navigate({
+			pathname: location?.pathname,
+			search: createSearchParams({ color: value }).toString(),
+		});
+	};
 	useEffect(() => {
 		if (queryDebounce) {
 			navigate({
@@ -98,6 +119,12 @@ const ManageProduct = ({ dispatch }) => {
 		fetchProducts(searchParams);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [params, update, isFilterPrice]);
+	useEffect(() => {
+		fetchProductsNolimit();
+	}, []);
+	const colors = convertArrFilter(productsNolimit?.map((el) => el.color));
+	const brands = convertArrFilter(productsNolimit?.map((el) => el.brand));
+
 	return (
 		<div className="w-full flex flex-col gap-4 relative">
 			{editProduct && (
@@ -120,9 +147,9 @@ const ManageProduct = ({ dispatch }) => {
 					<span>Quản lý sản phẩm</span>
 				</h1>
 			</div>
-			<div className="flex justify-end items-center pr-5">
-				<div className="flex justify-end items-center mb-6">
-					<form className="grid grid-cols-2 gap-2 w-[700px]">
+			<div className="flex justify-end items-center mr-[27px]">
+				<div className="flex justify-end items-center my-6">
+					<form className="grid grid-cols-4 gap-2 w-full">
 						<div className="col-span-1">
 							<InputForm
 								id="q"
@@ -132,8 +159,9 @@ const ManageProduct = ({ dispatch }) => {
 								placeholder="Tìm kiếm theo tên sản phẩm..."
 							/>
 						</div>
-						<div className="col-span-1 flex items-center">
+						<div className="col-span-1 flex items-center md:max-w-[210px]">
 							<CustomSelect
+								placeholder="Danh mục"
 								options={cateLabel}
 								value={category}
 								onChange={(val) => {
@@ -141,6 +169,34 @@ const ManageProduct = ({ dispatch }) => {
 										navigate(`/${path.ADMIN}/${path.MANAGE_PRODUCT}`);
 									}
 									val && handleSearchCate(val);
+								}}
+								wrapClassName="w-full"
+							/>
+						</div>
+						<div className="col-span-1 flex items-center">
+							<CustomSelect
+								placeholder="Thương hiệu"
+								options={brands}
+								value={brand}
+								onChange={(val) => {
+									if (!val) {
+										navigate(`/${path.ADMIN}/${path.MANAGE_PRODUCT}`);
+									}
+									val && handleSearchBrand(val);
+								}}
+								wrapClassName="w-full"
+							/>
+						</div>
+						<div className="col-span-1 flex items-center">
+							<CustomSelect
+								placeholder="Màu sắc"
+								options={colors}
+								value={color}
+								onChange={(val) => {
+									if (!val) {
+										navigate(`/${path.ADMIN}/${path.MANAGE_PRODUCT}`);
+									}
+									val && handleSearchColor(val);
 								}}
 								wrapClassName="w-full"
 							/>

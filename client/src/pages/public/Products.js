@@ -20,6 +20,7 @@ const Products = ({ dispatch }) => {
 	const [activeClick, setActiveClick] = useState(null);
 	const [params] = useSearchParams();
 	const [sort, setSort] = useState("");
+
 	const { category } = useParams();
 	const fetchProductsByCateroty = async (queries) => {
 		dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
@@ -57,6 +58,7 @@ const Products = ({ dispatch }) => {
 		},
 		[activeClick]
 	);
+
 	const changeValue = useCallback(
 		(value) => {
 			setSort(value);
@@ -72,6 +74,7 @@ const Products = ({ dispatch }) => {
 			});
 		}
 	}, [sort, params]);
+
 	return (
 		<div className="w-full">
 			<div className="h-[81px] bg-gray-100 flex md:justify-center md:items-center md:px-0 px-4 md:flex-row flex-col md:pt-0 pt-4">

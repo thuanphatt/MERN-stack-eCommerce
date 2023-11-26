@@ -16,7 +16,7 @@ import useDebounce from "hooks/useDebounce";
 
 import { RiArrowGoBackFill } from "react-icons/ri";
 import path from "utils/path";
-import { statusOrdersLabel } from "utils/contants";
+import { paymentMethodOrdersLabel, statusOrdersLabel } from "utils/contants";
 import { showModal } from "store/app/appSlice";
 import { CSVLink } from "react-csv";
 import { CiCircleCheck, CiExport } from "react-icons/ci";
@@ -32,6 +32,7 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 		watch,
 	} = useForm();
 	const status = watch("status");
+	const paymentMethod = watch("paymentMethod");
 	const [editOrder, setEditOrder] = useState(null);
 	const [detailOrder, setDetailOrder] = useState(null);
 	const [orderNoLimit, setOrderNoLimit] = useState(null);
@@ -104,7 +105,6 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 		dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 		const response = await apiUpdateStatus(oid, { status: newStatus });
 		dispatch(showModal({ isShowModal: false, modalChildren: null }));
-
 		if (response.success) {
 			setEditOrder(null);
 			render();
@@ -112,12 +112,6 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 		} else toast.error(response.mes);
 	};
 	const data = formatExportData(orderNoLimit, "order");
-	const handleSearchStatus = ({ value }) => {
-		navigate({
-			pathname: location.pathname,
-			search: createSearchParams({ status: value }).toString(),
-		});
-	};
 	const queryDebounce = useDebounce(watch("q"), 800);
 	useEffect(() => {
 		if (queryDebounce) {
@@ -131,12 +125,52 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 			});
 		}
 	}, [location.pathname, navigate, queryDebounce]);
+	const handleSearchStatus = ({ value }) => {
+		const currentParams = Object.fromEntries([...params]);
+
+		if (typeof paymentMethod !== "undefined") {
+			navigate({
+				pathname: location.pathname,
+				search: createSearchParams({ ...currentParams, status: value, paymentMethod }).toString(),
+			});
+		} else {
+			navigate({
+				pathname: location.pathname,
+				search: createSearchParams({ ...currentParams, status: value }).toString(),
+			});
+		}
+	};
+
+	const handleSearchPaymentMethod = ({ value }) => {
+		const currentParams = Object.fromEntries([...params]);
+
+		if (typeof status !== "undefined") {
+			navigate({
+				pathname: location.pathname,
+				search: createSearchParams({ ...currentParams, paymentMethod: value, status }).toString(),
+			});
+		} else {
+			navigate({
+				pathname: location.pathname,
+				search: createSearchParams({ ...currentParams, paymentMethod: value }).toString(),
+			});
+		}
+		delete currentParams.paymentMethod;
+	};
+
 	useEffect(() => {
-		const searchParams = Object.fromEntries([...params]);
-		fetchOrders(searchParams);
+		if (params.get("status") && params.get("paymentMethod")) {
+			fetchOrders({
+				...Object.fromEntries([...params]),
+				status: params.get("status"),
+				paymentMethod: params.get("paymentMethod"),
+			});
+		} else {
+			fetchOrders(Object.fromEntries([...params]));
+		}
 		fetchOrdersNoLimit();
 	}, [params, update, isFilterDate, editedStatus]);
-
+	console.log(Object.fromEntries([...params]));
 	return (
 		<div className="w-full flex flex-col gap-4 relative">
 			{detailOrder && <DetailOrder detailOrder={detailOrder} setDetailOrder={setDetailOrder} />}
@@ -193,7 +227,7 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 					<CiExport className="md:text-[20px] text-[18px] " />
 					<h2 className="font-[600] px-1">Xuất</h2>
 				</CSVLink>
-				<form className="w-[45%] grid grid-cols-2 gap-2">
+				<form className="w-[50%] grid grid-cols-3 gap-2">
 					<div className="col-span-1">
 						<InputForm
 							id="q"
@@ -207,11 +241,32 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 						<CustomSelect
 							options={statusOrdersLabel}
 							value={status}
-							onChange={(val) => {
-								if (!val) {
-									navigate(`/${path.ADMIN}/${path.MANAGE_ORDER}`);
+							placeholder="Trạng thái"
+							onChange={(value) => {
+								const paramsObject = Object.fromEntries([...params]);
+								if (!value && paramsObject.status !== undefined) {
+									delete paramsObject.status;
+									const newSearchParams = new URLSearchParams(paramsObject);
+									navigate(`/${path.ADMIN}/${path.MANAGE_ORDER}?${newSearchParams}`);
 								}
-								val && handleSearchStatus(val);
+								value && handleSearchStatus(value);
+							}}
+							wrapClassName="w-full"
+						/>
+					</div>
+					<div className="col-span-1 flex items-center">
+						<CustomSelect
+							options={paymentMethodOrdersLabel}
+							value={paymentMethod}
+							placeholder="PTTT"
+							onChange={(value) => {
+								const paramsObject = Object.fromEntries([...params]);
+								if (!value && paramsObject.paymentMethod !== undefined) {
+									delete paramsObject.paymentMethod;
+									const newSearchParams = new URLSearchParams(paramsObject);
+									navigate(`/${path.ADMIN}/${path.MANAGE_ORDER}?${newSearchParams}`);
+								}
+								value && handleSearchPaymentMethod(value);
 							}}
 							wrapClassName="w-full"
 						/>
@@ -266,8 +321,8 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 										value={el.status || editedStatus}
 										onChange={(e) => {
 											const newStatus = e.target.value;
-											setEditedStatus(newStatus);
 											handleUpdateStatus(el._id, newStatus);
+											setEditedStatus(newStatus);
 										}}
 									>
 										{el.status === "Đang giao" ? (

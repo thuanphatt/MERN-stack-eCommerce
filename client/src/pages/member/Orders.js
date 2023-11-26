@@ -153,13 +153,14 @@ const Orders = ({ navigate, location, dispatch }) => {
 					<span className="font-bold text-lg">{`${calculateTotalRevenue(orderNoLimit)} VND`}</span>
 				</div>
 			</div>
-			<div className="flex justify-end items-center pt-6 pr-3">
+			<div className="flex justify-end items-center pt-6 mr-4">
 				<form className="w-[45%] grid grid-cols-2 gap-2">
 					<div className="col-span-1">
 						<InputForm id="q" register={register} errors={errors} fullWidth placeholder="Tìm kiếm đơn hàng ..." />
 					</div>
 					<div className="col-span-1 flex items-center">
 						<CustomSelect
+							placeholder="Trạng thái"
 							options={statusOrdersLabel}
 							value={status}
 							onChange={(val) => {

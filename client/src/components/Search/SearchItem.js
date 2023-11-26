@@ -2,10 +2,9 @@
 import React, { memo, useEffect, useState } from "react";
 import icons from "utils/icons";
 import { createSearchParams, useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { colors, brands } from "utils/contants";
 
 import { apiGetProducts } from "apis/product";
-import { formatMoney, formatPrice } from "utils/helpers";
+import { convertArr, formatMoney, formatPrice } from "utils/helpers";
 import useDebounce from "hooks/useDebounce";
 const { AiOutlineDown } = icons;
 const SearchItem = ({ name, activeClick, changeActiveFilter, type = "checkbox" }) => {
@@ -13,6 +12,7 @@ const SearchItem = ({ name, activeClick, changeActiveFilter, type = "checkbox" }
 	const { category } = useParams();
 	const [selected, setSelected] = useState([]);
 	const [selectedBrand, setSelectedBrand] = useState([]);
+	const [productsNolimit, setProductsNolimit] = useState(null);
 	const [bestPrice, setBestPrice] = useState(null);
 	const [price, setPrice] = useState({ from: "", to: "" });
 	const [params] = useSearchParams();
@@ -51,6 +51,13 @@ const SearchItem = ({ name, activeClick, changeActiveFilter, type = "checkbox" }
 			search: createSearchParams(queries).toString(),
 		});
 	}, [selected]);
+	const fetchProductsNolimit = async () => {
+		const response = await apiGetProducts({ limit: 50 });
+
+		if (response.success) {
+			setProductsNolimit(response.products);
+		}
+	};
 	useEffect(() => {
 		let param = [];
 		for (let i of params.entries()) param.push(i);
@@ -89,7 +96,11 @@ const SearchItem = ({ name, activeClick, changeActiveFilter, type = "checkbox" }
 			search: createSearchParams(queries).toString(),
 		});
 	}, [debouncePriceFrom, debouncePriceTo]);
-
+	useEffect(() => {
+		fetchProductsNolimit();
+	}, []);
+	const brands = convertArr(productsNolimit?.map((el) => el.brand));
+	const colors = convertArr(productsNolimit?.map((el) => el.color));
 	return (
 		<div
 			className="relative flex items-center justify-between border border-gray-800 p-3 text-[12px] md:gap-6"

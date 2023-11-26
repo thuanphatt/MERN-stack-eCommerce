@@ -116,8 +116,6 @@ export const productInfoTabs = [
 		`,
 	},
 ];
-export const colors = ["đen", "xanh", "trắng", "cam", "xám", "đỏ", "vàng"];
-export const brands = ["G", "GY", "RG", "XAG", "NX", "30S", "GC", "Azud", "Greentech", "LZ1E", "Rainbird", "YSI"];
 export const sorts = [
 	{
 		id: 0,
@@ -550,5 +548,78 @@ export const cateLabel = [
 	{
 		label: "HỆ THỐNG XỬ LÝ NƯỚC THẢI NÔNG NGHIỆP THÔNG MINH 4.0",
 		value: "HỆ THỐNG XỬ LÝ NƯỚC THẢI NÔNG NGHIỆP THÔNG MINH 4.0",
+	},
+];
+export const paymentMethodOrdersLabel = [
+	{
+		label: "COD",
+		value: "COD",
+	},
+	{
+		label: "Paypal",
+		value: "Paypal",
+	},
+	{
+		label: "VNPay",
+		value: "VNPay",
+	},
+];
+export const colorsFilter = [
+	{ label: "Đen", value: "đen" },
+	{ label: "Xanh", value: "xanh" },
+	{ label: "Trắng", value: "trắng" },
+	{ label: "Cam", value: "cam" },
+	{ label: "Xám", value: "xám" },
+	{ label: "Đỏ", value: "đỏ" },
+	{ label: "Vàng", value: "vàng" },
+];
+export const brandsFilter = [
+	{
+		label: "G",
+		value: "G",
+	},
+	{
+		label: "GY",
+		value: "GY",
+	},
+	{
+		label: "RG",
+		value: "RG",
+	},
+	{
+		label: "XAG",
+		value: "XAG",
+	},
+	{
+		label: "NX",
+		value: "NX",
+	},
+	{
+		label: "30S",
+		value: "30S",
+	},
+	{
+		label: "GC",
+		value: "GC",
+	},
+	{
+		label: "Azud",
+		value: "Azud",
+	},
+	{
+		label: "Greentech",
+		value: "Greentech",
+	},
+	{
+		label: "LZ1E",
+		value: "LZ1E",
+	},
+	{
+		label: "Rainbird",
+		value: "Rainbird",
+	},
+	{
+		label: "YSI",
+		value: "YSI",
 	},
 ];

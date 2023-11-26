@@ -35,7 +35,7 @@ const Services = ({ navigate }) => {
 				<h2 className="text-xl font-bold mt-4"> CÁC DỊCH VỤ GIẢI PHÁP NÔNG NGHIỆP 4.0</h2>
 				<div class="flex md:flex-row flex-col gap-4 md:justify-between md:items-center">
 					{services?.map((el, index) => (
-						<div class="w-full md:w-1/2 flex-1 border shadow-md p-4 my-4 rounded-sm min-h-[350px]" key={index}>
+						<div class="w-full md:w-1/2 flex-1 border shadow-md p-4 my-4 rounded-sm max-h-[325px]" key={index}>
 							<div>
 								<img src={el.image} alt={el.name} className="w-full h-[200px] object-contain"></img>
 								<div class="p-4 w-full flex items-center justify-center flex-col">

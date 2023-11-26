@@ -145,6 +145,7 @@ const ManageUser = ({ navigate, location, dispatch }) => {
 						</div>
 						<div className="col-span-1 flex items-center">
 							<CustomSelect
+								placeholder="Vai trò"
 								options={roleLabel}
 								value={role}
 								onChange={(val) => {

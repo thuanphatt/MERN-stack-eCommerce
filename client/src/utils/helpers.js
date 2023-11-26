@@ -267,3 +267,16 @@ export const getRevenuePredict = (obj) => {
 		return Object?.values(obj);
 	}
 };
+export const convertArrFilter = (arr) => {
+	const uniqueItem = Array.from(new Set(arr));
+	const result = uniqueItem.map((el) => ({
+		value: el,
+		label: el,
+	}));
+	return result;
+};
+export const convertArr = (arr) => {
+	const uniqueItem = Array.from(new Set(arr));
+	const result = uniqueItem.map((el) => el);
+	return result;
+};

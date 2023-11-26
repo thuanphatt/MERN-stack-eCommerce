@@ -274,6 +274,7 @@ const getAdminOrder = asyncHandler(async (req, res) => {
 	let queryObject = {};
 	// Filtering
 	if (queries?.status) formatedQueries.status = { $regex: queries.status, $options: "i" };
+	if (queries?.paymentMethod) formatedQueries.paymentMethod = { $regex: queries.paymentMethod, $options: "i" };
 
 	if (queries?.q) {
 		delete formatedQueries.q;
