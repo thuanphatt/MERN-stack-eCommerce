@@ -13,8 +13,9 @@ import AdminSidebarRepo from "./AdminSidebarRepo";
 import withBaseComponent from "hocs/withBaseComponent";
 const activedStyle = "px-4 py-2 flex items-center gap-2 bg-[#B0D9B1] font-medium w-full";
 const notActivedStyle = "px-4 py-2 flex items-center gap-2 font-medium w-full hover:bg-gray-200";
-const AdminSidebar = ({ dispatch }) => {
+const AdminSidebar = ({ dispatch, navigate }) => {
 	const [actived, setActived] = useState([]);
+	const { current } = useSelector((state) => state.user);
 	const { isShowAdminSidebarRepo } = useSelector((state) => state.app);
 	const handleShowTab = (tabId) => {
 		if (actived.some((el) => el === tabId)) setActived((prev) => prev.filter((el) => el !== tabId));
@@ -24,8 +25,16 @@ const AdminSidebar = ({ dispatch }) => {
 		<div className="bg-white h-full py-4 overflow-y-auto">
 			<Link className="md:flex flex-col justify-center gap-2 items-center p-4 hidden" to={`/${path.HOME}`}>
 				<img src={logo} alt="logo" className="w-[100px] object-contain " />
-				<small className="font-semibold">Quản trị viên</small>
 			</Link>
+			<div
+				className="flex items-center gap-2 justify-center pb-2 cursor-pointer hover:opacity-70"
+				onClick={() => {
+					navigate(`/${path.MEMBER}/${path.PERSONAL}`);
+				}}
+			>
+				<img src={current?.avatar} alt={current?.firstName} className="w-8 h-8 object-contain rounded-full" />
+				<small className="font-semibold text-main">{`${current?.firstName} ${current?.lastName}`}</small>
+			</div>
 			{isShowAdminSidebarRepo && (
 				<div
 					className="bg-overlay z-50 absolute inset-0 flex justify-start h-full w-full md:hidden"

@@ -228,9 +228,9 @@ const Orders = ({ navigate, location, dispatch }) => {
 							>
 								{el?.status}
 							</td>
-							<td className="py-4 px-2">{`${formatMoney(formatPrice(el?.total))} VND`}</td>
+							<td className="py-4 px-2 md:min-w-[120px]">{`${formatMoney(formatPrice(el?.total))} VND`}</td>
 							<td className="py-4 px-2">{moment(el?.createdAt)?.fromNow()}</td>
-							<td className="py-4 px-2">
+							<td className="py-4 px-2 md:min-w-[150px]">
 								{el.status === "Đang xử lý" && el.paymentMethod === "COD" && (
 									<Button
 										handleOnClick={() => {

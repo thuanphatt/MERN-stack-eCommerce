@@ -27,7 +27,7 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 			setSales(response.sales[0]);
 		}
 	};
-	const isProductInCategories = productData._id === sales?.products[0]._id;
+	const isProductInCategories = productData?._id === sales?.products[0]._id;
 	const handleClickOptions = async (e, name) => {
 		e.stopPropagation();
 		if (name === "CART") {

@@ -43,13 +43,11 @@ const Blogs = ({ navigate }) => {
 			</div>
 
 			<div className="md:w-main w-full mx-auto flex md:flex-row flex-col md:items-center gap-2 my-6 md:px-0 px-4">
-				{blogsData
-					?.map((blog) => blog.category)
-					.map((category, index) => (
-						<span key={index} className="border-r pr-4 font-semibold">
-							{category}
-						</span>
-					))}
+				{Array.from(new Set(blogsData?.map((blog) => blog.category)))?.map((category, index) => (
+					<span key={index} className="border-r pr-4 font-semibold">
+						{category}
+					</span>
+				))}
 			</div>
 			<div className="flex justify-between md:w-main w-full mx-auto gap-4 md:px-0 px-4">
 				<div className="grid md:grid-cols-3 grid-cols-1 w-main flex-3 gap-4">

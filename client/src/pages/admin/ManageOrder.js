@@ -170,7 +170,7 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 		}
 		fetchOrdersNoLimit();
 	}, [params, update, isFilterDate, editedStatus]);
-	console.log(Object.fromEntries([...params]));
+
 	return (
 		<div className="w-full flex flex-col gap-4 relative">
 			{detailOrder && <DetailOrder detailOrder={detailOrder} setDetailOrder={setDetailOrder} />}

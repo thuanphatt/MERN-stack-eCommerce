@@ -111,7 +111,6 @@ const DetailService = ({ navigate }) => {
 									</div>
 								</div>
 							))}
-
 							<div className="text-right mt-8 flex flex-col gap-2">
 								<h3 className="text-xl font-semibold">{`Phí dịch vụ: ${formatMoney(
 									formatPrice((totalProduct * 2) / 100)
