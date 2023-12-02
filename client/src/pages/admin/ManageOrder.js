@@ -59,7 +59,6 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 		dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 		const response = await apiGetOrdersNolimit();
 		dispatch(showModal({ isShowModal: false, modalChildren: null }));
-
 		if (response.success) {
 			setOrderNoLimit(response.orders);
 		}

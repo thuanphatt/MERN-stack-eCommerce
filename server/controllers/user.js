@@ -121,6 +121,14 @@ const getCurrent = asyncHandler(async (req, res) => {
 		result: user ? user : "User not found",
 	});
 });
+const getDetailUser = asyncHandler(async (req, res) => {
+	const { uid } = req.params;
+	const response = await User.findById(uid);
+	return res.status(200).json({
+		success: response ? true : false,
+		mes: response ? response : "Đã có lỗi xảy ra",
+	});
+});
 const refreshAccessToken = asyncHandler(async (req, res) => {
 	// get token from cookie
 	const cookie = req.cookies;
@@ -346,6 +354,7 @@ const addToCart = asyncHandler(async (req, res) => {
 				new: true,
 			}
 		);
+
 		return res.status(200).json({
 			success: response ? true : false,
 			mes: response ? "Đã thêm giỏ hàng thành công" : "Đã có lỗi xảy ra",
@@ -520,4 +529,5 @@ module.exports = {
 	changePassword,
 	addToViewedProducts,
 	removeProductInViewedProducts,
+	getDetailUser,
 };

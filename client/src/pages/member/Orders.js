@@ -15,7 +15,7 @@ import { toast } from "react-toastify";
 import { showModal } from "store/app/appSlice";
 import Swal from "sweetalert2";
 import { statusOrdersLabel } from "utils/contants";
-import { calculateTotalRevenue, formatMoney, formatPrice } from "utils/helpers";
+import { calculateRevunue, calculateTotalRevenue, formatMoney, formatPrice } from "utils/helpers";
 import path from "utils/path";
 import DetailOrderMember from "./DetailOrderMember";
 
@@ -87,9 +87,7 @@ const Orders = ({ navigate, location, dispatch }) => {
 			if (result.isConfirmed) {
 				dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 				const response = await apiUpdateStatus(oid, { status: "Đã hủy" });
-
 				dispatch(showModal({ isShowModal: false, modalChildren: null }));
-
 				if (response.success) {
 					render();
 					toast.success(response.mes);
@@ -144,13 +142,20 @@ const Orders = ({ navigate, location, dispatch }) => {
 		<div className="w-full relative px-4 ">
 			{detailOrder && <DetailOrderMember detailOrder={detailOrder} setDetailOrder={setDetailOrder} />}
 			<header className="text-3xl font-semibold py-4 border-b border-main">Đơn hàng</header>
-			<div className="flex md:items-center gap-2 mt-4 md:flex-row flex-col px-4 md:w-1/2">
+			<div className="flex md:items-center gap-2 mt-4 md:flex-row flex-col px-4">
 				<div className="flex-1 stat-box border rounded-md shadow-md p-4 text-center bg-gray-100 ">
 					<div className="flex items-center gap-2 justify-center">
 						<MdOutlineAttachMoney size={20} />
-						<h2 className="text-lg font-medium">Số tiền đã mua</h2>
+						<h2 className="text-lg font-medium">Tổng số tiền đã mua</h2>
 					</div>
 					<span className="font-bold text-lg">{`${calculateTotalRevenue(orderNoLimit)} VND`}</span>
+				</div>
+				<div className="flex-1 stat-box border rounded-md shadow-md p-4 text-center bg-gray-100">
+					<div className="flex items-center gap-2 justify-center">
+						<MdOutlineAttachMoney size={20} />
+						<h2 className="text-lg font-medium">Số tiền đã mua hôm nay</h2>
+					</div>
+					<span className="font-bold text-lg">{`${calculateRevunue(orderNoLimit, "today")} VND`}</span>
 				</div>
 			</div>
 			<div className="flex justify-end items-center pt-6 mr-4">

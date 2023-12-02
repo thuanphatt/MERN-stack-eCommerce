@@ -131,9 +131,11 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 			toast.warn("Số lượng đã vượt quá giới hạn của kho hiện tại");
 			return;
 		}
+
 		const response = await apiAddToCart({
 			pid,
 			color: currentProduct.color || product?.color,
+			inputPrice: product?.inputPrice,
 			quantity,
 			price: isProductInCategories
 				? currentProduct?.price - (currentProduct?.price * Number(sales?.discount)) / 100 ||

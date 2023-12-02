@@ -11,7 +11,7 @@ import { CSVLink } from "react-csv";
 import { CiExport } from "react-icons/ci";
 
 import { InputForm, Select, Button, CustomSelect, Loading } from "components";
-import { apiDeleteUser, apiGetUsers, apiUpdateUser } from "apis/user";
+import { apiDeleteUser, apiDetailUser, apiGetUsers, apiUpdateUser } from "apis/user";
 import { roles, blockStatus, roleLabel } from "utils/contants";
 import useDebounce from "hooks/useDebounce";
 import { Pagination } from "components";
@@ -21,6 +21,8 @@ import path from "utils/path";
 import withBaseComponent from "hocs/withBaseComponent";
 import { formatExportData } from "utils/helpers";
 import { showModal } from "store/app/appSlice";
+import DetailUser from "./DetailUser";
+import { AiFillEye } from "react-icons/ai";
 const ManageUser = ({ navigate, location, dispatch }) => {
 	const { AiFillEdit, AiFillDelete, RiArrowGoBackFill } = icons;
 	const {
@@ -40,7 +42,7 @@ const ManageUser = ({ navigate, location, dispatch }) => {
 	const [usersData, setUsersData] = useState(null);
 	const [counts, setCounts] = useState(0);
 	const [update, setUpdate] = useState(false);
-
+	const [detailUser, setDetailUser] = useState(null);
 	const role = watch("role");
 	const [editElement, setEditElement] = useState(null);
 	const [params] = useSearchParams();
@@ -98,6 +100,15 @@ const ManageUser = ({ navigate, location, dispatch }) => {
 			search: createSearchParams({ role: value }).toString(),
 		});
 	};
+	const handleDetailUser = async (uid) => {
+		dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
+		const response = await apiDetailUser(uid);
+		dispatch(showModal({ isShowModal: false, modalChildren: null }));
+		console.log(response);
+		if (response.success) {
+			setDetailUser(response.mes);
+		}
+	};
 	const queryDebounce = useDebounce(watch("q"), 800);
 	useEffect(() => {
 		if (queryDebounce) {
@@ -115,8 +126,10 @@ const ManageUser = ({ navigate, location, dispatch }) => {
 		const searchParams = Object.fromEntries([...params]);
 		fetchUsers(searchParams);
 	}, [params, update]);
+	console.log(usersData);
 	return (
 		<div className={clsx("w-full flex flex-col gap-4 relative", editElement && "pl-[26px]")}>
+			{detailUser && <DetailUser detailUser={detailUser} setDetailUser={setDetailUser} />}
 			<div className="w-full h-[69px]"></div>
 			<div className="flex items-center justify-betweend p-4 border-b w-full fixed top-0 bg-gray-100">
 				<h1 className="text-3xl font-bold tracking-tight ">
@@ -314,6 +327,14 @@ const ManageUser = ({ navigate, location, dispatch }) => {
 													<AiFillEdit size={18} />
 												</span>
 											)}
+											<span
+												className="cursor-pointer hover:text-gray-800 text-gray-600"
+												onClick={() => {
+													handleDetailUser(el._id);
+												}}
+											>
+												<AiFillEye size={18} />
+											</span>
 											<span
 												className="px-2 hover:underline cursor-pointer hover:text-gray-800 text-red-500"
 												onClick={() => {

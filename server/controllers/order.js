@@ -186,7 +186,7 @@ const updateStatus = asyncHandler(async (req, res) => {
 			<p>Địa chỉ: ${orderCurrent.orderBy.address.join(", ")}</p>
 		  `;
 		const coupon = await Coupon.findById(orderCurrent.coupon);
-		const couponHTML = `<h2>Mã giảm giá: ${formatMoney(coupon?.discount)} VND</h2>`;
+		const couponHTML = `<h2>Mã giảm giá: ${formatMoney(coupon?.discount ? coupon?.discount : 0)} VND</h2>`;
 		const totalHTML = `<h2>Tổng tiền: ${formatMoney(orderCurrent.total)} VND</h2>`;
 		const statusHTML = `<h2>Trạng thái: ${orderCurrent.status}</h2>`;
 		const paymentMethodHTML = `<h2>Hình thức thanh toán: ${orderCurrent.paymentMethod}</h2>`;

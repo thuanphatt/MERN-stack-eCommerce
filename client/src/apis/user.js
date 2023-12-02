@@ -33,6 +33,7 @@ export const apiGetCurrent = () =>
 		url: "/user/current",
 		method: "get",
 	});
+
 export const apiGetUsers = (params) =>
 	axios({
 		url: "/user/",
@@ -50,6 +51,11 @@ export const apiChangePassword = (data, uid) =>
 		url: "/user/change-password/" + uid,
 		method: "put",
 		data,
+	});
+export const apiDetailUser = (uid) =>
+	axios({
+		url: "/user/" + uid,
+		method: "get",
 	});
 export const apiDeleteUser = (uid) =>
 	axios({

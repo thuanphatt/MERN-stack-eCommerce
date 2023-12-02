@@ -23,6 +23,7 @@ router.delete("/removecart/:pid/:color", [verifyAccessToken], ctrls.removeProduc
 router.delete("/removewishlist/:pid/:color", [verifyAccessToken], ctrls.removeProductInWishList);
 router.delete("/removeviewed-products/:pid/:color", [verifyAccessToken], ctrls.removeProductInViewedProducts);
 router.put("/:uid", [verifyAccessToken, isAdmin], ctrls.updateUserByAdmin);
+router.get("/:uid", [verifyAccessToken, isAdmin], ctrls.getDetailUser);
 
 router.delete("/:uid", [verifyAccessToken, isAdmin], ctrls.deleteUser);
 module.exports = router;

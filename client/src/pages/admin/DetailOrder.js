@@ -20,6 +20,7 @@ const DetailOrder = ({ detailOrder, setDetailOrder }) => {
 	};
 	const cost = Number(shipment?.map((el) => el.cost));
 	const freeship = Number(shipment?.map((el) => el.freeship));
+
 	const handleExportOrder = () => {
 		html2canvas(document.querySelector("#content")).then((canvas) => {
 			const imgData = canvas.toDataURL("image/png");
