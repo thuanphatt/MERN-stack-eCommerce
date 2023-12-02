@@ -199,6 +199,26 @@ export const calculateTotalRevenue = (transactions) => {
 	const orderTotal = transactions?.filter((el) => el.status === "Thành công");
 	return formatMoney(formatPrice(orderTotal?.reduce((total, transaction) => total + transaction.total, 0)));
 };
+export const calculateTotalInitialCapital = (transactions) => {
+	return formatMoney(
+		formatPrice(
+			transactions
+				?.filter((el) => el.status === "Thành công")
+				?.map((el) => el.products)
+				?.flat()
+				?.reduce((sum, el) => +sum + +el.inputPrice * el.quantity, 0)
+		)
+	);
+};
+export const calculateProfit = (transactions) => {
+	const orderTotal = transactions?.filter((el) => el.status === "Thành công");
+	const revenue = orderTotal?.reduce((total, transaction) => total + transaction.total, 0);
+	const initaial = orderTotal
+		?.map((el) => el.products)
+		?.flat()
+		?.reduce((sum, el) => +sum + +el.inputPrice * el.quantity, 0);
+	return formatMoney(formatPrice(revenue - initaial));
+};
 export const calculateTotalRevenueNumber = (transactions) => {
 	const orderTotal = transactions?.filter((el) => el.status === "Thành công");
 	return orderTotal?.reduce((total, transaction) => total + transaction.total, 0);

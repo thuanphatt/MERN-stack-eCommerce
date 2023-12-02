@@ -40,6 +40,7 @@ var userSchema = new mongoose.Schema(
 				quantity: Number,
 				color: String,
 				price: Number,
+				inputPrice: Number,
 				thumbnail: String,
 				title: String,
 			},

@@ -54,6 +54,7 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 			const response = await apiAddToCart({
 				pid: productData?._id,
 				color: productData?.color,
+				inputPrice: productData?.inputPrice,
 				quantity: 1,
 				price: isProductInCategories
 					? productData?.price - (productData?.price * Number(sales?.discount)) / 100
@@ -227,7 +228,7 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 					)}
 					{productData?.quantity <= 0 && (
 						<span className="absolute top-[-216%] right-[18px] font-semibold text-white md:w-[230px] h-[35px] bg-red-500 p-2 flex items-center justify-center rotate-[-45deg]">
-							Đã hết
+							Tạm hết hàng
 						</span>
 					)}
 				</div>

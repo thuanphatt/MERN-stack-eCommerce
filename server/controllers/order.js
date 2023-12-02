@@ -34,6 +34,7 @@ const createNewOrder = asyncHandler(async (req, res) => {
 		}
 		if (status) data.status = status;
 		if (paymentMethod) data.paymentMethod = paymentMethod;
+
 		const rs = await Order.create(data);
 		if (rs) {
 			const productsHTML = data.products.map(
@@ -55,7 +56,8 @@ const createNewOrder = asyncHandler(async (req, res) => {
 			  `;
 
 			const coupon = await Coupon.findById(data.coupon);
-			const couponHTML = `<h3>Mã giảm giá: ${formatMoney(coupon?.discount)} VND</h3>`;
+
+			const couponHTML = `<h3>Mã giảm giá: ${formatMoney(coupon?.discount ? coupon?.discount : 0)} VND</h3>`;
 
 			const totalHTML = `<h2>Tổng tiền: ${formatMoney(data.total)} VND</h2>`;
 			const statusHTML = `<h2>Trạng thái: ${data.status}</h2>`;
@@ -70,7 +72,7 @@ const createNewOrder = asyncHandler(async (req, res) => {
 				${paymentMethodHTML}
 				<ul>${productsHTML.join("")}</ul>
 				${customerInfoHTML}
-				${couponHTML && couponHTML}
+				${couponHTML}
 				${totalHTML}
 			  `;
 			const html = orderDetailsHTML;
@@ -137,7 +139,7 @@ const updateStatus = asyncHandler(async (req, res) => {
 			<p>Địa chỉ: ${orderCurrent.orderBy.address.join(", ")}</p>
 		  `;
 		const coupon = await Coupon.findById(orderCurrent.coupon);
-		const couponHTML = `<h2>Mã giảm giá: ${formatMoney(coupon?.discount)} VND</h2>`;
+		const couponHTML = `<h2>Mã giảm giá: ${formatMoney(coupon?.discount ? coupon?.discount : 0)} VND</h2>`;
 		const totalHTML = `<h2>Tổng tiền: ${formatMoney(orderCurrent.total)} VND</h2>`;
 		const statusHTML = `<h2>Trạng thái: ${orderCurrent.status}</h2>`;
 		const paymentMethodHTML = `<h2>Hình thức thanh toán: ${orderCurrent.paymentMethod}</h2>`;

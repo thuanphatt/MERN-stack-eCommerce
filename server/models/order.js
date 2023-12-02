@@ -9,6 +9,7 @@ var orderSchema = new mongoose.Schema(
 				quantity: Number,
 				color: String,
 				price: Number,
+				inputPrice: Number,
 				thumbnail: String,
 				title: String,
 				sold: Number,

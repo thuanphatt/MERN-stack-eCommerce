@@ -28,11 +28,11 @@ export const userSlice = createSlice({
 			state.mes = "";
 		},
 		updateCart: (state, action) => {
-			const { pid, quantity, color, category } = action.payload;
+			const { pid, quantity, color, category, inputPrice } = action.payload;
 			const updatingCart = JSON.parse(JSON.stringify(state.currentCart));
 			state.currentCart = updatingCart.map((el) => {
 				if (el.color === color && el.product?._id === pid) {
-					return { ...el, quantity, category };
+					return { ...el, quantity, category, inputPrice };
 				} else return el;
 			});
 		},

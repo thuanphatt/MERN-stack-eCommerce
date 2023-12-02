@@ -58,7 +58,7 @@ const CreateRevenuePredict = ({ dispatch, navigate }) => {
 				<span
 					className="ml-auto cursor-pointer hover:underline"
 					onClick={() => {
-						navigate(`/${path.ADMIN}/${path.REVENUE_STATISTICS}`);
+						navigate(`/${path.ADMIN}/${path.REVENUE_REPORT}`);
 					}}
 				>
 					<IoReturnDownBack size={24} />

@@ -3,9 +3,9 @@ import { AreaChart } from "components";
 import withBaseComponent from "hocs/withBaseComponent";
 import React, { memo, useEffect, useState } from "react";
 
-import { calculateRevunue, calculateTotalRevenue } from "utils/helpers";
+import { calculateProfit, calculateRevunue, calculateTotalInitialCapital, calculateTotalRevenue } from "utils/helpers";
 
-const RevenueStatistics = ({ navigate }) => {
+const RevenueStatistics = () => {
 	const [orders, setOrders] = useState(null);
 
 	const fetchOrders = async () => {
@@ -27,6 +27,18 @@ const RevenueStatistics = ({ navigate }) => {
 						<h2 className="text-lg font-medium">Tổng doanh thu:</h2>
 					</div>
 					<span className="font-bold text-lg">{` ${calculateTotalRevenue(orders)} VND`}</span>
+				</div>
+				<div className="flex-1 stat-box border rounded-md shadow-md p-4 text-center bg-yellow-400 text-white">
+					<div className="flex items-center gap-2 justify-center">
+						<h2 className="text-lg font-medium">Vốn ban đầu:</h2>
+					</div>
+					<span className="font-bold text-lg">{` ${calculateTotalInitialCapital(orders)} VND`}</span>
+				</div>
+				<div className="flex-1 stat-box border rounded-md shadow-md p-4 text-center bg-green-500 text-white">
+					<div className="flex items-center gap-2 justify-center">
+						<h2 className="text-lg font-medium">Lợi nhuận:</h2>
+					</div>
+					<span className="font-bold text-lg">{` ${calculateProfit(orders)} VND`}</span>
 				</div>
 				<div className="flex-1 stat-box border rounded-md shadow-md p-4 text-center bg-blue-400 text-white">
 					<div className="flex items-center gap-2 justify-center">

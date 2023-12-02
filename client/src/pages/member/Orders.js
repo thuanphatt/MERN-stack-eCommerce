@@ -39,7 +39,7 @@ const Orders = ({ navigate, location, dispatch }) => {
 		const response = await apiGetBuyHistory({
 			...params,
 			limit: +process.env.REACT_APP_LIMIT,
-			sort: isFilterDate ? "-createdAt" : "createdAt",
+			sort: isFilterDate ? "createdAt" : "-createdAt",
 		});
 		dispatch(showModal({ isShowModal: false, modalChildren: null }));
 

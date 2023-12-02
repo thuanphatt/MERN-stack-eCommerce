@@ -14,6 +14,7 @@ import { apiGetOrders, apiGetRevenuePredict } from "apis";
 import { Button } from "components";
 import moment from "moment";
 import withBaseComponent from "hocs/withBaseComponent";
+import clsx from "clsx";
 const RevenueReport = ({ navigate }) => {
 	const [revenuePredict, setRevenuePredict] = useState(null);
 	const [orders, setOrders] = useState(null);
@@ -45,6 +46,7 @@ const RevenueReport = ({ navigate }) => {
 		fetchRevenuePredicts();
 	}, []);
 	reportRevenue = data;
+
 	return (
 		<div className="w-full relative px-4 mx-auto">
 			<header className="text-3xl font-bold py-4 border-b border-main">Báo cáo doanh thu</header>
@@ -111,14 +113,15 @@ const RevenueReport = ({ navigate }) => {
 					<span className="pl-6 font-medium">Sự chênh lệch doanh thu giữa thực tế và dự kiến</span>
 					<div className="pl-6">
 						<span className="font-medium">Tỷ lệ:</span>
-						<span className=" font-medium text-red-500">
-							{resultArray && ` ${compare > 0 ? "Thấp" : "Tăng"} ${(100 - percentRevenue.toFixed(2)).toFixed(2)} %`}
+						<span className={clsx("font-medium", compare > 0 ? "text-red-500" : "text-green-500")}>
+							{resultArray &&
+								` ${compare > 0 ? "Thấp" : "Tăng"} ${Math.abs((100 - percentRevenue.toFixed(2)).toFixed(2))} %`}
 						</span>
 					</div>
 					<span className="pl-6">
 						<span className="font-medium">Số tiền chênh lệch:</span>
 						<span className="font-medium text-blue-500">{` ${
-							resultArray && formatMoney(formatPrice(compare))
+							resultArray && formatMoney(formatPrice(Math.abs(compare)))
 						} VND`}</span>
 					</span>
 				</div>

@@ -68,7 +68,7 @@ const Navigation = () => {
 								</div>
 								{el.quantity <= 0 && (
 									<span className="absolute top-[34%] right-[72%] font-semibold text-white md:w-[64px] h-[25px] bg-red-500 p-2 flex items-center justify-center text-sm rotate-[-45deg]">
-										Đã hết
+										Tạm hết hàng
 									</span>
 								)}
 							</div>

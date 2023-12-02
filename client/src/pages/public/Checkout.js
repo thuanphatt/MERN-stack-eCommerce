@@ -44,6 +44,7 @@ const Checkout = ({ dispatch, navigate, location }) => {
 		const response = await apiGetBuyHistory();
 		if (response.success) setOrders(response.order);
 	};
+
 	const discountCode = watch("discountCode");
 	const couponOrderArr = orders?.filter((order) => order.status === "Thành công").map((el) => el?.coupon);
 	const isUsed = couponOrderArr?.includes(discountCode);
