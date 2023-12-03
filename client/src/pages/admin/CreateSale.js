@@ -97,10 +97,12 @@ const CreateSale = ({ dispatch }) => {
 							id="products"
 							style={clsx("flex-1")}
 							validate={{ required: "Không được để trống trường này" }}
-							options={products?.map((el) => ({
-								code: el._id,
-								value: el.title,
-							}))}
+							options={products
+								?.filter((product) => product.quantity > 0)
+								.map((el) => ({
+									code: el._id,
+									value: el.title,
+								}))}
 						/>
 					</div>
 

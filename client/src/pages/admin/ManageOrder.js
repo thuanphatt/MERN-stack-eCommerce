@@ -320,8 +320,8 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 										value={el.status || editedStatus}
 										onChange={(e) => {
 											const newStatus = e.target.value;
-											handleUpdateStatus(el._id, newStatus);
 											setEditedStatus(newStatus);
+											handleUpdateStatus(el._id, newStatus);
 										}}
 									>
 										{el.status === "Đang giao" ? (

@@ -177,6 +177,10 @@ const ratings = asyncHandler(async (req, res) => {
 				},
 				{ new: true }
 			);
+			await Product.findByIdAndUpdate(pid, {
+				totalRatings: star,
+			});
+
 			return res.status(200).json({
 				success: response ? true : false,
 				mes: response ? "Đánh giá sản phẩm thành công" : "Không thể đánh giá sản phẩm",

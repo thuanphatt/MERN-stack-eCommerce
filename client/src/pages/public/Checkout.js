@@ -57,10 +57,6 @@ const Checkout = ({ dispatch, navigate, location }) => {
 	const total = isDiscount && !isUsed ? sumProductPrice - discountPrice : sumProductPrice;
 	const finalPrice = total > freeship ? total : total + cost;
 	const handleSaveOrder = async () => {
-		if (current?.isBlocked) {
-			toast.warning("Tài khoản đã bị khóa tính năng thanh toán");
-			return;
-		}
 		if (current?.address.length === 0) {
 			Swal.fire({
 				title: "Opps",

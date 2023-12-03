@@ -13,7 +13,7 @@ import { formatMoney, formatPrice } from "utils/helpers";
 import path from "utils/path";
 
 const Cart = ({ dispatch, navigate }) => {
-	const { currentCart } = useSelector((state) => state.user);
+	const { currentCart, current } = useSelector((state) => state.user);
 	const removeCartItem = async (pid, color) => {
 		const response = await apiRemoveProductInCart(pid, color);
 		dispatch(getCurrent());
@@ -85,6 +85,10 @@ const Cart = ({ dispatch, navigate }) => {
 						fullwidth
 						style={clsx("rounded-md py-3 bg-main")}
 						handleOnClick={() => {
+							if (current?.isBlocked) {
+								toast.warning("Tài khoản đã bị khóa tính năng thanh toán");
+								return;
+							}
 							dispatch(showCart());
 							navigate(`/${path.CHECKOUT}`);
 						}}

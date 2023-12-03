@@ -25,7 +25,6 @@ var productSchema = new mongoose.Schema(
 		},
 		video: {
 			type: String,
-			required: true,
 		},
 		thumb: {
 			type: String,

@@ -21,6 +21,7 @@ const ProductInfomation = ({ totalRatings, ratings, nameProduct, pid, rerender, 
 			return;
 		}
 		const response = await apiRatings({ star: score, comment, pid: pid, updatedAt: Date.now() });
+		console.log(response);
 		if (response.success) {
 			toast.success("Đánh giá sản phẩm thành công");
 		} else toast.info(response.mes);
