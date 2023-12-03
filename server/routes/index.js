@@ -12,6 +12,7 @@ const payment = require("./vnpay");
 const sale = require("./sale");
 const service = require("./service");
 const revenue = require("./revenuePredict");
+const receipt = require("./receipt");
 const { notFound, errorHandler } = require("../middlewares/errorHandler");
 const initRoutes = (app) => {
 	app.use("/api/user", userRouter);
@@ -28,6 +29,7 @@ const initRoutes = (app) => {
 	app.use("/api/payment", payment);
 	app.use("/api/service", service);
 	app.use("/api/revenue", revenue);
+	app.use("/api/receipt", receipt);
 
 	app.use(notFound);
 	app.use(errorHandler);

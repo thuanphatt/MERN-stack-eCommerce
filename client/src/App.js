@@ -38,6 +38,7 @@ import {
 	ManageContent,
 	ManageOrder,
 	ManageProduct,
+	ManageReceipt,
 	ManageSerice,
 	ManageShipment,
 	ManageUser,
@@ -52,6 +53,8 @@ import ManageBlogCategory from "pages/admin/ManageBlogCategory";
 import CreateBlogCategory from "pages/admin/CreateBlogCategory";
 import ManageSale from "pages/admin/ManageSale";
 import CreateSale from "pages/admin/CreateSale";
+import CreateReceipt from "pages/admin/CreateReceipt";
+
 function App() {
 	const dispatch = useDispatch();
 	const { isShowModal, modalChildren, isShowCart, isShowWishList } = useSelector((state) => state.app);
@@ -112,12 +115,14 @@ function App() {
 					<Route path={path.MANAGE_SERVICE} element={<ManageSerice />}></Route>
 					<Route path={path.MANAGE_COUPON} element={<ManageCoupon />}></Route>
 					<Route path={path.MANAGE_SALE} element={<ManageSale />}></Route>
+					<Route path={path.MANAGE_RECEIPT} element={<ManageReceipt />}></Route>
 					<Route path={path.CREATE_BLOG} element={<CreateBlog />}></Route>
 					<Route path={path.CREATE_SALE} element={<CreateSale />}></Route>
 					<Route path={path.CREATE_SERVICE} element={<CreateService />}></Route>
 					<Route path={path.CREATE_CONTENT} element={<CreateContent />}></Route>
 					<Route path={path.CREATE_PRODUCT} element={<CreateProduct />}></Route>
 					<Route path={path.CREATE_CATEGORY} element={<CreateCategory />}></Route>
+					<Route path={path.CREATE_RECEIPT} element={<CreateReceipt />}></Route>
 					<Route path={path.CREATE_BLOGCATEGORY} element={<CreateBlogCategory />}></Route>
 					<Route path={path.CREATE_SHIP} element={<CreateShip />}></Route>
 					<Route path={path.CREATE_COUPON} element={<CreateCoupon />}></Route>

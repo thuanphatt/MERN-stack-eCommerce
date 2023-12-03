@@ -10,3 +10,4 @@ export * from "./service";
 export * from "./content";
 export * from "./sale";
 export * from "./revenuePredict";
+export * from "./receipt";

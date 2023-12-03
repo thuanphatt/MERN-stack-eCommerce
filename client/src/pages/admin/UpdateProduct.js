@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { Button, InputForm, Loading, MarkdownEditor, Select } from "components";
 import { getBase64, validate } from "utils/helpers";
 import { showModal } from "store/app/appSlice";
-import { apiUpdateProduct } from "apis";
+import { apiGetReceipts, apiUpdateProduct } from "apis";
 
 const UpdateProduct = ({ editProduct, render, setEditProduct }) => {
 	const {
@@ -19,6 +19,7 @@ const UpdateProduct = ({ editProduct, render, setEditProduct }) => {
 		reset,
 	} = useForm();
 	const { categories } = useSelector((state) => state.app);
+	const [receipts, setReceipts] = useState(null);
 	const [payload, setPayload] = useState({
 		description: "",
 	});
@@ -35,12 +36,23 @@ const UpdateProduct = ({ editProduct, render, setEditProduct }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[payload]
 	);
+	const fetchReceipts = async () => {
+		const response = await apiGetReceipts();
+		if (response.success) {
+			setReceipts(response.receipts);
+		}
+	};
+	useEffect(() => {
+		fetchReceipts();
+	}, []);
+	const infoReceiptProduct = receipts && (receipts?.filter((el) => el.products._id === editProduct?._id))[0];
 
 	useEffect(() => {
 		reset({
 			title: editProduct?.title || "",
 			color: editProduct?.color || "",
 			quantity: editProduct?.quantity || "",
+			inputPrice: editProduct?.inputPrice || "",
 			price: editProduct?.price || "",
 			brand: editProduct?.brand?.toLowerCase() || "",
 			category: editProduct?.category[0] || "",
@@ -84,6 +96,15 @@ const UpdateProduct = ({ editProduct, render, setEditProduct }) => {
 	const handleUpdateProduct = async (data) => {
 		const invalids = validate(payload, setInvalidFields);
 		if (invalids === 0) {
+			if (data.price && +data.price < infoReceiptProduct.inputPrice) {
+				toast.warning("Giá bán không phù hợp");
+				return;
+			}
+
+			if (data.quantity && +data.quantity > infoReceiptProduct.inputQuantity) {
+				toast.warning("Số lượng đã quá giới hạn!");
+				return;
+			}
 			if (data.category) data.category = categories?.find((el) => el.title === data.category)?.title;
 			const finalPayload = { ...data, ...payload };
 			finalPayload.thumb = data?.thumb?.length === 0 ? preview.thumb : data.thumb[0];
@@ -101,6 +122,8 @@ const UpdateProduct = ({ editProduct, render, setEditProduct }) => {
 			} else toast.error(response.mes);
 		}
 	};
+	const rs = receipts?.filter((receipt) => receipt.products._id === editProduct?._id);
+
 	return (
 		<div className="w-full flex flex-col gap-4 relative bg-gray-100">
 			<div className="flex items-center justify-betweend p-4 border-b w-full">
@@ -141,6 +164,18 @@ const UpdateProduct = ({ editProduct, render, setEditProduct }) => {
 							}}
 							style={clsx("flex-1")}
 							placeholder="Nhập giá của sản phẩm"
+						/>
+						<Select
+							label="Id phiếu nhập"
+							register={register}
+							errors={errors}
+							id="inputPrice"
+							style={clsx("flex-1")}
+							validate={{ required: "Không được để trống trường này" }}
+							options={rs?.map((el) => ({
+								code: +el.inputPrice,
+								value: el._id,
+							}))}
 						/>
 						<InputForm
 							type="number"

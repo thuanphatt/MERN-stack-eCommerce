@@ -5,7 +5,7 @@ const { verifyAccessToken, isAdmin } = require("../middlewares/verifyToken");
 
 router.post(
 	"/",
-	[verifyAccessToken, isAdmin],
+
 	fileUploader.fields([
 		{
 			name: "images",

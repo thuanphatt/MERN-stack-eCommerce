@@ -9,10 +9,12 @@ export { default as ManageShipment } from "./ManageShipment";
 export { default as ManageBlog } from "./ManageBlog";
 export { default as ManageSerice } from "./ManageSerice";
 export { default as ManageContent } from "./ManageContent";
+export { default as ManageReceipt } from "./ManageReceipt";
 
 export { default as UpdateProduct } from "./UpdateProduct";
 export { default as UpdateCate } from "./UpdateCate";
 export { default as UpdateContent } from "./UpdateContent";
+export { default as UpdateReceipt } from "./UpdateReceipt";
 
 export { default as CreateProduct } from "./CreateProduct";
 export { default as CreateCategory } from "./CreateCategory";

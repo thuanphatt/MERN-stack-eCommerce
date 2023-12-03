@@ -202,6 +202,7 @@ export const adminSidebar = [
 		icon: <MdManageSearch size={20} />,
 		submenu: [
 			{ text: "Tạo sản phẩm", path: `/${path.ADMIN}/${path.CREATE_PRODUCT}`, icon: <IoCreateOutline size={20} /> },
+
 			{
 				text: "Quản lý sản phẩm",
 				path: `/${path.ADMIN}/${path.MANAGE_PRODUCT}`,
@@ -211,13 +212,27 @@ export const adminSidebar = [
 	},
 	{
 		id: 4,
+		type: "PARENT",
+		text: "Quản lý phiếu nhập",
+		icon: <MdManageSearch size={20} />,
+		submenu: [
+			{ text: "Tạo phiếu nhập", path: `/${path.ADMIN}/${path.CREATE_RECEIPT}`, icon: <TfiReceipt size={20} /> },
+			{
+				text: "Quản lý phiếu nhập",
+				path: `/${path.ADMIN}/${path.MANAGE_RECEIPT}`,
+				icon: <MdManageSearch size={20} />,
+			},
+		],
+	},
+	{
+		id: 5,
 		type: "SINGLE",
 		text: "Quản lý đơn hàng",
 		path: `/${path.ADMIN}/${path.MANAGE_ORDER}`,
 		icon: <IoReceiptOutline size={20} />,
 	},
 	{
-		id: 5,
+		id: 6,
 		type: "PARENT",
 		text: "Quản lý danh mục",
 
@@ -232,7 +247,7 @@ export const adminSidebar = [
 		],
 	},
 	{
-		id: 6,
+		id: 7,
 		type: "PARENT",
 		text: "Quản lý danh mục tin tức",
 
@@ -252,7 +267,7 @@ export const adminSidebar = [
 	},
 
 	{
-		id: 7,
+		id: 8,
 		type: "PARENT",
 		text: "Quản lý phí vận chuyển",
 
@@ -268,7 +283,7 @@ export const adminSidebar = [
 	},
 
 	{
-		id: 8,
+		id: 9,
 		type: "PARENT",
 		text: "Thống kê và báo cáo",
 		path: `/${path.ADMIN}/${path.REVENUE_STATISTICS}`,
@@ -287,7 +302,7 @@ export const adminSidebar = [
 		],
 	},
 	{
-		id: 9,
+		id: 10,
 		type: "PARENT",
 		text: "Quản lý tin tức",
 
@@ -302,7 +317,7 @@ export const adminSidebar = [
 		],
 	},
 	{
-		id: 10,
+		id: 11,
 		type: "PARENT",
 		text: "Quản lý dịch vụ",
 
@@ -317,7 +332,7 @@ export const adminSidebar = [
 		],
 	},
 	{
-		id: 11,
+		id: 12,
 		type: "PARENT",
 		text: "Quản lý mã giảm giá",
 
@@ -332,7 +347,7 @@ export const adminSidebar = [
 		],
 	},
 	{
-		id: 12,
+		id: 13,
 		type: "PARENT",
 		text: "Quản lý sự kiện",
 
@@ -347,7 +362,7 @@ export const adminSidebar = [
 		],
 	},
 	{
-		id: 13,
+		id: 14,
 		type: "PARENT",
 		text: "Quản lý nội dung",
 

@@ -2,7 +2,7 @@ import { CustomSelect, InputForm, Loading } from "components";
 import React, { memo, useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import moment from "moment";
-import { createSearchParams, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { createSearchParams, useLocation, useSearchParams } from "react-router-dom";
 
 import { apiGetProducts, apiDeleteProduct } from "apis/product";
 import { Pagination, CustomizeVariants } from "components";
@@ -17,7 +17,7 @@ import path from "utils/path";
 import { cateLabel } from "utils/contants";
 import withBaseComponent from "hocs/withBaseComponent";
 import { showModal } from "store/app/appSlice";
-const ManageProduct = ({ dispatch }) => {
+const ManageProduct = ({ dispatch, navigate }) => {
 	const {
 		register,
 		watch,
@@ -26,7 +26,6 @@ const ManageProduct = ({ dispatch }) => {
 	const category = watch("category");
 	const color = watch("color");
 	const brand = watch("brand");
-	const navigate = useNavigate();
 	const location = useLocation();
 	const [params] = useSearchParams();
 	const [products, setProducts] = useState(null);
@@ -57,6 +56,7 @@ const ManageProduct = ({ dispatch }) => {
 			setProductsNolimit(response.products);
 		}
 	};
+
 	const render = useCallback(() => {
 		setUpdate(!update);
 	}, [update]);
@@ -124,7 +124,6 @@ const ManageProduct = ({ dispatch }) => {
 	}, []);
 	const colors = convertArrFilter(productsNolimit?.map((el) => el.color));
 	const brands = convertArrFilter(productsNolimit?.map((el) => el.brand));
-
 	return (
 		<div className="w-full flex flex-col gap-4 relative">
 			{editProduct && (
@@ -245,8 +244,8 @@ const ManageProduct = ({ dispatch }) => {
 							<td className="py-2 px-1 truncate max-w-[150px]">{el.title}</td>
 							<td className="py-2 px-1">{el.brand}</td>
 							<td className="py-2 px-1">{el.category[0]}</td>
-							<td className="py-2 px-1">{`${formatMoney(formatPrice(el?.price))} VND`}</td>
-							<td className="py-2 px-1">{`${formatMoney(formatPrice(el?.inputPrice))} VND`}</td>
+							<td className="py-2 px-1">{`${formatMoney(formatPrice(el?.price || 0))} VND`}</td>
+							<td className="py-2 px-1">{`${formatMoney(formatPrice(el?.inputPrice || 0))} VND`}</td>
 							<td className="py-2 px-1">{el.quantity}</td>
 							<td className="py-2 px-1">{el.sold}</td>
 							<td className="py-2 px-1">{el.color}</td>

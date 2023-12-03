@@ -28,11 +28,9 @@ var productSchema = new mongoose.Schema(
 		},
 		thumb: {
 			type: String,
-			required: true,
 		},
 		price: {
 			type: Number,
-			required: true,
 		},
 		category: {
 			type: Array,
