@@ -32,18 +32,19 @@ export const renderStarFromNumber = (number, size) => {
 
 	return stars;
 };
-export function secondsToHms(d) {
-	d = Number(d) / 1000;
-	const h = Math.floor(d / 3600);
-	const m = Math.floor((d % 3600) / 60);
-	const s = Math.floor((d % 3600) % 60);
-	return { h, m, s };
+export function secondsToHms(miliseconds) {
+	miliseconds = Number(miliseconds) / 1000;
+	const d = Math.floor(miliseconds / 86400); // 86400 seconds in a day
+	const h = Math.floor((miliseconds % 86400) / 3600);
+	const m = Math.floor((miliseconds % 3600) / 60);
+	const s = Math.floor(miliseconds % 60);
+	return { d, h, m, s };
 }
 export const validate = (payload, setInvalidField) => {
 	let invalids = 0;
 	const formatPayload = Object.entries(payload);
 	for (let arr of formatPayload) {
-		if (arr[1].trim() === "") {
+		if (arr[1]?.trim() === "") {
 			invalids++;
 			setInvalidField((prev) => [...prev, { name: arr[0], mes: "Không được bỏ trống trường này" }]);
 		}

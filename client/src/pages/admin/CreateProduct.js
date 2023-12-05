@@ -68,6 +68,9 @@ const CreateProduct = () => {
 				setPayload({
 					thumb: null,
 				});
+				setPreview({
+					thumb: null,
+				});
 			} else toast.error(response.mes);
 		}
 	};

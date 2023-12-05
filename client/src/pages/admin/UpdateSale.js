@@ -27,6 +27,8 @@ const UpdateSale = ({ editSale, setEditSale, render, dispatch }) => {
 			discount: editSale?.discount || "",
 			type: editSale?.products[0]?.category[0] || "",
 			products: editSale?.products[0]?.title || "",
+			startDate: editSale?.startDate || "",
+			endDate: editSale?.endDate || "",
 		});
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -110,6 +112,7 @@ const UpdateSale = ({ editSale, setEditSale, render, dispatch }) => {
 
 					<div className="w-full my-6">
 						<Select
+							noDefaultValue
 							label="Danh sách sản phẩm"
 							register={register}
 							errors={errors}
@@ -122,7 +125,34 @@ const UpdateSale = ({ editSale, setEditSale, render, dispatch }) => {
 							}))}
 						/>
 					</div>
-
+					<div className="w-full my-6">
+						<InputForm
+							type="date"
+							label="Ngày bắt đầu"
+							register={register}
+							errors={errors}
+							id="startDate"
+							validate={{
+								required: "Không được bỏ trống trường này",
+							}}
+							fullWidth
+							placeholder="Nhập ngày bắt đầu của sự kiện"
+						/>
+					</div>
+					<div className="w-full my-6">
+						<InputForm
+							type="date"
+							label="Ngày kết thúc"
+							register={register}
+							errors={errors}
+							id="endDate"
+							validate={{
+								required: "Không được bỏ trống trường này",
+							}}
+							fullWidth
+							placeholder="Nhập ngày kết thúc của sự kiện"
+						/>
+					</div>
 					<div className="my-6">
 						<Button fullwidth type="submit">
 							Cập nhật

@@ -2,6 +2,7 @@ const Order = require("../models/order");
 const User = require("../models/user");
 const Product = require("../models/product");
 const Coupon = require("../models/coupon");
+const Receipt = require("../models/receipt");
 const asyncHandler = require("express-async-handler");
 const sendMail = require("../utils/sendMail");
 const { formatMoney } = require("../utils/formatMoney");
@@ -95,13 +96,6 @@ const updateStatus = asyncHandler(async (req, res) => {
 	const { status } = req.body;
 
 	if (!status) throw new Error("Thông tin đầu vào bị thiếu");
-	const response = await Order.findByIdAndUpdate(
-		oid,
-		{ status: status },
-		{
-			new: true,
-		}
-	);
 	if (status === "Đang giao") {
 		const orderCurrent = await Order.findById(oid);
 		const idProductArr = orderCurrent.products.map((el) => el._id);
@@ -109,6 +103,32 @@ const updateStatus = asyncHandler(async (req, res) => {
 			const productInOrder = orderCurrent.products.find((product) => product._id === productId);
 			if (productInOrder) {
 				const product = await Product.findOne({ _id: productInOrder.product._id });
+				if (!product) {
+					return res.json({
+						flag: !product ? true : false,
+						mes: !product ? "Sản phẩm không tồn tại, cập nhật trạng thái đơn hàng thất bại" : "Đã có lỗi xảy ra",
+					});
+				}
+			}
+		}
+	}
+	const response = await Order.findByIdAndUpdate(
+		oid,
+		{ status: status },
+		{
+			new: true,
+		}
+	);
+
+	if (status === "Đang giao") {
+		const orderCurrent = await Order.findById(oid);
+		const idProductArr = orderCurrent.products.map((el) => el._id);
+		for (const productId of idProductArr) {
+			const productInOrder = orderCurrent.products.find((product) => product._id === productId);
+			if (productInOrder) {
+				const product = await Product.findOne({ _id: productInOrder.product._id });
+				const receipt = await Receipt.findById(product?.idReceipt);
+
 				if (product) {
 					const quantityProductOrder = productInOrder.quantity;
 					await Product.findOneAndUpdate(
@@ -116,6 +136,12 @@ const updateStatus = asyncHandler(async (req, res) => {
 						{
 							$set: { quantity: product.quantity - quantityProductOrder },
 							$inc: { sold: quantityProductOrder },
+						}
+					);
+					await Receipt.findOneAndUpdate(
+						{ _id: receipt?._id },
+						{
+							$set: { inputQuantity: +receipt?.inputQuantity - quantityProductOrder },
 						}
 					);
 				}

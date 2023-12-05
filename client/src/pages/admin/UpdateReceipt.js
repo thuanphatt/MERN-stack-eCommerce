@@ -82,7 +82,7 @@ const UpdateSale = ({ editReceipt, setEditReceipt, render, dispatch }) => {
 
 					<div className="my-6">
 						<Button fullwidth type="submit">
-							Tạo phiếu nhập hàng
+							Cập nhật
 						</Button>
 					</div>
 				</form>

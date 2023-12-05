@@ -43,6 +43,7 @@ var userSchema = new mongoose.Schema(
 				thumbnail: String,
 				title: String,
 				inputPrice: Number,
+				idReceipt: { type: mongoose.Types.ObjectId, ref: "Receipt" },
 			},
 		],
 		address: { type: Array, default: [] },

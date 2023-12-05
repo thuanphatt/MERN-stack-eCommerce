@@ -10,6 +10,7 @@ var orderSchema = new mongoose.Schema(
 				color: String,
 				price: Number,
 				inputPrice: Number,
+				idReceipt: { type: mongoose.Types.ObjectId, ref: "Receipt" },
 				thumbnail: String,
 				title: String,
 				sold: Number,

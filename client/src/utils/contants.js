@@ -214,13 +214,13 @@ export const adminSidebar = [
 		id: 4,
 		type: "PARENT",
 		text: "Quản lý phiếu nhập",
-		icon: <MdManageSearch size={20} />,
+		icon: <TfiReceipt size={20} />,
 		submenu: [
-			{ text: "Tạo phiếu nhập", path: `/${path.ADMIN}/${path.CREATE_RECEIPT}`, icon: <TfiReceipt size={20} /> },
+			{ text: "Tạo phiếu nhập", path: `/${path.ADMIN}/${path.CREATE_RECEIPT}`, icon: <IoCreateOutline size={20} /> },
 			{
 				text: "Quản lý phiếu nhập",
 				path: `/${path.ADMIN}/${path.MANAGE_RECEIPT}`,
-				icon: <MdManageSearch size={20} />,
+				icon: <TfiReceipt size={20} />,
 			},
 		],
 	},

@@ -258,6 +258,10 @@ const ManageProduct = ({ dispatch, navigate }) => {
 										className="cursor-pointer hover:text-gray-800 text-blue-500"
 										onClick={() => {
 											setEditProduct(el);
+											window.scrollTo({
+												top: 0,
+												behavior: "smooth",
+											});
 										}}
 									>
 										<AiFillEdit size={18} />

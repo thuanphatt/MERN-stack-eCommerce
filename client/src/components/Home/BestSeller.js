@@ -17,7 +17,7 @@ const BestSeller = ({ navigate, dispatch }) => {
 	const { newProducts } = useSelector((state) => state.products);
 	const [contents, setContents] = useState(null);
 	const fetchProducts = async () => {
-		const response = await apiGetProducts({ sort: "-sold" });
+		const response = await apiGetProducts({ sort: "-sold", limit: 50 });
 		if (response?.success) {
 			setBestSeller(response.products);
 			setProducts(response.products);

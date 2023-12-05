@@ -30,9 +30,11 @@ const CustomerSlider = ({ products, activedTab, normal }) => {
 		<>
 			{products && (
 				<Slider {...settings} className="custom-slider">
-					{products?.map((el) => (
-						<Product key={el._id} productData={el} isNew={activedTab === 1 ? false : true} normal={normal} />
-					))}
+					{products
+						?.filter((product) => product.inputPrice)
+						?.map((el) => (
+							<Product key={el._id} productData={el} isNew={activedTab === 1 ? false : true} normal={normal} />
+						))}
 				</Slider>
 			)}
 		</>

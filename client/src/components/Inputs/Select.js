@@ -12,6 +12,7 @@ const Select = ({
 	defaultValue,
 	multiple,
 	styleSelect,
+	noDefaultValue,
 }) => {
 	return (
 		<div className={clsx("flex flex-col gap-2 relative", style)}>
@@ -27,9 +28,10 @@ const Select = ({
 					styleSelect
 				)}
 			>
-				<option value="">--Chọn--</option>
-				{options?.map((el) => (
-					<option value={el.code} key={el}>
+				{!noDefaultValue && <option value="">--Chọn--</option>}
+
+				{options?.map((el, index) => (
+					<option value={el.code} key={index}>
 						{el.value}
 					</option>
 				))}

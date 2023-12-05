@@ -23,17 +23,20 @@ const getReceipts = asyncHandler(async (req, res) => {
 	const formatedQueries = JSON.parse(queryString);
 
 	// Filtering
-	if (queries?.type) formatedQueries.type = { $regex: queries.type, $options: "i" };
+	if (queries?.inputName && queries.inputName.lastName) {
+		formatedQueries.inputName = formatedQueries.inputName || {};
+		formatedQueries.inputName.lastName = { $regex: queries.inputName.lastName, $options: "i" };
+	}
 
-	// if (queries?.q) {
-	// 	delete formatedQueries.q;
-	// 	queryObject = {
-	// 		$or: [{ name: { $regex: queries.q, $options: "i" } }],
-	// 	};
-	// }
-	const qr = { ...formatedQueries };
+	let queryObject = {};
+	if (queries?.q) {
+		delete formatedQueries.q;
+		queryObject = {
+			$or: [{ "inputName.lastName": { $regex: queries.q, $options: "i" } }],
+		};
+	}
+	const qr = { ...formatedQueries, ...queryObject };
 	let queryCommand = Receipt.find(qr);
-
 	if (req.query.sort) {
 		const sortBy = req.query.sort?.split(",").join(" ");
 		queryCommand = queryCommand.sort(sortBy);
@@ -48,11 +51,10 @@ const getReceipts = asyncHandler(async (req, res) => {
 	const limit = +req.query.limit || process.env.LIMIT_PRODUCTS;
 	const skip = (page - 1) * limit;
 	queryCommand.skip(skip).limit(limit);
-
 	queryCommand
 		.exec()
 		.then(async (response) => {
-			const counts = await Product.find(qr).countDocuments();
+			const counts = await Receipt.find(qr).countDocuments();
 			return res.status(200).json({
 				success: response ? true : false,
 				receipts: response ? response : "Không thể lấy phiếu nhập",

@@ -325,7 +325,7 @@ const updateUserAddress = asyncHandler(async (req, res) => {
 });
 const addToCart = asyncHandler(async (req, res) => {
 	const { _id } = req.user;
-	const { pid, quantity = 1, color, price, thumbnail, title, inputPrice } = req.body;
+	const { pid, quantity = 1, color, price, thumbnail, title, inputPrice, idReceipt } = req.body;
 	if (!pid || !color) throw new Error("Thông tin đầu vào bị thiếu");
 	const user = await User.findById(_id).select("cart");
 	const alreadyProduct = user?.cart?.find((el) => el.product.toString() === pid && el.color === color);
@@ -349,7 +349,7 @@ const addToCart = asyncHandler(async (req, res) => {
 	} else {
 		const response = await User.findByIdAndUpdate(
 			_id,
-			{ $push: { cart: { product: pid, quantity, color, price, thumbnail, title, inputPrice } } },
+			{ $push: { cart: { product: pid, quantity, color, price, thumbnail, title, inputPrice, idReceipt } } },
 			{
 				new: true,
 			}

@@ -9,6 +9,7 @@ import { showModal } from "store/app/appSlice";
 import { Loading } from "components";
 import withBaseComponent from "hocs/withBaseComponent";
 import UpdateSale from "./UpdateSale";
+import { getDealDaily } from "store/products/productSlice";
 
 const ManageSales = ({ dispatch }) => {
 	const [sales, setSales] = useState(null);
@@ -36,6 +37,7 @@ const ManageSales = ({ dispatch }) => {
 				dispatch(showModal({ isShowModal: false, modalChildren: null }));
 
 				if (response.success) {
+					dispatch(getDealDaily({ data: null, time: 0 }));
 					render();
 					toast.success(response.mes);
 				} else {
@@ -64,6 +66,8 @@ const ManageSales = ({ dispatch }) => {
 						<th className="py-4 px-2 ">Sản phẩm</th>
 						<th className="py-4 px-2 ">Mức giảm</th>
 
+						<th className="py-4 px-2 ">Ngày bắt đầu</th>
+						<th className="py-4 px-2 ">Ngày kết thúc</th>
 						<th className="py-4 px-2 ">Thời gian</th>
 						<th className="py-4 px-2 ">Hành động</th>
 					</tr>
@@ -77,10 +81,12 @@ const ManageSales = ({ dispatch }) => {
 								<img src={el.products[0].thumb} alt={el.name} className="w-[120px] h-[120px] object-contain" />
 								<div className="flex flex-col gap-1 items-start">
 									<span>{el.products[0].title}</span>
-									<span>{el.products[0].color}</span>
+									<span>Màu sắc : {el.products[0].color}</span>
 								</div>
 							</td>
 							<td className="py-4 px-2 ">{`${el.discount} %`}</td>
+							<td className="py-4 px-2">{moment(el.startDate)?.format("DD/MM/YYYY")}</td>
+							<td className="py-4 px-2">{moment(el.endDate)?.format("DD/MM/YYYY")}</td>
 							<td className="py-4 px-2">{moment(el.createdAt)?.fromNow()}</td>
 							<td className="py-4 px-2">
 								<div className="flex items-center gap-4 justify-center">
@@ -88,6 +94,10 @@ const ManageSales = ({ dispatch }) => {
 										className="cursor-pointer hover:text-gray-800 text-blue-500"
 										onClick={() => {
 											setEditSale(el);
+											window.scrollTo({
+												top: 0,
+												behavior: "smooth",
+											});
 										}}
 									>
 										<AiFillEdit size={18} />

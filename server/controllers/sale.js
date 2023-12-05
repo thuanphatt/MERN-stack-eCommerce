@@ -3,7 +3,7 @@ const Product = require("../models/product");
 const asyncHandler = require("express-async-handler");
 
 const createSale = asyncHandler(async (req, res) => {
-	const { name, products, discount } = req.body;
+	const { name, products, discount, startDate, endDate } = req.body;
 	const _products = req.body.products.split(",");
 	if (!(name && discount && products)) {
 		return res.status(400).json({ success: false, mes: "Thông tin đầu vào bị thiếu" });
@@ -15,7 +15,7 @@ const createSale = asyncHandler(async (req, res) => {
 		return res.status(400).json({ success: false, mes: "Không tìm thấy sản phẩm nào" });
 	}
 	// Tạo sự kiện với danh sách sản phẩm tương ứng
-	const newSale = await Sale.create({ name, products: productList, discount });
+	const newSale = await Sale.create({ name, products: productList, discount, startDate, endDate });
 	return res.status(200).json({
 		success: true,
 		mes: "Tạo sự kiện thành công",

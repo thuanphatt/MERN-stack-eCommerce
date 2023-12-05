@@ -44,37 +44,10 @@ const CreateReceipt = ({ dispatch }) => {
 	return (
 		<div className={clsx("w-full")}>
 			<h1 className="h-[75px] flex items-center justify-between text-3xl font-bold px-4 border-b w-full tracking-tight">
-				<span>Tạo phiếu nhập hàng</span>
+				<span>Tạo phiếu nhập</span>
 			</h1>
 			<div className="p-4">
 				<form onSubmit={handleSubmit(handleCreateReceipt)}>
-					<InputForm
-						label="Giá nhập hàng"
-						register={register}
-						errors={errors}
-						type="number"
-						id="inputPrice"
-						validate={{
-							required: "Không được bỏ trống trường này",
-						}}
-						fullWidth
-						placeholder="Nhập giá nhập hàng"
-					/>
-
-					<div className="w-full my-6">
-						<InputForm
-							label="Số lượng nhập hàng"
-							register={register}
-							errors={errors}
-							type="number"
-							id="inputQuantity"
-							validate={{
-								required: "Không được bỏ trống trường này",
-							}}
-							fullWidth
-							placeholder="Nhập số lượng nhập hàng"
-						/>
-					</div>
 					<div className="w-full my-6">
 						<Select
 							label="Danh sách sản phẩm"
@@ -89,10 +62,37 @@ const CreateReceipt = ({ dispatch }) => {
 							}))}
 						/>
 					</div>
+					<InputForm
+						label="Giá nhập"
+						register={register}
+						errors={errors}
+						type="number"
+						id="inputPrice"
+						validate={{
+							required: "Không được bỏ trống trường này",
+						}}
+						fullWidth
+						placeholder="Nhập giá nhập"
+					/>
+
+					<div className="w-full my-6">
+						<InputForm
+							label="Số lượng nhập"
+							register={register}
+							errors={errors}
+							type="number"
+							id="inputQuantity"
+							validate={{
+								required: "Không được bỏ trống trường này",
+							}}
+							fullWidth
+							placeholder="Nhập số lượng nhập"
+						/>
+					</div>
 
 					<div className="my-6">
 						<Button fullwidth type="submit">
-							Tạo phiếu nhập hàng
+							Tạo phiếu nhập
 						</Button>
 					</div>
 				</form>

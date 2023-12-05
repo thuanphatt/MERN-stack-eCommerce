@@ -47,6 +47,7 @@ var productSchema = new mongoose.Schema(
 		inputPrice: {
 			type: Number,
 		},
+		idReceipt: { type: mongoose.Types.ObjectId, ref: "Receipt" },
 		images: {
 			type: Array,
 		},

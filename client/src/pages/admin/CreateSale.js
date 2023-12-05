@@ -9,6 +9,7 @@ import { apiCreateSale, apiGetProducts } from "apis";
 import { showModal } from "store/app/appSlice";
 import withBaseComponent from "hocs/withBaseComponent";
 import { useSelector } from "react-redux";
+import moment from "moment";
 
 const CreateSale = ({ dispatch }) => {
 	const {
@@ -24,9 +25,18 @@ const CreateSale = ({ dispatch }) => {
 	const { categories } = useSelector((state) => state.app);
 
 	const handleCreateSale = async (data) => {
-		const finalData = { name: data.name, discount: data.discount, products: data.products };
+		if (data.startDate < moment(Date.now()).format("YYYY-MM-DD")) {
+			toast.warning("Ngày bắt đầu không hợp lệ");
+			return;
+		}
+		if (data.endDate < data.startDate) {
+			toast.warning("Ngày kết thúc không hợp lệ");
+			return;
+		}
 		dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
-		const response = await apiCreateSale(finalData);
+
+		const response = await apiCreateSale(data);
+
 		dispatch(showModal({ isShowModal: false, modalChildren: null }));
 		if (response.success) {
 			toast.success(response.mes);
@@ -103,6 +113,34 @@ const CreateSale = ({ dispatch }) => {
 									code: el._id,
 									value: el.title,
 								}))}
+						/>
+					</div>
+					<div className="w-full my-6">
+						<InputForm
+							type="date"
+							label="Ngày bắt đầu"
+							register={register}
+							errors={errors}
+							id="startDate"
+							validate={{
+								required: "Không được bỏ trống trường này",
+							}}
+							fullWidth
+							placeholder="Nhập ngày bắt đầu của sự kiện"
+						/>
+					</div>
+					<div className="w-full my-6">
+						<InputForm
+							type="date"
+							label="Ngày kết thúc"
+							register={register}
+							errors={errors}
+							id="endDate"
+							validate={{
+								required: "Không được bỏ trống trường này",
+							}}
+							fullWidth
+							placeholder="Nhập ngày kết thúc của sự kiện"
 						/>
 					</div>
 

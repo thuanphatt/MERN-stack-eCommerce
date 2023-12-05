@@ -104,6 +104,9 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 		dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 		const response = await apiUpdateStatus(oid, { status: newStatus });
 		dispatch(showModal({ isShowModal: false, modalChildren: null }));
+		if (response.flag) {
+			return toast.warning(response.mes);
+		}
 		if (response.success) {
 			setEditOrder(null);
 			render();

@@ -136,6 +136,7 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 			pid,
 			color: currentProduct.color || product?.color,
 			inputPrice: product?.inputPrice,
+			idReceipt: product?.idReceipt,
 			quantity,
 			price: isProductInCategories
 				? currentProduct?.price - (currentProduct?.price * Number(sales?.discount)) / 100 ||

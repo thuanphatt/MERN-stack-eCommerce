@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import clsx from "clsx";
 import React, { memo, useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -8,7 +9,7 @@ import { toast } from "react-toastify";
 import { Button, InputForm, Loading, MarkdownEditor, Select } from "components";
 import { getBase64, validate } from "utils/helpers";
 import { showModal } from "store/app/appSlice";
-import { apiGetReceipts, apiUpdateProduct } from "apis";
+import { apiGetReceipt, apiGetReceipts, apiUpdateProduct } from "apis";
 
 const UpdateProduct = ({ editProduct, render, setEditProduct }) => {
 	const {
@@ -19,13 +20,18 @@ const UpdateProduct = ({ editProduct, render, setEditProduct }) => {
 		reset,
 	} = useForm();
 	const { categories } = useSelector((state) => state.app);
-	const [receipts, setReceipts] = useState(null);
+
+	const [receiptsNoLimit, setReceiptsNoLimit] = useState(null);
+	const [receiptCurrent, setReceiptCurrent] = useState(null);
 	const [payload, setPayload] = useState({
 		description: "",
 	});
 	const dispatch = useDispatch();
 	const [preview, setPreview] = useState({
 		thumb: null,
+		images: [],
+	});
+	const [previewNewUpdate, setPreviewNewUpdate] = useState({
 		images: [],
 	});
 	const [invalidFields, setInvalidFields] = useState([]);
@@ -36,23 +42,32 @@ const UpdateProduct = ({ editProduct, render, setEditProduct }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[payload]
 	);
-	const fetchReceipts = async () => {
-		const response = await apiGetReceipts();
+	const fetchReceipt = async (rid) => {
+		const response = await apiGetReceipt(rid);
+
 		if (response.success) {
-			setReceipts(response.receipts);
+			setReceiptCurrent(response.receipt);
+		}
+	};
+	const fetchNoLimitReceipts = async () => {
+		const response = await apiGetReceipts({ limit: 50 });
+		if (response.success) {
+			setReceiptsNoLimit(response.receipts);
 		}
 	};
 	useEffect(() => {
-		fetchReceipts();
+		fetchNoLimitReceipts();
 	}, []);
-	const infoReceiptProduct = receipts && (receipts?.filter((el) => el.products._id === editProduct?._id))[0];
+	useEffect(() => {
+		fetchReceipt(watch("idReceipt"));
+	}, [watch("idReceipt")]);
 
 	useEffect(() => {
 		reset({
 			title: editProduct?.title || "",
 			color: editProduct?.color || "",
 			quantity: editProduct?.quantity || "",
-			inputPrice: editProduct?.inputPrice || "",
+			idReceipt: editProduct?.idReceipt || "",
 			price: editProduct?.price || "",
 			brand: editProduct?.brand?.toLowerCase() || "",
 			category: editProduct?.category[0] || "",
@@ -68,6 +83,7 @@ const UpdateProduct = ({ editProduct, render, setEditProduct }) => {
 		const base64Thumb = await getBase64(file);
 		setPreview((prev) => ({ ...prev, thumb: base64Thumb }));
 	};
+
 	const handlePreviewImages = async (files) => {
 		const imagesPreview = [];
 		if (!files) {
@@ -79,9 +95,11 @@ const UpdateProduct = ({ editProduct, render, setEditProduct }) => {
 				return;
 			}
 			const base64 = await getBase64(file);
+
 			imagesPreview.push(base64);
 		}
-		setPreview((prev) => ({ ...prev, images: imagesPreview }));
+		setPreview((prev) => ({ ...prev, images: [...prev.images, ...imagesPreview] }));
+		setPreviewNewUpdate((prev) => ({ ...prev, images: [...imagesPreview] }));
 	};
 	useEffect(() => {
 		if (watch("thumb") instanceof FileList && watch("thumb").length > 0) handlePreviewThumb(watch("thumb")[0]);
@@ -93,25 +111,31 @@ const UpdateProduct = ({ editProduct, render, setEditProduct }) => {
 		handlePreviewImages(watch("images"));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [watch("images")]);
+	const rs = receiptsNoLimit?.filter((receipt) => receipt.products._id === editProduct?._id);
 	const handleUpdateProduct = async (data) => {
 		const invalids = validate(payload, setInvalidFields);
 		if (invalids === 0) {
-			if (data.price && +data.price < infoReceiptProduct.inputPrice) {
-				toast.warning("Giá bán không phù hợp");
-				return;
-			}
-
-			if (data.quantity && +data.quantity > infoReceiptProduct.inputQuantity) {
-				toast.warning("Số lượng đã quá giới hạn!");
-				return;
+			if (data.price || data.quantity) {
+				if (+data.price < receiptCurrent?.inputPrice) {
+					toast.warning("Giá bán không phù hợp");
+					return;
+				}
+				if (+data.quantity > receiptCurrent?.inputQuantity) {
+					toast.warning("Số lượng đã quá giới hạn!");
+					return;
+				}
 			}
 			if (data.category) data.category = categories?.find((el) => el.title === data.category)?.title;
+			if (data.idReceipt) data.inputPrice = rs?.find((el) => el._id === data.idReceipt)?.inputPrice;
 			const finalPayload = { ...data, ...payload };
 			finalPayload.thumb = data?.thumb?.length === 0 ? preview.thumb : data.thumb[0];
 			const formData = new FormData();
-			for (let i of Object.entries(finalPayload)) formData.append(i[0], i[1]);
+			if (data?.images?.length > 0) {
+				for (let i of Object.entries(finalPayload)) formData.append(i[0], i[1]);
+			}
 			finalPayload.images = data?.images?.length === 0 ? preview.images : data.images;
 			for (let image of finalPayload.images) formData.append("images", image);
+
 			dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 			const response = await apiUpdateProduct(formData, editProduct?._id);
 			dispatch(showModal({ isShowModal: false, modalChildren: null }));
@@ -122,8 +146,6 @@ const UpdateProduct = ({ editProduct, render, setEditProduct }) => {
 			} else toast.error(response.mes);
 		}
 	};
-	const rs = receipts?.filter((receipt) => receipt.products._id === editProduct?._id);
-
 	return (
 		<div className="w-full flex flex-col gap-4 relative bg-gray-100">
 			<div className="flex items-center justify-betweend p-4 border-b w-full">
@@ -152,7 +174,41 @@ const UpdateProduct = ({ editProduct, render, setEditProduct }) => {
 						fullWidth
 						placeholder="Nhập tên của sản phẩm"
 					/>
-					<div className="w-full flex gap-4 my-6 items-center">
+					<div className="w-full flex gap-4 my-6 items-center relative">
+						{receiptCurrent ? (
+							<Select
+								noDefaultValue
+								label="Id phiếu nhập"
+								register={register}
+								errors={errors}
+								id="idReceipt"
+								style={clsx("flex-1")}
+								validate={{ required: "Không được để trống trường này" }}
+								options={rs?.map((el) => ({
+									code: el._id,
+									value: el._id,
+								}))}
+							/>
+						) : (
+							<Select
+								label="Id phiếu nhập"
+								register={register}
+								errors={errors}
+								id="idReceipt"
+								style={clsx("flex-1")}
+								validate={{ required: "Không được để trống trường này" }}
+								options={rs?.map((el) => ({
+									code: el._id,
+									value: el._id,
+								}))}
+							/>
+						)}
+					</div>
+					<div className="flex items-center gap-4">
+						<span>Giá nhập : {receiptCurrent && receiptCurrent?.inputPrice} VND</span>
+						<span>Số lượng nhập : {receiptCurrent && receiptCurrent?.inputQuantity}</span>
+					</div>
+					<div className="w-full flex gap-4 my-6 items-center relative">
 						<InputForm
 							type="number"
 							label="Giá"
@@ -165,18 +221,7 @@ const UpdateProduct = ({ editProduct, render, setEditProduct }) => {
 							style={clsx("flex-1")}
 							placeholder="Nhập giá của sản phẩm"
 						/>
-						<Select
-							label="Id phiếu nhập"
-							register={register}
-							errors={errors}
-							id="inputPrice"
-							style={clsx("flex-1")}
-							validate={{ required: "Không được để trống trường này" }}
-							options={rs?.map((el) => ({
-								code: +el.inputPrice,
-								value: el._id,
-							}))}
-						/>
+
 						<InputForm
 							type="number"
 							label="Số lượng"
@@ -244,9 +289,9 @@ const UpdateProduct = ({ editProduct, render, setEditProduct }) => {
 							</small>
 						)}
 					</div>
-					{preview.thumb && (
+					{preview?.thumb && (
 						<div className="my-4">
-							<img src={preview.thumb} alt="thumbnail" className="w-[200px] object-contain" />
+							<img src={preview?.thumb} alt="thumbnail" className="w-[200px] object-contain" />
 						</div>
 					)}
 					<div className="flex flex-col gap-2 mt-6 relative">
@@ -260,15 +305,24 @@ const UpdateProduct = ({ editProduct, render, setEditProduct }) => {
 							</small>
 						)}
 					</div>
-					{preview.images && (
+					{previewNewUpdate.images.length > 0 ? (
 						<div className="my-4 flex flex-wrap gap-2">
-							{preview.images?.map((el) => (
-								<div className="relative w-fit" key={el.name}>
+							{previewNewUpdate.images.map((el, index) => (
+								<div className="relative w-fit" key={index}>
+									<img src={el} alt="thumbnail" className="w-[200px] object-contain" />
+								</div>
+							))}
+						</div>
+					) : (
+						<div className="my-4 flex flex-wrap gap-2">
+							{preview.images.map((el, index) => (
+								<div className="relative w-fit" key={index}>
 									<img src={el} alt="thumbnail" className="w-[200px] object-contain" />
 								</div>
 							))}
 						</div>
 					)}
+
 					<div className="my-6">
 						<Button fullwidth type="submit">
 							Cập nhật sản phẩm

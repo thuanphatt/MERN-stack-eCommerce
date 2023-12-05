@@ -90,6 +90,10 @@ const ManageBlog = ({ dispatch }) => {
 										className="cursor-pointer hover:text-gray-800 text-blue-500"
 										onClick={() => {
 											setEditBlog(el);
+											window.scrollTo({
+												top: 0,
+												behavior: "smooth",
+											});
 										}}
 									>
 										<AiFillEdit size={18} />

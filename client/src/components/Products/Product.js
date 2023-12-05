@@ -55,6 +55,7 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 				pid: productData?._id,
 				color: productData?.color,
 				inputPrice: productData?.inputPrice,
+				idReceipt: productData?.idReceipt,
 				quantity: 1,
 				price: isProductInCategories
 					? productData?.price - (productData?.price * Number(sales?.discount)) / 100
