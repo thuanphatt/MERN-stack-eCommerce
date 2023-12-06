@@ -68,8 +68,15 @@ const Footer = () => {
 							Sản phẩm
 						</h2>
 						{categories?.slice(0, 5).map((el) => (
-							<NavLink to={el.title} key={createSlug(el.title)}>
-								<span className="opacity-50 md:text-[14px] text-[16px]"> {el.title}</span>
+							<NavLink to={`/products/${el.title}`} key={createSlug(el.title)}>
+								<span
+									className="opacity-50 md:text-[14px] text-[16px]"
+									onClick={() => {
+										window.scrollTo({ top: 0, behavior: "smooth" });
+									}}
+								>
+									{el.title}
+								</span>
 							</NavLink>
 						))}
 					</div>

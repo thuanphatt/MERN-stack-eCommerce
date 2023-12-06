@@ -10,7 +10,7 @@ const createCategory = asyncHandler(async (req, res) => {
 	});
 });
 const getCategories = asyncHandler(async (req, res) => {
-	const response = await BlogCategory.find().select("title _id");
+	const response = await BlogCategory.find();
 	return res.json({
 		success: response ? true : false,
 		blogCategories: response ? response : "Không thể lấy danh mục blog",

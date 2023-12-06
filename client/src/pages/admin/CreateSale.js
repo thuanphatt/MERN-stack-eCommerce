@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 import { Button, InputForm, Loading, Select } from "components";
-import { apiCreateSale, apiGetProducts } from "apis";
+import { apiCreateSale, apiGetProducts, apiGetSales } from "apis";
 import { showModal } from "store/app/appSlice";
 import withBaseComponent from "hocs/withBaseComponent";
 import { useSelector } from "react-redux";
@@ -20,28 +20,36 @@ const CreateSale = ({ dispatch }) => {
 		watch,
 	} = useForm();
 	const [products, setProducts] = useState(null);
-
+	const [sales, setSales] = useState(null);
+	const fetchSales = async () => {
+		const response = await apiGetSales();
+		if (response.success) setSales(response.sales);
+	};
 	const category = watch("type");
 	const { categories } = useSelector((state) => state.app);
 
 	const handleCreateSale = async (data) => {
-		if (data.startDate < moment(Date.now()).format("YYYY-MM-DD")) {
-			toast.warning("Ngày bắt đầu không hợp lệ");
-			return;
-		}
-		if (data.endDate < data.startDate) {
-			toast.warning("Ngày kết thúc không hợp lệ");
-			return;
-		}
-		dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
+		if (sales.length === 0) {
+			if (data.startDate < moment(Date.now()).format("YYYY-MM-DD")) {
+				toast.warning("Ngày bắt đầu không hợp lệ");
+				return;
+			}
+			if (data.endDate < data.startDate) {
+				toast.warning("Ngày kết thúc không hợp lệ");
+				return;
+			}
+			dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 
-		const response = await apiCreateSale(data);
+			const response = await apiCreateSale(data);
 
-		dispatch(showModal({ isShowModal: false, modalChildren: null }));
-		if (response.success) {
-			toast.success(response.mes);
-			reset();
-		} else toast.error(response.mes);
+			dispatch(showModal({ isShowModal: false, modalChildren: null }));
+			if (response.success) {
+				toast.success(response.mes);
+				reset();
+			} else toast.error(response.mes);
+		} else {
+			toast.warning("Không thể tạo sự kiện, sự kiện đã tồn tại");
+		}
 	};
 	const fetchProducts = async () => {
 		const response = await apiGetProducts({ category });
@@ -51,6 +59,9 @@ const CreateSale = ({ dispatch }) => {
 	useEffect(() => {
 		fetchProducts();
 	}, [category]);
+	useEffect(() => {
+		fetchSales();
+	}, []);
 	return (
 		<div className={clsx("w-full")}>
 			<h1 className="h-[75px] flex items-center justify-between text-3xl font-bold px-4 border-b w-full tracking-tight">

@@ -10,7 +10,7 @@ const MarkdownEditor = ({ label, value, changeValue, name, invalidFields, setInv
 				initialValue={value}
 				init={{
 					height: 500,
-					menubar: true,
+					menubar: false,
 					plugins: [
 						"advlist autolink lists link image charmap print preview anchor",
 						"searchreplace visualblocks code fullscreen",

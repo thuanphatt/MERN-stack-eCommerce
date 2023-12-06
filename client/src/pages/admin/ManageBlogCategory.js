@@ -49,6 +49,7 @@ const ManageBlogCategory = ({ dispatch }) => {
 	useEffect(() => {
 		fetchBlogCategories();
 	}, [update]);
+	console.log(blogCategories);
 	return (
 		<div className="w-full relative px-4 mx-auto h-full">
 			{editBlog && (

@@ -28,7 +28,7 @@ const Select = ({
 					styleSelect
 				)}
 			>
-				{!noDefaultValue && <option value="">--Chọn--</option>}
+				{!noDefaultValue && <option value="">Chọn</option>}
 
 				{options?.map((el, index) => (
 					<option value={el.code} key={index}>

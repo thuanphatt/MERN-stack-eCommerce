@@ -89,7 +89,7 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 	const handleQuantity = useCallback(
 		(number) => {
 			if (!Number(number) || Number(number) < 1) {
-				return;
+				return quantity === 1;
 			} else {
 				setQuantity(number);
 			}
@@ -449,7 +449,7 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 							NHỮNG SẢN PHẨM BẠN ĐÃ XEM
 						</h2>
 						<div className="mb-6 md:mx-[-10px]">
-							<CustomerSlider products={currentViewedProducts} normal={true} />
+							<CustomerSlider relatedProducts={currentViewedProducts} normal={true} />
 						</div>
 					</div>
 				</>

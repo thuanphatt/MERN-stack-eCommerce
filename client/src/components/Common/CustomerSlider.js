@@ -25,7 +25,7 @@ var settings = {
 		},
 	],
 };
-const CustomerSlider = ({ products, activedTab, normal }) => {
+const CustomerSlider = ({ products, activedTab, normal, relatedProducts }) => {
 	return (
 		<>
 			{products && (
@@ -35,6 +35,13 @@ const CustomerSlider = ({ products, activedTab, normal }) => {
 						?.map((el) => (
 							<Product key={el._id} productData={el} isNew={activedTab === 1 ? false : true} normal={normal} />
 						))}
+				</Slider>
+			)}
+			{relatedProducts && (
+				<Slider {...settings} className="custom-slider">
+					{relatedProducts?.map((el) => (
+						<Product key={el._id} productData={el} isNew={activedTab === 1 ? false : true} normal={normal} />
+					))}
 				</Slider>
 			)}
 		</>

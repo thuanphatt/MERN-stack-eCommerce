@@ -32,8 +32,8 @@ const DailyDeal = ({ dispatch }) => {
 		const response = await apiGetSales();
 		if (response.success) {
 			const products = response.sales[0];
-			const endDate = new Date(products?.endDate).getTime();
-			const startDate = new Date(products?.startDate).getTime();
+			const endDate = new Date(products?.endDate).getTime() - 7 * 60 * 60 * 1000; // Subtract 7 hours in milliseconds
+			const startDate = new Date(products?.startDate).getTime() - 7 * 60 * 60 * 1000; // Subtract 7 hours in milliseconds
 			const remainingTime = endDate - startDate;
 			dispatch(getDealDaily({ data: products?.products[0] }));
 			const now = new Date().getTime();

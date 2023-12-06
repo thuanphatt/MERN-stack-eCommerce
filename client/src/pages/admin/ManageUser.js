@@ -126,7 +126,6 @@ const ManageUser = ({ navigate, location, dispatch }) => {
 		const searchParams = Object.fromEntries([...params]);
 		fetchUsers(searchParams);
 	}, [params, update]);
-	console.log(usersData);
 	return (
 		<div className={clsx("w-full flex flex-col gap-4 relative", editElement && "pl-[26px]")}>
 			{detailUser && <DetailUser detailUser={detailUser} setDetailUser={setDetailUser} />}
@@ -201,6 +200,7 @@ const ManageUser = ({ navigate, location, dispatch }) => {
 										<td className="px-2 py-4">
 											{editElement?._id === el._id ? (
 												<InputForm
+													readOnly
 													fullWidth
 													defaultValue={editElement?.email}
 													register={register}

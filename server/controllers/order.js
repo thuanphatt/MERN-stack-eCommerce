@@ -175,7 +175,7 @@ const updateStatus = asyncHandler(async (req, res) => {
 
 		const orderDetailsHTML = `
 			<h1 class="text-3xl font-bold tracking-tight">
-				  <span>Đơn hàng đang trên đường được giao đến bạn </span>	
+				  <span>Vui lòng giữ điện thoại ở gần để có thể nhận đơn hàng của bạn</span>	
 			</h1>
 			<h1 class="text-3xl font-bold tracking-tight">
 				 Chi tiết đơn hàng
@@ -192,7 +192,7 @@ const updateStatus = asyncHandler(async (req, res) => {
 		await sendMail({
 			email: orderCurrent.orderBy.email,
 			html,
-			subject: "Đơn hàng đang trên đường giao đến bạn!",
+			subject: "Đơn hàng đang trên đường được giao đến bạn",
 		});
 	}
 	if (status === "Thành công") {
