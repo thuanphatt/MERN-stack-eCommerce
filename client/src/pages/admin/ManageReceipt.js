@@ -87,6 +87,8 @@ const ManageReceipt = ({ dispatch }) => {
 						<th className="py-4 px-2 ">Ảnh sản phẩm</th>
 						<th className="py-4 px-2 ">Giá nhập</th>
 						<th className="py-4 px-2 ">Số lượng nhập</th>
+						<th className="py-4 px-2 ">Số lượng còn lại</th>
+						<th className="py-4 px-2 ">Số lượng đã bán</th>
 
 						<th className="py-4 px-2 ">Người nhập</th>
 						<th className="py-4 px-2 ">Thời gian</th>
@@ -104,10 +106,11 @@ const ManageReceipt = ({ dispatch }) => {
 								<img src={el.products.thumb} alt={el.products.title} className="w-[100px] h-[100px] object-contain" />
 							</td>
 							<td className="py-4 px-2 ">{`${formatMoney(formatPrice(el.inputPrice))} VND`}</td>
+							<td className="py-4 px-2 ">{+el.inputQuantity + +el.soldoutQuantity}</td>
 							<td className="py-4 px-2 ">{el.inputQuantity}</td>
+							<td className="py-4 px-2 ">{el.soldoutQuantity}</td>
 							<td className="py-4 px-2 ">{`${el.inputName.firstName} ${el.inputName.lastName}`}</td>
-
-							<td className="py-4 px-2">{moment(el.createdAt)?.fromNow()}</td>
+							<td className="py-4 px-2">{moment(el.createdAt)?.format("DD/MM/YYYY h:mm:ss")}</td>
 							<td className="py-4 px-2">
 								<div className="flex items-center gap-4 justify-center">
 									<span

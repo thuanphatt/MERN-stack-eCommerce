@@ -86,10 +86,16 @@ const DailyDeal = ({ dispatch }) => {
 	useEffect(() => {
 		fetchDealDaily();
 	}, []);
-	useEffect(async () => {
-		if (expireTime) {
-			await apiDeleteSale(sales?._id);
+	const hanldeDeleteEvent = async (sid) => {
+		const response = await apiDeleteSale(sid);
+		if (response.success) {
 			dispatch(getDealDaily({ data: null, time: 0 }));
+			toast.warning("Sự kiện tạm thời đã kết thúc");
+		}
+	};
+	useEffect(() => {
+		if (expireTime) {
+			hanldeDeleteEvent(sales?._id);
 		}
 	}, [expireTime]);
 	return (

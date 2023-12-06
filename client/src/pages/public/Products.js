@@ -26,7 +26,6 @@ const Products = ({ dispatch }) => {
 		dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 		const response = await apiGetProducts(queries);
 		dispatch(showModal({ isShowModal: false, modalChildren: null }));
-
 		if (response.success) setProductCategories(response);
 	};
 	useEffect(() => {
@@ -85,6 +84,12 @@ const Products = ({ dispatch }) => {
 					<Breakcrumb category={category === ":category" ? "Sản phẩm" : category} />
 				</div>
 			</div>
+			{Object.fromEntries([...params]).q && (
+				<div className="md:w-main mx-auto mt-8 text-center text-lg font-semibold">{`Kết quả tìm kiếm cho "${
+					Object.fromEntries([...params]).q
+				}", có ${productCategories?.counts} sản phẩm phù hợp`}</div>
+			)}
+
 			<div className="md:w-main w-full m-auto flex md:items-center justify-between border py-6 px-4 mt-8 md:flex-row flex-col md:gap-0 gap-4">
 				<div className="md:w-4/5 w-full flex flex-col gap-2">
 					<span className="font-semibold text-[14px]">Lọc theo</span>

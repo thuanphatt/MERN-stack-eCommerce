@@ -130,12 +130,17 @@ const UpdateProduct = ({ editProduct, render, setEditProduct }) => {
 			const finalPayload = { ...data, ...payload };
 			finalPayload.thumb = data?.thumb?.length === 0 ? preview.thumb : data.thumb[0];
 			const formData = new FormData();
-			if (data?.images?.length > 0) {
-				for (let i of Object.entries(finalPayload)) formData.append(i[0], i[1]);
+
+			for (let [key, value] of Object.entries(finalPayload)) {
+				if (value instanceof FileList && value.length === 0) {
+					// Skip appending FileList with length 0
+					continue;
+				}
+				formData.append(key, value);
 			}
+
 			finalPayload.images = data?.images?.length === 0 ? preview.images : data.images;
 			for (let image of finalPayload.images) formData.append("images", image);
-
 			dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
 			const response = await apiUpdateProduct(formData, editProduct?._id);
 			dispatch(showModal({ isShowModal: false, modalChildren: null }));

@@ -69,9 +69,9 @@ const getAllProduct = asyncHandler(async (req, res) => {
 		queryObject = {
 			$or: [
 				{ title: { $regex: queries.q, $options: "i" } },
-				{ color: { $regex: queries.q, $options: "i" } },
-				{ category: { $regex: queries.q, $options: "i" } },
-				{ brand: { $regex: queries.q, $options: "i" } },
+				// { color: { $regex: queries.q, $options: "i" } },
+				// { category: { $regex: queries.q, $options: "i" } },
+				// { brand: { $regex: queries.q, $options: "i" } },
 			],
 		};
 	}
@@ -117,6 +117,7 @@ const updateProduct = asyncHandler(async (req, res) => {
 	if (files?.thumb) req.body.thumb = files?.thumb[0]?.path;
 	if (files?.images) req.body.images = files?.images?.map((el) => el.path);
 	if (req.body && req.body.title) req.body.slug = slugify(req.body.title);
+
 	const updatedProduct = await Product.findByIdAndUpdate(pid, req.body, {
 		new: true,
 	});

@@ -1,12 +1,13 @@
 import React, { memo, useEffect, useState } from "react";
 import { navigation } from "utils/contants";
-import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
+import { NavLink, createSearchParams, useNavigate, useSearchParams } from "react-router-dom";
 import InputField from "components/Inputs/InputField";
 
 import { apiGetProducts } from "apis";
 import useDebounce from "hooks/useDebounce";
 import clsx from "clsx";
 import { formatMoney, formatPrice } from "utils/helpers";
+import { FaSearch } from "react-icons/fa";
 
 const Navigation = () => {
 	const [products, setProducts] = useState(null);
@@ -39,17 +40,9 @@ const Navigation = () => {
 					{el.value}
 				</NavLink>
 			))}
-			<div className="relative ml-auto font-medium">
-				<InputField
-					isHideLabel
-					nameKey={"q"}
-					value={queries.q}
-					setValue={setQueries}
-					style={clsx("min-w-[300px] py-[12px] mt-[16px] border-none")}
-					placeholder="Tìm kiếm sản phẩm ..."
-				/>
+			<div className="relative ml-auto font-medium flex items-center">
 				{queriesDebounce && (
-					<div className="absolute right-0 w-[350px] mt-4 shadow-lg bg-white border border-gray-300 z-100 overflow-y-auto max-h-[500px]">
+					<div className="absolute top-[50px] right-0 w-[400px] mt-3 shadow-lg bg-white border border-gray-300 z-100 overflow-y-auto max-h-[500px] border-t-0">
 						{products?.map((el) => (
 							<div
 								key={el._id}
@@ -62,12 +55,12 @@ const Navigation = () => {
 							>
 								<img src={el.thumb} alt="Ảnh sản phẩm" className="w-[80px] h-[80px] object-contain" key={el._id} />
 								<div className="flex flex-col gap-2 ml-4">
-									<span className="font-medium text-sm text-main truncate max-w-[200px]">{el.title}</span>
+									<span className="font-medium text-sm text-main truncate max-w-[250px]">{el.title}</span>
 									<span className="text-sm">{el.color}</span>
 									<span className="text-sm">{`${formatMoney(formatPrice(el.price))} VND`}</span>
 								</div>
 								{el.quantity <= 0 && (
-									<span className="absolute top-[34%] right-[72%] font-semibold text-white md:w-[64px] h-[25px] bg-red-500 p-2 flex items-center justify-center text-sm rotate-[-45deg]">
+									<span className="absolute top-[34%] right-[79%] font-semibold text-white md:w-[64px] h-[18px] bg-red-500 p-2 flex items-center justify-center text-[7px] rotate-[-45deg]">
 										Tạm hết hàng
 									</span>
 								)}
@@ -75,6 +68,30 @@ const Navigation = () => {
 						))}
 					</div>
 				)}
+				<InputField
+					isHideLabel
+					nameKey={"q"}
+					value={queries.q}
+					setValue={setQueries}
+					style={clsx("min-w-[300px] py-[12px] mt-[16px] border-none")}
+					placeholder="Tìm kiếm sản phẩm ..."
+				/>
+
+				<button
+					className="p-2 text-gray-500 cursor-pointer"
+					onClick={() => {
+						if (queriesDebounce) {
+							navigate({
+								pathname: `/products/:category/`,
+								search: createSearchParams({ q: queriesDebounce }).toString(),
+							});
+							queries.q = "";
+							window.location.reload();
+						}
+					}}
+				>
+					<FaSearch />
+				</button>
 			</div>
 		</div>
 	);

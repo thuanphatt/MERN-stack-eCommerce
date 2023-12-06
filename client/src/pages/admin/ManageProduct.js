@@ -228,7 +228,7 @@ const ManageProduct = ({ dispatch, navigate }) => {
 						<th className="py-3 px-1 ">Màu sắc</th>
 						<th className="py-3 px-1 ">Đánh giá</th>
 						<th className="py-3 px-1 ">Biến thể</th>
-						<th className="py-3 px-1 ">Ngày tạo</th>
+						<th className="py-3 px-1 ">Thời gian</th>
 						<th className="py-3 px-1 ">Hành động</th>
 					</tr>
 				</thead>
@@ -251,7 +251,7 @@ const ManageProduct = ({ dispatch, navigate }) => {
 							<td className="py-2 px-1">{el.color}</td>
 							<td className="py-2 px-1">{el.totalRatings}</td>
 							<td className="py-2 px-1">{el?.varriants?.length || 0}</td>
-							<td className="py-2 px-1">{moment(el.createdAt)?.format("DD/MM/YYYY")}</td>
+							<td className="py-2 px-1">{moment(el.createdAt)?.format("DD/MM/YYYY h:mm:ss")}</td>
 							<td className="py-2 px-1">
 								<div className="flex items-center gap-4 justify-center">
 									<span

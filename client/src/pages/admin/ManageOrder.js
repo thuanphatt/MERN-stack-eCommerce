@@ -363,7 +363,7 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 							)}
 
 							<td className="py-4 px-2">{`${formatMoney(formatPrice(el?.total))} VND`}</td>
-							<td className="py-4 px-2">{moment(el.createdAt)?.fromNow()}</td>
+							<td className="py-4 px-2">{moment(el.createdAt)?.format("DD/MM/YYYY h:mm:ss")}</td>
 							<td className="py-4 px-2">
 								<div className="flex items-center gap-3 justify-center">
 									{el?.status !== "Thành công" && el?.status !== "Đã hủy" ? (
@@ -401,14 +401,20 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 									>
 										<AiFillEye size={18} />
 									</span>
-									<span
-										className="cursor-pointer hover:text-gray-800 text-red-500"
-										onClick={() => {
-											handleDeleteOrder(el._id);
-										}}
-									>
-										<AiFillDelete size={18} />
-									</span>
+									{el.status === "Thành công" ||
+									el?.status === "Đã hủy" ||
+									(el?.status === "Đang xử lý" && el?.paymentMethod === "COD") ? (
+										<span
+											className="cursor-pointer hover:text-gray-800 text-red-500"
+											onClick={() => {
+												handleDeleteOrder(el._id);
+											}}
+										>
+											<AiFillDelete size={18} />
+										</span>
+									) : (
+										""
+									)}
 								</div>
 							</td>
 						</tr>

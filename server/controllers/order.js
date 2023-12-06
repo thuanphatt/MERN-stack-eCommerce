@@ -141,7 +141,10 @@ const updateStatus = asyncHandler(async (req, res) => {
 					await Receipt.findOneAndUpdate(
 						{ _id: receipt?._id },
 						{
-							$set: { inputQuantity: +receipt?.inputQuantity - quantityProductOrder },
+							$set: {
+								inputQuantity: +receipt?.inputQuantity - quantityProductOrder,
+								soldoutQuantity: +receipt?.soldoutQuantity + quantityProductOrder,
+							},
 						}
 					);
 				}

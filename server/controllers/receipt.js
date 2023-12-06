@@ -78,11 +78,24 @@ const getReceipt = asyncHandler(async (req, res) => {
 const deleteReceipt = asyncHandler(async (req, res) => {
 	const { rid } = req.params;
 	const receipt = await Receipt.findByIdAndDelete(rid);
+	// Check if receipt exists before proceeding
+	if (receipt) {
+		// Get the product IDs associated with the receipt
+		const productIds = receipt?.products?._id;
 
-	return res.json({
-		success: receipt ? true : false,
-		mes: receipt ? "Xóa phiếu nhập thành công" : "Không thể xóa phiếu nhập",
-	});
+		// Update all products with the given IDs to unset idReceipt
+		await Product.updateMany({ _id: productIds }, { $unset: { idReceipt: "", inputPrice: "" } });
+
+		return res.json({
+			success: true,
+			mes: "Xóa phiếu nhập thành công",
+		});
+	} else {
+		return res.json({
+			success: false,
+			mes: "Không thể xóa phiếu nhập",
+		});
+	}
 });
 
 const updatedReceipt = asyncHandler(async (req, res) => {

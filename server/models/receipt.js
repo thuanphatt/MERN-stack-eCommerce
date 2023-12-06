@@ -22,6 +22,10 @@ var receiptSchema = new mongoose.Schema(
 			type: Number,
 			required: true,
 		},
+		soldoutQuantity: {
+			type: Number,
+			default: 0,
+		},
 	},
 	{
 		timestamps: true,
