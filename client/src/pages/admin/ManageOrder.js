@@ -111,7 +111,11 @@ const ManagerOrder = ({ location, navigate, dispatch }) => {
 			setEditOrder(null);
 			render();
 			toast.success(response.mes);
-		} else toast.error(response.mes);
+		} else {
+			toast.warning(response.mes);
+			setEditOrder(null);
+			render();
+		}
 	};
 	const data = formatExportData(orderNoLimit, "order");
 	const queryDebounce = useDebounce(watch("q"), 800);

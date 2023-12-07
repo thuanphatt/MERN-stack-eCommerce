@@ -103,14 +103,16 @@ const updateStatus = asyncHandler(async (req, res) => {
 			const productInOrder = orderCurrent.products.find((product) => product._id === productId);
 			if (productInOrder) {
 				const product = await Product.findOne({ _id: productInOrder.product._id });
-				if (!product) {
+				const quantityOrder = orderCurrent?.products?.reduce((sum, product) => sum + product.quantity, 0);
+				if (!product || quantityOrder > product.quantity) {
 					return res.json({
 						flag: !product ? true : false,
-						mes: !product ? "Sản phẩm không tồn tại, cập nhật trạng thái đơn hàng thất bại" : "Đã có lỗi xảy ra",
+						mes: "Sản phẩm đã hết hoặc không tồn tại, cập nhật trạng thái đơn hàng thất bại",
 					});
 				}
 			}
 		}
+		return;
 	}
 	const response = await Order.findByIdAndUpdate(
 		oid,
@@ -175,12 +177,12 @@ const updateStatus = asyncHandler(async (req, res) => {
 
 		const orderDetailsHTML = `
 			<h1 class="text-3xl font-bold tracking-tight">
-				  <span>Vui lòng giữ điện thoại ở gần để có thể nhận đơn hàng của bạn</span>	
+				  <span>Vui lòng giữ điện thoại ở gần để có thể nhận đơn hàng của bạn</span>
 			</h1>
 			<h1 class="text-3xl font-bold tracking-tight">
 				 Chi tiết đơn hàng
 				</h1>
-			
+
 			${statusHTML}
 			${paymentMethodHTML}
 			<ul>${productsHTML.join("")}</ul>
