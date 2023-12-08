@@ -10,7 +10,6 @@ import { useSelector } from "react-redux";
 import withBaseComponent from "hocs/withBaseComponent";
 import { getDealDaily } from "store/products/productSlice";
 import { apiDeleteSale, apiGetSales } from "apis";
-import { toast } from "react-toastify";
 const { AiFillStar, IoMenu } = icons;
 let idInterval;
 const DailyDeal = ({ dispatch }) => {
@@ -27,7 +26,12 @@ const DailyDeal = ({ dispatch }) => {
 		const response = await apiGetSales();
 		setSales(response.sales[0]);
 	};
-
+	const hanldeDeleteEvent = async (sid) => {
+		const response = await apiDeleteSale(sid);
+		if (response.success) {
+			dispatch(getDealDaily({ data: null }));
+		}
+	};
 	const fetchDealDaily = async () => {
 		const response = await apiGetSales();
 		if (response.success) {
@@ -46,7 +50,6 @@ const DailyDeal = ({ dispatch }) => {
 		} else {
 			await apiDeleteSale(sales?._id);
 			dispatch(getDealDaily({ data: null, time: 0 }));
-			toast.warning("Sự kiện tạm thời đã kết thúc");
 		}
 	};
 
@@ -74,7 +77,7 @@ const DailyDeal = ({ dispatch }) => {
 				setMinute(59);
 				setSecond(59);
 			} else {
-				setExpireTime(!expireTime);
+				setExpireTime(true);
 			}
 		}, 1000);
 
@@ -86,17 +89,8 @@ const DailyDeal = ({ dispatch }) => {
 	useEffect(() => {
 		fetchDealDaily();
 	}, []);
-	const hanldeDeleteEvent = async (sid) => {
-		const response = await apiDeleteSale(sid);
-		if (response.success) {
-			dispatch(getDealDaily({ data: null, time: 0 }));
-			toast.warning("Sự kiện tạm thời đã kết thúc");
-		}
-	};
 	useEffect(() => {
-		if (expireTime) {
-			hanldeDeleteEvent(sales?._id);
-		}
+		hanldeDeleteEvent(sales?._id);
 	}, [expireTime]);
 	return (
 		<div className="w-full border flex-auto p-5 mt-[5px] hidden md:block">

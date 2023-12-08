@@ -16,6 +16,6 @@ router.put(
 
 	ctrls.updatedSale
 );
-router.delete("/:sid", [verifyAccessToken, isAdmin], ctrls.deletedSale);
+router.delete("/:sid", [verifyAccessToken], ctrls.deletedSale);
 
 module.exports = router;

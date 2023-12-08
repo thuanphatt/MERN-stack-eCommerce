@@ -21,12 +21,11 @@ import { showModal } from "store/app/appSlice";
 const Checkout = ({ dispatch, navigate, location }) => {
 	const {
 		register,
-		formState: { errors },
+		formState: { errors, isDirty },
 		watch,
 		reset,
 	} = useForm();
 	const { currentCart, current } = useSelector((state) => state.user);
-	const [activePayment, setActivePayment] = useState(false);
 	const [orders, setOrders] = useState(null);
 	const [shipment, setShipment] = useState(null);
 	const [coupons, setCoupons] = useState(null);
@@ -150,29 +149,24 @@ const Checkout = ({ dispatch, navigate, location }) => {
 			}
 		}
 	};
-	useEffect(() => {
-		reset({
-			address: current?.address,
-		});
-	}, [current]);
+
 	const updateAddress = async () => {
-		// eslint-disable-next-line no-unused-vars
 		const response = await apiUpdateCurrent({ address });
+		if (response.success) {
+			dispatch(getCurrent());
+			toast.success(response.mes);
+		} else toast.error(response.mes);
 	};
 	useEffect(() => {
 		if (isSuccess) {
-			updateAddress();
 			dispatch(getCurrent());
+			document.body.scrollIntoView({
+				behavior: "smooth",
+				inline: "center",
+				block: "center",
+			});
 		}
 	}, [isSuccess]);
-	useEffect(() => {
-		if (watch("typePayment") === "1") {
-			setActivePayment(true);
-		} else {
-			setActivePayment(false);
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [watch("typePayment")]);
 
 	const fetchReturnVNpay = async () => {
 		const queryString = window.location.search;
@@ -219,6 +213,11 @@ const Checkout = ({ dispatch, navigate, location }) => {
 			toast.success("Áp dụng mã giảm giá thành công");
 		}
 	}, [isUsed, isDiscount]);
+	useEffect(() => {
+		reset({
+			address: current?.address,
+		});
+	}, []);
 	return (
 		<div className="flex flex-col justify-start w-full px-4">
 			<div className="h-[81px] bg-gray-100 flex md:justify-center md:items-center md:px-0 px-4 md:flex-row flex-col md:pt-0 pt-4">
@@ -229,7 +228,7 @@ const Checkout = ({ dispatch, navigate, location }) => {
 			</div>
 			{isSuccess && <Congratulation />}
 			{currentCart.length > 0 ? (
-				<div className="flex flex-col border my-8 md:w-main w-full mx-auto py-8">
+				<div className="flex flex-col border my-8 md:w-main w-full mx-auto pb-8">
 					<div className="grid md:grid-cols-10 grid-cols-4 md:w-main w-full mx-auto font-bold bg-[#86A789] py-2 text-white">
 						<span className="w-full md:col-span-6 col-span-2 pl-4">Sản phẩm</span>
 						<span className="w-full text-center col-span-1">Số lượng</span>
@@ -249,22 +248,11 @@ const Checkout = ({ dispatch, navigate, location }) => {
 					))}
 					<div className="md:w-main w-full mx-auto flex flex-col items-end gap-3 my-4 p-4">
 						<div className="flex justify-start flex-col w-full">
-							<Select
-								label="Hình thức thanh toán"
-								register={register}
-								errors={errors}
-								id="typePayment"
-								style={clsx("md:w-[20%] w-full")}
-								validate={{ required: "Không được để trống trường này" }}
-								options={typePayment?.map((el) => ({
-									code: el.code,
-									value: el.value,
-								}))}
-							/>
-							{activePayment && watch("typePayment") === "1" && (
-								<div className="flex flex-col gap-1 mt-4 md:w-[30%] w-full">
-									<span className="text-sm font-medium">{`Họ và tên : ${current.firstName} ${current.lastName}`}</span>
-									<span className="text-sm font-medium">{`Số điện thoại : ${current.mobile}`}</span>
+							<div className="flex gap-2 flex-col justify-end">
+								<div className="flex flex-col gap-2 mt-4 md:w-[30%] w-full">
+									<span className="text-lg font-medium">Thông tin nhận hàng</span>
+									<span className="text-md">{`Họ và tên : ${current.firstName} ${current.lastName}`}</span>
+									<span className="text-md">{`Số điện thoại : ${current.mobile}`}</span>
 									{current?.address.length > 0 && (
 										<InputForm
 											label="Địa chỉ nhận hàng của bạn"
@@ -276,11 +264,29 @@ const Checkout = ({ dispatch, navigate, location }) => {
 											}}
 											fullWidth
 											placeholder="Nhập tên địa chỉ nhận hàng của bạn"
-											style={clsx("text-sm")}
+											style={clsx("text-md")}
 										/>
 									)}
 								</div>
-							)}
+								{isDirty ? (
+									<Button type="button" handleOnClick={updateAddress}>
+										Cập nhật
+									</Button>
+								) : null}
+							</div>
+							<Select
+								noDefaultValue
+								label="Hình thức thanh toán"
+								register={register}
+								errors={errors}
+								id="typePayment"
+								style={clsx("md:w-[20%] w-full my-4")}
+								validate={{ required: "Không được để trống trường này" }}
+								options={typePayment?.map((el) => ({
+									code: el.code,
+									value: el.value,
+								}))}
+							/>
 						</div>
 						<InputForm
 							label="Mã giảm giá"
@@ -302,7 +308,6 @@ const Checkout = ({ dispatch, navigate, location }) => {
 							<span>Tổng cộng:</span>
 							<h2 className="font-bold">{`${formatMoney(formatPrice(finalPrice < 0 ? 0 : finalPrice))} VND`}</h2>
 						</div>
-
 						{watch("typePayment") === "1" && (
 							<span
 								onClick={() => {
@@ -319,14 +324,7 @@ const Checkout = ({ dispatch, navigate, location }) => {
 					</div>
 				</div>
 			) : (
-				<div className="md:w-main w-full mx-auto text-center h-screen p-4 flex flex-col items-center gap-4 justify-center">
-					<h2 className="text-gray-500 font-bold text-2xl">Giỏ hàng đang trống!</h2>
-					<img
-						src="https://img.freepik.com/premium-vector/shopping-cart-with-cross-mark-wireless-paymant-icon-shopping-bag-failure-paymant-sign-online-shopping-vector_662353-912.jpg"
-						alt="Giỏ hàng rỗng"
-						className="w-[300px] h-[300px] object-cover"
-					/>
-				</div>
+				navigate(`/products/:category/`)
 			)}
 		</div>
 	);
