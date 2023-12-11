@@ -81,6 +81,23 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
 			);
 		}
 		if (name === "WISHLIST") {
+			if (!current) {
+				Swal.fire({
+					title: "Opps!",
+					text: "Hãy đăng nhập trước để thêm danh sách yêu thích",
+					showConfirmButton: true,
+					confirmButtonText: "Đăng nhập",
+					showCancelButton: true,
+					cancelButtonText: "Hủy",
+				}).then((rs) => {
+					if (rs.isConfirmed) {
+						navigate({
+							pathname: `/${path.LOGIN}`,
+							search: createSearchParams({ redirect: location.pathname }).toString(),
+						});
+					}
+				});
+			}
 			const response = await apiAddToWishList({
 				pid: productData?._id,
 				color: productData?.color,

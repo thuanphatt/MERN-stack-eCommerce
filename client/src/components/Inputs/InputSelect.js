@@ -9,7 +9,7 @@ const InputSelect = ({ value, changeValue, options }) => {
 			}}
 			className="text-[12px] text-gray-500 p-3 px-5 outline outline-1"
 		>
-			<option value="">Ngẫu nhiên</option>
+			<option value="sample">Ngẫu nhiên</option>
 			{options?.map((el) => (
 				<option key={el.id} value={el.value} className="text-[12px] text-gray-500">
 					{el.text}

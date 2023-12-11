@@ -189,6 +189,7 @@ const Login = () => {
 									setInvalidField={setInvalidField}
 								/>
 							</div>
+							<div className="w-full my-1"></div>
 							<div className="w-full">
 								<InputField
 									value={payload.mobile}
@@ -199,6 +200,7 @@ const Login = () => {
 									setInvalidField={setInvalidField}
 								/>
 							</div>
+							<div className="w-full my-1"></div>
 						</div>
 					)}
 					<InputField
@@ -209,6 +211,7 @@ const Login = () => {
 						invalidField={invalidField}
 						setInvalidField={setInvalidField}
 					/>
+					<div className="w-full my-1"></div>
 					<InputField
 						fullWidth
 						value={payload.password}
@@ -238,6 +241,7 @@ const Login = () => {
 							{isShow ? <AiFillEye /> : <BiSolidHide />}
 						</span>
 					)}
+					<div className="w-full my-1"></div>
 					<Button handleOnClick={handleSubmit} fullwidth>
 						{isRegister ? "Đăng ký" : "Đăng nhập"}
 					</Button>
