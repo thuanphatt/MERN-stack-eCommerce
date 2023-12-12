@@ -7,7 +7,7 @@ const cookieParser = require("cookie-parser");
 const app = express();
 app.use(
 	cors({
-		origin: process.env.CLIENT_URL || "",
+		origin: process.env.CLIENT_URL || "https://greentp-client-thuanphat.vercel.app/",
 		methods: ["POST", "PUT", "GET", "DELETE"],
 		credentials: true,
 	})

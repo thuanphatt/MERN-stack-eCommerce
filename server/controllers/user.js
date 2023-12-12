@@ -163,7 +163,9 @@ const forgotPassword = asyncHandler(async (req, res) => {
 	const resetToken = user.createPasswordChangedToken();
 	await user.save();
 
-	const html = `Xin vui lòng bấm vào link bên dưới để thay đổi mật khẩu của bạn.Link này sẽ hết hạn sau 15 phút kể từ bây giờ. <br/> <a href=${process.env.CLIENT_URL}/reset-password/${resetToken}>Bấm vào đây</a>`;
+	const html = `Xin vui lòng bấm vào link bên dưới để thay đổi mật khẩu của bạn.Link này sẽ hết hạn sau 15 phút kể từ bây giờ. <br/> <a href=${
+		process.env.CLIENT_URL || "https://greentp-client-thuanphat.vercel.app/"
+	}/reset-password/${resetToken}>Bấm vào đây</a>`;
 
 	const data = {
 		email,
