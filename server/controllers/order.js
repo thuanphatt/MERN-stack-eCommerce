@@ -112,7 +112,6 @@ const updateStatus = asyncHandler(async (req, res) => {
 				}
 			}
 		}
-		return;
 	}
 	const response = await Order.findByIdAndUpdate(
 		oid,
