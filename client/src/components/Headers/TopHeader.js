@@ -11,6 +11,7 @@ import NavigationRepo from "components/Navigation/NavigationRepo";
 import withBaseComponent from "hocs/withBaseComponent";
 import { showMenuRepo } from "store/app/appSlice";
 import logo from "assets/logo.png";
+import clsx from "clsx";
 const TopHeader = ({ dispatch }) => {
 	const navigate = useNavigate();
 	const [isShowOptions, setIsShowOptions] = useState(false);
@@ -63,7 +64,13 @@ const TopHeader = ({ dispatch }) => {
 				<AiOutlineMenu size={22} />
 			</span>
 
-			<div className="w-main flex items-center md:justify-between justify-end text-xs text-white px-4 md:px-0">
+			<div
+				className={clsx(
+					isLoggedIn
+						? "w-main flex items-center md:justify-between justify-end text-xs text-white px-4 md:px-0"
+						: "w-main flex items-center md:justify-between justify-center text-xs text-white px-4 md:px-0"
+				)}
+			>
 				<span className="hidden md:block">ĐẶT HÀNG TRỰC TUYẾN HOẶC LIÊN HỆ (+84) 9009 9999</span>
 				<Link to={`/${path.HOME}`} className="flex items-center justify-center mr-[16%]">
 					<img src={logo} alt="logo" className="w-[80px] h-[60px] object-contain block md:hidden"></img>
@@ -118,7 +125,7 @@ const TopHeader = ({ dispatch }) => {
 					</div>
 				) : (
 					!isLoggedIn && (
-						<Link to={path.LOGIN} className="hover:text-gray-700">
+						<Link to={path.LOGIN} className="hover:text-gray-700 md:block hidden">
 							Đăng nhập hoặc tạo tài khoản
 						</Link>
 					)

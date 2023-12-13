@@ -17,7 +17,7 @@ const Breakcrumb = ({ title, category }) => {
 				?.filter((el) => !el.match.route === false)
 				.map(({ match, breadcrumb }, index, self) => (
 					<Link key={match.pathname} to={match.pathname} className="flex items-center gap-1 hover:text-main">
-						<span className="capitalize truncate md:max-w-full max-w-[150px]">{breadcrumb}</span>
+						<span className="capitalize truncate md:max-w-full max-w-[120px]">{breadcrumb}</span>
 						{index !== self.length - 1 && <IoIosArrowForward />}
 					</Link>
 				))}

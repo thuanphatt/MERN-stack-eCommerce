@@ -25,7 +25,7 @@ const InputField = ({
 
 			<input
 				type={type || "text"}
-				className={clsx("px-4 md:py-3 py-0 rounded-sm border w-full my-2 placeholder:text-sm outline-none", style)}
+				className={clsx("px-4 md:py-3 py-3 rounded-sm border w-full my-2 placeholder:text-sm outline-none", style)}
 				placeholder={placeholder || nameKey?.slice(0, 1).toUpperCase() + nameKey.slice(1)}
 				value={value}
 				onChange={(e) => setValue((prev) => ({ ...prev, [nameKey]: e.target.value }))}

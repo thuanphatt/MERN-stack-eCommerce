@@ -160,7 +160,7 @@ const Login = () => {
 				<img src={img} alt="anh login" className="w-full h-full object-contain" />
 			</div>
 			<div className="md:col-span-4 w-full flex items-center justify-center bg-[#F3EEEA]">
-				<div className="p-8 bg-white rounded-md md:min-w-[430px] min-w-[400px] flex flex-col items-center justify-center relative md:max-h-[665px] md:mx-0 mx-4">
+				<div className="p-8 bg-white rounded-md md:min-w-[430px] min-w-[350px] flex flex-col items-center justify-center relative md:max-h-[665px] md:mx-0 mx-4">
 					<div className="flex flex-col items-center gap-2">
 						<Link to={`/${path.HOME}`} className="flex items-center justify-center">
 							<img src={logo} alt="logo" className="w-[100px] h-[80px] object-contain"></img>
@@ -272,6 +272,7 @@ const Login = () => {
 					</div>
 				</div>
 			</div>
+			<div className="md:hidden block h-[100px]"></div>
 		</div>
 	);
 };

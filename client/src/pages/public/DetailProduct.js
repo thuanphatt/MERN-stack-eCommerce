@@ -219,7 +219,7 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 			>
 				<div className={clsx("md:w-2/5 flex flex-col gap-4 w-full", isQuickView && "md:w-1/2 max-w-[50%] w-full")}>
 					<ReactImageMagnify
-						className={clsx("h-[458px] md:w-[470px] border w-full")}
+						className={clsx("h-[458px] md:w-[470px] border w-full md:mx-0 mx-4")}
 						{...{
 							smallImage: {
 								alt: "smallImage",
@@ -332,7 +332,7 @@ const DetailProduct = ({ isQuickView, data, dispatch, navigate, location }) => {
 							<div className="text-sm mb-8 ">
 								<div
 									dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(product?.description[0]) }}
-									className="h-[400px] overflow-y-auto"
+									className="md:h-[400px] h-[150px] overflow-y-auto"
 								/>
 							</div>
 						)}

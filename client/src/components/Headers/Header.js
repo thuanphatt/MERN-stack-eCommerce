@@ -38,7 +38,7 @@ const Header = ({ dispatch, navigate }) => {
 		<div className="md:w-main md:h-[110px] md:py-[35px] md:flex md:justify-between justify-center w-full">
 			<div className="w-full md:hidden block">
 				<h2 className="font-bold md:border-b uppercase border-gray-500 text-xl flex justify-between h-full ">
-					<div className="mx-auto font-medium">
+					<div className="mx-auto font-medium md:block hidden">
 						<InputField
 							isHideLabel
 							nameKey={"q"}
@@ -75,7 +75,7 @@ const Header = ({ dispatch, navigate }) => {
 			<Link to={`/${path.HOME}`}>
 				<img src={logo} alt="logo" className="w-[80px] h-[80px] object-contain hidden md:block"></img>
 			</Link>
-			<div className="flex text-[13px] md:pt-0 pt-2">
+			<div className="flex text-[13px] md:pt-0 pt-2 justify-end md:justify-normal md:my-0 mt-2">
 				<div className="md:flex flex-col px-6  border-r hidden">
 					<span className="font-semibold flex gap-3  items-center">
 						<BsFillTelephoneFill color="#79AC78" />
@@ -83,12 +83,12 @@ const Header = ({ dispatch, navigate }) => {
 					</span>
 					<span>T2-T7 9:00AM - 8:00PM</span>
 				</div>
-				<div className="flex flex-col px-6 border-r">
+				<div className="flex-col px-6 border-r md:flex hidden">
 					<span className="font-semibold flex gap-3 items-center">
 						<IoMdMail color="#79AC78" />
 						SUPPORT@THPHAT.COM
 					</span>
-					<span className="text-center">Dịch vụ hỗ trợ 24/7</span>
+					<span className="text-center ">Dịch vụ hỗ trợ 24/7</span>
 				</div>
 				{current && (
 					<>

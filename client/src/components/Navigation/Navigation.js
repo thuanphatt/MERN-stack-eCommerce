@@ -73,7 +73,7 @@ const Navigation = () => {
 					nameKey={"q"}
 					value={queries.q}
 					setValue={setQueries}
-					style={clsx("min-w-[300px] py-[12px] mt-[16px] border-none")}
+					style={clsx("min-w-[300px] py-[12px] mt-[16px] border-none md:block hidden")}
 					placeholder="Tìm kiếm sản phẩm ..."
 				/>
 
