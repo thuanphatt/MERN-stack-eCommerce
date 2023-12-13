@@ -18,7 +18,6 @@ const initRoutes = (app) => {
 	app.use("/api/product", productRouter);
 	app.use("/api/prodcategory", productCategoryRouter);
 	app.use("/api/blogcategory", blogCategoryRouter);
-
 	app.use("/api/blog", blog);
 	app.use("/api/coupon", coupon);
 	app.use("/api/content", content);
