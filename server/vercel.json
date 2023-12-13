@@ -5,6 +5,6 @@
 		{ "src": "/api/user/(.*)", "dest": "/api/user/$1" },
 		{ "src": "/api/product/(.*)", "dest": "/api/product/$1" },
 
-		{ "src": "/(.*)", "handle": "vercel" }
+		{ "src": "/(.*)" }
 	]
 }
