@@ -223,7 +223,7 @@ const Login = () => {
 					/>
 					{payload.password && isRegister && (
 						<span
-							className="absolute right-[36px] bottom-[129px] cursor-pointer p-2"
+							className="absolute right-[36px] md:bottom-[122px] bottom-[156px] cursor-pointer p-2"
 							onClick={() => {
 								setIsShow(!isShow);
 							}}
@@ -233,7 +233,7 @@ const Login = () => {
 					)}
 					{payload.password && !isRegister && (
 						<span
-							className="absolute right-[36px] bottom-[150px] cursor-pointer p-2"
+							className="absolute right-[36px] md:bottom-[156px] bottom-[158px] cursor-pointer p-2"
 							onClick={() => {
 								setIsShow(!isShow);
 							}}

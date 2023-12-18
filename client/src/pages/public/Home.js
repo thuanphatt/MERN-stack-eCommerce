@@ -17,12 +17,12 @@ const Home = () => {
 	const { newProducts } = useSelector((state) => state.products);
 	return (
 		<div className="mt-8 md:w-main w-full">
-			<div className="md:w-main flex w-full">
-				<div className="flex flex-col gap-5 md:w-[25%]">
+			<div className="md:w-main flex w-full md:flex-row flex-col-reverse">
+				<div className="flex flex-col gap-5 md:w-[25%] w-full md:px-0 px-4">
 					<Sidebar />
 					<DailyDeal />
 				</div>
-				<div className="flex flex-col gap-8 md:pl-5 md:w-[75%] w-full">
+				<div className="flex flex-col gap-8 md:pl-5 md:w-[75%] w-full ">
 					<Banner />
 					<BestSeller />
 				</div>

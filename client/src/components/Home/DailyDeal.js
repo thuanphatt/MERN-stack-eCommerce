@@ -90,10 +90,10 @@ const DailyDeal = ({ dispatch }) => {
 		fetchDealDaily();
 	}, []);
 	useEffect(() => {
-		hanldeDeleteEvent(sales?._id);
+		if (second === 0 && minute === 0 && hour === 0 && day === 0 && expireTime) hanldeDeleteEvent(sales?._id);
 	}, [expireTime]);
 	return (
-		<div className="w-full border flex-auto p-5 mt-[5px] hidden md:block">
+		<div className="w-full border md:flex-auto p-5 md:mt-[5px] mt-4">
 			{dealDaily?.data ? (
 				<>
 					<div className="flex items-center justify-between">
@@ -115,7 +115,7 @@ const DailyDeal = ({ dispatch }) => {
 								"https://stores.blackberrys.com/VendorpageTheme/Enterprise/EThemeForBlackberrys/images/product-not-found.jpg"
 							}
 							alt={dealDaily?.data?.title}
-							className="w-full object-contain min-h-[350px]"
+							className="w-full object-contain md:min-h-[350px] min-h-[150px]"
 						></img>
 						<span className="line-clamp-1 text-center capitalize font-medium text-lg">
 							{dealDaily?.data?.title?.toLowerCase()}
