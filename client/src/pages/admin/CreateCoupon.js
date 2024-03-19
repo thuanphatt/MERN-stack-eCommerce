@@ -57,7 +57,7 @@ const CreateCoupon = ({ dispatch }) => {
 								required: "Không được bỏ trống trường này",
 							}}
 							fullWidth
-							placeholder="Nhập mức giảm của mã giảm giá"
+							placeholder="Nhập số tiền sẽ giảm giá"
 						/>
 					</div>
 
