@@ -13,7 +13,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
-Kommunicate.init("c523953b62fdee402d6012aaadada7a8", {
+Kommunicate.init("2e41ff046bda6d41c495f9ca24dd1724f", {
 	automaticChatOpenOnNavigation: true,
 	popupWidget: true,
 });

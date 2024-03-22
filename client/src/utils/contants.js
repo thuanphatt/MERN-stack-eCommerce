@@ -483,7 +483,7 @@ export const typePayment = [
 export const feedbackUser = [
 	{
 		id: 1,
-		src: "https://globalcheck.com.vn/apt-upload/image/data/web/review-khach-hang-02-(1).png",
+		src: "https://globalcheck.com.vn/apt-upload/image/data/Reivew/review-khach-hang-02-(1).png",
 	},
 	{
 		id: 2,
