@@ -1,5 +1,8 @@
 import path from "./path";
 import icons from "./icons";
+import review1 from "../assets/review1.jpg";
+import review2 from "../assets/review2.jpg";
+import review3 from "../assets/review3.jpg";
 const {
 	FaShieldAlt,
 	RiCoupon3Line,
@@ -483,15 +486,15 @@ export const typePayment = [
 export const feedbackUser = [
 	{
 		id: 1,
-		src: "https://globalcheck.com.vn/apt-upload/image/data/Reivew/review-khach-hang-02-(1).png",
+		src: review1,
 	},
 	{
 		id: 2,
-		src: "https://globalcheck.com.vn/apt-upload/image/data/baner-(2).png",
+		src: review2,
 	},
 	{
 		id: 3,
-		src: "https://globalcheck.com.vn/apt-upload/image/data/baner.png",
+		src: review3,
 	},
 ];
 

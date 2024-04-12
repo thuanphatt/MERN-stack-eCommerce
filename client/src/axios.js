@@ -1,6 +1,6 @@
 import axios from "axios";
 const instance = axios.create({
-	baseURL: process.env.REACT_APP_API_URI || "http://192.168.1.6:3000" || "https://greentp-api.onrender.com/api",
+	baseURL: process.env.REACT_APP_API_URI || "https://greentp-api.onrender.com/api",
 });
 // Add a request interceptor
 instance.interceptors.request.use(
