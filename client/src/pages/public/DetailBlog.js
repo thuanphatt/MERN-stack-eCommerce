@@ -54,7 +54,7 @@ const DetailBlog = () => {
 					<div className="mt-6 flex space-x-4 text-gray-600">
 						<span className="flex items-center gap-2">
 							<span className="ml-1">{detailBlog?.likes.length} </span>
-							{detailBlog?.likes.some((el) => el._id === current?._id.toString()) ? (
+							{detailBlog?.likes.some((el) => el._id === current?._id?.toString()) ? (
 								<span title="Đã thích bài viết" className="p-2 cursor-pointer">
 									<AiFillLike color="green" />
 								</span>
@@ -73,7 +73,7 @@ const DetailBlog = () => {
 							<span className="ml-1">{detailBlog?.dislikes.length}</span>
 							{detailBlog?.dislikes.some((el) => el._id === current?._id.toString()) ? (
 								<span title="Đã thích bài viết" className="p-2 cursor-pointer">
-									<AiFillDislike color="green" />
+									<AiFillDislike color="red" />
 								</span>
 							) : (
 								<span
