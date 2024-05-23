@@ -73,7 +73,7 @@ const ManageContent = ({ dispatch }) => {
 						<td className="py-4 px-2 ">1</td>
 						<td className="py-4 px-2 flex items-center justify-center">
 							<img
-								src={banners && banners[0].logo}
+								src={banners && banners[0]?.logo}
 								alt={banners && banners[0]?.logo}
 								className="w-[100px] h-[120px] object-contain"
 							/>
