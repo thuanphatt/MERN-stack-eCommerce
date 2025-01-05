@@ -4,7 +4,6 @@ const Product = require("../models/product");
 const Coupon = require("../models/coupon");
 const Receipt = require("../models/receipt");
 const asyncHandler = require("express-async-handler");
-const sendMail = require("../utils/sendMail");
 const { formatMoney } = require("../utils/formatMoney");
 
 const createNewOrder = asyncHandler(async (req, res) => {
@@ -77,12 +76,6 @@ const createNewOrder = asyncHandler(async (req, res) => {
 				${totalHTML}
 			  `;
 			const html = orderDetailsHTML;
-
-			await sendMail({
-				email: data.orderBy.email,
-				html,
-				subject: "Chúc mừng, bạn đã đặt hàng thành công vui lòng kiểm tra đơn hàng ✅",
-			});
 		}
 		res.json({
 			success: rs ? true : false,
@@ -190,11 +183,6 @@ const updateStatus = asyncHandler(async (req, res) => {
 			${totalHTML}
 		  `;
 		const html = orderDetailsHTML;
-		await sendMail({
-			email: orderCurrent.orderBy.email,
-			html,
-			subject: "Đơn hàng đang trên đường được giao đến bạn",
-		});
 	}
 	if (status === "Thành công") {
 		const orderCurrent = await Order.findById(oid);
@@ -233,11 +221,6 @@ const updateStatus = asyncHandler(async (req, res) => {
 			${totalHTML}
 		  `;
 		const html = orderDetailsHTML;
-		await sendMail({
-			email: process.env.EMAIL_NAME,
-			html,
-			subject: `Đơn hàng #${orderCurrent?._id} đã được giao thành công ✅`,
-		});
 	}
 	res.json({
 		success: response ? true : false,
