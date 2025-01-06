@@ -4,41 +4,41 @@ const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const makeToken = require("uniqid");
 const { generateAccessToken, generateRefreshToken } = require("../middlewares/jwt");
-const sendMail = require("../utils/sendMail");
 
 const register = asyncHandler(async (req, res) => {
 	const { email, password, firstName, lastName, mobile } = req.body;
-	if (!email || !password || !firstName || !lastName || !mobile)
+
+	if (!email || !password || !firstName || !lastName || !mobile) {
 		return res.status(400).json({
 			success: false,
 			mes: "Hãy kiểm tra lại thông tin đầu vào",
 		});
-	const user = await User.findOne({ email });
-	if (user) throw new Error("Tài khoản email đã tồn tại");
-	else {
-		const token = makeToken();
-		const emailEdited = btoa(email) + "@" + token;
-		const newUser = await User.create({
-			email: emailEdited,
-			password,
-			firstName,
-			lastName,
-			mobile,
-		});
-		if (newUser) {
-			const html = `<h2>Mã kích hoạt của bạn: </h2></br><blockquote>${token}</blockquote>`;
-			await sendMail({ email, html, subject: "Hoàn tất đăng ký" });
-		}
-		setTimeout(async () => {
-			await User.deleteOne({ email: emailEdited });
-		}, [300000]);
+	}
 
-		return res.status(200).json({
-			success: newUser ? true : false,
-			mes: newUser ? "Hãy kiểm tra email để hoàn tất quá trình đăng ký" : "Có lỗi xảy ra, vui lòng thử lại sau!",
+	// Kiểm tra xem email đã tồn tại chưa
+	const user = await User.findOne({ email });
+	if (user) {
+		return res.status(400).json({
+			success: false,
+			mes: "Tài khoản email đã tồn tại",
 		});
 	}
+
+	// Tạo người dùng mới
+	const newUser = await User.create({
+		email,
+		password,
+		firstName,
+		lastName,
+		mobile,
+	});
+
+	return res.status(201).json({
+		success: true,
+		mes: "Đăng ký thành công!",
+	});
 });
+
 const registerFinal = asyncHandler(async (req, res) => {
 	const { token } = req.params;
 	const notActivedEmail = await User.findOne({

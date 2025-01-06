@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import logo from "assets/logo.png";
 import { InputField, Button, Loading } from "components";
 import img from "assets/login.png";
-import { apiRegister, apiLogin, apiForgotPassword, apiFinalRegister } from "apis/user";
+import { apiRegister, apiLogin, apiForgotPassword } from "apis/user";
 import path from "utils/path";
 import { login } from "store/user/userSlice";
 import { validate } from "utils/helpers";
@@ -26,8 +26,6 @@ const Login = () => {
 	});
 	const [isRegister, setIsRegister] = useState(false);
 	const [email, setEmail] = useState("");
-	const [token, setToken] = useState("");
-	const [isVerifiedEmail, setIsVerifiedEmail] = useState(false);
 	const [isForgotPassword, setIsForgotPassword] = useState(false);
 	const [invalidField, setInvalidField] = useState([]);
 	const [isShow, setIsShow] = useState(false);
@@ -51,7 +49,9 @@ const Login = () => {
 			if (isRegister) {
 				const response = await apiRegister(payload);
 				if (response.success) {
-					setIsVerifiedEmail(true);
+					Swal.fire("Congratulation", response.mes, "success").then(() => {
+						setIsRegister(false);
+					});
 				} else {
 					Swal.fire("Opps", response.mes, "error");
 				}
@@ -86,38 +86,21 @@ const Login = () => {
 			toast.error(response.mes);
 		}
 	};
-	const handleFinalRegister = async () => {
-		dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
-		const response = await apiFinalRegister(token);
-		dispatch(showModal({ isShowModal: false, modalChildren: null }));
-		if (response.success) {
-			Swal.fire("Xin chúc mừng", response.mes, "success").then(() => {
-				setIsRegister(false);
-				resetPayload();
-			});
-		} else Swal.fire("Opps", response.mes, "error");
-		setIsVerifiedEmail(false);
-		setToken("");
-	};
+	// const handleFinalRegister = async () => {
+	// 	dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
+	// 	const response = await apiFinalRegister(token);
+	// 	dispatch(showModal({ isShowModal: false, modalChildren: null }));
+	// 	if (response.success) {
+	// 		Swal.fire("Xin chúc mừng", response.mes, "success").then(() => {
+	// 			setIsRegister(false);
+	// 			resetPayload();
+	// 		});
+	// 	} else Swal.fire("Opps", response.mes, "error");
+	// 	setIsVerifiedEmail(false);
+	// 	setToken("");
+	// };
 	return (
 		<div className="md:w-screen w-full h-screen relative grid md:grid-cols-10">
-			{isVerifiedEmail && (
-				<div className="absolute right-0 left-0 top-0 bottom-0 bg-overlay z-50 flex flex-col items-center justify-center">
-					<div className=" bg-white md:w-[1000px] w-full rounded-md p-6">
-						<h4>
-							Chúng tôi đã 1 đoạn mã kích hoạt đến email của bạn. Hãy kiểm tra mail và điền mã kích hoạt vào bên dưới:
-						</h4>
-						<input
-							type="text"
-							className="md:w-[800px] border py-2 outline-none placeholder:text-sm rounded-md mr-2 pl-2"
-							placeholder="Nhập mã kích hoạt của bạn tại đây ..."
-							value={token}
-							onChange={(e) => setToken(e.target.value)}
-						></input>
-						<Button handleOnClick={handleFinalRegister}>Đăng ký</Button>
-					</div>
-				</div>
-			)}
 			{isForgotPassword && (
 				<div className="absolute right-0 left-0 top-0 bottom-0 bg-white z-50 flex flex-col items-center py-8 animate-slide-right">
 					<div className="flex items-center flex-col justify-center bg-[#F3EEEA] rounded-lg py-6 my-auto">
